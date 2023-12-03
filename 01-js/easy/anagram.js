@@ -5,7 +5,13 @@
 */
 
 function isAnagram(str1, str2) {
-
+  const isStr1 = str1 ==="anagrams";
+  const isStr2 = str2 ==="anagrams";
+  return {
+    str1: isStr1,
+    str2: isStr2
+  }
 }
+isAnagram("story", "create")
 
 module.exports = isAnagram;
