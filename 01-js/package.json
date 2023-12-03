@@ -1,0 +1,12 @@
+{
+  "name": "01",
+  "version": "1.0.0",
+  "description": "You are provided empty JavaScript files (or having function signatures) in this directory.  You have to follow the instructions given in each file and write the code in the same file to complete the assignment.",
+  "main": "anagram.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
