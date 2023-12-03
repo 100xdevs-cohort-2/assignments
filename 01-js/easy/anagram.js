@@ -12,6 +12,6 @@ function isAnagram(str1, str2) {
     str2: isStr2
   }
 }
-isAnagram("story", "create")
+console.log(isAnagram("story", "create"));
 
 module.exports = isAnagram;
