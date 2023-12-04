@@ -8,7 +8,6 @@ function getCounterObj(str) {
   let obj = {};
   for (let i = 0; i < str.length; i++) {
     let currentChar = str.charAt(i).toLowerCase();
-
     if (obj[currentChar]) {
       obj[currentChar] += 1;
     } else {
@@ -25,8 +24,6 @@ function isAnagram(str1, str2) {
 
   let counterObjStr1 = getCounterObj(str1),
     counterObjStr2 = getCounterObj(str2);
-
-  console.log(counterObjStr1, counterObjStr2);
 
   for (let key in counterObjStr1) {
     if (counterObjStr1[key] !== counterObjStr2[key]) {
