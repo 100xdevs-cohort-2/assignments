@@ -19,4 +19,18 @@ function calculateTime(n) {
     return sum
 }
 
+console.log('result -> ' ,calculateTime(100));
 console.log('result -> ' ,calculateTime(1000));
+console.log('result -> ' ,calculateTime(1000000000));
+
+
+/*
+
+time taken ->  0.00006209999322891235
+result ->  5050
+time taken ->  0.00003689998388290405
+result ->  500500
+time taken ->  2.0794114999771116
+result ->  500000000067109000
+
+*/
