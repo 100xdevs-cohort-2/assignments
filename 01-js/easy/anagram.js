@@ -8,26 +8,17 @@ function isAnagram(str1, str2) {
 	if (str1.length != str2.length) {
 		return false;
 	}
-	let tempS1 = str1.toLowerCase();
-	let tempS2 = str2.toLowerCase();
-	for (let i = 0; i < str1.length; i++) {
-		let isPresent = isCharPresent(tempS2, tempS1[i]);
-		if (isPresent === -1) {
-			return false;
-		}
+	let temp1 = str1.toLowerCase();
+	let temp2 = str2.toLowerCase();
+
+	temp1 = temp1.split("").sort().join();
+	temp2 = temp2.split("").sort().join();
+
+	for (let i = 0; i < temp.length; i++) {
+		if (temp1[i] !== temp2[i]) return false;
 	}
 
 	return true;
-}
-
-function isCharPresent(str2, ch) {
-	for (let i = 0; i < str2.length; i++) {
-		if (ch === str2[i]) {
-			return 1;
-		}
-	}
-
-	return -1;
 }
 
 module.exports = isAnagram;
