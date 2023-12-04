@@ -23,7 +23,6 @@ class Todo {
     if (indexOfTodo <= this.todos.length) {
       this.todos = this.todos.filter((todo, index) => index !== indexOfTodo);
     }
-    console.log(this.todos);
   }
 
   update(index, updatedTodo) {
