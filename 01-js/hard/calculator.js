@@ -16,6 +16,82 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+
+  constructor() {
+    this.result = 0;
+    this.updated = false;
+  }
+
+  add(number) {
+    this.result += number;
+    this.updated = true;
+  }
+
+  subtract(number) {
+    this.result -= number;
+    this.updated = true;
+  }
+
+  multiply(number) {
+    if (this.updated) {
+      this.result *= number;
+    }
+    else {
+      this.result = number;
+      this.updated = true;
+    }
+  }
+
+  divide(number) {
+
+    if(number === 0) throw new Error("Cannot divide by zero.");
+
+    if (this.updated) {
+      this.result /= number;
+    }
+    else {
+      this.result = number;
+      this.updated = true;
+    }
+  }
+
+  calculate(expression) {
+    let newExp = "";
+    for(let i = 0; i < expression.length; i++){
+      if((expression[i] >= '0' && expression[i] <= '9') || expression[i] === '(' || expression[i] === ')'
+        || expression[i] === '+' || expression[i] === '-' || expression[i] === '*' || expression[i] === '/' || expression[i] === '.'){
+        
+          newExp += expression[i];
+
+      }
+      else if(expression[i] === ' '){
+        continue;
+      }
+      else{
+        throw new Error("Invalid input.");
+      }
+    }
+    //10+2*(6-(4+1)/2)+7
+    let res = eval(newExp);
+    
+    if(res === Infinity || res === NaN){
+      throw new Error("Invalid input.");
+    }
+
+    this.result = res;
+    this.updated = true;
+  }
+
+  clear() {
+    this.result = 0;
+    this.updated = false;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+}
 
 module.exports = Calculator;
