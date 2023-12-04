@@ -10,12 +10,110 @@
     - calculate: takes a string expression which can take multi-arithmetic operations and give its result
       example input: `10 +   2 *    (   6 - (4 + 1) / 2) + 7`
       Points to Note: 
-        1. the input can have multiple continuous spaces, you're supposed to avoid them and parse the expression correctly
-        2. the input can have invalid non-numerical characters like `5 + abc`, you're supposed to throw error for such inputs
+        1. The input can have multiple continuous spaces,
+        you're supposed to avoid them and parse the expression correctly.
+        The input can have invalid non-numerical characters like `5 + abc`, you're supposed to throw error for such inputs
 
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+// class Calculator {
+//     constructor() {
+//         this.result = 0;
+//     }
+//
+//     add(num) {
+//         this.result += num;
+//     }
+//
+//     subtract(num) {
+//         this.result -= num;
+//     }
+//
+//     multiply(num){
+//         this.result *= num;
+//     }
+//
+//     divide(num){
+//         if(num === 0) throw new Error("You cannot divide by 0")
+//         this.result /= num;
+//     }
+//
+//     clear() {
+//         this.result = 0;
+//     }
+//
+//     getResult() {
+//         return this.result;
+//     }
+//
+//     calculate(string) {
+//         const sum = eval(string)
+//         if (typeof sum === "number") {
+//             return sum
+//         } else {
+//             throw new Error("Input dekh le lawde")
+//         }
+//     }
+// }
+
+class Calculator {
+    constructor() {
+        this.result = 0;
+    }
+
+    add(number) {
+        this.result += this.parseNumber(number);
+    }
+
+    subtract(number) {
+        this.result -= this.parseNumber(number);
+    }
+
+    multiply(number) {
+        this.result *= this.parseNumber(number);
+    }
+
+    divide(number) {
+        const divisor = this.parseNumber(number);
+        if (divisor === 0) {
+            throw new Error('Cannot divide by zero');
+        }
+        this.result /= divisor;
+    }
+
+    clear() {
+        this.result = 0;
+    }
+
+    getResult() {
+        return this.result;
+    }
+
+    calculate(expression) {
+        const cleanedExpression = expression.replace(/\s+/g, '');
+        if (!/^[0-9+\-*/().]+$/.test(cleanedExpression)) {
+            throw new Error('Invalid characters in expression');
+        }
+
+        try {
+            // Check for division by zero
+            if (cleanedExpression.includes('/0')) {
+                throw new Error('Cannot divide by zero');
+            }
+            this.result = eval(cleanedExpression);
+        } catch (error) {
+            throw new Error('Invalid expression');
+        }
+    }
+
+    parseNumber(input) {
+        const parsedNumber = parseFloat(input);
+        if (isNaN(parsedNumber)) {
+            throw new Error('Invalid number');
+        }
+        return parsedNumber;
+    }
+}
 
 module.exports = Calculator;

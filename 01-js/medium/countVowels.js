@@ -6,7 +6,16 @@
 */
 
 function countVowels(str) {
-    // Your code here
+    let counter = 0;
+    for (let i = 0; i < str.length; i++) {
+        let currentElement = str[i];
+        if(currentElement === "a" || currentElement === "e" || currentElement === "i" || currentElement === "o" || currentElement === "u" || currentElement === "A" || currentElement === "E" || currentElement === "I" || currentElement === "O" || currentElement === "U") {
+            counter++
+        }
+    }
+    return counter;
 }
+
+console.log(countVowels("Hello, world!"))
 
 module.exports = countVowels;
