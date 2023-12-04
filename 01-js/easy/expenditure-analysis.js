@@ -6,7 +6,61 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const categoryMap = new Map();
+
+  for (let i = 0; i < transactions.length; i++){
+
+    let tempCat = transactions[i]['category'];
+    let tempPrice = transactions[i]['price'];
+
+    if (categoryMap.has(tempCat)){
+      let prevPrice = categoryMap.get(tempCat);
+      categoryMap.set(tempCat, prevPrice + tempPrice);
+    } else {
+      categoryMap.set(tempCat, tempPrice);
+    }
+  }
+
+  class Category{
+    constructor (category, totalSpent){
+      this.category = category;
+      this.totalSpent = totalSpent ;
+    }
+  }
+  let catArray = [];
+
+  // console.log(categoryMap.length);
+  for (const [key, value] of categoryMap.entries()){
+    catArray.push(new Category(key, value));
+    // console.log(`${key} ${value}`);
+  }
+
+  // console.log(catArray);
+
+  return catArray;
 }
+
+calculateTotalSpentByCategory(
+  [
+    {
+      itemName: 'A',
+      category: 'Cap',
+      price: 201,
+      timestamp: 0
+    },
+    {
+      itemName: 'B',
+      category: 'Cap',
+      price: 202,
+      timestamp: 0
+    },
+    {
+      itemName: 'C',
+      category: 'NotCap',
+      price: 10,
+      timestamp: 0
+    }
+  ]
+)
 
 module.exports = calculateTotalSpentByCategory;
