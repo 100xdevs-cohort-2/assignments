@@ -40,27 +40,4 @@ function calculateTotalSpentByCategory(transactions) {
   return catArray;
 }
 
-calculateTotalSpentByCategory(
-  [
-    {
-      itemName: 'A',
-      category: 'Cap',
-      price: 201,
-      timestamp: 0
-    },
-    {
-      itemName: 'B',
-      category: 'Cap',
-      price: 202,
-      timestamp: 0
-    },
-    {
-      itemName: 'C',
-      category: 'NotCap',
-      price: 10,
-      timestamp: 0
-    }
-  ]
-)
-
 module.exports = calculateTotalSpentByCategory;
