@@ -5,7 +5,13 @@
 */
 
 function isAnagram(str1, str2) {
-
+  if(str1.length()!=str2.length())
+    return false;
+  const s1 = str1.split("").sort().join("");
+  const s2 = str2.split("").sort().join("");
+  if(s1==s2)
+    return true;
+  return false;
 }
 
 module.exports = isAnagram;
