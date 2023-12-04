@@ -13,40 +13,33 @@
 
 class Todo {
   constructor(){
-    this.todos = {};
-    this.idx = 0;
+    this.todos = [];
   }
 
   add(todo){
-    this.todos[this.idx] = todo;
-    this.idx+=1;
+    this.todos.push(todo);
+    
   }
 
   remove(index){
-    if(this.todos.hasOwnProperty(index)){
-       console.log('deleting property at index '+ index);
-       delete this.todos[index];
+    if(index < this.todos.length){
+      this.todos.splice(index, 1);
     }
   }
 
   update(index, todo){
 
-    if(this.todos.hasOwnProperty(index)){
+    if(index < this.todos.length){
       this.todos[index] = todo;
     }
   }
 
   getAll(){
-    let curr_todos = [];
-    for (let key in this.todos){
-      curr_todos.push(this.todos[key]);
-    }
-
-    return curr_todos;
+    return this.todos;
   }
 
   get(index){
-    if((this.todos.hasOwnProperty(index))){
+    if(index < this.todos.length){
       return this.todos[index];
     }else{
       return null;
@@ -54,7 +47,7 @@ class Todo {
   }
 
   clear(){
-    this.todos = {};
+    this.todos = [];
   }
 
 }
