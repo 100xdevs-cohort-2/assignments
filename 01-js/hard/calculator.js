@@ -16,6 +16,60 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.res = 0;
+  }
+
+  add(i) {
+    this.res += i;
+  }
+
+  subtract(i) {
+    this.res -= i;
+  }
+
+  multiply(i) {
+    this.res *= i;
+  }
+
+  divide(i) {
+    if (i == 0) {
+      throw new Error("divided by 0");
+    }
+    this.res /= i;
+  }
+
+  clear() {
+    this.res = 0;
+  }
+
+  getResult() {
+    return this.res;
+  }
+
+  calculate(str) {
+    this.clear();
+
+    str = str.replace(/\s/g, "");
+
+    if (!/^[0-9\s+\-*/().]+$/.test(str)) {
+      throw new Error("Invalid characters found in the string.");
+    } 
+
+    try {
+      let res = eval(str);
+      if (isNaN(res) || !isFinite(res)) {
+        throw new Error("not a definite value");
+      }
+
+      return this.res = res;
+    }
+    catch (err) {
+      throw new Error({ err });
+    }
+
+  }
+}
 
 module.exports = Calculator;
