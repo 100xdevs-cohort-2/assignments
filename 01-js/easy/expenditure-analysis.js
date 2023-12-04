@@ -6,7 +6,22 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+   let stringList = [];
+   transactions.forEach(transactions => {
+      stringList.push(transactions.category);
+   });
+   let uniqueStringList = [...new Set(stringList)];
+   let arrayOfObjects = uniqueStringList.map(category => {
+    return { category: category, totalSpent: 0 };
+  });
+  for(let i=0;i<transactions.length;i++){
+     for(let j=0;j<arrayOfObjects.length;j++){
+        if(transactions[i].category === arrayOfObjects[j].category){
+           arrayOfObjects[j].totalSpent += transactions[i].price;
+        }
+     }
+  }
+  return arrayOfObjects;
 }
 
 module.exports = calculateTotalSpentByCategory;
