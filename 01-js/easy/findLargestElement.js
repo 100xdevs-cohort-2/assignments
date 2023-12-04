@@ -5,8 +5,12 @@
   - Output: 9
 */
 
+let largest = -Number.MAX_VALUE;
 function findLargestElement(numbers) {
-    
+  numbers.forEach(v => {
+    largest = Math.max(largest, v)
+  })
+  return largest;
 }
 
 module.exports = findLargestElement;
