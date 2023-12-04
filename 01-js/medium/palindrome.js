@@ -6,14 +6,7 @@
 function isPalindrome(str) {
   let charsToRemove = /[",.!?]/g;
   let orgStr = str.replace(charsToRemove, "").replaceAll(" ", "").toLowerCase();
-  let newStr = str
-    .replace(charsToRemove, "")
-    .replaceAll(" ", "")
-    .toLowerCase()
-    .split("")
-    .reverse()
-    .join("");
-  newStr;
+  let newStr = orgStr.split("").reverse().join("");
   return newStr === orgStr;
 }
 
