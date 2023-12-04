@@ -9,5 +9,20 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+  const startTime = performance.now()
+
+  let sum = 0
+  for (let i = 1; i <= n; i++) {
+    sum += i
+  }
+
+  const endTime = performance.now()
+
+  console.log(`Time to sum from 1 to ${n} => ${endTime - startTime} milliseconds`)
 }
+
+calculateTime(10)
+calculateTime(100)
+calculateTime(1000)
+calculateTime(10000)
+calculateTime(10000000)

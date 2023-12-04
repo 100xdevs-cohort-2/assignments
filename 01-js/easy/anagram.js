@@ -5,6 +5,26 @@
 */
 
 function isAnagram(str1, str2) {
+  let charMap = new Map()
+  for (const c of str1) {
+    let charFreq = charMap.get(c.toLowerCase())
+    charMap.set(c.toLowerCase(), (charFreq ?? 0) + 1)
+  }
+
+  for (const c of str2) {
+    let charFreq = charMap.get(c.toLowerCase())
+    if (charFreq === undefined || charFreq === 0) {
+      return false
+    }
+    charMap.set(c.toLowerCase(), charFreq - 1)
+  }
+
+  for (const c of charMap.keys()) {
+    if (charMap.get(c) !== 0) {
+      return false
+    }
+  }
+  return true
 
 }
 
