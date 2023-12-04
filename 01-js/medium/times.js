@@ -9,5 +9,14 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const start = performance.now();
+    let sum = 0
+    for (let i = 1; i <= n; i++) {
+        sum += i
+    }
+    const end = performance.now();
+    console.log('time taken -> ', (end - start)/1000); 
+    return sum
 }
+
+console.log('result -> ' ,calculateTime(1000));
