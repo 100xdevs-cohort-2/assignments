@@ -4,6 +4,19 @@
 */
 
 function isPalindrome(str) {
+  // convert string to lowercase and get rid of all spaces and punctuations using RegEx
+  cleanStr = str.toLowerCase().replace(/[.,?!\s]/g, "");
+  front = 0;
+  back = cleanStr.length - 1;
+  while (front != back && back > 0) {
+    if (cleanStr[front] == cleanStr[back]) {
+      back--;
+      front++;
+      continue;
+    } else {
+      return false;
+    }
+  }
   return true;
 }
 
