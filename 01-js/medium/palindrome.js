@@ -4,7 +4,34 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let isPal = true;
+  str = str.toLowerCase();
+
+  // Remove spaces and punctuation mark from string
+  let toBeRemoved = '';
+
+  for (let i = 0; i < str.length; i++){
+    if (str[i] < 'a' || str[i] > 'z'){
+      toBeRemoved += str[i];
+    }
+  }
+  for (let i = 0; i < toBeRemoved.length; i++){
+    str = str.replace(toBeRemoved[i], '');
+  }
+  // console.log(toBeRemoved);
+  // console.log(str);
+  
+  // Checking palindrome
+  let n = str.length;
+
+  for (let i = 0, j = n-1; i < n/2 - 1; i++, j--){
+    if (str[i] != str[j]){
+      isPal = false;
+      break;
+    }
+  }
+
+  return isPal;
 }
 
 module.exports = isPalindrome;
