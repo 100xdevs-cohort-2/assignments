@@ -5,6 +5,9 @@
 */
 
 function join(arr){
+  for(let i = 0;i<arr.length;i++){
+    arr[i] = arr[i].toLowerCase();
+  }
   arr.sort();
   let res = '';
   for(let i = 0;i<arr.length;i++){
@@ -12,7 +15,7 @@ function join(arr){
       res += arr[i];
     }
   }
-  return res.toLowerCase();
+  return res;
 }
 
 function isAnagram(str1, str2) {
