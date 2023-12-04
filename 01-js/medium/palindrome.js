@@ -4,6 +4,20 @@
 */
 
 function isPalindrome(str) {
+  // Using regular expression to remove  whitespace and puntchuation
+  let regex = /[.,\/#!$%\^&\*;:{}?=\-_`~()\s]/g;
+  str = str.replace(regex, "");
+  let arr = str.toLowerCase().split("");
+  let i = 0;
+  let j = arr.length - 1;
+
+  while (i < j) {
+    if (!(arr[i] === arr[j])) {
+      return false;
+    }
+    i = i + 1;
+    j = j - 1;
+  }
   return true;
 }
 

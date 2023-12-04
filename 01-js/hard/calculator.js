@@ -16,6 +16,56 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(result) {
+    this.result = 0;
+  }
+
+  add(a) {
+    this.result = this.result + a;
+    return this.result;
+  }
+
+  multiply(a) {
+    this.result = this.result * a;
+    return this.result;
+  }
+
+  subtract(a) {
+    this.result = this.result - a;
+    return this.result;
+  }
+
+  divide(a) {
+    if (a !== 0) {
+      this.result = this.result / a;
+      return this.result;
+    } else throw Error("Divide by zero error");
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(exp) {
+    let regex = /[\s]/g;
+    exp = exp.replace(regex, "");
+    try {
+      if (typeof eval(exp) === typeof 2 && isFinite(eval(exp))) {
+        this.result = eval(exp);
+        return this.result;
+      }
+      else{
+        throw new Error('Not a number');
+      }
+    } catch (error) {
+      throw new Error("Invalid expression");
+    }
+  }
+}
 
 module.exports = Calculator;
