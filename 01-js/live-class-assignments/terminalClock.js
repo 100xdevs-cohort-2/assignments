@@ -14,8 +14,4 @@ function activateClock() {
   }, 1000);
 }
 
-// document.addEventListener("keydown", () => {
-//   clearInterval(timerId);
-// });
-
 activateClock();
