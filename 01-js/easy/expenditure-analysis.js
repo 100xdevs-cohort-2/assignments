@@ -6,7 +6,33 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const newArray = transactions.reduce((acc, transaction) =>{
+    const isPresent = IsPresent(acc, transaction.category)
+    if(isPresent){
+      isPresent.totalSpent += transaction.price
+    }
+    else{
+      acc.push({
+        category: transaction.category,
+        totalSpent: transaction.price
+      })
+    }
+
+    return acc
+  }, [])
+
+  return newArray
+}
+
+function IsPresent(arr, category){
+
+  for(let i = 0; i < arr.length; i++){
+      if(arr[i].category === category){
+          return arr[i]
+      }
+  }
+
+  return null
 }
 
 module.exports = calculateTotalSpentByCategory;
