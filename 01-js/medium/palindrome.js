@@ -1,10 +1,14 @@
-/*
-  Implement a function `isPalindrome` which takes a string as argument and returns true/false as its result.
-  Note: the input string is case-insensitive which means 'Nan' is a palindrom as 'N' and 'n' are considered case-insensitive.
-*/
-
 function isPalindrome(str) {
-  return true;
+    // Remove spaces and convert to lowercase for case-insensitive comparison
+    str = str.replace(/\s/g, "").toLowerCase();
+
+    // Check if the string is the same when reversed
+    return str === str.split("").reverse().join("");
 }
 
-module.exports = isPalindrome;
+// Example usage:
+const result1 = isPalindrome("Nan");
+console.log(result1); // Output: true
+
+const result2 = isPalindrome("Hello");
+console.log(result2); // Output: false
