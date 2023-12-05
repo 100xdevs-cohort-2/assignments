@@ -5,8 +5,29 @@
   Output - [{ category1 - total_amount_spent_on_category1 }, { category2 - total_amount_spent_on_category2 }]
 */
 
+const { totalmem } = require("os");
+
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  if(transactions.length==0){
+    return [];
+  }
+  else{
+
+    totalSpent={};
+    for(let i=0;i<transactions.length;i++){
+      if(transactions[i].category in totalSpent){
+        totalSpent[transactions[i].category].totalSpent+=transactions[i].price;
+      }
+      else{
+        totalSpent[transactions[i].category]={
+          category:transactions[i].category,
+          totalSpent:transactions[i].price,
+        }
+      }
+    }
+    return (Object.values(totalSpent));
+  }
+
 }
 
 module.exports = calculateTotalSpentByCategory;
