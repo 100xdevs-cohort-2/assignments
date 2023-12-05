@@ -16,7 +16,6 @@ function calculateTotalSpentByCategory(transactions) {
     }
     for (let record in records)
         result.push({ "category": record, "totalSpent": records[record] })
-    console.log(result);
     return result;
 }
 
