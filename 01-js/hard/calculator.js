@@ -6,8 +6,8 @@
     - multiply: takes a number and multiply it to the result
     - divide: takes a number and divide it to the result
     - clear: makes the `result` variable to 0
-    - getResult: returns the value of `result` variable
-    - calculate: takes a string expression which can take multi-arithmetic operations and give its result
+    - getthis.result: returns the value of `result` variable
+    - calculate: takes a string expression which can take multi-arithmetic operations and give its this.result
       example input: `10 +   2 *    (   6 - (4 + 1) / 2) + 7`
       Points to Note: 
         1. the input can have multiple continuous spaces, you're supposed to avoid them and parse the expression correctly
@@ -16,6 +16,47 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  add(x) {
+    this.result += x;
+  }
+  subtract(x) {
+    this.result -= x;
+  }
+  multiply(x) {
+    this.result *= x;
+  }
+  divide(x) {
+    if (x === 0) {
+      throw new Error("Invalid input: cannot divide by zero");
+    }
+    this.result /= x;
+  }
+
+  calculate(str) {
+    this.clear();
+    str = str.replace("/s/g", "");
+    try {
+      let result = eval(str);
+      if (isNaN(result) || !isFinite(result)) {
+        throw new Error("Unable to calculate the expression");
+      }
+
+      this.result = result;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
