@@ -9,5 +9,17 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let initialTimeStamp = new Date().getTime()
+
+    for (let i = 0; i < n; i++) {
+        let sum = 0
+        sum += i;
+    }
+
+    let afterTimeStamp = new Date().getTime()
+    let timeTaken = (afterTimeStamp - initialTimeStamp) / 1000;
+    
+    return timeTaken.toFixed(2);
 }
+
+console.log(calculateTime(10000000000) + "sec")
