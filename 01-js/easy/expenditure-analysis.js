@@ -6,7 +6,24 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const totalSpent = transactions.reduce((acc, curr) => {
+    const hasCategory = acc?.findIndex(
+      (item) => item?.category === curr?.category
+    );
+
+    if (hasCategory === -1) {
+      acc.push({
+        category: curr?.category,
+        totalSpent: curr?.price,
+      });
+    } else {
+      acc[hasCategory].totalSpent += curr?.price;
+    }
+
+    return acc;
+  }, []);
+
+  return totalSpent;
 }
 
 module.exports = calculateTotalSpentByCategory;
