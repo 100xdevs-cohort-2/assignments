@@ -4,7 +4,44 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let start = 0
+  let end = str.length - 1
+
+  let punctuation = new Set([
+    " ",
+    ",",
+    ".",
+    "!",
+    "?",
+    "@",
+    "#",
+    "$",
+    "%",
+    "^",
+    "&",
+    "*",
+    "(",
+    ")",
+    "-",
+    "_",
+    "+",
+    "=",
+  ])
+
+  while (start < end) {
+    if (punctuation.has(str[start])) {
+      start++
+      continue
+    }
+    if (punctuation.has(str[end])) {
+      end--
+      continue
+    }
+    if (str[start].toLowerCase() !== str[end].toLowerCase()) return false
+    start++
+    end--
+  }
+  return true
 }
 
-module.exports = isPalindrome;
+module.exports = isPalindrome
