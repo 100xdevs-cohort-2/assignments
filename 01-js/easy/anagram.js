@@ -6,7 +6,6 @@
 
 function isAnagram(str1, str2) {
 
-
   str1 = str1.toLowerCase().replace(/\s/g, '');
   str2 = str2.toLowerCase().replace(/\s/g, '');
 

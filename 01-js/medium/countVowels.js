@@ -4,7 +4,6 @@
 
   Once you've implemented the logic, test your code by running
 */
-
 function countVowels(str) {
   let counter = 0;
   const vowels = ['a', 'e', 'i', 'o', 'u']

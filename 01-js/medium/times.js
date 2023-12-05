@@ -11,6 +11,7 @@ There is no automated test for this one, this is more for you to understand time
 // My approach
 // I later got to know that you can also subtract new Date() objects creted one after another (https://github.com/NKJ14/Assigments/blob/main/01-js/medium/times.js)
 
+
 function calculateTime(n) {
     const beforeTime = new Date()
     const beforeTimeinS = beforeTime.getMinutes()*60 
