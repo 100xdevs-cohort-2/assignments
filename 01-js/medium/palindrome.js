@@ -3,8 +3,26 @@
   Note: the input string is case-insensitive which means 'Nan' is a palindrom as 'N' and 'n' are considered case-insensitive.
 */
 
+console.log(isPalindrome("civic civic!"));
 function isPalindrome(str) {
-  return true;
+  let reverseWord = str
+    .replace(/[^\w\s]|_/g, "")
+    .replaceAll(" ", "")
+    .split("")
+    .reverse()
+    .join("");
+  console.log(reverseWord);
+  if (
+    reverseWord.toLowerCase() ===
+    str
+      .replace(/[^\w\s]|_/g, "")
+      .replaceAll(" ", "")
+      .toLowerCase()
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 module.exports = isPalindrome;
