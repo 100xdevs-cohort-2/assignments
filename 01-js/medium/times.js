@@ -9,5 +9,16 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+  try {
+    const start = new Date();
+    for (let i = 1; i <= n; i++) {
+      i += 1;
+    }
+    const end = new Date();
+    let diff = (end.getTime() - start.getTime()) / 1000;
+    return diff;
+  } catch (error) {
+    console.log('🚀 ~ file: times.js:22 ~ calculateTime ~ error:', error);
+  }
 }
+calculateTime(10000000000);
