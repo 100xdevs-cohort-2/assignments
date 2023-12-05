@@ -4,7 +4,23 @@
 */
 
 function isPalindrome(str) {
+  str = str.toLowerCase();
+  let strArr=[];
+
+  for (let i = 0; i <str.length; i++) {
+    // removes any punctuations or spaces and pushes each character to an array
+    if((str[i]>="a"&&str[i]<="z")||(str[i]>="A"&&str[i]<="Z")){
+      strArr.push(str[i])
+    }
+  }
+
+  for (let i = 0; i <strArr.length / 2; i++) {
+    // palindrome check
+    if (strArr[i] != strArr[strArr.length - 1 - i]) {
+      return false;
+    }
+  }
+
   return true;
 }
-
 module.exports = isPalindrome;
