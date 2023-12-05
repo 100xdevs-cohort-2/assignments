@@ -53,3 +53,4 @@ const str2 = 'Vile';
 console.log(isAnagram(str1, str2));
 
 module.exports = isAnagram;
+
