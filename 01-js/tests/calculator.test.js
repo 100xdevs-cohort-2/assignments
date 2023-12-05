@@ -92,6 +92,7 @@ describe('Calculator', () => {
 
 	test('calculate division by zero', () => {
 		expect(() => calc.calculate('10 / 0')).toThrow(Error);
+    expect(() => calc.calculate('10 / (2 - 2)')).toThrow(Error);
 	});
 
 	test('multiplication with negative numbers', () => {

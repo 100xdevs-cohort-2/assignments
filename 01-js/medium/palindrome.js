@@ -6,11 +6,11 @@
 function isPalindrome(str) {
   let i = 0, j = str.length - 1
   while (i <= j) {
-    if (str[i] === ' ') {
+    if (/([^a-zA-Z])/.test(str[i])) {
       i++
       continue
     }
-    if (str[j] === ' ') {
+    if (/([^a-zA-Z])/.test(str[j])) {
       j--
       continue
     }
