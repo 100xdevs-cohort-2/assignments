@@ -34,6 +34,8 @@ class Calculator {
     }
 
     divide(num) {
+        if (!num)
+            throw new Error("Division By Zero Error.");
         this.result /= num;
     }
 
@@ -46,7 +48,16 @@ class Calculator {
     }
 
     calculate(exp) {
-        return eval(exp);
+        let res;
+        try {
+            res = eval(exp);
+        }
+        catch(e) {
+            throw new Error("Invalid Expression");
+        }
+        if (res === Infinity)
+            throw new Error("Division By Zero Error.");
+        return res;
     }
 }
 
