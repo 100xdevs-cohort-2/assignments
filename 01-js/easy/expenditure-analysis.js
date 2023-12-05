@@ -6,7 +6,23 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const catoTotal={}
+
+  transactions.forEach((transaction)=>{
+    const {category,price}=transaction;
+    if(!catoTotal[category]){
+      catoTotal[category]=price;
+    }
+    else{
+      catoTotal[category]+=price;
+    }
+  })
+  // map(([])=>({}))
+  // map is a method available for arrays, and catoTotal is an object. You can use Object.entries()
+  const arrayTotal=Object.entries(catoTotal).map(([categories,total])=>({
+    [category]:total,
+  }))
+  return arrayTotal;
 }
 
 module.exports = calculateTotalSpentByCategory;
