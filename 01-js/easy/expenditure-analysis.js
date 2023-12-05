@@ -34,7 +34,7 @@ function calculateTotalSpentByCategory ( transactions ) {
 
 const transaction = [
   { itemName: "Item1", category: "Groceries", price: 20 },
-  { itemName: "Item2", category: "Medical-item", price: 80 }
+  { itemName: "Item2", category: "Medical-item", price: 90 }
 ]
 
 const result = calculateTotalSpentByCategory ( transactions );
