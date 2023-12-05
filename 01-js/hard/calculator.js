@@ -48,16 +48,15 @@ class Calculator {
     }
 
     calculate(exp) {
-        let res;
+        exp = exp.replace(/\s+/g, "").replace(/[^0-9+\-*/().]/g, "");
+
         try {
-            res = eval(exp);
+            this.result = eval(exp);
+            if (this.result === Infinity)
+                throw new Error("Division By Zero Error.")
+        } catch (error) {
+            throw new Error("Invalid Expression.");
         }
-        catch(e) {
-            throw new Error("Invalid Expression");
-        }
-        if (res === Infinity)
-            throw new Error("Division By Zero Error.");
-        return res;
     }
 }
 
