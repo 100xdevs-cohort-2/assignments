@@ -42,27 +42,25 @@ class Calculator {
     getResult(){
       return this.result;
     }
-    calculate(exp){
-      const tempExp = exp.replace(/\s/g, '');
-     
-      const tempResult = eval(tempExp);
+    calculate(exp) {
+      const tempExp = exp.replace(/\s/g, "");
+  
+      const result = eval(tempExp);
       try{
-        if(tempResult === Infinity){
+        if(result === Infinity || isNaN(result)){
           throw new Error("Got Infinity value")
         }
         else{
-          this.result =  tempResult;
+          this.result =  result;
         }
       }
       catch(error){
-        console.log(error)
+       throw error
       }
-
-    
-      
-    }
-}
   
+    }
+
+}  
   // const obj = new Calculator();
   // obj.calculate('10/ 0');
   // console.log(obj.getResult())
