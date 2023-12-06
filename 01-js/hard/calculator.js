@@ -14,8 +14,64 @@
         2. the input can have invalid non-numerical characters like `5 + abc`, you're supposed to throw error for such inputs
 
   Once you've implemented the logic, test your code by running
-*/
+  */
 
-class Calculator {}
+class Calculator {
+    constructor(initialValue = 0) {
+        this.num = initialValue;
+    }
+
+    add(num) {
+        if (typeof num !== 'number') {
+            throw new Error('The type is not number');
+        }
+        this.num += num;
+    }
+
+    subtract(num) {
+        if (typeof num !== 'number') {
+            throw new Error('The type is not number');
+        }
+        this.num -= num;
+    }
+
+    multiply(num) {
+        if (typeof num !== 'number') {
+            throw new Error('The type is not number');
+        }
+        this.num *= num;
+    }
+
+    divide(num) {
+        if (typeof num !== 'number') {
+            throw new Error('The type is not number');
+        }
+        if (num === 0) {
+            throw new Error("Division by zero is not allowed");
+        }
+        this.num /= num;
+    }
+
+    clear() {
+        this.num = 0;
+    }
+
+    getResult() {
+        return this.num;
+    }
+
+    calculate(expression) {
+        const re = /[a-zA-Z]+/g;
+        if (re.test(expression)) {
+            throw new Error("Invalid expression");
+        }
+        expression = expression.replace(/\s+/g, " ");
+        let result = eval(expression);
+        if (!Number.isFinite(result)) {
+            throw new Error("Invalid result");
+        }
+        this.num = result;
+    }
+}
 
 module.exports = Calculator;
