@@ -50,6 +50,7 @@ class Todo {
 // Example usage:
 const myTodoList = new Todo();
 
+<<<<<<< HEAD
 myTodoList.add("Buy groceries");
 myTodoList.add("Finish homework");
 console.log("All todos:", myTodoList.getAll());
@@ -63,3 +64,18 @@ console.log("After removing todo at index 1:", myTodoList.getAll());
 myTodoList.clear();
 console.log("After clearing todos:", myTodoList.getAll());
 module.exports = Todo;
+=======
+myTodoList.add('Buy groceries');
+myTodoList.add('Finish homework');
+console.log('All todos:', myTodoList.getAll());
+
+myTodoList.update(0, 'Buy new groceries');
+console.log('Updated todo at index 0:', myTodoList.get(0));
+
+myTodoList.remove(1);
+console.log('After removing todo at index 1:', myTodoList.getAll());
+
+myTodoList.clear();
+console.log('After clearing todos:', myTodoList.getAll());
+
+>>>>>>> bdfca9a4ea3724d3dcf3155ab1bf5b46deaea406

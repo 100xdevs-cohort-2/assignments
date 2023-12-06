@@ -6,9 +6,15 @@
 */
 
 function countVowels(str) {
+<<<<<<< HEAD
   // Your code here
   const lowercasedStr = str.toLowerCase();
   const vowels = new Set(["a", "e", "i", "o", "u"]);
+=======
+    // Your code here
+  const lowercasedStr = str.toLowerCase();
+  const vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+>>>>>>> bdfca9a4ea3724d3dcf3155ab1bf5b46deaea406
   let vowelCount = 0;
   for (let i = 0; i < lowercasedStr.length; i++) {
     if (vowels.has(lowercasedStr[i])) {
@@ -16,6 +22,10 @@ function countVowels(str) {
     }
   }
   return vowelCount;
+<<<<<<< HEAD
+=======
+  
+>>>>>>> bdfca9a4ea3724d3dcf3155ab1bf5b46deaea406
 }
 
 const inputString = "Hello, World!";

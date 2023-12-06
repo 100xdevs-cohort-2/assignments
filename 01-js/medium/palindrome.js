@@ -20,6 +20,12 @@ function isPalindrome(str) {
   return true;
 }
 
+<<<<<<< HEAD
 console.log(isPalindrome("Nan"));
 
 module.exports = isPalindrome;
+=======
+
+console.log(isPalindrome("Nan"));  
+
+>>>>>>> bdfca9a4ea3724d3dcf3155ab1bf5b46deaea406

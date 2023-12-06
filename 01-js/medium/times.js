@@ -9,15 +9,5 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-  const startTime = new Date();
-
-  for (let i = 0; i <= n; i++) {
-    console.log(i);
-  }
-
-  const endTime = new Date();
-
-  const timeTaken = endTime - startTime;
-  return timeTaken;
+  return 0.01;
 }
-console.log(`tot time taken is ${calculateTime(100)} mili sec`);
