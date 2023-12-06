@@ -17,5 +17,5 @@ function findLargestElement(numbers) {
     return max;
     
 }
-console.log(findLargestElement([3, 7, 2, 9, 1]));
+//console.log(findLargestElement([3, 7, 2, 9, 1]));
 module.exports = findLargestElement;
