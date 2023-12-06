@@ -14,7 +14,94 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  output = []
+  
+  for(let i=0; i<transactions.length; i++)
+  {
+    transaction = transactions[i];
+    category = transaction["category"];
+
+    if(i === 0)
+    {
+      output.push(
+        {
+          "category": category, 
+          "totalSpent":transaction['price']
+        }
+        );
+      continue;
+    }
+
+    let j=0
+    
+    for( ; j < output.length; j++)
+    {
+      if(output[j]["category"] === category)
+      {
+        output[j]["totalSpent"] = output[j]["totalSpent"] + transaction["price"];
+        break;
+      }      
+    }
+    
+    if(j === output.length)
+    {
+      output.push({"category":category, "totalSpent":transaction["price"]});
+    }
+   
+
+
+  }
+  
+
+  return output;
 }
 
+// const transactions = [
+//   {
+//     id: 1,
+//     timestamp: 1656076800000,
+//     price: 10,
+//     category: 'Food',
+//     itemName: 'Pizza',
+//   },
+//   {
+//     id: 2,
+//     timestamp: 1656259600000,
+//     price: 20,
+//     category: 'Food',
+//     itemName: 'Burger',
+//   },
+//   {
+//     id: 3,
+//     timestamp: 1656019200000,
+//     price: 15,
+//     category: 'Clothing',
+//     itemName: 'T-Shirt',
+//   },
+//   {
+//     id: 4,
+//     timestamp: 1656364800000,
+//     price: 30,
+//     category: 'Electronics',
+//     itemName: 'Headphones',
+//   },
+//   {
+//     id: 5,
+//     timestamp: 1656105600000,
+//     price: 25,
+//     category: 'Clothing',
+//     itemName: 'Jeans',
+//   },
+// ];
+
+// calculateTotalSpentByCategory(transactions);
+
 module.exports = calculateTotalSpentByCategory;
+
+    // if(category in existing){
+    //   output
+    //   output[category] = output[category] + transaction["price"];
+    // }
+    // else{
+    //   output[category] = transaction["price"];
+    // }  
