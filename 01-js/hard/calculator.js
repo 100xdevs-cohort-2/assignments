@@ -1,6 +1,6 @@
 /*
   Implement a class `Calculator` having below methods
-    - initialise a result variable in the constructor and keep updating it after every arithmetic operation
+    - initialize a result variable in the constructor and keep updating it after every arithmetic operation
     - add: takes a number and adds it to the result
     - subtract: takes a number and subtracts it from the result
     - multiply: takes a number and multiply it to the result
@@ -16,6 +16,31 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  Calculator(result) {
+    let result = result;
+  }
+  add(num) {
+    result += num;
+  }
+  subtract(num) {
+    result -= num;
+  }
+  multiply(num) {
+    result *= num;
+  }
+  divide(num) {
+    result /= num;
+  }
+  clear() {
+    result = 0;
+  }
+  getResult() {
+    return result;
+  }
+  calculate(input) {
+    return 0;
+  }
+}
 
 module.exports = Calculator;
