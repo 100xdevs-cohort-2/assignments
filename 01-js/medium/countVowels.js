@@ -13,3 +13,5 @@ function countVowels(str) {
 }
 
 module.exports = countVowels;
+
+// test the function: npx jest ./tests/countVowels.test.js
