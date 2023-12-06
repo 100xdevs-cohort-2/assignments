@@ -16,6 +16,55 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  result;
+  constructor(){
+    this.result=0;
+  }
+  add(x) {
+    this.result+=x;
+  }
+  subtract(x){
+    this.result-=x;
+  }
+  multiply(x){
+    this.result*=x;
+  }
+  divide(x){
+    if(x==0) throw new  Error("divide by zero")
+    this.result/=x;
+  }
+  clear(){
+    this.result=0;
+  }
+  getResult(){
+    return this.result;
+  }
+  calculate(str){
+    str=this.cleanspaces(str)
+    if(! this.valid(str) ) {
+      throw new Error("invalid expression")
+    }
+    const ans=eval(str)
+    if(ans==Infinity) throw new Error();
+    this.result=ans;
 
+  }
+  cleanspaces(str){
+    return str.replace(/\s/g, '');
+  }
+
+  valid(str){
+    const regex=/^[0-9()+\-*/. ]+$/;
+    return regex.test(str);
+
+  }
+  eval(str){
+
+  }
+
+}
+
+// let calc=new Calculator();
+// calc.calculate('(2.5 + 1.5) * 3')
 module.exports = Calculator;
