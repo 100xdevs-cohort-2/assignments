@@ -8,8 +8,6 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-console.log(calculateTime(1000000000));
-
 function calculateTime(n) {
   let total = 0;
   let StartTime = Date.now();

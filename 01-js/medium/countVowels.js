@@ -5,8 +5,6 @@
   Once you've implemented the logic, test your code by running
 */
 
-console.log(countVowels("yash"));
-
 function countVowels(str) {
   // Your code here
   let numberOfVov = 0;
