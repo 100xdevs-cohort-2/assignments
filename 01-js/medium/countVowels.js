@@ -4,9 +4,20 @@
 
   Once you've implemented the logic, test your code by running
 */
-
-function countVowels(str) {
-    // Your code here
+function countVowels(str1) {
+  let str = str1.toLowerCase();
+  let cout = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (
+      str[i] == "a" ||
+      str[i] == "e" ||
+      str[i] == "i" ||
+      str[i] == "o" ||
+      str[i] == "u"
+    ) {
+      cout += 1;
+    }
+  }
+  return cout;
 }
-
 module.exports = countVowels;
