@@ -4,7 +4,20 @@
 */
 
 function isPalindrome(str) {
-  return true;
-}
+  const str2=str.split('').reverse().join('')
+  if(str2===str){
 
+    console.log("true");
+    return true;
+
+  }
+
+
+  else{
+    console.log("false");
+
+    return false;
+  }
+}
+isPalindrome("abcba")
 module.exports = isPalindrome;
