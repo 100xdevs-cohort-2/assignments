@@ -39,6 +39,3 @@ module.exports = calculateTotalSpentByCategory;
 //   { itemName: 'Item 2', category: 'Grocery', price: 10, timestamp: Date.now() }
 
 // );
-
-
-module.exports = calculateTotalSpentByCategory;
