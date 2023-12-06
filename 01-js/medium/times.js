@@ -8,6 +8,23 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
+const getTimeDiff = (t1, t2) => {
+    return Math.ceil((t2 - t1)/1000);
+};
+
 function calculateTime(n) {
-    return 0.01;
+    let sum = 0;
+    let timeStamp1 = Date.now();
+    for(let i=1; i<=n; i++){
+        sum += i;
+    }
+    let timeStamp2 = Date.now();
+    const timeDiff = getTimeDiff(timeStamp1, timeStamp2);
+    console.log(`Time taken for Sum of 1-${n} :`, timeDiff);
+    
+    return timeDiff;
 }
+
+calculateTime(100);
+calculateTime(100000);
+calculateTime(1000000000);
