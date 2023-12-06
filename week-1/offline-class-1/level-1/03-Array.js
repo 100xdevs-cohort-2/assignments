@@ -113,4 +113,4 @@ function sortExample(arr) {
   arr.sort(sortHelper);
   console.log("After sort:", arr);
 }
-sortExample([5, 2, 3, 4, 1]);
+sortExample([6, 7, 8, 9, 5, 2, 3, 4, 1]);
