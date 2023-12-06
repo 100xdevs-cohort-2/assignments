@@ -5,7 +5,7 @@
 */
 
 function isAnagram(str1, str2) {
-  let s1=str1.toLowerCase();
+    let s1=str1.toLowerCase();
     let s2=str2.toLowerCase();
   
     
@@ -27,7 +27,6 @@ function isAnagram(str1, str2) {
   
     return true;
 }
-let val=isAnagram("freeze","zrfee")
-console.log(val)
+
 
 module.exports = isAnagram;
