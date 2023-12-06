@@ -5,7 +5,21 @@
 */
 
 function isAnagram(str1, str2) {
+  const cleanedStr1 = str1.replace(/ /g, "").toLowerCase();
+  const cleanedStr2 = str1.replace(/ /g, "").toLowerCase();
 
+  if (cleanedStr1.length != cleanedStr2.length) {
+    return false;
+  }
+  const sortedStr1 = cleanedStr1.split("").sort().join("");
+  const sortedStr2 = cleanedStr2.split("").sort().join("");
+
+  if (sortedStr1 === sortedStr2) {
+    return true;
+  }
 }
+
+// METHOD-2
+// we can use obj and store the frequeny of the char or we can use set ds
 
 module.exports = isAnagram;
