@@ -5,8 +5,19 @@
   - Output: 9
 */
 
-function findLargestElement(numbers) {
-    
+function findLargestElement(numbers){
+    // if (numbers.length!=0){
+    //     return numbers.reduce((a,b)=>Math.max(a,b)) 
+    // }
+    // else{
+    //     return undefined
+    // }
+    numbers = numbers.sort((a,b)=>a-b)
+    return numbers[numbers.length-1]
 }
+    
+    
 
+
+console.log(findLargestElement(numbers = [222,32,1]))
 module.exports = findLargestElement;
