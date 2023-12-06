@@ -9,5 +9,16 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+
+    let startTime = new Date().getTime();
+    let sum = 0;
+    for(i=1;i<=n;i++){
+        sum+=i;
+    }
+    let endTime = new Date().getTime();
+    return endTime - startTime;
 }
+
+console.log(`Times required to execute Sum from 1-100 is ${calculateTime(100)}ms `);
+console.log(`Times required to Sum from 1-100000 is ${calculateTime(100000)}ms `);
+console.log(`Times required to Sum from 1-1000000000 is ${calculateTime(1000000000)}ms `);
