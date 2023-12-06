@@ -6,6 +6,9 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
+  transactions.forEach((transaction) => { 
+    transaction.category
+  }
   return [];
 }
 
