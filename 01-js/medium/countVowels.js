@@ -4,7 +4,12 @@
 
   Once you've implemented the logic, test your code by running
 */
-
+function isVowel(chr){
+  if (chr=='a' || chr=='e' || chr=='i' || chr=='o' || chr=='u'){
+    return true;
+  }
+  return false;
+}
 function countVowels(str) {
     // Your code here
     let s1=str.toLowerCase()
