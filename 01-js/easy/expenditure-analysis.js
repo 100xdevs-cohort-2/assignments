@@ -5,8 +5,28 @@
   Output - [{ category1 - total_amount_spent_on_category1 }, { category2 - total_amount_spent_on_category2 }]
 */
 
-function calculateTotalSpentByCategory(transactions) {
-  return [];
-}
+function calculateTotalSpentByCategory(transactions){
+  if(transactions.length ==0)
+  {
+    return [];
+  }
+  let result ={};
+  transactions.forEach(transaction => {
+    if(result[transaction.category])
+    {
+      result[transaction.category].totalSpent =result[transaction.category].totalSpent + transaction.price;
+    }
+    else
+    {
+      result[transaction.category]=
+      {
+        category: transaction.category,
+        totalSpent : transaction.price
+      }
+    }
+  });
+
+  return Object.values(result);
+  }
 
 module.exports = calculateTotalSpentByCategory;
