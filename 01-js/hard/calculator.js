@@ -16,6 +16,49 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  add(a) {
+    return (this.result += a);
+  }
+
+  subtract(a) {
+    return (this.result -= a);
+  }
+  multiply(a) {
+    return (this.result *= a);
+  }
+  divide(a) {
+    if (a == 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    return (this.result /= a);
+  }
+  clear() {
+    this.result = 0;
+  }
+  calculate(exp) {
+    const removed = exp.replace(/\s+/g, " ");
+    try {
+      this.result = eval(removed);
+      if (isNaN(this.result) || !isFinite(this.result)) {
+        throw new Error("Invalid result");
+      }
+    } catch (error) {
+      // If an error occurs during evaluation, throw a custom error
+      throw new Error("Invalid expression");
+    }
+  }
+
+  getResult() {
+    return this.result;
+  }
+}
+
+let app = new Calculator();
+app.calculate("(   15 + 3) /   6   ");
+console.log(app.getResult());
 
 module.exports = Calculator;
