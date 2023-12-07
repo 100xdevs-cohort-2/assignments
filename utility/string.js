@@ -48,9 +48,19 @@ const isWhiteSpace = (char) => {
     return ((ascii === 32) || (ascii >= 9 && ascii <= 13));
 };
 
+/**
+ * Returns a new string without whitespace
+ * @param {string} str a string from which white space needs to be removed
+ * @returns string
+ */
+const removeSpace = (str) => {
+    return str.replace(/\s+/g, '');
+};
+
 module.exports = {
     isAlpha, 
     isAlphanumeric,
     isNumeric,
-    isWhiteSpace
+    isWhiteSpace,
+    removeSpace
 };
