@@ -1,16 +1,27 @@
 //JS Classes
-// 1. Create a class Animal with name and legCount properties in its constructor method
-// 2. Create a method describe in Animal class that returns a string like: "Animal name has legCount legs"
-// 3. Create a class Dog that extends Animal and has breed as its own property in constructor
-// 4. Create a method describe in Dog class that returns a string like: "Animal name has legCount legs and it is a breed dog"
-// 5. Create an object of Dog class and call describe method on it
 
 class Animal {
-  constructor(name, legCount) {
+  constructor(name, legCount, sound) {
     this.name = name;
     this.legCount = legCount;
+    this.sound = sound;
   }
+
+  //static method  can be called without instantiating the class
+  static func() {
+    console.log("ANIMAL !");
+  }
+
   describe() {
-    return `${this.name} has ${this.legCount} legs`;
+    console.log(`${this.sound}, i am ${this.name} has ${this.legCount} legs`);
   }
 }
+
+let dog = new Animal("dog", 4, "bhow bhow");
+let cat = new Animal("cat", 4, "meow meow");
+let cow = new Animal("cow", 4, "moo moo");
+let bird = new Animal("bird", 2, "tweet tweet");
+
+dog.describe();
+cat.describe();
+Animal.func();
