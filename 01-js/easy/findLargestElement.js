@@ -6,7 +6,12 @@
 */
 
 function findLargestElement(numbers) {
-    
-}
+    if(!numbers.length) {
+        return undefined;
+    };
+    return Math.max(...numbers);
+};
 
+// time complexity - O(n)
+// space complexity - O(1)
 module.exports = findLargestElement;

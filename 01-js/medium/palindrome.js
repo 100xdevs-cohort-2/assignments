@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
+  if(str.length){
+    const string1 = str.replace(/\s|\p{P}/gu,"").toLowerCase();
+    const string2 = string1.split("").reverse().join("");
+    return string1 === string2;
+  };
   return true;
-}
+};
+
+// time complexity - O(n)
+// space complexity - O(n)
 
 module.exports = isPalindrome;

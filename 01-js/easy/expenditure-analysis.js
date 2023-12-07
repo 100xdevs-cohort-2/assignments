@@ -6,7 +6,21 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
-}
+  const list = {};
+  for (const item of transactions) {
+    const {category,price} = item;
 
+    if(!Object.hasOwn(list,category)){
+      list[category] = price;
+    }else{
+      list[category] += price;
+    };
+  };
+
+  const result = Object.keys(list).map((ele)=>{return {category:ele,totalSpent:list[ele]}});
+  return result;
+};
+
+// time complexity - O(n)
+// space complexity - O(m) {where m is the number of unique categories.}
 module.exports = calculateTotalSpentByCategory;
