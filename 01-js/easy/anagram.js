@@ -5,7 +5,10 @@
 */
 
 function isAnagram(str1, str2) {
-
+  
 }
+
+
+console.log(isAnagram("story", "create"));
 
 module.exports = isAnagram;
