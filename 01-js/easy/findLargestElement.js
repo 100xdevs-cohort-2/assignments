@@ -5,8 +5,22 @@
   - Output: 9
 */
 
-function findLargestElement(numbers) {
+function findLargestElement ( array ) {
     
+    largest = array [ 0 ];
+
+    for ( var i = 1; i < array.length; i++ ) {
+
+        if ( array [ i ] > largest ) {
+            largest = array [ i ];
+        }
+
+    }
+
+    return largest;
 }
 
-module.exports = findLargestElement;
+var array = [ 15, 78, 91, 13, 35, 43 ];
+var result = findLargestElement ( array );
+
+console.log ( "The largest element is: " + result );
