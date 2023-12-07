@@ -6,7 +6,9 @@
 
 function isAnagram(str1, str2) {
   // ayush aryan
+  // ayush
   
+
   
 }
 
