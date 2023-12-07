@@ -17,7 +17,7 @@
 */
 
 class Calculator {
-  constructor(result){
+  constructor(){
     this.result = 0.0;
   }
   add(n){
