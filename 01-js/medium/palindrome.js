@@ -3,8 +3,19 @@
   Note: the input string is case-insensitive which means 'Nan' is a palindrom as 'N' and 'n' are considered case-insensitive.
 */
 
-function isPalindrome(str) {
-  return true;
+function isPalindrome(string) {
+  let result = string.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+  let revertedString = "";
+
+  for (let i = result.length - 1; i >= 0; i--) {
+    revertedString += result[i];
+  }
+
+  if (result == revertedString) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 module.exports = isPalindrome;
