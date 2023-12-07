@@ -17,23 +17,23 @@ class Todo {
   add(todo) {
     this.todos.push(todo);
   }
-  remove(todo) {
-    const indexOfTodo = this.todos.indexOf(todo);
-    if (indexOfTodo !== -1) {
+  remove(indexOfTodo) {
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
       this.todos.splice(indexOfTodo, 1);
     }
   }
   update(index, updatedTodo) {
     if (index >= 0 && index < this.todos.length) {
       this.todos[index] = updatedTodo;
+    } else {
+      console.error("Index out of bounds");
     }
   }
   getAll() {
     return this.todos;
   }
-  get(todo) {
-    const indexOfTodo = this.todos.indexOf(todo);
-    if (indexOfTodo !== -1) {
+  get(indexOfTodo) {
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
       return this.todos[indexOfTodo];
     }
     return null;
@@ -42,5 +42,4 @@ class Todo {
     this.todos = [];
   }
 }
-
 module.exports = Todo;
