@@ -14,7 +14,19 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let category_map = new Map();
+  for(let obj of transactions){
+    if (category_map.has(obj["category"])) {
+      category_map.set(obj["category"], category_map.get(obj["category"]) + obj["price"])
+    } else{
+      category_map.set(obj["category"], obj["price"])
+    }
+  }
+  let ans = []
+  for( let [key,value] of category_map) {
+    ans.push({"category":key, "totalSpent":value});
+  }
+  return ans;
 }
 
 module.exports = calculateTotalSpentByCategory;
