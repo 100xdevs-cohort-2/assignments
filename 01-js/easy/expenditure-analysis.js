@@ -5,8 +5,21 @@
   Output - [{ category1 - total_amount_spent_on_category1 }, { category2 - total_amount_spent_on_category2 }]
 */
 
-function calculateTotalSpentByCategory(transactions) {
-  return [];
+const calculateTotalSpentByCategory = transactions => {
+  const hash = {};
+  const ans = [];
+
+  for (let transaction of transactions) {
+    const { category, price } = transaction;
+    if (category in hash) {
+      ans[hash[category]].totalSpent += price;
+    } else {
+      hash[category] = ans.length;
+      ans.push({ category, totalSpent: price });
+    }
+  }
+
+  return ans;
 }
 
 module.exports = calculateTotalSpentByCategory;
