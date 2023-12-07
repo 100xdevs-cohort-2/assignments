@@ -9,5 +9,15 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let startTime=new Date()
+    let i=1
+    while (i<n){
+        i=i+1
+    }
+    let endTime=new Date()
+    let timePassed=endTime-startTime
+    return timePassed;
 }
+console.log("printing the time counted in mili seconds for the number 100 : "+calculateTime(100))
+console.log("printing the time counted in mili seconds for the number 1000000 : "+calculateTime(1000000))
+console.log("printing the time counted in mili seconds for the number 1000000000 : "+calculateTime(1000000000))

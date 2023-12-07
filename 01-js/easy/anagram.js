@@ -4,7 +4,19 @@
   - A word, phrase, or name formed by rearranging the letters of another, such as spar, formed from rasp.
 */
 
+
 function isAnagram(str1, str2) {
+  if (str1 === str2){
+    return true
+  }
+  else if (str1.length == str2.length){
+  const temp1=str1.toLowerCase().split('').sort().join('')
+  const temp2=str2.toLowerCase().split('').sort().join('')
+  return temp1==temp2
+  }
+  else {
+    return false
+  }
 
 }
 
