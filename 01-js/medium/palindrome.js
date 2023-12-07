@@ -4,7 +4,17 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let temp=str.toLowerCase().split(/[ !?,.]+/).join('')
+  let i = 0
+  let j = temp.length - 1
+  flag=true
+  while(i<=j && flag===true){
+    if(temp[i]!=temp[j]){
+      flag=false
+    }
+    i++; j--
+  }
+  return flag;
 }
 
 module.exports = isPalindrome;
