@@ -21,9 +21,7 @@ function isAnagram(str1, str2) {
       if(!characterObject[character]) return false;
       characterObject[character] --;
     }
-    for(let number of Object.values(characterObject) ){
-      if (number!=0) return false;
-    }    
+    Object.values(characterObject).every((number)=> number == 0);
     return true;
 }
 
