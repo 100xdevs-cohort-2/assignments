@@ -59,12 +59,5 @@ class Calculator {
     return regex.test(str);
 
   }
-  eval(str){
-
-  }
-
 }
-
-// let calc=new Calculator();
-// calc.calculate('(2.5 + 1.5) * 3')
 module.exports = Calculator;

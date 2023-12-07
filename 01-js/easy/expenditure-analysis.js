@@ -15,7 +15,6 @@ function calculateTotalSpentByCategory(transactions) {
       }
       map[transaction.category]+=parseInt(transaction.price);
   }
-  // console.log(map)
   let categories=Object.keys(map);
   for(let category of categories){
     ans.push({"category":category,"totalSpent":map[category]})

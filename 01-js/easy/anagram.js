@@ -14,18 +14,13 @@ function isAnagram(str1, str2) {
   for(let char of str1){
       map.set(char,(map.get(char)??0)+1);
   }
-  // console.log(map)
   for(let char of str2){
     map.set(char,(map.get(char)??0)-1);
   }
-  // console.log(map)
-
   for(let [key,val] of map){
     if(val!=0) return false;
   }
 
   return true;
 }
-// console.log(isAnagram('Debit Card', 'Bad Credit'))
-
 module.exports = isAnagram;
