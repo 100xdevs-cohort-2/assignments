@@ -6,7 +6,15 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const dict = {};
+  transactions.forEach(({ category, price }) => {
+    dict[category] = (dict[category] || 0) + price;
+  });
+
+  return Object.keys(dict).map(category => ({
+    category,
+    totalSpent: dict[category],
+  }));
 }
 
 module.exports = calculateTotalSpentByCategory;
