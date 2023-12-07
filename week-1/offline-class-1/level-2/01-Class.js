@@ -6,6 +6,12 @@ class Animal {
     this.legCount = legCount;
     this.sound = sound;
   }
+
+  //static method  can be called without instantiating the class
+  static func() {
+    console.log("ANIMAL !");
+  }
+
   describe() {
     console.log(`${this.sound}, i am ${this.name} has ${this.legCount} legs`);
   }
@@ -18,3 +24,4 @@ let bird = new Animal("bird", 2, "tweet tweet");
 
 dog.describe();
 cat.describe();
+Animal.func();
