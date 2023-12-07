@@ -16,6 +16,60 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    this.result += num;
+    return this.result;
+  }
+
+  subtract(num) {
+    this.result -= num;
+    return this.result;
+  }
+
+  multiply(num) {
+    this.result = this.result * num;
+    return this.result;
+  }
+
+  divide(num) {
+    if (num === 0) {
+      throw new Error()
+    }else{
+      this.result = this.result / num;
+    }
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  calculate(str) {
+    try {
+      // return parseInt(str);
+      this.result = eval(str)
+      console.log("result: "+this.result+"type: "+typeof(this.result));
+      console.log(parseInt(this.result));
+      // console.log(parseInt(this.result).toString()); 
+      if (parseInt(this.result).toString()=='NaN') {
+        console.log('what');
+        throw new Error()
+      }
+      return this.result
+    } catch (error) {
+      throw error
+      // console.log('error occured');
+      // throw new Error("can't divid by zero");
+    }
+  }
+}
 
 module.exports = Calculator;
