@@ -50,12 +50,88 @@ class Calculator {
 
   calculate(expression) {
     const cleanedExpression = expression.replace(/\s+/g, '').replace(/[^0-9+\-*/().]/g, '');
-    
-    try {
-      this.result = eval(cleanedExpression);
-    } catch (error) {
+
+    const checkBalancedParentheses = (expression) => {
+      const stack = [];
+      for (const char of expression) {
+        if (char === '(') {
+          stack.push(char);
+        } else if (char === ')') {
+          if (stack.length === 0) {
+            return false; // Unbalanced parentheses
+          }
+          stack.pop();
+        }
+      }
+      return stack.length === 0; // Parentheses are balanced if the stack is empty
+    };
+
+    if (!checkBalancedParentheses(cleanedExpression)) {
+      throw new Error("Unbalanced parentheses in the expression");
+    }
+
+    const precedence = {
+      '+': 1,
+      '-': 1,
+      '*': 2,
+      '/': 2,
+    };
+
+    const isHigherPrecedence = (op1, op2) => precedence[op1] >= precedence[op2];
+
+    const applyOperator = (operator, values) => {
+      const b = values.pop();
+      const a = values.pop();
+
+      switch (operator) {
+        case '+':
+          return a + b;
+        case '-':
+          return a - b;
+        case '*':
+          return a * b;
+        case '/':
+          if (b === 0) {
+            throw new Error("Cannot divide by zero");
+          }
+          return a / b;
+      }
+    };
+
+    const tokens = cleanedExpression.match(/(\d+|\+|\-|\*|\/|\(|\))/g);
+    const values = [];
+    const operators = [];
+
+    for (const token of tokens) {
+      if (/^-?\d+$/.test(token)) {
+        values.push(parseFloat(token));
+      } else if (['+', '-', '*', '/'].includes(token)) {
+        while (
+          operators.length > 0 &&
+          isHigherPrecedence(operators[operators.length - 1], token)
+        ) {
+          values.push(applyOperator(operators.pop(), values));
+        }
+        operators.push(token);
+      } else if (token === '(') {
+        operators.push(token);
+      } else if (token === ')') {
+        while (operators.length > 0 && operators[operators.length - 1] !== '(') {
+          values.push(applyOperator(operators.pop(), values));
+        }
+        operators.pop(); 
+      }
+    }
+
+    while (operators.length > 0) {
+      values.push(applyOperator(operators.pop(), values));
+    }
+
+    if (values.length !== 1) {
       throw new Error("Invalid expression");
     }
+
+    this.result = values[0];
   }
 }
 
