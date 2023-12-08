@@ -6,7 +6,12 @@
 */
 
 function findLargestElement(numbers) {
-    
+    if(!numbers)return undefined;
+    let maxi=numbers[0];
+    numbers.forEach(element => {
+        if(element>maxi)maxi=element;
+    });
+    return maxi;
 }
 
 module.exports = findLargestElement;
