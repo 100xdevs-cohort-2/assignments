@@ -5,8 +5,7 @@
 
 function isPalindrome(str) {
   const cleanedStr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-   const arr = cleanedStr.split('');
-  console.log(arr)
+  const arr = cleanedStr.split('');
   const reverseArr = [...arr].reverse();
   const reverseStr = reverseArr.join('');
   if(cleanedStr == reverseStr) 

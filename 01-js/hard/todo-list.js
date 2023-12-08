@@ -11,7 +11,41 @@
 */
 
 class Todo {
+  constructor() {
+    this.todos = [];
+  }
 
+  add(todo) {
+    this.todos.push(todo);
+  }
+
+  remove(index) {
+    this.todos.splice(index, 1);
+  }
+
+  update(index, updatedTodo) {
+    if (index >= 0 && index < this.todos.length) {
+      this.todos[index] = updatedTodo;
+    } else {
+      throw new Error("Invalid index for update operation");
+    }
+  }
+
+  getAll() {
+    return this.todos;
+  }
+
+  get(index) {
+    if (index >= 0 && index < this.todos.length) {
+      return this.todos[index];
+    } else {
+      throw new Error("Invalid index for get operation");
+    }
+  }
+
+  clear() {
+    this.todos = [];
+  }
 }
 
 module.exports = Todo;
