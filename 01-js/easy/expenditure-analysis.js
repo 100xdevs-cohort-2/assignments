@@ -14,48 +14,43 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  output = []
-  
+    
+  totalSpend = {};
   for(let i=0; i<transactions.length; i++)
   {
-    transaction = transactions[i];
-    category = transaction["category"];
-
-    if(i === 0)
-    {
-      output.push(
-        {
-          "category": category, 
-          "totalSpent":transaction['price']
-        }
-        );
-      continue;
-    }
-
-    let j=0
-    
-    for( ; j < output.length; j++)
-    {
-      if(output[j]["category"] === category)
+      transaction = transactions[i];
+      category = transaction["category"];
+      if(totalSpend[category] === undefined)
       {
-        output[j]["totalSpent"] = output[j]["totalSpent"] + transaction["price"];
-        break;
+        totalSpend[category] = transaction["price"];
+      }
+      else
+      {
+        totalSpend[category] += transaction["price"];
       }      
-    }
-    
-    if(j === output.length)
-    {
-      output.push({"category":category, "totalSpent":transaction["price"]});
-    }
-   
-
 
   }
+
+  //Appraoch 1 : Using Object.keys
+  let results = []
+  Object.keys(totalSpend).forEach((key) => {        
+        cat_obj = {};
+        cat_obj["category"] = key;
+        cat_obj["totalSpent"] = totalSpend[key];
+        results.push(cat_obj);         
+  });
+  
+  //Approach 2 : Using Object.entries
+  //let results = Object.entries(totalSpend).map(([category, totalSpent]) => ({"category":category, "totalSpent":totalSpent}));
   
 
-  return output;
+  return results;
 }
 
+module.exports = calculateTotalSpentByCategory;
+
+// Testing code
+//
 // const transactions = [
 //   {
 //     id: 1,
@@ -96,12 +91,3 @@ function calculateTotalSpentByCategory(transactions) {
 
 // calculateTotalSpentByCategory(transactions);
 
-module.exports = calculateTotalSpentByCategory;
-
-    // if(category in existing){
-    //   output
-    //   output[category] = output[category] + transaction["price"];
-    // }
-    // else{
-    //   output[category] = transaction["price"];
-    // }  
