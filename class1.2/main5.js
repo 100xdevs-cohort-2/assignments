@@ -1,2 +1,0 @@
-objects
-arrays of objects
