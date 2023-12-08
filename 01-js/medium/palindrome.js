@@ -4,7 +4,29 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let res = false;
+  if (str === "") return true;
+  let i = 0;
+  let j = str.length - 1;
+
+  while (i < j) {
+    // if we encounter space
+    if (str[i] === " " || !/[a-zA-Z0-9]/g.test(str[i])) {
+      i = i + 1;
+    } else if (str[j] === " " || !/[a-zA-Z0-9]/g.test(str[j])) {
+      j = j - 1;
+    }
+    // if both are char probably add a regex check to chekc if they are char
+    else if (str[i].toLowerCase() === str[j].toLowerCase()) {
+      i = i + 1;
+      j = j - 1;
+    } else {
+      return false;
+    }
+  }
+  res = true;
+
+  return res;
 }
 
 module.exports = isPalindrome;
