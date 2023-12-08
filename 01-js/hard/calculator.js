@@ -16,6 +16,75 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(result) {
+    this.result = result;
+  }
+  add(number) {
+    this.result += number;
+  }
+  substract(number) {
+    this.result -= number;
+  }
+  multiply(number) {
+    this.result *= number;
+  }
+  divide(number) {
+    if (number !== 0) this.result /= number;
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+  calculate(exp) {
+    let queue = [];
+    const regex = /\+|\-|\/|\*|\(|\)|/g;
+    for (const op of exp) {
+      if (Number.isInteger(op)) {
+        queue.push(op);
+      } else if (op.search(regex) !== -1) {
+        queue.push(op);
+      }
+    }
+    let isPrevNumber = false;
+    let numString = "";
+    let firstOperand;
+    let secondOperand;
+    let operator;
+    let total = 0;
+    while (queue.length !== 0) {
+      const item = queue.shift();
+      if (Number.isInteger(item)) {
+        if (isPrevNumber) {
+          numString += item;
+        } else {
+          numString = item;
+          isPrevNumber = true;
+        }
+      } else {
+        if (!operator) {
+          operator = item;
+        }
+        if (!firstOperand) {
+          firstOperand = parseInt(numString);
+          numString = "";
+        }
+        if (!secondOperand) {
+          firstOperand = parseInt(numString);
+          numString = "";
+        }
+        isPrevNumber = false;
+        if (firstOperand && secondOperand && operator) {
+          if (operator === "+") queue.push(firstOperand + secondOperand);
+          else if (operator === "-") queue.push(firstOperand - secondOperand);
+          else if (operator === "/") queue.push(firstOperand / secondOperand);
+          else if (operator === "*") queue.push(firstOperand * secondOperand);
+        }
+      }
+    }
+  }
+}
 
 module.exports = Calculator;
