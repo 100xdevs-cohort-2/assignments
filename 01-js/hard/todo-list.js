@@ -26,10 +26,8 @@ class Todo {
   update(index, updatedTodo) {
     if (index >= 0 && index < this.todos.length) {
       this.todos[index] = updatedTodo;
-    } else {
-      throw new Error("Invalid index for update operation");
-    }
   }
+}
 
   getAll() {
     return this.todos;
@@ -38,9 +36,9 @@ class Todo {
   get(index) {
     if (index >= 0 && index < this.todos.length) {
       return this.todos[index];
-    } else {
-      throw new Error("Invalid index for get operation");
     }
+    else
+      return null;
   }
 
   clear() {
