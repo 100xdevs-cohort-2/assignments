@@ -8,11 +8,16 @@ function isAnagram(str1, str2) {
     return false;
   }
 
+  let str1Lower = str1.toLowerCase();
+  let str2Lower = str2.toLowerCase();
+
+
+  
   let counter = {};
-  for (let letters of str1) {
+  for (let letters of str1Lower) {
     counter[letters] = counter[letters] ? counter[letters] + 1 : 1;
   }
-  for (let items of str2) {
+  for (let items of str2Lower) {
     if (!counter[items]) {
       return false;
     }
