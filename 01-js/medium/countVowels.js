@@ -28,6 +28,4 @@ function countVowels(str) {
   return count;
 }
 
-console.log(countVowels("aaei"));
-
 module.exports = countVowels;

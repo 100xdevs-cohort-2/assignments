@@ -10,5 +10,3 @@ function isPalindrome(str) {
 }
 
 module.exports = isPalindrome;
-
-isPalindrome('Eva, can I see bees in a cave.?');
