@@ -4,7 +4,13 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const arr = str.split('');
+  const reverseArr = arr.reverse();
+  const reverseStr = reverseArr.join('');
+  if(str == reverseStr) 
+    return true;
+  else
+    return false;
 }
 
 module.exports = isPalindrome;
