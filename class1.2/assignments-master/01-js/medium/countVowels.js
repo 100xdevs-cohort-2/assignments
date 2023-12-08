@@ -6,7 +6,16 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let vow = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I' ,'O', 'U'];
+  let count = 0;
+  for (var i = 0; i < str.length; i++)
+  {
+    if (vow.includes (str[i]))
+    {
+      count += 1;
+    }
+  }
+  return count;
 }
 
 module.exports = countVowels;
