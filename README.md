@@ -1,1 +1,1 @@
-# assignments for the day 1 js questions completed
+# Assignments' solutions for the Cohort 0-100 by [@kirat_w](https://twitter.com/kirat_tw)https://twitter.com/kirat_tw
