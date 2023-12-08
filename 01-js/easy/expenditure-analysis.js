@@ -14,7 +14,38 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+
+  //categories stores all the unique categories
+  //totalSpent stores the total spent for each category
+  //result stores the final result
+
+  let categories = [];
+  let totalSpent = [];
+  let result = [];
+  
+  //iterate through the transactions array and push the unique categories into the categories array
+  
+  transactions.forEach(transaction =>{
+    if (!categories.includes(transaction.category)) {
+      categories.push(transaction.category);
+    }
+  });
+
+  //iterate through the categories array and calculate the total spent for each category
+  //push the category and total spent into the result array
+
+  categories.forEach( category => {
+    let spent = 0;
+     transactions.forEach( transaction => {
+      if(transaction.category == category){
+        spent+= transaction.price;
+      }
+     })
+     result.push({category: category, totalSpent: spent});
+  });
+
+
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;
