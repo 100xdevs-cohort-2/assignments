@@ -4,6 +4,18 @@
 */
 
 function isPalindrome(str) {
+  const santizedStr = str.toLowerCase().replace(/[.,!?\s]/g, "");
+
+  let left = 0;
+  let right = santizedStr.length - 1;
+
+  while (left <= right) {
+    if (santizedStr[left] != santizedStr[right]) return false;
+    else {
+      left++;
+      right--;
+    }
+  }
   return true;
 }
 
