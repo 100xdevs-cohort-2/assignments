@@ -16,6 +16,62 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+	constructor(){
+		this.acceptableChars = ['1','2','3','4','5','6','7','8','9','0','(',')','+','-','/','*','.']
+		this.numbers = ['1','2','3','4','5','6','7','8','9','0']
+		this.operators = ['+','-','/','*']
+		this.brackets = ['(',')']
+		this.result = 0;
+	}
+
+	add(n){
+		this.result += n;
+	}
+	
+	subtract(n){
+		this.result -= n;
+	}
+	
+	multiply(n){
+		this.result *= n;
+	}
+	
+	divide(n){
+		if(n==0){
+			throw Error("Division by Zero");
+		}
+		this.result /= n;
+	}
+	
+	clear(n){
+		this.result = 0;
+	}
+	
+	getResult(){
+		return this.result;
+	}
+	
+	calculate(str) {
+		
+	
+		if (str.length == 0) {
+		  throw Error("Empty string");
+		}
+		str = str.replace(/ /g, '');
+
+		for (let i = 0; i < str.length; i++) {
+		  if (!(this.acceptableChars.includes(str[i]))) {
+			throw Error("Invalid characters");
+		  }
+		}
+		
+		this.result = eval(str);
+		if(!(isFinite(this.result))){
+			throw Error("Division by Zero");
+		}
+	}
+	
+}
 
 module.exports = Calculator;
