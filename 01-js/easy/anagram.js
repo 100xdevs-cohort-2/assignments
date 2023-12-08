@@ -31,6 +31,5 @@ function isAnagram(str1, str2) {
   else return false;
 }
 
-console.log(isAnagram("hello", "hello!"));
 
 module.exports = isAnagram;

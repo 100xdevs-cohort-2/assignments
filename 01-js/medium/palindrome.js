@@ -19,6 +19,4 @@ function isPalindrome(str) {
   return true;
 }
 
-console.log(isPalindrome("race car"));
-
 module.exports = isPalindrome;
