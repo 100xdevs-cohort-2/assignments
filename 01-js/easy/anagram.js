@@ -5,7 +5,18 @@
 */
 
 function isAnagram(str1, str2) {
+  if(str1.length != str2.length){
+    return false
+  }
 
+  const sortString = (str) => {
+   return str.toLowerCase().split('').sort().join('');
+  }
+  
+  const sortedStr1 = sortString(str1);
+  const sortedStr2 = sortString(str2);
+
+  return sortedStr1 === sortedStr2; 
 }
 
 module.exports = isAnagram;
