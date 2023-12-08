@@ -162,20 +162,40 @@ class Calculator {
     return total;
   }
 
-  calculate(expression)
-  {
-     // remove all the whitespaces using regex from the input expression
-     expression = expression.replace(/[ ]/g, "");
+  calculate(expression) {
 
-     // if the expression is not valid throw an error
-     if(!this.IsvalidExpression(expression))
-     {
-       throw new Error('Invalid Parenthesis');
-     }
-     
-    //  invoke the solve method 
-     this.result = this.solve(expression);
-  }
+    // remove all the whitespaces using regex from the input expression
+    expression = expression.replace(/[ ]/g, "");
+
+    // check for invalid characters
+    if (/[^0-9]]/.test(expression)) {
+      throw new Error("Invalid Expression");
+    }
+
+    // check for zero division error
+    if (/\/0/.test(expression)) {
+        throw new Error("Cannot divide by zero");
+    }
+
+    this.result = eval(expression);
+    return this.result;
+}
+
+  
+  // calculate(expression)
+  // {
+  //     // remove all the whitespaces using regex from the input expression
+  //     expression = expression.replace(/[ ]/g, "");
+
+  //     // if the expression is not valid throw an error
+  //     if(!this.IsvalidExpression(expression))
+  //     {
+  //       throw new Error('Invalid Parenthesis');
+  //     }
+      
+  //   //  invoke the solve method 
+  //     this.result = this.solve(expression);
+  // }
 
   stackOperations(stack, number, sign)
   {
@@ -214,3 +234,4 @@ class Calculator {
 // console.log(calc.result);
 // console.log(calc.getResult());
 module.exports = Calculator;
+        
