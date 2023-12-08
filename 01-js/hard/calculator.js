@@ -16,6 +16,78 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(){
+    this.result = 0;
+  }
+
+  add(value){
+    this.result += value;
+  }
+  subtract(value){
+    this.result -= value;
+  }
+  multiply(value){
+    this.result *= value;
+  }
+  divide(value){
+    if(value === 0){
+      throw new Error("divide by 0");
+    }
+    this.result /= value;
+  }
+  clear(){
+    this.result = 0;
+  }
+  getResult(){
+    return this.result;
+  }
+
+  areParenthesesBalanced(expression) {
+    let stack = [];
+  
+    for (let char of expression) {
+      if (char === '(') {
+        stack.push(char); // Push an opening parenthesis onto the stack
+      } else if (char === ')') {
+        if (stack.length === 0) {
+          return false; // No matching opening parenthesis
+        }
+        stack.pop(); // Pop a matching opening parenthesis from the stack
+      }
+    }
+  
+    // The parentheses are balanced if the stack is empty at the end
+    return stack.length === 0;
+  }
+
+  calculate(expression) {
+    // Remove continuous spaces
+    const cleanedExpression = expression.replace(/\s+/g, '');
+
+    // Check for invalid characters using a regular expression
+    if (!/^[0-9+\-*/().]+$/.test(cleanedExpression)) {
+      throw new Error("Invalid expression");
+    }
+    if(!this.areParenthesesBalanced(cleanedExpression)){
+      throw new Error("Invalid expression");
+    }
+    try {
+      // Use eval to calculate the result
+      let result = eval(cleanedExpression);
+      
+      if (isNaN(result) || !isFinite(result)) {
+        throw new Error("Invalid expression");
+      }
+      return result;
+    } catch (error) {
+      throw new Error("Invalid expression");
+    }
+  }
+}
+
+let obj = new Calculator();
+console.log(obj.calculate('10 +   2 *    (   6 - (4 + 1) / 2) + 7'));
+
 
 module.exports = Calculator;
