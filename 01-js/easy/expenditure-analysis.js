@@ -5,7 +5,7 @@
   Transaction - an object like 
         {
 		id: 1,
-		timestamp: 1656076800000,
+		timestamp: 1656076800000,s
 		price: 10,
 		category: 'Food',
 		itemName: 'Pizza',
@@ -14,7 +14,24 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let results=[];
+  let obj={};
+  for (let i=0; i<transactions.length; i++){
+    let t=transactions[i];
+    if (obj[t.category])
+      obj[t.category]+=t.price;
+    else
+      obj[t.category]=t.price;
+  }
+  let keys=Object.keys(obj);
+  for (i=0; i<keys.length; i++){
+    let result={
+      category: keys[i],
+      totalSpent: obj[keys[i]]
+    }
+    results.push(result)
+  }
+  return results;
 }
 
 module.exports = calculateTotalSpentByCategory;

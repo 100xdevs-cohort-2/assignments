@@ -4,13 +4,17 @@
 */
 
 function isPalindrome(str) {
-  const arr = str.split('');
-  const reverseArr = arr.reverse();
+  const cleanedStr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+   const arr = cleanedStr.split('');
+  console.log(arr)
+  const reverseArr = [...arr].reverse();
   const reverseStr = reverseArr.join('');
-  if(str == reverseStr) 
+  if(cleanedStr == reverseStr) 
     return true;
   else
     return false;
 }
+
+console.log(isPalindrome("race car"))
 
 module.exports = isPalindrome;
