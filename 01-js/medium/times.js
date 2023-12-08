@@ -9,5 +9,15 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const starttime = performance.now();
+    let sum = 0;
+    for(let i = 0; i<=n; i++){
+        sum += i;
+    }
+    const endtime = performance.now();
+    const totaltime = (endtime - starttime)*10;
+    return totaltime;
 }
+
+ans = calculateTime(100);
+console.log(ans);
