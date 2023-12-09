@@ -16,6 +16,51 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(){
+    this.result = 0;
+  };
+  add(num){
+    this.result += num;
+  };
+  subtract(num){
+    this.result -= num;
+  };
+  multiply(num){
+    this.result *= num;
+  };
+  divide(num){
+    if(num){
+      this.result /= num;
+    }else{
+      throw new Error("Invalid inpit");
+    };
+  };
+  clear(){
+    this.result = 0;
+  };
+  getResult(){
+    return this.result;
+  };
+  calculate(val){
+    if(!val.length){
+      throw new Error("Invalid input");
+    };
+    try {
+      const solution = eval(val);
+      if(solution === Infinity){
+        throw new Error("Invalid input");
+      }else{
+        this.result = solution;
+      }
+    } catch (error) {
+      throw new Error(error)
+    }
+  };
+};
+
+// time complexity of all methods except(calculate method) - O(1);
+// time complexity calculate method - O(n);
+// The space complexity - O(1)
 
 module.exports = Calculator;
