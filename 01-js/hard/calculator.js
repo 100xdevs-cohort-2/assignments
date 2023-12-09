@@ -17,8 +17,8 @@
 */
 
 class Calculator {
-  static _VALIDATOR_REGEX = /^(\d+\.\d+|[0-9]+|\+|\-|\*|\/|\(|\))*$/g;
-  static _MATCHER_REGEX = /(\d+\.\d+|[0-9]+|\+|\-|\*|\/|\(|\))/g;
+  static _VALIDATOR_REGEX = /[^(\d+\.\d+|\d+|\+|\-|\*|\/|\(|\)|\s|\t)]/g;
+  static _MATCHER_REGEX = /(\d+\.\d+|\d+|\+|\-|\*|\/|\(|\))/g;
   static _PRECEDENCE = { '+': 1, '-': 1, '*': 2, '/': 2 };
 
   constructor(result) {
@@ -51,8 +51,7 @@ class Calculator {
   }
 
   calculate(infixExpression) {
-    // if (!Calculator._VALIDATOR_REGEX.test(infixExpression)) throw Error();
-    // const parsedExpression = expression.splice().replaceAll(/\s/g, '');
+    if (Calculator._VALIDATOR_REGEX.test(infixExpression)) throw Error();
     const postfixExpression = this.convertinInfixToPostfix(infixExpression);
     this.result = this.evaluatePostfixExpression(postfixExpression);
   }
@@ -61,17 +60,23 @@ class Calculator {
     const tokens = infixExpression.match(Calculator._MATCHER_REGEX);
     const outputBuffer = [];
     const stack = [];
+    const paranthesisStack = [];
 
     for (const token of tokens) {
       if (!isNaN(token)) {
         outputBuffer.push(parseFloat(token));
       } else if (token === '(') {
         stack.push(token);
+        paranthesisStack.push(token);
       } else if (token === ')') {
+        if (paranthesisStack.length === 0) {
+          throw Error();
+        }
         while (stack.length && stack[stack.length - 1] !== '(') {
           outputBuffer.push(stack.pop());
         }
         stack.pop();
+        paranthesisStack.pop();
       } else {
         while (
           stack.length &&
@@ -85,7 +90,12 @@ class Calculator {
     }
 
     while (stack.length) {
-      outputBuffer.push(stack.pop());
+      const token = stack.pop();
+      outputBuffer.push(token);
+    }
+
+    if (paranthesisStack.length > 0) {
+      throw Error();
     }
 
     return outputBuffer;
@@ -105,6 +115,7 @@ class Calculator {
             stack.push(a * b);
             break;
           case '/':
+            if (b < 1) throw Error();
             stack.push(a / b);
             break;
           case '+':
