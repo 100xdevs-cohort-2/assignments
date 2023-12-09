@@ -9,5 +9,22 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const startDate = new Date();
+    console.log(startDate.toISOString());
+
+    let sum = 0;
+    for (let i = 1; i < n; i++) {
+        sum++;
+    }
+
+    const endDate = new Date();
+    console.log(endDate.toISOString());
+    console.log(endDate.getHours() - startDate.getHours(), endDate.getMinutes() - startDate.getMinutes(), endDate.getSeconds() - startDate.getSeconds(), endDate.getMilliseconds() - startDate.getMilliseconds());
 }
+
+console.log("------------------------");
+calculateTime(100);
+console.log("------------------------");
+calculateTime(100000)
+console.log("------------------------");
+calculateTime(1000000000)
