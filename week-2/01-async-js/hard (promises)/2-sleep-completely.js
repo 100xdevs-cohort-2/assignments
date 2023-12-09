@@ -4,5 +4,14 @@
  */
 
 function sleep (seconds) {
-
+    return new Promise((resolve, reject)=>{
+        setTimeout(resolve, seconds);
+    })
 }
+
+async function sleepCompletely(noOfSeconds){
+    await sleep(noOfSeconds * 1000);
+    console.log(`${noOfSeconds} are passed after sleep function called`);
+}
+
+sleepCompletely(4)
