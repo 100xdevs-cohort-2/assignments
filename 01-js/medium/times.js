@@ -9,5 +9,22 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
-}
+    const start = new Date();
+    let sum = 0;
+    for(let i = 1; i <= n; i++){
+        sum += 1;
+    };
+    const end = new Date();
+    return end - start;
+};
+// time complexity - O(n)
+// space complexity - O(1)
+
+// function calculateTime(n){
+//     const start = new Date();
+//     const sum = n/2*(2 + (n - 1));
+//     const end = new Date();
+//     return end - start;
+// };
+// // time complexity - O(1)
+// // space complexity - O(1)
