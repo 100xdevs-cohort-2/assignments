@@ -6,7 +6,18 @@
 */
 
 function countVowels(str) {
+  const pattern = 'a|e|i|o|u'
+  const re = new RegExp(pattern);
+  const tempStr = str.toLowerCase();
+  let countVowels = 0;
+  for(let i=0;i<str.length;i++){
+    if(tempStr[i].match(re)){
+      countVowels+=1
+    }
+  }
+  return countVowels
     // Your code here
 }
+
 
 module.exports = countVowels;
