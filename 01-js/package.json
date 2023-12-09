@@ -8,5 +8,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "volta": {
+    "node": "21.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
