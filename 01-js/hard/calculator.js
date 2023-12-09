@@ -16,6 +16,51 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(x) {
+    this.result += x;
+  }
+
+  subtract(x) {
+    this.result -= x;
+  }
+
+  multiply(x) {
+    this.result *= x;
+  }
+
+  divide(x) {
+    if (x === 0) {
+      throw new Error("Achaa, hoshiyaar! Cannot divide by 0");
+    }
+    this.result /= x;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(string) {
+    this.clear();
+    let cleanStr = string.replace(/[^0-9+\-*/().]/, "");
+
+    try {
+      this.result = eval(cleanStr); //The eval() function evaluates the source is parsed as a script.
+      if (!isFinite(this.result)) {
+        throw new Error("Invalid Expression");
+      }
+    } catch (error) {
+      throw new Error("Invalid expression");
+    }
+  }
+}
 
 module.exports = Calculator;

@@ -14,7 +14,32 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let n = transactions.length;
+  let output = [];
+  let uniqueCatVal = new Map();
+
+  //1. Iterate through given object
+  for (let i = 0; i < n; i++) {
+    let currentCategory = transactions[i].category;
+    let currentPrice = transactions[i].price;
+
+    if (currentCategory) {
+      if (uniqueCatVal.has(currentCategory)) {
+        uniqueCatVal.set(
+          currentCategory,
+          uniqueCatVal.get(currentCategory) + currentPrice
+        );
+      } else {
+        uniqueCatVal.set(currentCategory, currentPrice);
+      }
+    }
+  }
+
+  uniqueCatVal.forEach((value, key) => {
+    output.push({ category: key, totalSpent: value });
+  });
+
+  return output;
 }
 
 module.exports = calculateTotalSpentByCategory;
