@@ -49,12 +49,6 @@ class Todo {
   clear() {
     this.lsitOfTodos = [];
   }
-
-
-
 }
-// let todo1 = new Todo();
-// console.log(todo1);
-// todo1.add("COHORT 2 CLass");
-// console.log(todo1);
+
 module.exports = Todo;
