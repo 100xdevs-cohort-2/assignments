@@ -27,6 +27,10 @@ npm install --save-dev jest
 
 - [100xdevs ChatGPT Help](https://chat.openai.com/share/0ff16721-2edc-451d-883b-3c2c9104ee68)
 
+- `Do not outsource the art of problem solving without thinking and also at initial process`
+
+- Usefull >>> Dificult
+
 - Hard Assignments
   - `Calculator`: requires converting infix expression to postfix expresion.
     Done with chat GPT help asking directly for infix to either postfix or
