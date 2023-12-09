@@ -1,4 +1,4 @@
-## Reading the contents of a file
+    ## Reading the contents of a file
 
 Write code to read contents of a file and print it to the console. 
 You can use the fs library to as a black box, the goal is to understand async tasks. 
