@@ -16,6 +16,178 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    this.result += num;
+  }
+
+  subtract(num) {
+    this.result -= num;
+  }
+
+  multiply(num) {
+    this.result *= num;
+  }
+
+  divide(num) {
+    if (num === 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    this.result /= num;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  calculate(expression) {
+    if (expression.length === 0) {
+      return 0;
+    }
+
+    let count = 0;
+
+    for (let char of expression) {
+      if ((char >= "a" && char <= "z") || (char >= "A" && char <= "Z")) {
+        throw new Error("Invalid character in expression");
+      }
+      if (char == "(") {
+        count += 1;
+      } else if (char == ")") {
+        count -= 1;
+
+        if (count < 0) {
+          throw new Error("Unbalanced parentheses in expression");
+        }
+      }
+    }
+
+    if (count !== 0) {
+      throw new Error("Unbalanced parentheses in expression");
+    }
+
+    let nums = [];
+    let operators = [];
+
+    for (let i = 0; i < expression.length; ) {
+      if (expression[i] >= "0" && expression[i] <= "9") {
+        let val = expression[i];
+        let isDecimal = false;
+
+        while (
+          i + 1 < expression.length &&
+          ((expression[i + 1] >= "0" && expression[i + 1] <= "9") ||
+            expression[i + 1] === ".")
+        ) {
+          if (expression[i + 1] === ".") {
+            if (isDecimal) {
+              throw new Error("Invalid decimal in number");
+            }
+            isDecimal = true;
+          }
+          
+          val += expression[i + 1];
+          i++;
+        }
+
+        nums.push(parseFloat(val));
+      } else if (this.isOperator(expression[i])) {
+        while (
+          operators.length > 0 &&
+          this.hasPrecedence(expression[i], operators[operators.length - 1])
+        ) {
+          if (nums.length < 2) {
+            throw new Error("Invalid expression");
+          }
+
+          try {
+            nums.push(
+              this.calculateValue(operators.pop(), nums.pop(), nums.pop())
+            );
+          } catch (error) {
+            throw new Error("Error during calculation");
+          }
+        }
+
+        operators.push(expression[i]);
+      } else if (expression[i] === "(") {
+        operators.push("(");
+      } else if (expression[i] === ")") {
+        while (
+          operators.length > 0 &&
+          operators[operators.length - 1] !== "("
+        ) {
+          if (nums.length < 2) {
+            throw new Error("Invalid expression");
+          }
+
+          try {
+            nums.push(
+              this.calculateValue(operators.pop(), nums.pop(), nums.pop())
+            );
+          } catch (error) {
+            throw new Error("Error during calculation");
+          }
+        }
+
+        operators.pop(); // Pop the '('
+      }
+
+      i += 1;
+    }
+
+    while (operators.length > 0) {
+      if (nums.length < 2) {
+        throw new Error("Invalid expression");
+      }
+
+      try {
+        nums.push(this.calculateValue(operators.pop(), nums.pop(), nums.pop()));
+      } catch (error) {
+        throw new Error("Error during calculation");
+      }
+    }
+
+    this.result = nums.length === 0 ? 0 : nums.pop();
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  isOperator(c) {
+    return c === "+" || c === "-" || c === "*" || c === "/";
+  }
+
+  hasPrecedence(op1, op2) {
+    if (op2 === "(" || op2 === ")") {
+      return false;
+    }
+    if ((op1 === "*" || op1 === "/") && (op2 === "+" || op2 === "-")) {
+      return false;
+    }
+
+    return true;
+  }
+
+  calculateValue(op, val1, val2) {
+    if (op === "+") {
+      return val1 + val2;
+    } else if (op === "-") {
+      return val2 - val1;
+    } else if (op === "*") {
+      return val1 * val2;
+    } else if (op === "/") {
+      if (val1 === 0) {
+        throw new Error("Cannot divide by zero");
+      }
+      return val2 / val1;
+    }
+  }
+}
 
 module.exports = Calculator;
