@@ -6,7 +6,19 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let map = {} 
+  for(let x in transactions){
+    if(!(transactions[x]['category'] in map)){
+      map[transactions[x]['category']] = 0 ; 
+    }
+    map[transactions[x]['category']]+=transactions[x]['price'] ; 
+  }
+
+  let res = [] 
+  for(let i in map){
+    res.push({category :i , totalSpent:map[i]});
+  }
+  return res ; 
 }
 
 module.exports = calculateTotalSpentByCategory;
