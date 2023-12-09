@@ -5,8 +5,20 @@
   Once you've implemented the logic, test your code by running
 */
 
-function countVowels(str) {
-    // Your code here
-}
+const vowels = {
+  'a': true, 'e': true, 'i': true, 'o': true, 'u': true,
+  'A': true, 'E': true, 'I': true, 'O': true, 'U': true
+};
+
+const countVowels = (str) => {
+  let ans = 0;
+  for (let char of str) {
+    if (char in vowels) {
+      ans++;
+    }
+  }
+
+  return ans;
+};
 
 module.exports = countVowels;

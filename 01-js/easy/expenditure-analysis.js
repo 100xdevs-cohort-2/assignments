@@ -13,8 +13,21 @@
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
-function calculateTotalSpentByCategory(transactions) {
-  return [];
+const calculateTotalSpentByCategory = transactions => {
+  const hash = {};
+  const ans = [];
+
+  for (let transaction of transactions) {
+    const { category, price } = transaction;
+    if (category in hash) {
+      ans[hash[category]].totalSpent += price;
+    } else {
+      hash[category] = ans.length;
+      ans.push({ category, totalSpent: price });
+    }
+  }
+
+  return ans;
 }
 
 module.exports = calculateTotalSpentByCategory;
