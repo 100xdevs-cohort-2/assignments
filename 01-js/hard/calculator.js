@@ -16,6 +16,110 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  static _VALIDATOR_REGEX = /^(\d+\.\d+|[0-9]+|\+|\-|\*|\/|\(|\))*$/g;
+  static _MATCHER_REGEX = /(\d+\.\d+|[0-9]+|\+|\-|\*|\/|\(|\))/g;
+  static _PRECEDENCE = { '+': 1, '-': 1, '*': 2, '/': 2 };
+
+  constructor(result) {
+    this.result = result || 0;
+  }
+
+  add(anumber) {
+    this.result += anumber;
+  }
+
+  subtract(anumber) {
+    this.result -= anumber;
+  }
+
+  multiply(anumber) {
+    this.result *= anumber;
+  }
+
+  divide(anumber) {
+    if (anumber < 1) throw Error();
+    this.result /= anumber;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(infixExpression) {
+    // if (!Calculator._VALIDATOR_REGEX.test(infixExpression)) throw Error();
+    // const parsedExpression = expression.splice().replaceAll(/\s/g, '');
+    const postfixExpression = this.convertinInfixToPostfix(infixExpression);
+    this.result = this.evaluatePostfixExpression(postfixExpression);
+  }
+
+  convertinInfixToPostfix(infixExpression) {
+    const tokens = infixExpression.match(Calculator._MATCHER_REGEX);
+    const outputBuffer = [];
+    const stack = [];
+
+    for (const token of tokens) {
+      if (!isNaN(token)) {
+        outputBuffer.push(parseFloat(token));
+      } else if (token === '(') {
+        stack.push(token);
+      } else if (token === ')') {
+        while (stack.length && stack[stack.length - 1] !== '(') {
+          outputBuffer.push(stack.pop());
+        }
+        stack.pop();
+      } else {
+        while (
+          stack.length &&
+          Calculator._PRECEDENCE[stack[stack.length - 1]] >=
+            Calculator._PRECEDENCE[token]
+        ) {
+          outputBuffer.push(stack.pop());
+        }
+        stack.push(token);
+      }
+    }
+
+    while (stack.length) {
+      outputBuffer.push(stack.pop());
+    }
+
+    return outputBuffer;
+  }
+
+  evaluatePostfixExpression(expression) {
+    const stack = [];
+    for (const token of expression) {
+      if (!isNaN(token)) {
+        stack.push(token);
+      } else {
+        const b = stack.pop();
+        const a = stack.pop();
+
+        switch (token) {
+          case '*':
+            stack.push(a * b);
+            break;
+          case '/':
+            stack.push(a / b);
+            break;
+          case '+':
+            stack.push(a + b);
+            break;
+          case '-':
+            stack.push(a - b);
+            break;
+          default:
+          // TODO: think what can wrong, if can?
+        }
+      }
+    }
+    return stack.pop();
+  }
+}
 
 module.exports = Calculator;
