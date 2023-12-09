@@ -6,17 +6,26 @@
  */
 
 function waitOneSecond() {
-
+    return new Promise(resolve => setTimeout(resolve,1000))
 }
 
 function waitTwoSecond() {
-
+    return new Promise(resolve => setTimeout(resolve,2000))
 }
 
 function waitThreeSecond() {
-
+    return new Promise(resolve => setTimeout(resolve,3000))
 }
 
-function calculateTime() {
-
+async function calculateTime() {
+const start = performance.now();
+const first = await waitOneSecond();
+const second = await waitTwoSecond();
+const third = await waitThreeSecond();
+const end = performance.now();
+console.log(`${Math.floor(end - start) / 1000} s`);
 }
+
+calculateTime();
+
+//it takes approx 2x the time of 3-promise-all.js
