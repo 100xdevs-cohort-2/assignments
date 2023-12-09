@@ -50,34 +50,7 @@ class Calculator {
     } else {
       this.result = eval(expression);
     }
-
-    // if (/^[a-zA-Z]+$/.test(expression)) {
-    //   console.log('contains alphabet');
-    // } else {
-    //   console.log('contains numbers only');
-    // }
-
-    // const tokens = expression.match(/(\d+|\+|\-|\*|\/|\(|\))/g);
-
-    // if (!tokens) {
-    //   console.error("Invalid expression");
-    //   return;
-    // }
-
-    // const presdence = {
-    //   "+": 1,
-    //   "-": 1,
-    //   "*": 2,
-    //   "/": 2,
-    // };
-
-    // const outputQueue = [];
-    // const operatorStack = [];
   }
 }
 
 module.exports = Calculator;
-
-// let calc = new Calculator();
-
-// calc.calculate("22 + 3 * 4 + abs");
