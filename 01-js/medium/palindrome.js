@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const removeSplchar = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  const reverse = removeSplchar.split('').reverse().join('');
+  if(removeSplchar == reverse)
+  {
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 
-module.exports = isPalindrome;
+console.log(isPalindrome('Mr. Owl ate my metal worm.'))
