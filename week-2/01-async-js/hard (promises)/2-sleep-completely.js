@@ -4,5 +4,14 @@
  */
 
 function sleep (seconds) {
+    console.log('starting hold')
+
+    return new Promise((res,rej)=>{setTimeout(()=>{
+        res('Halt completed')
+    },seconds*1000)})
 
 }
+
+sleep(3).then((res)=>{
+    console.log(res)
+})

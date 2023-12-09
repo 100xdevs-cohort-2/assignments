@@ -3,4 +3,14 @@
 */
 
 function wait(n) {
+    return new Promise((res,rej)=>{
+        setTimeout(()=>{
+            res('this is return value')
+        },n*1000)
+    })
 }
+
+prmise=wait(5)
+prmise.then((data)=>{
+    console.log(`Resolved value is: ${data}`)
+})

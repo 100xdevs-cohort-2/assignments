@@ -6,17 +6,37 @@
  */
 
 function waitOneSecond() {
-
+return new Promise((resolve,reject)=>{
+    setTimeout(resolve,1000)
+})
 }
 
 function waitTwoSecond() {
-
+return new Promise((resolve,reject)=>{
+    setTimeout(resolve,2000)
+})
 }
 
 function waitThreeSecond() {
-
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,3000)
+    })
 }
 
 function calculateTime() {
+let currTime=new Date()
+waitOneSecond().then(()=>{
+    console.log('Completed 1 second task')
+    return waitTwoSecond()
+}).then(()=>{
+    console.log('Completed 2 second task')
+    return waitThreeSecond()
+}).then(()=>{
+    console.log('Completed 3 second task')
+    let end_time=new Date()
+    console.log(`Total operation completed in ${end_time-currTime} milliseconds` )
+})
 
 }
+
+calculateTime()
