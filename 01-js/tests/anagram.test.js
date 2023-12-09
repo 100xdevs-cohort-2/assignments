@@ -34,4 +34,9 @@ describe('isAnagram', () => {
 		expect(isAnagram('hello', 'hello!')).toBe(false);
 		expect(isAnagram('openai!', 'open')).toBe(false);
 	});
+	test('returns true for anagrams with numbers' , ()=>{
+		expect(isAnagram('0100harkirat' , 'harkirat1000')).toBe(true)
+		expect(isAnagram('hell0' , '0lelh')).toBe(true)
+		expect(isAnagram('1tsmebr0' , 'br0mets1')).toBe(true)
+	});
 });
