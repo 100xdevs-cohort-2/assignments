@@ -4,7 +4,16 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  // str1 = word.replace(/[^\w]/g, "").toLowerCase();
+  str1 = str.replace(/[^\w]/g, "").toLowerCase();
+  if (str1 === str1.split('').reverse().join('')) {
+
+    return true;
+  }
+
+  else { return false }
+
 }
 
 module.exports = isPalindrome;
