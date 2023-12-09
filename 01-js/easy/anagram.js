@@ -10,21 +10,24 @@ function isAnagram(str1, str2) {
 
   var seen1 = {};
 
-  for (let i = 0; i < str1.length; i++) {
-    if (seen1[str1[i]]) {
-      seen1[str1[i]]++;
-    } else {
-      seen1[str1[i]] = 1;
-    }
-  }
+str1 = str1.toLowerCase();
+str2 = str2.toLowerCase();
 
-  for (let j = 0; j < str2.length; j++) {
-    if (seen1[str2[j]]) {
-      seen1[str2[j]]--;
-    } else {
-      return false;
-    }
+for (let i = 0; i < str1.length; i++) {
+  if (seen1[str1[i]]) {
+    seen1[str1[i]]++;
+  } else {
+    seen1[str1[i]] = 1;
   }
+}
+
+for (let j = 0; j < str2.length; j++) {
+  if (seen1[str2[j]]) {
+    seen1[str2[j]]--;
+  } else {
+    return false;
+  }
+}
 
   return true;
 }

@@ -8,11 +8,15 @@ class Todo {
   }
 
   remove(indexOfTodo) {
-    this.todos.splice(indexOfTodo, 1);
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
+      this.todos.splice(indexOfTodo, 1);
+    }
   }
 
   update(index, updatedTodo) {
-    this.todos[index] = updatedTodo;
+    if (index >= 0 && index < this.todos.length) {
+      this.todos[index] = updatedTodo;
+    }
   }
 
   getAll() {
@@ -20,7 +24,10 @@ class Todo {
   }
 
   get(indexOfTodo) {
-    return this.todos[indexOfTodo];
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
+      return this.todos[indexOfTodo];
+    }
+    return null;
   }
 
   clear() {
@@ -28,4 +35,4 @@ class Todo {
   }
 }
 
-export default Calculator;
+module.exports = Todo;
