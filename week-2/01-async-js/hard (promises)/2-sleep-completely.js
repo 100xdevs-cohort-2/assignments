@@ -3,6 +3,22 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
-
+function sleep(seconds) {
+    let time = Date.now();
+    let now = Date.now();
+  
+    console.log(`sleeping for ${seconds}`);
+  
+    // do {
+    //   now = Date.now();
+    // } while((now - time) <= seconds * 1000);
+  
+    while((now - time) <= seconds * 1000) {
+      now = Date.now();
+    }
+  
+    console.log("resumed");
 }
+  
+  
+sleep(5);
