@@ -82,6 +82,18 @@ function filterExample(arr) {
 }
 filterExample([1, 2, 3, 4, 5]);
 
+// reduce()
+function reduceExample(arr){
+  console.log("Original Array:", arr);
+
+  let initValue = 0;
+  let sum = arr.reduce(function(accumulator, current){
+    return accumulator + current;
+  }, initValue);
+  console.log(sum);
+}
+reduceExample([1, 2, 3, 4, 5])
+
 // find()
 function findExample(arr) {
   console.log("Original Array:", arr);
