@@ -4,7 +4,12 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase().replaceAll(/[.,\/#!$?%\^&\*;:{}=\-_`~()]/g,"").replaceAll(" ","");
+  console.log(str,str.split("").reverse().join(""));
+  return (str===(str.split("").reverse().join("")));
 }
+
+// console.log(isPalindrome("Able, was I ere I saw Elba!"))
+console.log(isPalindrome("Eva, can I see bees in a cave?"));
 
 module.exports = isPalindrome;
