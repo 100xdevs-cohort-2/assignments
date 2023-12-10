@@ -5,6 +5,24 @@
  */
 
 function sleep(milliseconds) {
+    
+
+  let start = new Date().getTime();
+  let end = start + milliseconds;
+   
+/*   for(let iter = start; iter <= end; iter++) {
+ This does not work because iter will not increase at the rate of a millisecond.
+   }*/
+
+   //this works because, we are making the iter progress with the rate of a millisecond
+   for(let iter = start; iter <=end; iter = new Date().getTime()) {
+
+   }
+
+  return new Promise(function(resolve, reject) {    
+    resolve();
+
+  })
 }
 
 module.exports = sleep;
