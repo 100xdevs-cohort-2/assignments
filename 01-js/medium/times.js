@@ -9,5 +9,17 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const t1 = Date.now();
+    let a = 1;
+    while(a<=n){
+        a++;
+    }
+    const t2 = Date.now();
+    return (t2-t1)/1000;
 }
+
+console.log(calculateTime(100))
+console.log(calculateTime(10000))
+console.log(calculateTime(1000000))
+console.log(calculateTime(100000000))
+console.log(calculateTime(10000000000))
