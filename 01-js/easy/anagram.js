@@ -19,9 +19,9 @@ function isAnagram(str1, str2) {
   str1 = str1.toLowerCase();
   str2 = str2.toLowerCase();
 
-  for(var i = 0;i<256;i++){
-    ar1[i] = 0;
-    ar2[i] = 0;
+  for(var j = 0;j<256;j++){
+    ar1[j] = 0;
+    ar2[j] = 0;
   }
 
   for(var i = 0;i<str1.length;i++){
