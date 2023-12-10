@@ -27,7 +27,9 @@ npm install --save-dev jest
 
 - [100xdevs ChatGPT Help](https://chat.openai.com/share/0ff16721-2edc-451d-883b-3c2c9104ee68)
 
-- `Do not outsource the art of problem solving without thinking and also at initial process`
+- `Do not outsource the art of problem solving without thinking and also at initial process`.
+
+- Do not outsource the art of problem solving.
 
 - Usefull >>> Dificult
 
