@@ -3,4 +3,13 @@
 */
 
 function wait(n) {
+    return new Promise((resolve,reject)=>{
+        setTimeout(() => {
+            resolve();
+        }, n);
+    })
 }
+
+wait(2000).then((resolve)=> {
+    console.log("got the data")
+})

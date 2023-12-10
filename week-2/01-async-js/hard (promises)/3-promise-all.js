@@ -6,17 +6,33 @@
 
 
 function waitOneSecond() {
-
+    return new Promise((resolve)=> {
+        setTimeout(resolve, 1*1000);
+    });
 }
 
 function waitTwoSecond() {
+    return new Promise((resolve)=> {
+        setTimeout(resolve, 2*1000);
+    });
 
 }
 
 function waitThreeSecond() {
+    
+    return new Promise((resolve)=> {
+        setTimeout(resolve, 3*1000);
+    });
 
 }
 
-function calculateTime() {
+function calculateTime() { 
+    let startDate = new Date();
+    let one = waitOneSecond();
+    let two= waitTwoSecond();
+    let three = waitThreeSecond();
 
+    Promise.all([one,two,three]).then(result => console.log(new Date() - startDate));
 }
+
+calculateTime()

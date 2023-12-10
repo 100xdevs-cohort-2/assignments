@@ -4,5 +4,9 @@
  */
 
 function sleep (seconds) {
-
+    let date = new Date();
+    while(new Date() - date < seconds*1000 );
 }
+
+sleep(2)
+console.log("do it")
