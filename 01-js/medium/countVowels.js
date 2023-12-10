@@ -6,7 +6,8 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  return str.match(/a|i|e|o|u/gi)?.length || 0;
 }
 
 module.exports = countVowels;
