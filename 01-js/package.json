@@ -5,8 +5,15 @@
   "main": "anagram.js",
   "directories": {
     "test": "tests"
+  
+    
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+  
 }
+
