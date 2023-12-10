@@ -4,5 +4,13 @@
  */
 
 function sleep (seconds) {
-
+    console.log("Blocking the thread for " + seconds + " seconds")
+    let start = new Date().getTime();
+    while(true) {
+        let date = new Date().getTime();
+        if((date - start) === (seconds*1000)) break;
+    }
 }
+
+sleep(5);
+console.log("Hello World!")

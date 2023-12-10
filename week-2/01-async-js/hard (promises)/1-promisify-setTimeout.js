@@ -3,4 +3,10 @@
 */
 
 function wait(n) {
+    let p = new Promise((resolve) => {        
+        setTimeout(() => {resolve()},n);
+    })
+    return p;
 }
+
+wait(10000).then(() => console.log("Done"))
