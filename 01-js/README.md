@@ -15,7 +15,6 @@ Feel free to start doing these in any order you like.
 
 1. Follow the comment above each problem to run test for that problem
 2. To tests for all the problems of this week run `npx jest ./tests/`
-3. To tests for all the problems of this week run `npx test ./tests/`
 
 #### Development Setup
 
