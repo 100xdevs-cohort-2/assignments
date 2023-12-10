@@ -8,13 +8,18 @@ function sleep(seconds) {
   return new Promise(resolve => setTimeout(resolve, seconds * 1000))
 }
 function busyWait(seconds) {
+  const start = new Date().getTime();
+  while (new Date().getTime() - start < (seconds * 1000)) {
 
+  }
+  console.log(`waited ${seconds} seconds`)
 }
-async function work() {
-  console.log("hello");
+async function work(seconds) {
+  busyWait(seconds)
   for (let i = 0; i < 5; i++) {
     console.log(i)
-    await sleep(2)
+    await sleep(seconds)
   }
+  console.log("hello");
 }
-work()
+work(3)
