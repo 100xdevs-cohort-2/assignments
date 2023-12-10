@@ -1,111 +1,213 @@
+const STATE = {
+    FULFILLED: "fulfilled",
+    REJECTED: "rejected",
+    PENDING: "pending"
+}
+
 class MyPromise {
-    /*
-     When we create a promise, we pass a callback function with parameters(resolve, reject)
-     executionFunction below is that callback function
-    */
-    constructor(executionFunction) {
-        //promiseChain array to support chaining. 
-        this.promiseChain = [];
-        this.handleError = () => {};
 
-        //we bind the current object to our internal onResolve and onReject methods,
-        // so that we can use handleError and promiseChain of that particular obkect
-        this.onResolve = this.onResolve.bind(this);
-        this.onReject = this.onReject.bind(this);
+    #thenCbs = []
+    #catchCbs = []
+    #state = STATE.PENDING
+    #value
+    //Doing bind because without that was seeing `this` as undefined 
+    #onSuccessBind = this.#onSuccess.bind(this)
+    #onFailBind = this.#onFail.bind(this); 
 
-        //mapping our internal onResolve and onReject parameters with the resolve and reject parameters passed with the callback method
-        executionFunction(this.onResolve, this.onReject);
+    constructor(cb) {
+      try {    
+        cb(this.#onSuccessBind, this.#onFailBind)
+      } catch(e) {
+        this.#onFail(e)
+      }
     }
 
-    then(handleSuccess) {
-        this.promiseChain.push(handleSuccess);
-        //returning the object because it will allow us to chain
-        return this;
-    }
+    #runCallbacks() {
+        if(this.#state === STATE.FULFILLED) {
+            this.#thenCbs.forEach(callback => {
+                callback(this.#value)
+            })
+            this.#thenCbs = []
+        }
 
-    catch(handleError) {
-        this.handleError = handleError;
-        //returning the object because it will allow us to chain
-        return this;
-    }
-
-    onResolve(value) {
-        let storedValue = value;
-
-        try {
-            this.promiseChain.forEach((nextFunction) => {
-                storedValue = nextFunction(storedValue);
-            });
-        } catch (err) {
-            this.promiseChain = [];
-            this.onReject(err);
+        if(this.#state === STATE.REJECTED) {
+            this.#catchCbs.forEach(callback => {
+                callback(this.#value)
+            })
+            this.#catchCbs = []
         }
     }
 
-    onReject(err) {
-        this.handleError(err);
-    }
-}
+    #onSuccess(value) {
+      queueMicrotask(() => {  
+        if(this.#state !== STATE.PENDING) return;
 
-/*
- *Test code to simulate api call.
- Deciding to fail api based on the response from Math.random() 
- */
-
-simulateApiCall = () => {
-    const userData = {
-        name:"John",
-        subject:"CS",
-        hobbies:"Swimming"
-    };
-
-    if(Math.random() > 0.5) {
-        return {
-            data:userData,
-            statusCode:200
+        if(value instanceof MyPromise) {
+            value.then(this.#onSuccessBind, this.#onFailBind)
+            return
         }
-    } else {
-        return {
-            statusCode:404,
-            message:"Could not find the user",
-            errCode:"CNFU"
-        }
+
+        this.#value = value
+        this.#state = STATE.FULFILLED
+        this.#runCallbacks()
+      })
     }
-}
 
+    #onFail(value) {
+      queueMicrotask(() => {
+        if(this.#state !== STATE.PENDING) return;
 
-const callApi = () => {
-    return new MyPromise((resolve, reject) => {
-        /*
-        Using setTimeOut to mimick network delay
-         */
-        setTimeout(() => {
-            const apiRes = simulateApiCall();
+        if(value instanceof MyPromise) {
+            value.then(this.#onSuccessBind, this.#onFailBind)
+            return
+        }
 
-            if(apiRes.statusCode >= 400) {
-                reject(apiRes);
-            } else {
-                resolve(apiRes);
+        if(this.#catchCbs.length == 0) {
+            throw new UncaughtMyPromiseError(value);
+        }
+
+        this.#value = value
+        this.#state = STATE.REJECTED
+        this.#runCallbacks()
+      })
+    }
+
+    then(thenCb, catchCb) {
+      return new MyPromise((resolve, reject) => {
+        
+        this.#thenCbs.push(result => {
+            if(thenCb == null) {
+                resolve(result)
+                return
             }
-        },5000);
-    })
+
+            try {
+                resolve(thenCb(result))
+            } catch (err) {
+                reject(err);
+            }
+        })
+
+
+        this.#catchCbs.push(result => {
+            if(catchCb == null) {
+                reject(result)
+                return
+            }
+
+            try {
+                resolve(catchCb(result))
+            } catch (err) {
+                reject(err);
+            }
+        })        
+        
+        this.#runCallbacks()   
+      })
+    }
+
+    catch(cb) {
+        return this.then(undefined, cb);
+    }
+
+    finally(cb) {
+        return this.then(result => {
+            cb()
+            return result;
+        }, result => {
+            cb()
+            throw result
+        })
+    }
+
+
+    static resolve(value) {
+        return new MyPromise((resolve, reject) => {
+            resolve(value)
+        })
+    }
+
+    static reject(value) {
+        return new MyPromise((resolve, reject) => {
+            reject(value);
+        })
+    }
+
+
+    static all(promises) {
+        const results = []
+        let completedPromises = 0
+        return new MyPromise((resolve, reject) => {
+            for(let iter = 0; iter < promises.length; iter++) {
+                const promise = promises[iter];
+                promise.then(value => {
+                    completedPromises++
+                    results[iter] = value;
+                    if(completedPromises == promises.length) {
+                        resolve(results)
+                    }
+                }).catch(reject)
+            }
+            
+        })
+    }
+
+    static allSettled(promises) {
+        const results = []
+        let completedPromises = 0
+        return new MyPromise((resolve, reject) => {
+            for(let iter = 0; iter < promises.length; iter++) {
+                const promise = promises[iter];
+                promise.then(value => {
+                    results[iter] = {status: STATE.FULFILLED, value}
+                }).catch(reason => {
+                    results[iter] = {status: STATE.REJECTED, reason}
+                })
+                .finally(() => {
+                    completedPromises++
+                    if(completedPromises == promises.length) {
+                        resolve(results)
+                    }
+                })
+            }
+            
+        })        
+    }
+
+    static race(promises) {
+        return new MyPromise((resolve, reject) => {
+            promises.forEach(promise => {
+                promise.then(resolve).catch(reject)
+            })
+        })
+    }
+
+    static any(promises) {
+        const errors = []
+        let rejectedPromises = 0
+        return new MyPromise((resolve, reject) => {
+            for(let iter = 0; iter < promises.length; iter++) {
+                const promise = promises[iter];
+                promise.then(resolve)
+                .catch(value => {
+                    rejectedPromises++
+                    errors[iter] = value
+                    if(rejectedPromises == promises.length) {
+                        reject(new AggregateError(errors, "All promises were rejected"))
+                    }
+                })
+            }
+            
+        })        
+    }
 }
 
 
-callApi().then((user) => {
-    console.log("Check the user Data", user);
-    return user;
-}).then((user) => {
-    console.log("Check user subject", user.data.subject);
-    return user;
-}).catch((err) => {
-    console.log("Logging the error",err);
-})
-
-
-const usingAsyncAwait = async () => {
-    const res = await callApi();
-    console.log("Async await working:", res);
+class UncaughtMyPromiseError extends Error {
+    constructor(error) {
+        super(error)
+        this.stack = `(in promise) ${error.stack}`
+    }
 }
 
-usingAsyncAwait();
+module.exports = MyPromise;
