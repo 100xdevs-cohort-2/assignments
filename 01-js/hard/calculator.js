@@ -16,6 +16,34 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(result) {
+    this.result = 0;
+  }
+  add(num) {
+    this.result += num;
+  }
+  subtract(num) {
+    this.result -= num;
+  }
+  multiply(num) {
+    this.result *= num;
+  }
+  divide(num) {
+    if (num !== 0) this.result /= num;
+    else throw new Error(`${num} is not divisible`);
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+  calculate(string) {
+    this.result = eval(string);
+    if (isFinite(this.result)) this.result;
+    else throw new Error(`${string} is returned infinite`);
+  }
+}
 
 module.exports = Calculator;
