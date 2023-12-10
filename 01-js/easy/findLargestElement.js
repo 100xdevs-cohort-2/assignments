@@ -5,8 +5,15 @@
   - Output: 9
 */
 
-function findLargestElement(numbers) {
-    
-}
+// array.sort() function dosen't work correctly for neagtive number array.
 
+function findLargestElement(numbers) {
+    let largest_element = numbers[0];
+    for (let i=0;i<numbers.length ;i++)
+    {
+        if(numbers[i]>=largest_element)
+            largest_element=numbers[i];
+    }
+    return largest_element;
+}
 module.exports = findLargestElement;

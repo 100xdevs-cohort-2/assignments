@@ -11,7 +11,12 @@
 */
 
 class Todo {
-
+  constructor(todos){
+    this.todos=todos;
+  }
+  function add(task) {
+    
+  }
 }
 
 module.exports = Todo;
