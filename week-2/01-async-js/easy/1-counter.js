@@ -4,7 +4,7 @@
 // It should go up as time goes by in intervals of 1 second
 
 function createCounter() {
-    let count = 0;
+    let count = 1;
     console.log('Counter:', count);
     setInterval(function () {
       count++;

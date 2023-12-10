@@ -9,7 +9,7 @@ const fs = require('fs');
 
 function expensiveOperation() {
     let sum = 0;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10000000; i++) {
         sum += i;
     }
     console.log('Expensive operation completed '+sum);
