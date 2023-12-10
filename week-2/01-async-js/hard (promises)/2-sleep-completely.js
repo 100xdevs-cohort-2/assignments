@@ -3,6 +3,18 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
+//Does not block the thread
+function sleep(seconds) {
+  return new Promise(resolve => setTimeout(resolve, seconds * 1000))
+}
+function busyWait(seconds) {
 
 }
+async function work() {
+  console.log("hello");
+  for (let i = 0; i < 5; i++) {
+    console.log(i)
+    await sleep(2)
+  }
+}
+work()
