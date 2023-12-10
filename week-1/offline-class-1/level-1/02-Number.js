@@ -1,7 +1,9 @@
 function explainParseInt(value) {
   console.log("Original Value:", value);
+  console.log(typeof value);
   let result = parseInt(value);
   console.log("After parseInt:", result);
+  console.log(typeof result);
 }
 
 // Example Usage for parseInt
