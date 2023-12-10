@@ -3,6 +3,13 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
-
+function sleep(milliseconds) {
+  const start = new Date().getTime();
+  console.log('I am in Sleep mode');
+  while (new Date().getTime() - start < milliseconds) {
+  
+  }
+  console.log("I am awake now!");
 }
+
+sleep(6000);
