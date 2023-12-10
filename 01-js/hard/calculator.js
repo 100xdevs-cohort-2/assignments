@@ -17,29 +17,35 @@
 */
 
 class Calculator {
-  Calculator(result) {
-    let result = result;
+  constructor() {
+    this.result = 0;
   }
   add(num) {
-    result += num;
+    this.result += num;
   }
   subtract(num) {
-    result -= num;
+    this.result -= num;
   }
   multiply(num) {
-    result *= num;
+    this.result *= num;
   }
   divide(num) {
-    result /= num;
+    if (num == 0) throw Error("can't divide by 0");
+    this.result /= num;
   }
   clear() {
-    result = 0;
+    this.result = 0;
   }
   getResult() {
-    return result;
+    return this.result;
   }
   calculate(input) {
-    return 0;
+    input = input.replace(/\s+/g, '');
+    const result = eval(input);
+    if (isNaN(result) || !isFinite(result)) {
+      throw Error('Invalid expression');
+    }
+    this.result = result;
   }
 }
 
