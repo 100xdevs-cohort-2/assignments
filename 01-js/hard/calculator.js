@@ -16,6 +16,58 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  // Creat constructor for calculator intial the result value
+  constructor() {
+    this.result = 0;
+  }
+
+  // This function is for adding the given value and set it to result variable
+  add(num) {
+    return (this.result += num);
+  }
+
+  // This function is for subtract the given value and set it to result variable
+  subtract(num) {
+    return (this.result -= num);
+  }
+
+  // This function is for multiply the given value and set it to result variable
+  multiply(num) {
+    return (this.result *= num);
+  }
+
+  // This function is for divide the given value and set it to result variable
+  // and if the value is isNan and isFinite the give a exception
+  divide(num) {
+    let divResult = this.result;
+    let value = (divResult /= num);
+    if (isNaN(value) || !isFinite(value)) {
+      throw new Error();
+    } else {
+      return (this.result = value);
+    }
+  }
+
+  // This function is for set the result value as 0
+  clear() {
+    return (this.result = 0);
+  }
+
+  // This function is return the result value
+  getResult() {
+    return this.result;
+  }
+
+  //Here i used the Eval function which is inbuild js fuction to work
+  // on expression of arithmetic-expression.
+  calculate(expression) {
+    let value = eval(expression);
+    if (isNaN(value) || !isFinite(value)) {
+      throw new Error();
+    }
+    return (this.result = value);
+  }
+}
 
 module.exports = Calculator;
