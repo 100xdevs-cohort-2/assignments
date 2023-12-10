@@ -16,6 +16,53 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  result;
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    return (this.result += num);
+  }
+
+  subtract(num) {
+    return (this.result -= num);
+  }
+
+  multiply(num) {
+    return (this.result *= num);
+  }
+
+  divide(num) {
+    if (num > 0) {
+      this.result = this.result / num;
+    } else {
+      throw new Error("Number Should be greater than 0");
+    }
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(str) {
+    str = str.replace(/\s\s+/g, "");
+    if (str.includes("/ 0")) {
+      throw new Error();
+    }
+
+    try {
+      this.result = eval(str);
+      return this.result;
+    } catch (error) {
+      throw new Error();
+    }
+  }
+}
 
 module.exports = Calculator;
