@@ -7,16 +7,57 @@
 
 function waitOneSecond() {
 
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Resolved in one seconds");
+        }, 1000)
+    });
 }
 
 function waitTwoSecond() {
 
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Resolved in two seconds");
+        }, 2000)
+    });
 }
 
 function waitThreeSecond() {
 
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Resolved in three seconds");
+        }, 3000)
+    });
 }
 
 function calculateTime() {
 
+    console.time("Time Taken to resolve all the three Promises");
+
+    waitOneSecond()
+    .then((results) => {
+        console.log(results);
+        return waitTwoSecond();
+    })
+    .then((results) => {
+        console.log(results)
+        return waitThreeSecond();
+    })
+    .then((results) => {
+        console.log(results);
+        console.timeEnd("Time Taken to resolve all the three Promises")
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    
 }
+
+
+function main(){
+    
+    calculateTime();
+}
+main()
