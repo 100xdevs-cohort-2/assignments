@@ -9,5 +9,12 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
-}
+    let startAt = new Date().getMilliseconds();
+    let sum = 0;
+    for (let i = 1; i <= n; i++) {
+      sum += i;
+    }
+    let endAt = new Date().getMilliseconds();
+    let timeElapsed = (endAt - startAt) / 1000;
+    return timeElapsed;
+  }
