@@ -4,7 +4,11 @@
   "description": "This folder contains assignments related to asynchronous JavaScript.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "1-promisify-setTimeout": "npx jest ./tests/1-promisify-setTimeout.test.js",
+    "2-sleep-completely": "npx jest ./tests/2-sleep-completely.test.js",
+    "3-promise-all": "npx jest ./tests/3-promise-all.test.js",
+    "4-promise-chain": "npx jest ./tests/4-promise-chain.test.js",
+    "all": "npx jest ./tests/"
   },
   "keywords": [],
   "author": "",
