@@ -3,14 +3,14 @@ const countVowels = require('../medium/countVowels');
 describe('countVowels', () => {
     test('returns the correct count for strings with vowels', () => {
         expect(countVowels('hello')).toBe(2);
-        expect(countVowels('programming')).toBe(4);
-        expect(countVowels('OpenAI')).toBe(3);
+        expect(countVowels('programming')).toBe(3);
+        expect(countVowels('OpenAI')).toBe(4);
     });
 
     test('returns 0 for strings without vowels', () => {
         expect(countVowels('rhythm')).toBe(0);
         expect(countVowels('fly')).toBe(0);
-        expect(countVowels('chatbot')).toBe(0);
+        expect(countVowels('chatbot')).toBe(2);
     });
 
     test('returns 0 for an empty string', () => {
@@ -18,7 +18,7 @@ describe('countVowels', () => {
     });
 
     test('handles case-insensitivity correctly', () => {
-        expect(countVowels('EaSiEr')).toBe(3);
+        expect(countVowels('EaSiEr')).toBe(4);
         expect(countVowels('QUIET')).toBe(3);
         expect(countVowels('aEIOU')).toBe(5);
     });
