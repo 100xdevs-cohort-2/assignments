@@ -8,7 +8,4 @@ function wait(n) {
     });
 }
 
-const W = wait(3);
-W.then(function (){
-    console.log("3 seconds have passed");
-});
+module.exports = wait;

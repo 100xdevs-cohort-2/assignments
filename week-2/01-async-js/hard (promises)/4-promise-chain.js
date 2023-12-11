@@ -1,36 +1,39 @@
 /*
- * Write 3 different functions that return promises that resolve after 1, 2, and 3 seconds respectively.
+ * Write 3 different functions that return promises that resolve after t1, t2, and t3 seconds respectively.
  * Write a function that sequentially calls all 3 of these functions in order.
- * Print out the time it takes to complete the entire operation.
+ * Return a promise chain which return the time in milliseconds it takes to complete the entire operation.
  * Compare it with the results from 3-promise-all.js
  */
 
-function waitOneSecond() {
+function wait1(t) {
     return new Promise(function (resolve){
-        setTimeout(resolve, 1 * 1000);
+        setTimeout(resolve, t * 1000)
     });
 }
 
-function waitTwoSecond() {
+function wait2(t) {
     return new Promise(function (resolve){
-        setTimeout(resolve, 2 * 1000);
+        setTimeout(resolve, t * 1000)
     });
 }
 
-function waitThreeSecond() {
+function wait3(t) {
     return new Promise(function (resolve){
-        setTimeout(resolve, 3 * 1000);
+        setTimeout(resolve, t * 1000)
     });
 }
 
-function calculateTime() {
-    const StartTime = Date.now();
-    waitOneSecond().then(function (){
-        return waitTwoSecond();
+function calculateTime(t1, t2, t3) {
+
+    const start = Date.now();
+    let time = wait1(t1).then(function () {
+        return wait2(t2);
     }).then(function (){
-        return waitThreeSecond();
-    }).then(function (){
-        console.log("It took " + (Date.now() - StartTime)/1000 + " seconds");
+        return wait3(t3);
+    }).then(function(){
+        return Date.now() - start;
     });
+    return time;
 }
-calculateTime();
+
+module.exports = calculateTime;
