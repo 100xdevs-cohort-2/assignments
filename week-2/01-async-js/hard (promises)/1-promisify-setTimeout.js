@@ -6,10 +6,8 @@ function wait(n) {
     return new Promise((resolve,reject)=>{
         setTimeout(() => {
             resolve();
-        }, n);
+        }, n*1000);
     })
 }
 
-wait(2000).then((resolve)=> {
-    console.log("got the data")
-})
+module.exports = wait;

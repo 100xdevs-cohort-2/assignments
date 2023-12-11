@@ -1,38 +1,39 @@
 /*
- * Write 3 different functions that return promises that resolve after 1, 2, and 3 seconds respectively.
+ * Write 3 different functions that return promises that resolve after t1, t2, and t3 seconds respectively.
  * Write a function that uses the 3 functions to wait for all 3 promises to resolve using Promise.all,
- * Print how long it took for all 3 promises to resolve.
+ * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-
-function waitOneSecond() {
-    return new Promise((resolve)=> {
-        setTimeout(resolve, 1*1000);
+function waitOneSecond(t1) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, t1 * 1000);
     });
 }
 
-function waitTwoSecond() {
-    return new Promise((resolve)=> {
-        setTimeout(resolve, 2*1000);
+function waitTwoSecond(t2) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, t2 * 1000);
     });
-
 }
 
-function waitThreeSecond() {
-    
-    return new Promise((resolve)=> {
-        setTimeout(resolve, 3*1000);
+function waitThreeSecond(t3) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, t3 * 1000);
     });
-
 }
 
-function calculateTime() { 
-    let startDate = new Date();
-    let one = waitOneSecond();
-    let two= waitTwoSecond();
-    let three = waitThreeSecond();
+async function calculateTime(t1, t2, t3) {
+    const startTime = Date.now();
+    const promise1 = waitOneSecond(t1);
+    const promise2 = waitTwoSecond(t2);
+    const promise3 = waitThreeSecond(t3);
 
-    Promise.all([one,two,three]).then(result => console.log(new Date() - startDate));
+    return Promise.all([promise1, promise2, promise3])
+        .then(() => {
+            const endTime = Date.now();
+           
+            return endTime - startTime;
+        });
 }
 
-calculateTime()
+module.exports = calculateTime;
