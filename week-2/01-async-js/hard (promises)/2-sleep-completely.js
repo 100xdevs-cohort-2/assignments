@@ -4,5 +4,8 @@
  */
 
 function sleep (seconds) {
-
+    const start = Date.now();
+    while(Date.now() < start + seconds * 1000);
 }
+sleep(5);
+console.log("5 seconds have passed");

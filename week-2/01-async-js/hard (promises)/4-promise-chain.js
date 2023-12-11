@@ -6,17 +6,31 @@
  */
 
 function waitOneSecond() {
-
+    return new Promise(function (resolve){
+        setTimeout(resolve, 1 * 1000);
+    });
 }
 
 function waitTwoSecond() {
-
+    return new Promise(function (resolve){
+        setTimeout(resolve, 2 * 1000);
+    });
 }
 
 function waitThreeSecond() {
-
+    return new Promise(function (resolve){
+        setTimeout(resolve, 3 * 1000);
+    });
 }
 
 function calculateTime() {
-
+    const StartTime = Date.now();
+    waitOneSecond().then(function (){
+        return waitTwoSecond();
+    }).then(function (){
+        return waitThreeSecond();
+    }).then(function (){
+        console.log("It took " + (Date.now() - StartTime)/1000 + " seconds");
+    });
 }
+calculateTime();
