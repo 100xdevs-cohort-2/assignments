@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const cleanedStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  let reverseStr = '';
+
+  for (let i = cleanedStr.length - 1; i >= 0; i--) {
+   
+    reverseStr += cleanedStr[i];
+  }
+  return cleanedStr  === reverseStr;
 }
 
 module.exports = isPalindrome;
