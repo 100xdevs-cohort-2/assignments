@@ -1,0 +1,49 @@
+things to read self
+
+//////level 1 //////
+
+string
+length
+index of
+last index of
+slice -> start index , excluding the  index
+substring method - depreciated -> start index , till this length of index from start index
+
+replace -> target string , replace string 
+
+split method -> will return array from string by deviding it from given method
+let string = "md saif ur rahman"
+
+string.split(" ")
+
+trim -> remove extra spaces
+from begining and end
+
+toUpperCase
+toLowerCase
+
+
+
+array ,methods
+push , pop , shift , unshift , 
+array concatenation
+array for each operator
+map
+filter
+find
+sort
+
+
+///level 2 //////////
+ 
+ classes read theory of this in detail
+ date classes
+ json object
+ json .parse  - convert string into object
+ json. stringify - convert object into string
+
+ Math classes
+ Object classes
+ hasOwn property
+ object . assign
+ 
