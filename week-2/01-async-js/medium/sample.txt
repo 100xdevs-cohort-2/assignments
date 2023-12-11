@@ -1,0 +1,3 @@
+existing text in the file line 1
+existing text in the file line 2
+New line added
