@@ -18,4 +18,13 @@ function sleep(seconds) {
   console.log('Someother Work To be Done!!');
 }
 
-sleep(2);
+sleep(1);
+
+// INFO: this can also be done using async and await but i didn't prefered,
+// at first. so, looked for setTimeout/Promise.resolve with closures then into date. I didnt looked into online references before brainstorming and deciding to use Date comparison.
+
+/**
+ * REF:
+ * [javascriptdelay](https://www.sean.co.uk/a/webdesign/javascriptdelay.shtm)
+ * [JS Version of Sleep](https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep)
+ */
