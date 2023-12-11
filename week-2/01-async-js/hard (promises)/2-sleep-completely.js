@@ -3,6 +3,11 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
-
+function sleep(seconds) {
+  return new Promise((r) => setTimeout(r, seconds * 1000));
 }
+console.log("thread between");
+
+sleep(5).then(() => {
+  console.log("thread release");
+});

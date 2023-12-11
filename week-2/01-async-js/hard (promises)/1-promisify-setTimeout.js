@@ -3,4 +3,11 @@
 */
 
 function wait(n) {
+  return (new Promise((resolve) => setTimeout(resolve, n * 1000)).then(() =>
+    console.log("promise resolved " + new Date())
+  ).catch = (e) => {
+    console.log(e);
+  });
 }
+console.log("strt " + new Date());
+wait(5);
