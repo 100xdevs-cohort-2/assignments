@@ -5,15 +5,8 @@
 
 function sleepify(seconds) {
   console.log('Sleepify Constructed');
-  while (true) {
-    let condition = true;
-    function cb() {
-      condition = false;
-    }
-    if (!condition) {
-      break;
-    }
-    Promise.resolve(undefined).then(cb);
+  const ms = seconds * 1000 + new Date().getTime();
+  while (new Date() < ms) {
     console.log('Sleepify Running');
   }
 }
@@ -25,4 +18,4 @@ function sleep(seconds) {
   console.log('Someother Work To be Done!!');
 }
 
-sleep(1);
+sleep(2);
