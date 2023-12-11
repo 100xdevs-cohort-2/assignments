@@ -103,3 +103,14 @@ function sortExample(arr) {
   console.log("After sort:", arr);
 }
 sortExample([5, 2, 3, 4, 1]);
+
+//reduce()
+function reduceExample(arr) {
+  console.log("Original Array:", arr);
+  const max = arr.reduce(function (accumulator, currentValue) {
+    return Math.max(accumulator, currentValue);
+  }, arr[0]);
+  console.log("Maximum value:", max);
+}
+reduceExample([5, 2, 3, 4, 1]);
+
