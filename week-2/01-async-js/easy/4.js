@@ -5,8 +5,7 @@
 const fs=require('fs')
 
 fs.readFile('4.js','utf-8',(err,data)=>{
-    // data="aaaa"
-    fs.writeFile('4-write-to-file.md',data,(err)=>{
+    fs.writeFile('4-js',data,(err)=>{
         console.log(err);
     })
 })
