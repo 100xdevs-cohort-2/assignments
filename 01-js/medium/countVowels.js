@@ -6,7 +6,13 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  return str.split('').reduce((acc, current) => {
+    if ((/[aeiou]/i).test(current)) {
+      return acc + 1
+    } else {
+      return acc
+    }
+  }, 0)
 }
 
 module.exports = countVowels;
