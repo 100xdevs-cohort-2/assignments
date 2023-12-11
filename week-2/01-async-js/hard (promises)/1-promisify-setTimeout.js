@@ -6,9 +6,22 @@ function wait(n) {
     const myPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
           resolve();
-        }, n);
+        }, n * 1000);
     });
     return myPromise;
 }
 
 module.exports = wait;
+
+// function wait(n) {
+//     const myPromise = new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//           resolve();
+//         }, n);
+//     });
+//     return myPromise;
+// }
+
+// wait(2000).then((err)=>{
+//     console.log("after");
+// })
