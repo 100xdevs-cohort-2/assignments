@@ -1,3 +1,4 @@
+//writing a file using fs lib
 const fs = require('fs');
 const msg = `This is the message I have written
 jai sri ram!
