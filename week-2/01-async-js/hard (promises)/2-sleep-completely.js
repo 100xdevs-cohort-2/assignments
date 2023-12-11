@@ -3,6 +3,10 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
-
+const {wait}=require('./1-promisify-setTimeout')
+async function sleep (seconds) {
+    console.log('before waiting')
+    await wait(seconds);
+    console.log("after waiting")
 }
+// sleep(1000)

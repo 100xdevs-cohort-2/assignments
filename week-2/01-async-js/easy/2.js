@@ -17,7 +17,7 @@ function customSetInterval1(callback,duration){
     },duration)
 
 }
-customSetInterval1(printTime,1000);
+// customSetInterval1(printTime,1000);
 
 // v2
 
@@ -33,4 +33,7 @@ async function customSetInterval2(callback,duration){
         callback();
     }
 }
-customSetInterval2(printTime,1000);
+
+// customSetInterval2(printTime,1000);
+
+module.exports={customSetInterval2};

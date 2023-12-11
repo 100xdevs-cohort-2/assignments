@@ -3,4 +3,9 @@
 */
 
 function wait(n) {
+    return new Promise((res,rej)=>{
+        setTimeout(res,n);
+    })
 }
+
+module.exports={wait}
