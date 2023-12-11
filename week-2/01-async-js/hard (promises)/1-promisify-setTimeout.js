@@ -5,9 +5,9 @@
 function wait(n) {
    return new Promise((res, req) => {
       setTimeout(() => {
-         res(`Resolved after ${n} seconds`);
-      }, n);
+         res();
+      }, n * 1000);
    });
 }
 
-wait(1000).then((data) => console.log(data));
+module.exports = wait;

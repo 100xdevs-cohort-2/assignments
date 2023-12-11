@@ -5,42 +5,50 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function waitOneSecond() {
+function wait1(t) {
    return new Promise((res, req) => {
       setTimeout(() => {
          res('1 second passed');
-      }, 1000);
+      }, t * 1000);
    });
 }
 
-function waitTwoSecond() {
+function wait2(t) {
    return new Promise((res, req) => {
       setTimeout(() => {
          res('2 second passed');
-      }, 2000);
+      }, t * 1000);
    });
 }
 
-function waitThreeSecond() {
+function wait3(t) {
    return new Promise((res, req) => {
       setTimeout(() => {
          res('3 second passed');
-      }, 3000);
+      }, t * 1000);
    });
 }
 
-async function calculateTime() {
-   const start = new Date().getSeconds();
+async function calculateTime(t1, t2, t3) {
+   let start = new Date().getSeconds();
 
-   await waitOneSecond();
-   await waitTwoSecond();
-   await waitThreeSecond();
+   await wait1(t1);
+   await wait2(t2);
+   await wait3(t3);
 
-   const stop = new Date().getSeconds();
-   console.log(stop - start + 'sec');
+   let stop = new Date().getSeconds();
+
+   if (start > stop) {
+      start = 60 - start;
+      let data = start + stop;
+      return data * 1000;
+   }
+
+   let diff = stop - start;
+   return diff * 1000;
 }
 
-calculateTime();
+module.exports = calculateTime;
 
 // Output from 3-promise-all.js: 3seconds
 // All the three counters are executed parallely

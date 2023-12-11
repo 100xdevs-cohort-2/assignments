@@ -6,14 +6,14 @@
 function sleep(seconds) {
    return new Promise((res, req) => {
       setTimeout(() => {
-         res('Woke up after ' + seconds / 1000 + 's');
+         res();
       }, seconds);
    });
 }
 
-async function sleepFor(seconds) {
-   const data = await sleep(seconds * 1000);
-   console.log(data);
-}
+// async function sleepFor(seconds) {
+//    const data = await sleep(seconds * 1000);
+//    console.log(data);
+// }
 
-sleepFor(1);
+module.exports = sleep;
