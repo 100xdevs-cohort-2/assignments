@@ -5,10 +5,8 @@
  */
 
 
-const {wait}=require('./1-promisify-setTimeout')
+const wait=require('./1-promisify-setTimeout')
 async function sleep (seconds) {
-    console.log('before waiting')
     await wait(seconds);
-    console.log("after waiting")
 }
 module.exports = sleep;
