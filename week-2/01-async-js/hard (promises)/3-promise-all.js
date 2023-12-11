@@ -23,8 +23,8 @@ function waitTwoSecond() {
 function waitThreeSecond() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve("Third Promise");
-    }, 3000);
+      resolve("Second Promise");
+    }, 2000);
   });
 }
 

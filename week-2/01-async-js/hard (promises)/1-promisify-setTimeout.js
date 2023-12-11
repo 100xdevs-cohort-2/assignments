@@ -11,3 +11,5 @@ function wait(n) {
 }
 
 wait(5).then(() => console.log("Promise resolved after n seconds"));
+
+module.exports = wait;
