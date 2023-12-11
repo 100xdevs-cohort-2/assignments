@@ -7,7 +7,7 @@ function promisfy(n) {
     console.log('Promise Construcutor');
     setTimeout(() => {
       resolve();
-    }, n);
+    }, n * 1000);
   });
 }
 
@@ -17,4 +17,4 @@ function wait(n) {
   console.log('Promise Made');
 }
 
-wait(1000);
+wait(1);
