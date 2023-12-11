@@ -1,0 +1,1 @@
+This is an example of write from fs in node js
