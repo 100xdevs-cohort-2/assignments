@@ -27,7 +27,7 @@ function calculateTime(t1, t2, t3) {
     })
     .then(function () {
         let end = new Date();
-        // console.log("All promises have resolved after", (end - start)/1000, "seconds");
+        console.log("All promises have resolved after", (end - start)/1000, "seconds");
         return (end - start);
     })
     return p;

@@ -17,7 +17,7 @@ function sleep (milliseconds) {
         let curr = new Date();
         time = curr - start;
     }
-    // console.log("Slept for", time/1000, "seconds");
+    console.log("Slept for", time/1000, "seconds");
 
     return p;
 }

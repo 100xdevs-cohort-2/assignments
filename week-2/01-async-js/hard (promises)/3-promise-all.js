@@ -20,7 +20,7 @@ function calculateTime(t1, t2, t3) {
     let start = new Date();
     return Promise.all([wait(t1), wait(t2), wait(t3)]).then(function() {
         let end = new Date();
-        // console.log("All promises have resolved after", (end - start)/1000, "seconds");
+        console.log("All promises have resolved after", (end - start)/1000, "seconds");
         return (end - start);
     })
 }
