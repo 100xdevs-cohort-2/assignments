@@ -11,10 +11,10 @@
 //
 
 const fs = require("fs");
-fs.readFile("1-file-cleaner.txt", "utf8", function(err, data) {
+fs.readFile("1-file-cleaner.txt", "utf8", function (err, data) {
   if (err) throw Error;
   data = data.replace(/\s+/g, " ");
-  fs.writeFile("1-file-cleaner.txt", data, function(err) {
+  fs.writeFile("1-file-cleaner.txt", data, function (err) {
     if (err) throw Error;
     console.log("Finished Writing the Corrected Data");
   });
