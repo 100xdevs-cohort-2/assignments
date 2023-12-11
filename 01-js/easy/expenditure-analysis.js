@@ -14,7 +14,29 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  // console.log(transactions)
+  let alterd = {};
+  for (let i = 0; i < transactions.length; i++) {
+    let present = transactions[i].category;
+    if (alterd[present]) {
+      alterd[present] += transactions[i].price;
+    } else {
+      alterd[present] = transactions[i].price;
+    }
+  }
+
+  console.log(alterd);
+
+  let result = [];
+  for (let res in alterd) {
+    let obj = { category: res, totalSpent: alterd[res] };
+    result.push(obj);
+  }
+  console.log(result);
+  return result;
 }
 
+const transactions = [];
+
+calculateTotalSpentByCategory(transactions);
 module.exports = calculateTotalSpentByCategory;

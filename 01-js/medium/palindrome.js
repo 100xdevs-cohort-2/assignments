@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let removeSpaces = str.replace(/[^a-zA-Z]/g, "").toLowerCase().split(" ").join("")
+  for(let i=0;i<removeSpaces.length;i++){
+    if(removeSpaces[i]!== removeSpaces[removeSpaces.length-i-1]){
+      return false
+    }
+  }
+  return true
 }
+let str = 'madam'
+isPalindrome(str)
 
 module.exports = isPalindrome;
