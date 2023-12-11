@@ -5,8 +5,8 @@
   - Output: 9
 */
 
-function findLargestElement(numbers) {
-    
+export function findLargestElement(numbers) {
+    if (numbers.length !== 0) {
+        return numbers.reduce((a, b) => Math.max(a, b));
+    }
 }
-
-module.exports = findLargestElement;

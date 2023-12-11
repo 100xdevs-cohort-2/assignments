@@ -1,4 +1,4 @@
-const Calculator = require('../hard/calculator');
+import { Calculator } from "../hard/calculator";
 
 describe('Calculator', () => {
 	let calc;

@@ -1,4 +1,4 @@
-const findLargestElement = require('../easy/findLargestElement');
+import { findLargestElement } from "../easy/findLargestElement";
 
 describe('findLargestElement', () => {
     test('returns the largest element in the array', () => {

@@ -1,4 +1,4 @@
-const Todo = require('../hard/todo-list');
+import { Todo } from "../hard/todo-list";
 
 describe('Todo', () => {
 	let todoList;

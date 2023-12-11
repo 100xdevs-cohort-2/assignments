@@ -4,9 +4,14 @@
 
   Once you've implemented the logic, test your code by running
 */
-
+import _ from 'lodash'
 function countVowels(str) {
-    // Your code here
+    return str.toLowerCase().split('').reduce((acc, cur) => {
+      if (_.includes(['a','e','i','o','u'], cur)) {
+        acc ++
+      }
+      return acc
+    }, 0)
 }
 
-module.exports = countVowels;
+export { countVowels }

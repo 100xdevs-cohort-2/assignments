@@ -6,7 +6,26 @@
   "directories": {
     "test": "tests"
   },
+  "type": "module",
+  "jest": {
+    "transform": {}
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "todo-list-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/todo-list.test.js",
+    "anagram-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/anagram.test.js",
+    "palindrome-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests/palindrome.test.js"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
+    "babel-jest": "^29.7.0"
+  }
 }

@@ -5,8 +5,16 @@
   Output - [{ category1 - total_amount_spent_on_category1 }, { category2 - total_amount_spent_on_category2 }]
 */
 
-function calculateTotalSpentByCategory(transactions) {
-  return [];
+export function calculateTotalSpentByCategory(transactions) {
+  return transactions.reduce((acc, transaction) => {
+    const { category, price } = transaction;
+    const existingCategory = acc.find((item) => item.category === category)
+    if (existingCategory) {
+      existingCategory.totalSpent += price
+    } else {
+      acc.push({category, totalSpent: price})
+    }
+    return acc;
+  }, []);
 }
 
-module.exports = calculateTotalSpentByCategory;
