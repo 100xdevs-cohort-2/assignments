@@ -16,6 +16,73 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  // Method to add a number to the result
+  add(number) {
+    this.result += number;
+  }
+
+  // Method to subtract a number from the result
+  subtract(number) {
+    this.result -= number;
+  }
+
+  // Method to multiply the result by a number
+  multiply(number) {
+    this.result *= number;
+  }
+
+  // Method to divide the result by a number
+  divide(number) {
+    if (number === 0) {
+      throw new Error("Cannot divide by zero");
+    }
+    this.result /= number;
+  }
+
+  // Method to clear the result and set it to zero
+  clear() {
+    this.result = 0;
+  }
+
+  // Method to get the current result value
+  getResult() {
+    return this.result;
+  }
+
+  // Method to evaluate and set the result based on a mathematical expression
+  calculate(expression) {
+    // Clean the expression by removing multiple continuous spaces and trimming
+    const cleanedExpression = expression.replace(/\s+/g, " ").trim();
+
+    // Check for invalid characters using a regular expression
+    if (!/^[0-9\s\+\-\*\/\(\)\.]+$/.test(cleanedExpression)) {
+      throw new Error("Invalid characters in the expression");
+    }
+
+    try {
+      // Use the Function constructor to create a function that returns the result
+      const calculationFunction = new Function("return " + cleanedExpression);
+
+      // Evaluate the expression and get the result
+      const result = calculationFunction();
+
+      // Check if the result is a finite number and not NaN
+      if (!isFinite(result) || isNaN(result)) {
+        throw new Error("Invalid expression");
+      }
+
+      // Set the calculator's result to the calculated value
+      this.result = result;
+    } catch (error) {
+      // If there's an error during evaluation, throw an "Invalid expression" error
+      throw new Error("Invalid expression");
+    }
+  }
+}
 
 module.exports = Calculator;
