@@ -7,6 +7,12 @@
 
 function countVowels(str) {
     // Your code here
+    let len = str.length;
+    let numVovels = 0;
+    while(len--){
+      if(str[len-1] == 'a' || str[len-1] == "e" || str[len-1] == 'i' || str[len-1] == 'o' || str[len-1] == 'u') numVovels++;
+    }
+    return numVovels;
 }
 
 module.exports = countVowels;

@@ -6,7 +6,9 @@
 */
 
 function findLargestElement(numbers) {
-    
+    let largest = -1000000;
+    numbers.map(num => {num>largest ? largest = num : largest=largest;})
+    return largest;
 }
 
 module.exports = findLargestElement;
