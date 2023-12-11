@@ -3,8 +3,8 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep(seconds) {
-  const targetDate = new Date().setSeconds(new Date().getSeconds() + seconds);
+function sleep(milliseconds) {
+  const targetDate = new Date().setMilliseconds(new Date().getMilliseconds() + milliseconds);
   let time = new Date();
   let timer = targetDate - time.getTime();
   while (timer > 0) {
@@ -14,5 +14,5 @@ function sleep(seconds) {
 }
 
 console.log("before timer");
-sleep(5);
+sleep(5000);
 console.log("after timer");
