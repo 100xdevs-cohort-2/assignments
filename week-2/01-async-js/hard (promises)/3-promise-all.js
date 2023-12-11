@@ -25,7 +25,7 @@ function waitThreeSecond() {
 function calculateTime() {
   const startTime = Date.now();
   Promise.all([waitOneSecond(), waitTwoSecond(), waitThreeSecond()])
-    .then((value) => console.log({ value }))
+    .then()
     .catch((e) => console.error({ e }))
     .finally(() => {
       const endTime = Date.now();
@@ -44,5 +44,5 @@ async function calculateTimeX() {
   console.log(`It took ${seconds} seconds for X.`);
 }
 
-calculateTime();
 calculateTimeX();
+calculateTime();
