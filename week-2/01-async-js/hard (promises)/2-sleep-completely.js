@@ -3,6 +3,17 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
-
+function sleep(seconds) {
+   return new Promise((res, req) => {
+      setTimeout(() => {
+         res('Woke up after ' + seconds / 1000 + 's');
+      }, seconds);
+   });
 }
+
+async function sleepFor(seconds) {
+   const data = await sleep(seconds * 1000);
+   console.log(data);
+}
+
+sleepFor(1);

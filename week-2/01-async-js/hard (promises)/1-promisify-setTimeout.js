@@ -3,4 +3,11 @@
 */
 
 function wait(n) {
+   return new Promise((res, req) => {
+      setTimeout(() => {
+         res(`Resolved after ${n} seconds`);
+      }, n);
+   });
 }
+
+wait(1000).then((data) => console.log(data));
