@@ -5,19 +5,9 @@
  */
 
 function sleep(milliseconds) {
-  const targetDate = new Date().setMilliseconds(
-    new Date().getMilliseconds() + milliseconds
-  );
-  let time = new Date();
-  let timer = targetDate - time.getTime();
-  while (timer > 0) {
-    time = new Date();
-    timer = targetDate - time.getTime();
-  }
+  return new Promise(resolve => {
+    setTimeout(resolve, milliseconds);
+  });
 }
-
-console.log("before timer");
-sleep(5000);
-console.log("after timer");
 
 module.exports = sleep;
