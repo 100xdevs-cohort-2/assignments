@@ -11,9 +11,4 @@ function sleep(seconds) {
    });
 }
 
-// async function sleepFor(seconds) {
-//    const data = await sleep(seconds * 1000);
-//    console.log(data);
-// }
-
 module.exports = sleep;
