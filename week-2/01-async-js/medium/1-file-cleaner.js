@@ -13,19 +13,21 @@
 // ```
 const fs = require('fs');
 function readFile() {
-    let ans= '';
+    let ans = '';
     fs.readFile('file.txt' , 'utf-8' , function (err , data) {
-        let dataArr = data.split(" ");
-        
-        for(let i =0;i < dataArr.length;i++) {
-           dataArr[i] = dataArr[i].trim();
-           if(dataArr[i] === '') {
-               dataArr.splice(i,1);
-           }
-        }
-
-        ans = dataArr.join(' ');
-        return ans;
+        console.log(data);
+        let dataArr =data.split(' ');
+        let arr = dataArr.filter(d => d.length !== 0);
+        ans = arr.join(' ');
+        fs.writeFile('file.txt', ans , (err) => {   
+            if(err){
+                console.log(err);
+            } 
+            else {
+                console.log(ans);
+            }
+        });  
     })
 }
-console.log(readFile());
+
+readFile();
