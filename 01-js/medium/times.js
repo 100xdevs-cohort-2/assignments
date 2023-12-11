@@ -9,5 +9,16 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let start = new Date();
+    let sum = 0;
+    for(let t = 1; t <= n; t++) {
+        sum += t;
+    }
+    let end = new Date();
+    return (end - start);
 }
+
+times = [100, 100000, 1000000000];
+times.forEach(element => {
+    console.log("Time taken to run " + String(element) + " iterations :", calculateTime(element), "ms")
+});
