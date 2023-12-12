@@ -12,3 +12,5 @@ function wait(n) {
 wait(2000).then((data) => {
   console.log(data);
 });
+
+module.exports = wait;
