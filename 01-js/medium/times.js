@@ -23,8 +23,9 @@ function calculateTime(n) {
   
     console.log(`Sum is: ${total}`);
     console.log(`Total time taken is: ${totalTime} secs`);
+    
   }
 
-  
+
   
 
