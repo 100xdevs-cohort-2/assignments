@@ -7,5 +7,4 @@ function counter(){
 
     },1000);
 }
-
 counter();
