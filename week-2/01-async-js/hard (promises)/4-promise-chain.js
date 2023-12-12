@@ -4,19 +4,30 @@
  * Print out the time it takes to complete the entire operation.
  * Compare it with the results from 3-promise-all.js
  */
-
 function waitOneSecond() {
+    return new Promise((resolve) =>{
+        setTimeout(resolve, 1000);
+    });
 
 }
 
 function waitTwoSecond() {
+    return new Promise((resolve)=>{
+        setTimeout(resolve, 2000)
+    });
 
 }
 
 function waitThreeSecond() {
-
+    return new Promise((resolve) => {
+        setTimeout(resolve, 3000)
+    });
 }
 
-function calculateTime() {
-
+async function calculateTime() {
+    let start = Date.now();
+    await waitOneSecond().then(waitTwoSecond).then(waitThreeSecond);
+    return Date.now() - start;
 }
+
+calculateTime().then((time) => console.log(time));
