@@ -16,6 +16,87 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  calculate(input) {
+    console.log("check");
+    if (typeof input !== "string") return "Not valid input type";
+    input = input.replace(/\s/g, "");
+
+    if (!this.isValidExpression(input)) return "Invalid expression";
+
+    console.log(this.parseExpression(input));
+    // return this.evaluateExpression(this.parseExpression(input));
+  }
+
+  evaluateExpression(input) {
+    
+  }
+
+  parseExpression(input) {
+    const tokens = [];
+    let currentToken = "";
+
+    // separating numbers and operators in array
+    for (let i = 0; i < input.length; i++) {
+      if (input[i] === "." || this.isDigit(input[i])) {
+        currentToken += input[i];
+      } else if (this.isOperator(input[i]) || this.isParenthesis(input[i])) {
+        if (currentToken !== "") {
+          tokens.push(currentToken);
+          currentToken = "";
+        }
+        tokens.push(input[i]);
+      }
+    }
+
+    // last char number
+    if (currentToken !== "") tokens.push(currentToken);
+    return tokens;
+  }
+
+  isDigit(input) {
+    const digitRegex = /\d/;
+    return digitRegex.test(input);
+  }
+
+  isOperator(input) {
+    return /[\+\-\*\/]/.test(input);
+  }
+
+  isParenthesis(input) {
+    return /[()]/.test(input);
+  }
+
+  add(input) {
+    if (typeof input !== "number") return;
+    this.result = this.result + input;
+  }
+
+  subtract(input) {
+    if (typeof input !== "number") return;
+    this.result = this.result - input;
+  }
+
+  multiply(input) {
+    if (typeof input !== "number") return;
+    this.result = this.result * input;
+  }
+
+  divide(input) {
+    if (typeof input !== "Number") return;
+    this.result = this.result / input;
+  }
+
+  isValidExpression(expression) {
+    const validChars = /^[0-9+\-*/().]+$/;
+    return validChars.test(expression);
+  }
+}
+
+new Calculator().calculate("10 +   2 *    (   6 - (4 + 1) / 2) + 7");
 
 module.exports = Calculator;
