@@ -6,6 +6,7 @@
 
 function isAnagram(str1, str2) {
 tuefttfiwffru
+ghgghg
 }
 
 module.exports = isAnagram;
