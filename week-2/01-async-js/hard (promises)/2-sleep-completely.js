@@ -4,5 +4,12 @@
  */
 
 function sleep (seconds) {
-
+    return new Promise(function(resolve) {
+        setTimeout(function() {
+            resolve();
+        }, seconds*1000);
+    } )
 }
+
+
+sleep(5).then(()=>{console.log("resolved")});
