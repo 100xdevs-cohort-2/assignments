@@ -7,42 +7,37 @@
 
 function wait1(t) {
     return new Promise(function(resolve) {
-        setTimeout(() => {
-            resolve('foo1');
-        }, 1000);
+        setTimeout(resolve, t*1000);
     })
 }
 
 function wait2(t) {
     return new Promise(function(resolve) {
-        setTimeout(() => {
-            resolve('foo2');
-        }, 2000);
+        setTimeout(resolve, t*1000);
     })
 }
 
-function wait3() {
+function wait3(t) {
     return new Promise(function(resolve) {
-        setTimeout(() => {
-            resolve('foo3');
-        }, 3000);
+        setTimeout(resolve, t*1000);
     })
 }
 
 function calculateTime(t1, t2, t3) {
-    var startTime = new Date().getTime();
-    wait1(t1).then(
-        wait2(t2).then(
-            wait3(t3).then(
-                function() {
-                    var endTime = new Date().getTime();
-                    console.log("Time taken in milliseconds = ", (endTime - startTime));
+    const startTime = new Date().getTime();
+    
+    return new Promise((resolve) => {
+        wait1(t1).then( () => 
+            wait2(t2).then( () => 
+                wait3(t3).then( () => {
+                    const endTime = new Date().getTime();
+                    resolve(endTime - startTime);
                 }
-            )
+            ))
         )
-    )
+    })
+    
 }
 
-calculateTime();
 module.exports = calculateTime;
 

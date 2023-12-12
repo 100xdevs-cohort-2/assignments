@@ -12,7 +12,6 @@ function sleep(milliseconds) {
     } )
 }
 
-
-sleep(5000).then(()=>{console.log("resolved")});
+//sleep(5000).then(()=>{console.log("resolved")});
 
 module.exports = sleep;

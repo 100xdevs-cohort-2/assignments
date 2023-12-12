@@ -5,15 +5,9 @@
 function wait(n) {
     return new Promise(function(resolve) {
         setTimeout(function() {
-            resolve('foo')
+            resolve();
         }, n*1000);
     }) 
 }
-
-function onDone() {
-    console.log('promise has resolved');
-}
-
-wait(5).then(onDone);
 
 module.exports = wait;
