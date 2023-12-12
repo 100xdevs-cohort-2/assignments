@@ -15,3 +15,5 @@ function onDone() {
 }
 
 wait(5).then(onDone);
+
+module.exports = wait;
