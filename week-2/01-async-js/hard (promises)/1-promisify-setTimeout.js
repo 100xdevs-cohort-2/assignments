@@ -10,6 +10,4 @@ function wait(n) {
     })
 }
 
-wait(2).then(function (value) {
-    console.log(value);
-});
+module.exports = wait;
