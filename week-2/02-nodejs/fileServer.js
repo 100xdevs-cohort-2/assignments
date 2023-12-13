@@ -18,9 +18,15 @@ const path = require('path');
 const app = express();
 
 app.get('/files',(req,res)=>{
-  file_list=fs.readdirSync('./files')
-  console.log(file_list)
-  res.status(200).send(JSON.stringify(file_list))
+  fs.readdir('./files',(err,list)=>{
+    if(err){
+      res.status(500).send('Internal Server Error')
+    }
+      console.log(list)
+      res.status(200).send(JSON.stringify(list))
+    
+  })
+  
 })
 
 app.get('/file/:filename',(req,res)=>{
