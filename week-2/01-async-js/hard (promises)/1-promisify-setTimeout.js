@@ -10,4 +10,6 @@ function wait(n) {
     })
 }
 
+wait(2);
+
 module.exports = wait;
