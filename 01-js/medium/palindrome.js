@@ -4,6 +4,17 @@
 */
 
 function isPalindrome(str) {
+  // steps - 
+  // remove the punctuations and white spaces using regex
+  // check for equality of the characters by iterating through the string from both ends
+
+  str = str.replace(/[.,?! ]/g, "").toLowerCase();
+  const len = str.length;
+  for (let i = 0, j = len - 1; i <= j; i++, j--) {
+    if (str[i] !== str[j])
+      return false;
+  }
+
   return true;
 }
 
