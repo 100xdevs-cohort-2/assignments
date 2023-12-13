@@ -10,5 +10,11 @@ function sleep (seconds) {
     return Promise.resolve();
 }
 
+// async function sleep (milliseconds) {
+//     let p = new Promise(resolve=>setTimeout(resolve, milliseconds));
+//     await p;
+//     return Promise.resolve();
+// }
+
 
 module.exports = sleep;
