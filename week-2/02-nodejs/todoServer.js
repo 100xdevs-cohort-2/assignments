@@ -46,4 +46,70 @@
   
   app.use(bodyParser.json());
   
+  const port = 3000;
+
+  let idNo = 1
+  let firstTask = {
+    id: idNo,
+    title: "Academy",
+    completed: false,
+    description: "Project"
+  }
+
+  const list = [firstTask];
+
+  app.get('/todos', (req, res)=>{
+    res.json(list).status(200);
+  })
+
+  app.get('/todos/:id', (req, res)=>{
+    list.forEach((element)=> {
+      if(element.id == req.params.id){
+        res.json(element).status(200);
+      }
+    })
+    res.send("Not found").status(404);
+  })
+
+  app.post('/todos', (req, res)=>{
+    idNo++;
+    const newItem = {
+      id: idNo,
+      title: req.body.title,
+      description: req.body.description
+    }
+    list.push(newItem);
+    res.status(201).json(newItem);
+  })
+
+  app.put('/todos/:id', (req, res)=>{
+    list.forEach((element)=> {
+      if(element.id == req.params.id){
+        element.title = "Buy groceries";
+        element.completed = true;
+        delete element.description;
+
+        res.json(element).status(404);
+      }
+    })
+    res.send("Not found").status(404);
+  })
+
+  app.delete('/todos/:id', (req, res)=>{
+    for(let i=0; i<list.length; i++){
+      if(list[i].id == req.params.id){
+        list.splice(i, 1);
+      }
+      res.redirect("/todos");
+    }
+    res.send("Not found").status(404);
+  })
+
+  app.listen(port, ()=>{
+    module.exports = app;
+    console.log(`Listening on port ${port}.`);
+  })
+
+
+
   module.exports = app;
