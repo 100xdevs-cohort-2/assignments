@@ -5,12 +5,8 @@
  */
 
 function sleep(milliseconds) {
+   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
-
-module.exports = sleep;
-
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
 
 const delayExecute = async () =>{
     console.log("Delayed");
@@ -22,3 +18,5 @@ const delayExecute = async () =>{
 
 
 delayExecute();
+
+module.exports = sleep;

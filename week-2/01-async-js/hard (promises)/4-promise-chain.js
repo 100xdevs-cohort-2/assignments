@@ -6,32 +6,40 @@
  */
 function wait1(t) {
     return new Promise((resolve) =>{
-        setTimeout(resolve, 1000);
+        setTimeout(resolve, t*1000);
     });
-
 }
 
 function wait2(t) {
     return new Promise((resolve)=>{
-        setTimeout(resolve, 2000)
+        setTimeout(resolve, t*1000)
     });
-
 }
 
 function wait3(t) {
     return new Promise((resolve) => {
-        setTimeout(resolve, 3000)
+        setTimeout(resolve, t*1000)
     });
 }
 
 async function calculateTime(t1, t2, t3) {
     let start = Date.now();
-    await waitOneSecond().then(waitTwoSecond).then(waitThreeSecond);
+    await wait1(t1).then(async () =>{
+        await wait2(t2).then(async () => {
+            await wait3(t3).then(()=> {
+            });
+        });
+    });
     return Date.now() - start;
 }
 
-}
 
 module.exports = calculateTime;
 
-calculateTime().then((time) => console.log(time));
+async function printTimeDiff(){
+    const diff = await calculateTime(1, 2, 3);
+    console.log(diff);
+}
+
+
+printTimeDiff();
