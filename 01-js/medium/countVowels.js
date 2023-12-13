@@ -6,7 +6,10 @@
 */
 
 function countVowels(str) {
-    // Your code here
+    str = [...str.toLowerCase()].filter((ele)=>{
+      return ['a','e','i','o','u'].includes(ele) ? true : false
+    })
+    return str.length
 }
 
 module.exports = countVowels;
