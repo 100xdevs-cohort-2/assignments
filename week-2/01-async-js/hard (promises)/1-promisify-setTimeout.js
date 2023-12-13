@@ -3,6 +3,7 @@
 */
 
 function wait(n) {
+
     return new Promise((resolve) => {
     const time=n/1000;
       setTimeout(() => {
@@ -20,3 +21,7 @@ function wait(n) {
       console.error(error);
     });
   
+}
+
+module.exports = wait;
+
