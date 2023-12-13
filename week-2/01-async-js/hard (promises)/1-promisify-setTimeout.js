@@ -3,11 +3,16 @@
 */
 
 function wait(n) {
-    return new Promise(function(resolve){
+    const p = new Promise(function(resolve){
         setTimeout(resolve, n);
     });
+    return p;
+
 }
 
-wait(3000).then(function(){
+wait(n).then(function(){
     console.log("received resolve");
 })
+
+
+module.exports = wait;
