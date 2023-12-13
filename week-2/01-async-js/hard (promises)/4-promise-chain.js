@@ -24,21 +24,18 @@ function wait3(t) {
 
 async function calculateTime(t1, t2, t3) {
     let start = Date.now();
-    await wait1(t1).then(async () =>{
-        await wait2(t2).then(async () => {
-            await wait3(t3).then(()=> {
-            });
+    return wait1(t1).then(() => wait2(t2)).then(() => wait3(t3)).then(()=> { 
+        return new Promise((resolve) => {
+            resolve(Date.now() - start);
         });
     });
-    return Date.now() - start;
 }
 
 
 module.exports = calculateTime;
 
 async function printTimeDiff(){
-    const diff = await calculateTime(1, 2, 3);
-    console.log(diff);
+   calculateTime(1, 2, 3).then((diff) => console.log(diff));
 }
 
 
