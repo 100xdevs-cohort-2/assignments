@@ -4,7 +4,11 @@
  * Print how long it took for all 3 promises to resolve.
  */
 
+function wait1(t) {
 
+}
+
+function wait2(t) {
 function waitOneSecond() {
     return new Promise((resolve) =>{
         setTimeout(resolve, 1000);
@@ -12,12 +16,15 @@ function waitOneSecond() {
 
 }
 
+function wait3(t) {
 function waitTwoSecond() {
     return new Promise((resolve)=>{
         setTimeout(resolve, 2000)
     });
 
 }
+
+function calculateTime(t1, t2, t3) {
 
 function waitThreeSecond() {
     return new Promise((resolve) => {
@@ -30,5 +37,6 @@ async function calculateTime() {
     await Promise.all([waitOneSecond(), waitTwoSecond(), waitThreeSecond()]);
     return Date.now() - start;
 }
+module.exports = calculateTime;
 
 calculateTime().then((time) => console.log(time));
