@@ -5,4 +5,20 @@ Can you make it so that it updates every second, and shows time in the following
 
  - HH:MM::SS (Eg. 13:45:23)
 
+ setInterval(function() {
+    const currentTime = new Date();
+  console.log(currentTime.getHours() + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds() + " " + currentTime.toLocaleString('en-US'));
+},1000)
+
  - HH:MM::SS AM/PM (Eg 01:45:23 PM)
+
+ setInterval(function () {
+  const currentTime = new Date();
+  console.log(
+    currentTime.toLocaleString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    }),
+  );
+}, 1000);
