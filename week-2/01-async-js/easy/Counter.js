@@ -6,12 +6,14 @@ const runCounter = () => {
     console.log(counter);
   }, 1000);
 };
+runCounter();
 
+// Counter using setTimeout
 let counter2 = 0;
-const updateCounter = () => {
+const runCounter2 = () => {
   counter2++;
   console.log(counter2);
-  setTimeout(updateCounter, 1000);
+  setTimeout(runCounter2, 1000);
 };
 
-runCounter();
+runCounter2();
