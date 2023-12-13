@@ -5,6 +5,17 @@
  */
 
 function sleep(milliseconds) {
+  let startTime = Date.now();
+  let elapsedTime = 0;
+  return new Promise((resolve, reject) => {
+    function busyWait() {
+      while (elapsedTime < milliseconds) {
+        elapsedTime = Date.now() - startTime;
+      }
+      resolve();
+    }
+    setTimeout(busyWait, 0);
+  });
 }
 
 module.exports = sleep;
