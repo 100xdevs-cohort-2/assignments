@@ -3,14 +3,9 @@
 */
 
 function wait(n) {
-    let ms = n*1000;
-    if(ms<1000){
-        return -1;
-    }
-    const promise = new Promise((resolve) => {
-        setTimeout(resolve, ms);
+    return new Promise((resolve) => {
+        setTimeout(resolve, n*1000);
     });
-    return promise;
 }
 
 module.exports = wait;
