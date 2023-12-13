@@ -1,13 +1,24 @@
-## File cleaner
-Read a file, remove all the extra spaces and write it back to the same file.
 
-For example, if the file input was
-```
-hello     world    my    name   is       raman
-```
+const fs = require('fs');
 
-After the program runs, the output should be
+const filePath = 'b.txt';
 
-```
-hello world my name is raman
-```
+
+fs.readFile(filePath, 'utf8', (readErr, data) => {
+  if (readErr) {
+    console.error('Error reading file:', readErr);
+    return;
+  }
+
+ 
+  const modifiedContent = data.replace(/\s+/g, ' ');
+
+  
+  fs.writeFile(filePath, modifiedContent, (writeErr) => {
+    if (writeErr) {
+      console.error('Error writing to file:', writeErr);
+    } else {
+      console.log('File has been successfully modified and saved.');
+    }
+  });
+});
