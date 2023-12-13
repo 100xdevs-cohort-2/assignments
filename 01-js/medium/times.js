@@ -9,5 +9,23 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let sum = 0;
+    for(let i = 0 ; i < n ; i++)
+    {
+        sum += i; 
+    }
+    return (console.log("Total sum is:", sum)); 
 }
+
+let beforeSeconds = new Date();
+const b_t = beforeSeconds.getSeconds() 
+
+console.log("Before Summation :", b_t);
+
+calculateTime(10000000000)
+
+let afterSeconds = new Date();
+const a_t = afterSeconds.getSeconds();
+console.log("After Summation :", a_t);
+
+console.log("Total time taken :" , a_t-b_t)
