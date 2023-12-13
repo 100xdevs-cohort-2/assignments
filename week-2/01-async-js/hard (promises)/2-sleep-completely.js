@@ -1,10 +1,13 @@
 /*
  * Write a function that halts the JS thread (make it busy wait) for a given number of milliseconds.
  * During this time the thread should not be able to do anything else.
+ * the function should return a promise just like before
  */
 
-function sleep (seconds) {
+function sleep(milliseconds) {
+}
 
+<<<<<<< HEAD
     // Date.now() returns the total milliseconds since 1 jan 1970
     // getTime() returns the current time
 
@@ -24,3 +27,6 @@ function main(){
 }
 
 main();
+=======
+module.exports = sleep;
+>>>>>>> upstream/master

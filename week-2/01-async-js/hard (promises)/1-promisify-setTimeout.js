@@ -3,6 +3,7 @@
 */
 
 function wait(n) {
+<<<<<<< HEAD
 
     let delayPromise = new Promise((resolve, reject) => {
         
@@ -35,3 +36,8 @@ function main()
 }
 
 main();
+=======
+}
+
+module.exports = wait;
+>>>>>>> upstream/master
