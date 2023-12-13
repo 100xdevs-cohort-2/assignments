@@ -14,7 +14,17 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let arr = [];
+  for(let i of transactions){
+    const isObjExists = arr.find(el=>el.category === i.category);
+    if(isObjExists){
+      isObjExists.totalSpent = i.price + isObjExists.totalSpent
+    }else{
+      arr.push({category:i.category,totalSpent: i.price})
+    }
+  }
+  console.log(arr)
+return arr;
 }
 
 module.exports = calculateTotalSpentByCategory;
