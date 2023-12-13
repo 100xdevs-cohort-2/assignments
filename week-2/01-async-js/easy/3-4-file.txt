@@ -1,0 +1,1 @@
+Writing to the file to understand the async nature of writeToFile function
