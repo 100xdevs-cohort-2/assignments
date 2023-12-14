@@ -4,8 +4,9 @@
 
 
 // You can use the fs library to as a black box, the goal is to understand async tasks.
+const fs = require('fs');
 function writeToFile(){
-    const fs = require('fs');
+   
     const filePath='a.txt';
     const cont='Hello!';
     let datatowrite=readFromFile("a.txt");
@@ -18,11 +19,11 @@ function writeToFile(){
     
 }
 function readFromFile(path){
-    const fs= require('fs');
     let fileData='';
     const a= fs.readFile(path,'utf-8',(err,data)=>{
         if(err) throw new Error("Custom Error");
         fileData=data;
+        console.log(fileData);
         return fileData;
     })   
 }
