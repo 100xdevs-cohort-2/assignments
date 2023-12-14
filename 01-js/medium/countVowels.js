@@ -7,7 +7,7 @@
 
 function countVowels(str) {
     // Your code here
-    let result = string.replace(/\s+/g, "").trim().toLowerCase();
+    let result = str.replace(/\s+/g, "").trim().toLowerCase();
   let counter = 0;
   for (let i = 0; i < result.length; i++) {
     switch (result[i]) {
