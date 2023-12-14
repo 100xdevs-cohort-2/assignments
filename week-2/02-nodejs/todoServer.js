@@ -21,14 +21,14 @@
     Request Body: JSON object representing the todo item.
     Response: 201 Created with the ID of the created todo item in JSON format. eg: {id: 1}
     Example: POST http://localhost:3000/todos
-    Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
+    Request Body: { "title": "Buy groceries", "description": false, description: "I should buy groceries" }
     
   4. PUT /todos/:id - Update an existing todo item by ID
     Description: Updates an existing todo item identified by its ID.
     Request Body: JSON object representing the updated todo item.
     Response: 200 OK if the todo item was found and updated, or 404 Not Found if not found.
     Example: PUT http://localhost:3000/todos/123
-    Request Body: { "title": "Buy groceries", "completed": true }
+    Request Body: { "title": "Buy groceries", "description": true }
     
   5. DELETE /todos/:id - Delete a todo item by ID
     Description: Deletes a todo item identified by its ID.
@@ -39,11 +39,58 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+  res.json(todos);
+});
+app.get("/todos/:id ", (req, res) => {
+  const todo = todos.find(e => e.id === parseInt(req.params.id));
+  if (!todo) {
+    res.status(404).send();
+  } else {
+    res.json(todo);
+  }
+});
+app.post("/todos", (req, res) => {
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+  };
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+app.put("/todos/:id/", (req, res) => {
+  const index = todos.findIndex(e => e.id === parseInt(req.params.id));
+  if (index === -1) {
+    res.status(404).send();
+
+
+  } else {
+    todos[index].title = req.body.title;
+    todos[index].description = req.body.description;
+    res.json(todos[index]);
+  }
+});
+app.delete("/todos/:id", (req, res) => {
+  const index = todos.findIndex(e => e.id === parseInt(req.params.id));
+  if (index !== -1) {
+    todos.splice(index, 1);
+    res.status(200).send();
+  } else {
+    res.status(404).send();
+  }
+});
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+module.exports = app;
