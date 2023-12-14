@@ -4,21 +4,21 @@
  * the function should return a promise just like before
  */
 
-const fs = require("fs");
-
-function sleep(seconds) {
-  var start = Date.now();
-
-  //Blocking I/O request
-  while (Date.now() - start < seconds * 1000) {
-    //busy-waiting
-  }
+function sleep(milliseconds) {
+  return new Promise((resolve) => {
+    const startTime = Date.now();
+    // Busy wait
+    while (Date.now() - startTime < milliseconds) {}
+    resolve();
+  });
 }
 
+module.exports = sleep;
+
 //Timer in seconds since since midnight January 1, 1970
-console.log(`Start thread freez time (s): `, Math.floor(Date.now() / 1000));
-sleep(5);
-console.log(`End thread freeze time (s): `, Math.floor(Date.now() / 1000));
+// console.log(`Start thread freez time (s): `, Math.floor(Date.now() / 1000));
+// sleep(5);
+// console.log(`End thread freeze time (s): `, Math.floor(Date.now() / 1000));
 
 //Freezes the JS thread synchronously | Also called blocking I/O operation.
 

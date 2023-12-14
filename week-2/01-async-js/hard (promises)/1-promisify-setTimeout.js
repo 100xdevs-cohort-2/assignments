@@ -12,9 +12,10 @@ function wait(n) {
   });
 }
 
-function delay(n) {
-  console.log(`A promise returned after some seconds`);
-}
+// function delay() {
+//   console.log(`A promise returned after some seconds`);
+// }
 
-wait(5).then(delay);
+module.exports = wait;
+//wait(5).then(delay);
 //useful for chaining of function those are interdependent.

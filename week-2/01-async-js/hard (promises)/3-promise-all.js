@@ -4,41 +4,39 @@
  * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-function wait1(t1) {
+function wait1(t) {
   return new Promise(function (resolve) {
     setTimeout(function () {
-      resolve("Executes after 1 sec");
-    }, t1 * 1000);
+      resolve();
+    }, t * 1000);
   });
 }
 
-function wait2(t2) {
+function wait2(t) {
   return new Promise(function (resolve) {
     setTimeout(function () {
-      resolve("Executes after 2 sec");
-    }, t2 * 1000);
+      resolve();
+    }, t * 1000);
   });
 }
 
-function wait3(t3) {
+function wait3(t) {
   return new Promise(function (resolve) {
     setTimeout(function () {
-      resolve("Executes after 3 sec");
-    }, t3 * 1000);
+      resolve();
+    }, t * 1000);
   });
 }
 
 function calculateTime(t1, t2, t3) {
-  var start = performance.now();
-  Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then(() => {
-    var end = performance.now() - start;
-    console.log(
-      `Total time taken for all the promises to resolve (ms): ${end}` //About 3000 ms
-    );
+  var start = Date.now();
+  return Promise.all([wait1(t1), wait2(t2), wait3(t3)]).then(() => {
+    var end = Date.now() - start;
+    return end;
   });
 }
 
-calculateTime(1, 2, 3);
+module.exports = calculateTime;
 
 //--To print resolve statements as soon as they are executed--
 // function calculateTime() {
@@ -58,5 +56,3 @@ calculateTime(1, 2, 3);
 //     console.log(`Time taken by all promises together: ${end}`);
 //   });
 // }
-
-module.exports = calculateTime;
