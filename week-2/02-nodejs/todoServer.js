@@ -101,6 +101,14 @@ app.delete("/todos/:id", (req, res) => {
   }
 });
 
-
+app.put("/todos/:id", (req, res) => {
+  const foundElementIndex = todosList.findIndex(todo => todo.id === req.params.id);
+  if (foundElementIndex !== -1) {
+    todosList[foundElementIndex] = { ...todosList[foundElementIndex], ...req.body };
+    res.sendStatus(200);
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
 
 module.exports = app;
