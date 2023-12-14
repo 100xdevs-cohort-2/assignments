@@ -81,6 +81,15 @@ app.get("/todos", (req, res) => {
   }
 });
 
+app.get("/todos/:id", (req, res) => {
+  const foundElement = todosList.find(todo => todo.id === req.params.id);
+  if (foundElement) {
+    res.status(200).send(JSON.stringify(foundElement));
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
 app.listen(3000);
 
 module.exports = app;
