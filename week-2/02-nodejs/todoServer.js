@@ -47,6 +47,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
+const errorResponses = {
+  badRequest: {
+    "error": "Bad Request",
+    "message": "The request could not be processed due to invalid syntax or missing parameters."
+  },
+  notFound: {
+    "error": "Not Found",
+    "message": "The requested resource could not be found."
+  },
+};
+
 let todosList = [];
 
 app.post("/todos", (req, res) => {
@@ -58,9 +69,18 @@ app.post("/todos", (req, res) => {
     });
     res.status(201).send(JSON.stringify({ id: todosList.slice(-1)[0].id }));
   } else {
-    res.status(400).send("Bad Request");
+    res.status(400).json(errorResponses.badRequest);
   }
 });
 
+app.get("/todos", (req, res) => {
+  if (todosList.length > 0) {
+    res.status(200).send(JSON.stringify(todosList));
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+app.listen(3000);
 
 module.exports = app;
