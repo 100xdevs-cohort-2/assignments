@@ -9,5 +9,14 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let sum = 0;
+    let starthrs = new Date().getHours();
+    let startmin = new Date().getMinutes();
+    let startsec = new Date().getSeconds();
+    for (let i = 0; i < n; i++) {
+        sum+=i;
+    }
+    return ((((new Date().getHours() - starthrs) *60 + new Date().getMinutes() - startmin)*60) +  new Date().getSeconds() - startsec) + " seconds";
 }
+console.log(calculateTime(100000000000));
+
