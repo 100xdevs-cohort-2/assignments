@@ -48,24 +48,27 @@ const { error } = require('console');
   
   const app = express();
   app.use(bodyParser.json());
-  const FILE='todos.json'
+  const FILE='./todos.json'
+  let idGen=1;
 
   app.get('/todos',async (req,res)=>{
     try{
       const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
-      return res.status(201).json(todos);
+      return res.status(200).json(todos);
     }
     catch(e){
+      
       return res.status(400).json({"message":e.message});
     }
   })
 
   app.get('/todos/:id',async (req,res)=>{
     try{
-      const id=req.params;
+      const id=req.params.id;
       const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
-      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
-      return res.status(200).json(todos[id]);
+      if(isNaN(id)) return res.status(404).json({"message":"invalid id"})
+      const todo=todos.filter((ele)=>ele.id==id);
+      return res.status(200).json(todo[0]);
     }
     catch(e){
       return res.status(400).json({"message":e.message});
@@ -76,25 +79,26 @@ const { error } = require('console');
     try{
       const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
       const todo=req.body;
-      const id=todo.length;
-      todos.push(todo);
+      todos.push({...todo,"id":idGen});
       await fs.writeFile(FILE,JSON.stringify(todos))
-
-      return res.status(200).json({"id":id});
+      return res.status(201).json({"id":idGen++});
     }
     catch(e){
+      // console.log(e)
       return res.status(400).json({"message":e.message});
     }
   })
 
   app.put('/todos/:id',async (req,res)=>{
     try{
-      const id=req.params;
+      const id=req.params.id;
       const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
-      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
+      if(isNaN(id) ) return res.status(404).json({"message":"invalid id"})
+      const newTodos=todos.filter((ele)=>ele.id!=id);
+      if(todos.length == newTodos.length ) return res.status(404).json({"message":"invalid id"})
       const todo=req.body;
-      todos[id]=todo;
-      await fs.writeFile(FILE,JSON.stringify(todos))
+      newTodos.push({...todo,"id":id});
+      await fs.writeFile(FILE,JSON.stringify(newTodos))
       
       return res.status(200).json({"status":"updated"});
     }
@@ -105,21 +109,18 @@ const { error } = require('console');
 
   app.delete('/todos/:id',async (req,res)=>{
     try{
-      const id=req.params;
-      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
-      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
-      todos.splice(id,1);
-      await fs.writeFile(FILE,JSON.stringify(todos))
+      const id=req.params.id;
+      let todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      if(isNaN(id) ) return res.status(404).json({"message":"invalid id"})
+      const deletedTodos=todos.filter((ele)=>ele.id!=id);
+      if(todos.length==deletedTodos.lenght) return res.status(404).json({"message":"invalid id"})
+      await fs.writeFile(FILE,JSON.stringify(deletedTodos))
       
       return res.status(200).json({"status":"updated"});
     }
     catch(e){
       return res.status(400).json({"message":e.message});
     }
-  })
-
-  app.listen(PORT,()=>{
-    console.log(`------------SERVER IS UP AT PORT ${PORT}------------`)
   })
   
   module.exports = app;
