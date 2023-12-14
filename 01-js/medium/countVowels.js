@@ -6,7 +6,10 @@
 */
 
 function countVowels(str) {
+    const vowelString = str.length === 0 ? '' : str.toLowerCase().match(/[aeiou]/ig)?.join('');
+    return vowelString ? vowelString.length : 0 ;
     // Your code here
+
 }
 
 module.exports = countVowels;
