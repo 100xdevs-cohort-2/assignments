@@ -39,11 +39,28 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todosList = [];
+
+app.post("/todos", (req, res) => {
+  if (req.body.title !== undefined && req.body.description !== undefined) {
+    todosList.push({
+      id: uuid.v4(),
+      title: req.body.title,
+      description: req.body.description
+    });
+    res.status(201).send(JSON.stringify({ id: todosList.slice(-1)[0].id }));
+  } else {
+    res.status(400).send("Bad Request");
+  }
+});
+
+
+module.exports = app;
