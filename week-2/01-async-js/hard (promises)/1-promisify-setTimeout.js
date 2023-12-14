@@ -12,7 +12,7 @@ function wait(n) {
 
 async function op(n){
   let res = await wait(n)
-  console.log(res)
+  res
 } 
 op(1)
 module.exports = wait;

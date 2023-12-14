@@ -32,19 +32,19 @@ function wait3(t) {
 function calculateTime(t1, t2, t3) {
   const start = Date.now()
   return wait1(t1).then(function(res){
-    console.log(res)
+  
     return wait2(t2)
   }).then(function (res2){
-    console.log(res2)
+    
     return wait3(t3)
   }).then(function(res3){
-    console.log(res3)
+  
     const end = Date.now()
     return end - start
   })
 }
 calculateTime(1,2,3).then(function(res){
-  console.log(res)
+  res
 })
 
 module.exports = calculateTime;

@@ -38,7 +38,7 @@ function calculateTime(t1, t2, t3) {
 }
 
  calculateTime(10,1,1).then(function(res){
-    console.log(res)
+   res
  })
 
 module.exports = calculateTime;

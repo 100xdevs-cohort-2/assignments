@@ -12,7 +12,7 @@ function sleep(milliseconds) {
     }
     console.log('awake')
     return new Promise(function(resolve){
-       setTimeout( resolve(console.log("it works")),milliseconds)
+       setTimeout( resolve(),milliseconds)
     })
 }
 sleep(20000)
