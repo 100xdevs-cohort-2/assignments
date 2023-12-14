@@ -4,7 +4,9 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+function sleep(seconds) {
+  const start = Date.now();
+  while (Date.now() - start < seconds * 1000) {}
 }
 
-module.exports = sleep;
+sleep(5);
