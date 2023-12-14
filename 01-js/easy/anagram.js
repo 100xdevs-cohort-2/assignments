@@ -21,7 +21,7 @@ function isAnagram(str1, str2) {
     if (!counter[items]) {
       return false;
     }
-    counter[items] -= 1;
+    counter[items] -= 1;  
   }
   return true;
 }

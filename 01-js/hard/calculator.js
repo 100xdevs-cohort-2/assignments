@@ -16,6 +16,53 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(result) {
+    this.result = result;
+  }
+
+  add(num) {
+    this.result = this.result + num;
+  }
+
+  subtract(num) {
+    this.result = this.result - num;
+  }
+
+  multiply(num) {
+    this.result = this.result * num;
+  }
+
+  divide(num) {
+    if (num === 0) {
+      throw new Error("Cannot divide by 0");
+    }
+    this.result = Math.abs(this.result / num);
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    console.log(parseFloat(this.result));
+  }
+
+  calculate(exp) {
+    const cleanExp = exp.replace(/\s+/g, " ").trim();
+
+    try {
+      this.result = eval(cleanExp);
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        throw new Error("Invalid expression syntax");
+      } else if (error instanceof TypeError) {
+        throw new Error("Invalid expression type");
+      } else {
+        throw new Error(`Error in evaluating expression: ${error.message}`);
+      }
+    }
+  }
+}
 
 module.exports = Calculator;
