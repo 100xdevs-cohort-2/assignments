@@ -36,7 +36,6 @@ app.get("/file/:filename", (req, res) => {
       if (err) {
         res.status(500).send("Internal Server Error");
       } else {
-        console.log(fileContent);
         res.status(200).send(fileContent);
       }
     });
