@@ -5,6 +5,11 @@
  */
 
 function sleep(milliseconds) {
-}
+    const d1 = Date.now() + milliseconds
+    while(d1>Date.now()){
 
+    }
+    return
+}
+sleep(3000)
 module.exports = sleep;
