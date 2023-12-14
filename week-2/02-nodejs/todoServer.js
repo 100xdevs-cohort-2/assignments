@@ -82,13 +82,11 @@
     res.status(201).json(newItem);
   })
 
-  
   app.put('/todos/:id', (req, res)=>{
     list.forEach((element)=> {
       if(element.id == req.params.id){
-        element.title = "Buy groceries";
-        element.completed = true;
-        delete element.description;
+        element.title = req.body.title;
+        element.description = req.body.description
 
         res.json(element).status(404);
       }
@@ -100,17 +98,16 @@
     for(let i=0; i<list.length; i++){
       if(list[i].id == req.params.id){
         list.splice(i, 1);
+        res.status(200).send();
       }
-      res.redirect("/todos");
     }
     res.send("Not found").status(404);
   })
 
-  app.listen(port, ()=>{
-    module.exports = app;
-    console.log(`Listening on port ${port}.`);
-  })
-
+  app.use((req, res, next) => {
+    res.status(404).send();
+  });
+  
 
 
   module.exports = app;
