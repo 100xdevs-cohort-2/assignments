@@ -11,11 +11,11 @@ function countVowels(str) {
   }
   let vowelCount = 0;
 
-  const newStr = str.toLowerCase().split("").sort();
+  const newStr = str.toLowerCase();
 
   for (let i = 0; i < newStr.length; i++) {
     if (isVowel(newStr[i])) {
-      vowelCount += 1;
+      vowelCount++;
     }
   }
 
@@ -26,6 +26,6 @@ function countVowels(str) {
   return vowelCount;
 }
 
-console.log(countVowels("heyThere!!A"));
+console.log(countVowels('heyThere'))
 
 module.exports = countVowels;
