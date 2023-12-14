@@ -39,11 +39,70 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [
+  {
+    id: 1,
+    title: "Wake up",
+    description: "Wake up at 8am",
+  },
+];
+
+app.get("/todos", (req, res) => {
+  res.status(200).send(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  if (!todos.some((todo) => todo.id === req.params.id)) {
+    res.status(404).send("Not Found!");
+  } else {
+    let data = todos.filter((e) => e.id == req.params.id);
+    res.send(data);
+  }
+});
+
+app.post("/todos", (req, res) => {
+  let newTodo = {
+    id: todos.length + 1,
+    title: req.body.title,
+    description: req.body.description,
+  };
+
+  todos.push(newTodo);
+  res.status(201).send(`{id:${newTodo.id}}`);
+});
+
+app.put("/todos/:id", (req, res) => {
+  if (todos.some((todo) => todo.id == req.params.id)) {
+    // console.log("available");
+    todos[req.params.id - 1].title = req.body.title;
+    todos[req.params.id - 1].description = req.body.description;
+    res.status(200).send(todos);
+  } else {
+    res.status(404).send("Not Found");
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  if (todos.some((todo) => todo.id == req.params.id)) {
+    let newTodos = todos.filter((e) => e.id != req.params.id);
+    todos = [];
+    todos = newTodos;
+    res.status(200).send(`{id:${req.params.id}}`);
+  } else {
+    res.status(404).send("Not Found");
+  }
+});
+
+app.get("*", (req, res) => {
+  res.status(404).send("Not Found!");
+});
+
+app.listen(3000);
+
+module.exports = app;
