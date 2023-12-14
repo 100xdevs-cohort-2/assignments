@@ -37,5 +37,5 @@ function calculateTotalSpentByCategory(transactions) {
  }
   return list;
 }
-console.log(calculateTotalSpentByCategory(transactions))
+
 module.exports = calculateTotalSpentByCategory;
