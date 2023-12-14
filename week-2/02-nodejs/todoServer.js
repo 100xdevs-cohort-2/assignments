@@ -39,11 +39,87 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
   const express = require('express');
   const bodyParser = require('body-parser');
+const { error } = require('console');
+  const fs=require('fs').promises;
+  const PORT=3000;
   
   const app = express();
-  
   app.use(bodyParser.json());
+  const FILE='todos.json'
+
+  app.get('/todos',async (req,res)=>{
+    try{
+      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      return res.status(201).json(todos);
+    }
+    catch(e){
+      return res.status(400).json({"message":e.message});
+    }
+  })
+
+  app.get('/todos/:id',async (req,res)=>{
+    try{
+      const id=req.params;
+      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
+      return res.status(200).json(todos[id]);
+    }
+    catch(e){
+      return res.status(400).json({"message":e.message});
+    }
+  })
+
+  app.post('/todos',async (req,res)=>{
+    try{
+      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      const todo=req.body;
+      const id=todo.length;
+      todos.push(todo);
+      await fs.writeFile(FILE,JSON.stringify(todos))
+
+      return res.status(200).json({"id":id});
+    }
+    catch(e){
+      return res.status(400).json({"message":e.message});
+    }
+  })
+
+  app.put('/todos/:id',async (req,res)=>{
+    try{
+      const id=req.params;
+      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
+      const todo=req.body;
+      todos[id]=todo;
+      await fs.writeFile(FILE,JSON.stringify(todos))
+      
+      return res.status(200).json({"status":"updated"});
+    }
+    catch(e){
+      return res.status(400).json({"message":e.message});
+    }
+  })
+
+  app.delete('/todos/:id',async (req,res)=>{
+    try{
+      const id=req.params;
+      const todos= JSON.parse(await fs.readFile(FILE,'utf-8'));
+      if(isNaN(id) || id<0 || id>=todos.length) return res.status(404).json({"message":"invalid id"})
+      todos.splice(id,1);
+      await fs.writeFile(FILE,JSON.stringify(todos))
+      
+      return res.status(200).json({"status":"updated"});
+    }
+    catch(e){
+      return res.status(400).json({"message":e.message});
+    }
+  })
+
+  app.listen(PORT,()=>{
+    console.log(`------------SERVER IS UP AT PORT ${PORT}------------`)
+  })
   
   module.exports = app;
