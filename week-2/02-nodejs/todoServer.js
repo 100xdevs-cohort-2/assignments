@@ -65,7 +65,8 @@ app.post("/todos", (req, res) => {
     todosList.push({
       id: uuid.v4(),
       title: req.body.title,
-      description: req.body.description
+      description: req.body.description,
+      completed: false,
     });
     res.status(201).send(JSON.stringify({ id: todosList.slice(-1)[0].id }));
   } else {
