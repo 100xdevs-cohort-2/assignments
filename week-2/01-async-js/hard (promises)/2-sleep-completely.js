@@ -1,9 +1,18 @@
 /*
- * Write a function that halts the JS thread (make it busy wait) for a given number of milliseconds.
+ * Write a function that halts the JS thread (make it busy wait) 
+for a given number of milliseconds.
  * During this time the thread should not be able to do anything else.
  * the function should return a promise just like before
  */
 
+function sleep(seconds) {
+    let date = new Date().getTime();
+    while (new Date().getTime() - date < seconds) {
+
+    }
+    console.log("Out of sleep")
+}
+sleep(4000)
 function sleep(milliseconds) {
 }
 
