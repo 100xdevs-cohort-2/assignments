@@ -39,11 +39,165 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const shortid = require("shortid")
+const fs = require("fs").promises; 
+const app = express();
+
+// Path of the json file for local storage
+const filePath = __dirname + "/todos.json";
+
+// MIDDLEWARES
+app.use(bodyParser.json());
+
+function handleErrors(res, err)
+{
+  if(err.code === "ENOENT" || err.name === "Error [ERR_FS_FILE_NOT_FOUND]")
+  {
+    return res.status(404).json({message: "ID doesn't exists so file not found!"})
+  }
+
+  else
+  {
+    return res.status(500).json({message: "Internal Server Error!"});
+  }
+}
+
+// ROUTES
+
+// get all the todos 
+app.get("/todos", async (req, res) => {
+
+  try {
+    const data = await fs.readFile(filePath, "utf-8");
+    const todos = JSON.parse(data);
+    res.status(200).json(todos);
+
+  } 
+
+  catch (err) 
+  {
+    console.error(err);
+    handleErrors(res, err);
+  }
+
+});
+
+app.route("/todos/:id")
+
+// get a todo with a specific id
+.get(async (req, res) => {
   
-  const app = express();
+  const taskId = req.params.id;
+
+  try 
+  {
+    const data = await fs.readFile(filePath, "utf-8");
+    const todos = JSON.parse(data);
+    const selectedTodo = todos.find(todo => todo.id === taskId);
+
+    if (!selectedTodo) 
+    {
+      return res.status(404).json({ message: "ID not found!" });
+    } 
+
+    res.status(200).json(selectedTodo);
+  } 
+
+  catch (err) {
+    console.error(err);
+    handleErrors(res, err);
+  }
+
+})
+
+// update an existing todo
+.put(async (req, res) => {
+  const taskId = req.params.id;
+
+  try 
+  {
+
+    const data = await fs.readFile(filePath, "utf-8");
+    let todos = JSON.parse(data);
+
+    const updateTaskIndex = todos.findIndex(todo => todo.id === taskId);
+    const toUpdateTask = todos[updateTaskIndex];
+
+    if (!toUpdateTask) 
+    { 
+      return res.status(404).json({ message: "ID not found" });
+
+    } 
+    
+    const newTask = { id: toUpdateTask.id, title: req.body.title, description: req.body.description, completed: req.body.completed };
+    todos[updateTaskIndex] = newTask;
+
+    await fs.writeFile(filePath, JSON.stringify(todos));
+    res.status(200).json({ message: "successfully updated" });
+
+  }
+
+  catch (err) 
+  {
+    console.error(err);
+    handleErrors(res, err);
+  }
+
+})
+// delete a todo
+.delete(async (req, res) => {
+  const taskId = req.params.id;
+
+  try {
+
+    const data = await fs.readFile(filePath, "utf-8");
+    let todos = JSON.parse(data);
+    const toDelete = todos.find(todo => todo.id === taskId);
+
+    if (!toDelete) {
+      return res.status(404).json({ message: "ID not Found" });
+    }
+
+    todos = todos.filter(todo => todo.id !== taskId);
+    await fs.writeFile(filePath, JSON.stringify(todos));
+
+    res.status(200).json({ message: "Successfully deleted!", deletedTask: toDelete });
+
+  } 
+
+  catch (err) 
+  {
+    console.error(err);
+    handleErrors(res, err);
+  }
+
+})
+
+app.post("/todos", async (req, res) => {
+
+  const title = req.body.title;
+  const description = req.body.description;
+  const completed = false;
+  const id = shortid.generate();
+  const newTask = { id: id, title: title, description: description, completed: completed };
+
+  try 
+  {
+    const data = await fs.readFile(filePath, "utf-8");
+    const todos = JSON.parse(data);
+    todos.push(newTask);
+    await fs.writeFile(filePath, JSON.stringify(todos));
+    res.status(201).json({ id });
+  } 
+
+  catch (err) {
+    console.error(err);
+    handleErrors(res, err);
+  }
+
+});
+
+module.exports = app;
   
-  app.use(bodyParser.json());
-  
-  module.exports = app;

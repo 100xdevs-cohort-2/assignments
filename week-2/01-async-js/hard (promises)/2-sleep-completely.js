@@ -5,28 +5,35 @@
  */
 
 function sleep(milliseconds) {
-}
 
-<<<<<<< HEAD
+
     // Date.now() returns the total milliseconds since 1 jan 1970
     // getTime() returns the current time
 
-    let ms = seconds * 1000;
+    return new Promise((resolve, reject) => {
 
-    let currentTime = new Date().getTime();
-    while(new Date().getTime() - currentTime != ms);
+        // reject if milliseconds is less than 0 or milliseconds is not a number
+        if(isNaN(milliseconds) || milliseconds < 0)
+        {
+            reject("Invalid value of n!");
+        }
 
-    console.log(`The Halt for ${seconds} seconds is done!`);
+
+        let currentTime = Date.now();
+        while(Date.now() - currentTime != milliseconds);
+        // console.log(`The Halt for ${milliseconds / 1000} seconds is done!`);
+        resolve()
+    })
+
+
 }
 
 function main(){
 
     console.log("start");
-    sleep(10);
+    sleep(10_000);
     console.log("end");
 }
 
 main();
-=======
 module.exports = sleep;
->>>>>>> upstream/master

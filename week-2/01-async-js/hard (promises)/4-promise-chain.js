@@ -9,8 +9,8 @@ function wait1(t) {
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve("Resolved in one seconds");
-        }, 1000)
+            resolve();
+        }, t)
     });
 }
 
@@ -18,8 +18,8 @@ function wait2(t) {
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve("Resolved in two seconds");
-        }, 2000)
+            resolve();
+        }, t)
     });
 }
 
@@ -27,28 +27,30 @@ function wait3(t) {
 
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve("Resolved in three seconds");
-        }, 3000)
+            resolve();
+        }, t)
     });
 }
 
 function calculateTime(t1, t2, t3) {
 
-<<<<<<< HEAD
-    console.time("Time Taken to resolve all the three Promises");
+    var startTime = Date.now();
 
-    waitOneSecond()
+    // promise chaining
+    return wait1(t1 * 1000)
     .then((results) => {
         console.log(results);
-        return waitTwoSecond();
+        return wait2(t2 * 1000);
     })
     .then((results) => {
         console.log(results)
-        return waitThreeSecond();
+        return wait3(t3 * 1000);
     })
     .then((results) => {
         console.log(results);
-        console.timeEnd("Time Taken to resolve all the three Promises")
+        var endTime = Date.now();
+        var timeTaken = endTime - startTime;
+        return timeTaken;
     })
     .catch((err) => {
         console.log(err)
@@ -57,13 +59,19 @@ function calculateTime(t1, t2, t3) {
 }
 
 
-function main(){
-    
-    calculateTime();
-}
-main()
-=======
+async function main() {
+    try {
+        const t = await calculateTime(1, 2, 3);
+        console.log(`Total time taken: ${t} milliseconds`);
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
 }
 
+main();
+
+
+main()
+
+
 module.exports = calculateTime;
->>>>>>> upstream/master

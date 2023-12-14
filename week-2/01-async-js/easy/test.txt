@@ -1,0 +1,2 @@
+This is a message written using fs.writeFile 
+ It overwrites all the text content

@@ -3,7 +3,6 @@
 */
 
 function wait(n) {
-<<<<<<< HEAD
 
     let delayPromise = new Promise((resolve, reject) => {
         
@@ -16,7 +15,8 @@ function wait(n) {
         // resolve 
         n *= 1000; // convert secs to ms
         setTimeout(() => {
-            resolve(`${n/1000} secs have passed!`);
+            // resolve(`${n/1000} secs have passed!`);
+            resolve();
         }, n)
         
     })
@@ -36,8 +36,6 @@ function main()
 }
 
 main();
-=======
-}
+
 
 module.exports = wait;
->>>>>>> upstream/master

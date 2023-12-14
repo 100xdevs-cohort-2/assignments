@@ -4,73 +4,65 @@
  * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-<<<<<<< HEAD
 
-function waitOneSecond() {
+function wait1(t) {
     return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('Resolved after 1 second');
-      }, 1000);
+        setTimeout(() => {
+          resolve();
+        }, t);
+      });
+}
+
+
+function wait2(t) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+        resolve();
+        }, t);
     });
-  }
-  
-// Function that returns a promise resolving after 2 seconds
-function waitTwoSecond() {
-return new Promise(resolve => {
-    setTimeout(() => {
-    resolve('Resolved after 2 seconds');
-    }, 2000);
-});
 }
 
 // Function that returns a promise resolving after 3 seconds
-function waitThreeSecond() {
-return new Promise(resolve => {
-    setTimeout(() => {
-    resolve('Resolved after 3 seconds');
-    }, 3000);
-});
-=======
-function wait1(t) {
-
-}
-
-function wait2(t) {
-
-}
-
 function wait3(t) {
-
->>>>>>> upstream/master
+    return new Promise(resolve => {
+        setTimeout(() => {
+        resolve();
+        }, t);
+    });
 }
 
 function calculateTime(t1, t2, t3) {
 
-<<<<<<< HEAD
-    console.time("Time Taken to resolve all the three Promises");
+    // console.time("Time Taken to resolve all the three Promises");
+    const startTime = Date.now();
 
-    const promise1 = waitOneSecond();
-    const promise2 = waitTwoSecond();
-    const promise3 = waitThreeSecond();
+    const promise1 = wait1(t1 * 1000);
+    const promise2 = wait2(t2 * 1000);
+    const promise3 = wait3(t3 * 1000);
 
-    Promise.all([promise1, promise2, promise3])
+    return Promise.all([promise1, promise2, promise3])
     .then((results) => {
         console.log(results);
-        console.timeEnd("Time Taken to resolve all the three Promises")
+        const endTime = Date.now();
+        const timeTaken = endTime - startTime;
+        return timeTaken;
     })
     .catch((err) => {
         console.log(err)
     })
+
 }
 
-function main()
-{
-    calculateTime();
+async function main() {
+    try {
+        const t = await calculateTime(1, 2, 3);
+        console.log(`Total time taken: ${t} milliseconds`);
+    } catch (error) {
+        console.error(`Error: ${error}`);
+    }
 }
 
 main();
-=======
-}
+
 
 module.exports = calculateTime;
->>>>>>> upstream/master
