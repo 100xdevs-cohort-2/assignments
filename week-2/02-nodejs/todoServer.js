@@ -90,6 +90,16 @@ app.get("/todos/:id", (req, res) => {
   }
 });
 
-app.listen(3000);
+app.delete("/todos/:id", (req, res) => {
+  const foundElementIndex = todosList.findIndex(todo => todo.id === req.params.id);
+  if (foundElementIndex !== -1) {
+    todosList.splice(foundElementIndex, 1);
+    res.sendStatus(200);
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+
 
 module.exports = app;
