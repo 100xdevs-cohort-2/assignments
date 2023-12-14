@@ -11,7 +11,7 @@ describe('Todo API', () => {
 
   beforeAll((done) => {
     if (globalServer) {
-        globalServer.close();
+      globalServer.close();
     }
     globalServer = server.listen(3000);
     done()

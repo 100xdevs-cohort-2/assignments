@@ -39,11 +39,98 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+class Todo {
+  Constructor(name, desc, id, completed) {
+    this.title = name;
+    this.id = id;
+    this.description = desc;
+    this.completed = completed;
+  }
+}
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+
+module.exports = app;
+
+let objectMap = new Map();
+let idSet = new Set();
+
+app.get('/todos/:id?', (req, res) => {
+  const id = req.params.id || undefined;
+  let result;
+
+  if (id != undefined) {
+    result = (objectMap.get((Number)(id)));
+    if (result != undefined) {
+      res.status(200).json(result);
+    }
+    else {
+      res.status(404).send('Not found!');
+    }
+  }
+  else {
+    let answer = [];
+    for (const k of objectMap.keys()) {
+      answer.push(objectMap.get(k));
+    }
+    res.status(200).json(answer);
+  }
+});
+
+app.post('/todos/', (req, res) => {
+  let found = false;
+  while (!found) {
+    let randomId = Math.floor(Math.random() * 1000000);
+    if (!idSet.has(randomId)) {
+      idSet.add(randomId);
+      const title = req.body.title;
+      const desc = req.body.description;
+      let todo = new Todo();
+      todo.id = randomId;
+      todo.completed = false;
+      todo.description = desc;
+      todo.title = title;
+      console.log("inserting the item with itemId " + randomId);
+      objectMap.set(todo.id, todo);
+      res.status(201).json({ "id": todo.id });
+      found = true;
+    }
+  }
+})
+
+app.put('/todos/:id', (req, res) => {
+  const key = (Number)(req.params.id) || undefined;
+  if (objectMap.has(key)) {
+    const title = req.body.title;
+    const completed = req.body.completed;
+    let value = objectMap.get(key);
+    console.log(value + " " + typeof value);
+    value.completed = completed;
+    value.title = title;
+    objectMap.set(key, value);
+    res.status(200).send('OK');
+  }
+  else {
+    res.status(404).send('Not Found!');
+  }
+})
+
+app.delete('/todos/:id', (req, res) => {
+  const key = (Number)(req.params.id);
+  if (objectMap.has(key)) {
+    objectMap.delete(key);
+    res.status(200).send('Delete Successful');
+  }
+  else {
+    res.status(404).send('Not Found');
+  }
+})
+
+app.use((req, res) => {
+  res.status(404).send('Not Found');
+});
+
+
