@@ -7,7 +7,6 @@ function wait(n) {
         setTimeout(resolve, n);
     });
     return p;
-
 }
 
 wait(n).then(function(){
