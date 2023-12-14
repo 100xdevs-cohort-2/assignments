@@ -9,5 +9,15 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
+    let startTime = new Date().getTime();// I would get the current time in milliseconds;
+    let sum=0;
+    for(let i=0;i<n;i++){
+        sum+=i;
+    }
+    let endTime= new Date().getTime();
+    console.log((endTime-startTime)/1000)
     return 0.01;
 }
+calculateTime(100);
+calculateTime(100000);
+calculateTime(10000000);
