@@ -39,11 +39,111 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const app = express();
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.get('/todos', (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err;
+    res.json(JSON.parse(data))
+  })
+})
+
+app.get('/todos/:id', (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err
+    const todos = JSON.parse(data)
+    const todoItem = todos.find(item => item.id === parseInt(req.params.id))
+    if (!todoItem) {
+      res.status(404).json()
+    }
+    res.json(todoItem)
+  })
+})
+app.post('/todos', (req, res) => {
+  const { title, description } = req.body
+  if (!title || title === "") {
+    return res.status(404).json({ Error: "Text Field is Empty" })
+  } else {
+    const todoItem = {
+      id: Math.floor(Math.random() * 10000),
+      title: title,
+      description: description,
+    }
+    fs.readFile("todos.json", "utf-8", (err, data) => {
+      if (err) throw err
+      const todos = JSON.parse(data)
+      todos.push(todoItem)
+      fs.writeFile("todos.json", JSON.stringify(todos), err => {
+        if (err) throw err;
+        res.status(201).json(todoItem)
+      })
+    })
+  }
+})
+
+app.patch('/todos/:id', (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err
+    const todos = JSON.parse(data)
+    const todoItem = todos.find(item => item.id === parseInt(req.params.id))
+    if (!todoItem) return res.status(404).json()
+    if (req.body.description) {
+      todoItem.description = req.body.description
+    }
+    if (req.body.title != undefined && req.body.title != "") {
+      todoItem.title = req.body.title
+    }
+    fs.writeFile("todos.json", JSON.stringify(todos), err => {
+      if (err) throw err;
+      res.status(201).json(todoItem)
+    })
+  })
+})
+
+app.put("/todos/:id", (req, res) => {
+  const { title, description } = req.body
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err
+    const todos = JSON.parse(data)
+    const itemIndex = todos.findIndex(todo => todo.id === parseInt(req.params.id))
+    if (itemIndex === -1) {
+      res.status(404).json()
+    } else {
+      const updatedItem = {
+        id: todos[itemIndex].id,
+        title,
+        description
+      }
+      todos[itemIndex] = updatedItem
+      fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+        if (err) throw err
+        res.status(200).json(updatedItem)
+      })
+    }
+  })
+})
+
+app.delete('/todos/:id', (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err
+    const todos = JSON.parse(data)
+    const itemIndex = todos.findIndex(item => item.id === parseInt(req.params.id))
+    if (itemIndex < 0 && itemIndex >= todos.length) {
+      res.status(400).json()
+    }
+    todos.splice(itemIndex, 1)
+    fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+      if (err) throw err
+      res.json(todos)
+    })
+  })
+})
+// app.listen(3000)
+
+module.exports = app;
