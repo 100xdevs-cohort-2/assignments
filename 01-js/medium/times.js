@@ -1,13 +1,19 @@
 /*
-Write a function that calculates the time (in seconds) it takes for the JS code to calculate sum from 1 to n, given n as the input.
-Try running it for
-1. Sum from 1-100
-2. Sum from 1-100000
-3. Sum from 1-1000000000
-Hint - use Date class exposed in JS
-There is no automated test for this one, this is more for you to understand time goes up as computation goes up
+  Implement a function `isPalindrome` which takes a string as argument and returns true/false as its result.
+  Note: the input string is case-insensitive which means 'Nan' is a palindrom as 'N' and 'n' are considered case-insensitive.
 */
 
-function calculateTime(n) {
-    return 0.01;
+function isPalindrome(str) {
+    str = str
+        .toLowerCase() //Convert it to LowerCase
+        .trim() //Remove All Spaces Value
+        .replace(/[^a-zA-Z0-9]/g, ""); //Remove All NonAlphaNumeric Value
+    for (let i = 0; i < str.length; i++) {
+        if (str[i] != str[str.length - 1 - i]) {
+            return false;
+        }
+    }
+    return true;
 }
+
+module.exports = isPalindrome;

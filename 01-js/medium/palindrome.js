@@ -4,6 +4,15 @@
 */
 
 function isPalindrome(str) {
+  str = str
+    .toLowerCase() //Convert it to LowerCase
+    .trim() //Remove All Spaces Value
+    .replace(/[^a-zA-Z0-9]/g, ""); //Remove All NonAlphaNumeric Value
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] != str[str.length - 1 - i]) {
+      return false;
+    }
+  }
   return true;
 }
 
