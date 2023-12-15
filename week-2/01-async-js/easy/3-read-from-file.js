@@ -5,7 +5,7 @@
 // Try to do an expensive operation below the file read and see how it affects the output. 
 // Make the expensive operation more and more expensive and see how it affects the output. 
 
-
+// used loop to show the ASYNC thing
 const fs = require('fs');
 
 fs.readFile("a.txt", "utf-8", (err, data) =>{
