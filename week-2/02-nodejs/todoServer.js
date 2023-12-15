@@ -43,12 +43,61 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const uuid = require("uuid");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
 app.use(bodyParser.json());
 
+const filePath = path.join(__dirname, "todos.json");
+
 let todos = [];
+
+function populateTodos() {
+  fs.readFile(filePath, "utf-8", (error, data) => {
+    if (error) {
+      console.error("Error while reading the file:", error);
+      return;
+    }
+    let existingData = data ? JSON.parse(data) : [];
+    todos = existingData;
+  });
+}
+
+populateTodos();
+
+function updateFile(newData, replaceArray = false) {
+  if (replaceArray) {
+    newData = JSON.stringify(newData, null, 2);
+    fs.writeFile(filePath, newData, "utf8", (error) => {
+      if (error) {
+        console.error("Error while writing to the file:", error);
+        return;
+      }
+      console.log("Successfully logged response to", filePath);
+    });
+  } else {
+    fs.readFile(filePath, "utf-8", (error, data) => {
+      if (error) {
+        console.error("Error while reading the file:", error);
+        return;
+      }
+
+      let existingData = data ? JSON.parse(data) : [];
+      existingData.push(newData);
+      const updatedData = JSON.stringify(existingData, null, 2);
+
+      fs.writeFile(filePath, updatedData, "utf8", (error) => {
+        if (error) {
+          console.error("Error appending JSON data:", error);
+          return;
+        }
+        console.log("Successfully logged response to", filePath);
+      });
+    });
+  }
+}
 
 app.get("/todos", (req, res) => {
   res.status(200).json(todos);
@@ -58,6 +107,7 @@ app.get("/todos/:id", (req, res) => {
   let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
   if (todoIndex === -1) {
     res.status(404).send("Not Found");
+    return;
   }
   res.status(200).json(todos[todoIndex]);
 });
@@ -67,24 +117,29 @@ app.post("/todos", (req, res) => {
   const description = req.body.description;
   if (!title || !description) {
     res.status(400).json({ error: "Invalid request data." });
+    return;
   }
-  const id = uuid.v4();
-  todos.push({ id: id, title: title, description: description });
-  res.status(201).json({ id: id });
+  let todoData = { id: uuid.v4(), title: title, description: description };
+  todos.push(todoData);
+  updateFile(todoData);
+  res.status(201).json({ id: todoData.id });
 });
 
 app.put("/todos/:id", (req, res) => {
   let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
   if (todoIndex === -1) {
     res.status(404).send("Not Found");
+    return;
   }
   const title = req.body.title;
   const description = req.body.description;
   if (!title || !description) {
     res.status(400).json({ error: "Invalid request data." });
+    return;
   }
   todos[todoIndex].title = title;
   todos[todoIndex].description = description;
+  updateFile(todos, true);
   res.send();
 });
 
@@ -92,8 +147,10 @@ app.delete("/todos/:id", (req, res) => {
   let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
   if (todoIndex === -1) {
     res.status(404).send("Not Found");
+    return;
   }
   todos.splice(todoIndex, 1);
+  updateFile(todos, true);
   res.send();
 });
 
@@ -101,4 +158,5 @@ app.use((req, res) => {
   res.status(404).send("Not Found");
 });
 
+app.listen(3000);
 module.exports = app;
