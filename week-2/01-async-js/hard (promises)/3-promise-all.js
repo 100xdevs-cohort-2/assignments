@@ -4,9 +4,9 @@
  * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-function waitOneSecond() {
+function waitNSecond(n) {
   return new Promise(function (resolve, reject) {
-    setTimeout(() => resolve("resolved after 1 second"), 1000);
+    setTimeout(() => resolve("resolved after 1 second"), n * 1000);
   });
 }
 
@@ -22,17 +22,15 @@ function waitThreeSecond() {
   });
 }
 
-async function calculateTime() {
+async function calculateTime(x, y, z) {
   const startTime = new Date();
   const arr = await Promise.all([
-    waitOneSecond(),
-    waitTwoSecond(),
-    waitThreeSecond(),
+    waitNSecond(x),
+    waitNSecond(y),
+    waitNSecond(z),
   ]);
-  console.log(
-    `time taken to resolve all the three promises ${Date.now() - startTime}ms`
-  );
-  console.log(arr);
+  return Date.now() - startTime;
 }
 
-calculateTime();
+
+module.exports = calculateTime;

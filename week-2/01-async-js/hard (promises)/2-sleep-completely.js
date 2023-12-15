@@ -6,7 +6,8 @@
 
 function sleep(seconds) {
   const start = Date.now();
-  while (Date.now() - start < seconds * 1000) {}
+  while (Date.now() - start < seconds) {}
+  return new Promise((resolve, reject) => resolve());
 }
 
-sleep(5);
+module.exports = sleep;

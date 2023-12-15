@@ -39,11 +39,81 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const todos = [];
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const uuid = require("uuid");
+
+app.get("/todos", function (req, res) {
+  res.status(200);
+  res.send(todos);
+});
+
+app.get("/todos/:id", function (req, res) {
+  const id = req.params.id;
+  const todoById = todos.find((element) => element.id === id);
+  if (todoById) {
+    res.send(todoById);
+  }
+  res.status(404);
+  res.send("Todo not found");
+});
+
+app.post("/todos", function (req, res) {
+  const body = req.body;
+  if (!body.id) body.id = uuid.v4();
+  todos.push(body);
+  res.status(201);
+  res.send(body);
+});
+
+app.put("/todos/:id", function (req, res) {
+  const updateTodo = req.body;
+  let doesContain = false;
+  const item = todos.find((element) => {
+    if (element.id === req.params.id) {
+      doesContain = true;
+      element.title = updateTodo.title;
+      element.description = updateTodo.description;
+      element.completed = updateTodo.completed;
+    }
+  });
+
+  if (doesContain) {
+    res.send();
+  } else {
+    res.status(404);
+    res.send("Todo not found");
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  let todoIndexToDelete = -1;
+  console.log(req.params.id);
+  todos.forEach((element, index) => {
+    if (element.id === req.params.id) {
+      todoIndexToDelete = index;
+    }
+  });
+  if (todoIndexToDelete === -1) {
+    res.status(404);
+    res.send("Todo not found");
+  }
+  todos.splice(todoIndexToDelete, 1);
+  res.status(200);
+  res.send();
+});
+
+app.get("*", function (req, res) {
+  res.status(404);
+  res.send("Route not found");
+});
+
+module.exports = app;
