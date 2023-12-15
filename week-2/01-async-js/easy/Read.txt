@@ -1,0 +1,37 @@
+JavaScript is a dynamic programming language that's used for web development, in web applications, for game development, and lots more. It allows you to implement dynamic features on web pages that cannot be done with only HTML and CSS.
+
+Many browsers use JavaScript as a scripting language for doing dynamic things on the web. Any time you see a click-to-show dropdown menu, extra content added to a page, and dynamically changing element colors on a page, to name a few features, you're seeing the effects of JavaScript.
+
+What Would the Web Look Like Without JavaScript?
+Without JavaScript, all you would have on the web would be HTML and CSS. These alone limit you to a few web page implementations. 90% (if not more) of your webpages would be static, and you'd only have the dynamic changes like animations that CSS provides.
+
+How JavaScript Makes Things Dynamic
+HTML defines the structure of your web document and the content therein. CSS declares various styles for the contents provided on the web document.
+
+HTML and CSS are often called markup languages rather than programming languages, because they, at their core, provide markups for documents with very little dynamism.
+
+JavaScript, on the other hand, is a dynamic programming language that supports Math calculations, allows you to dynamically add HTML contents to the DOM, creates dynamic style declarations, fetches contents from another website, and lots more.
+
+Before we go into how JavaScript does all of these things, let's look at a quick example.
+
+Check out this codepen: https://codepen.io/Dillion/full/XWjvdMG
+
+In the codepen, you'll see that as you type in the input field, the text shows on the screen. That is made possible by JavaScript. You cannot get this with HTML, CSS, nor both of them together.
+
+JavaScript can do a lot more than what I can cover in this article. But to get you started with JS, we'll look at:
+
+how to use JavaScript in HTML
+data types
+variables
+comments
+functions
+How to Use JavaScript in HTML
+Just like with CSS, JavaScript can be used in HTML in various ways, such as:
+
+1. Inline JavaScript
+Here, you have the JavaScript code in HTML tags in some special JS-based attributes.
+
+For example, HTML tags have event attributes that allow you to execute some code inline when an event is triggered. Here's what I mean:
+
+<button onclick="alert('You just clicked a button')">Click me!</button>
+This is an example of inline JavaScript. The value of onclick can be some Match calculation, a dynamic addition to the DOM – any syntax-valid JavaScript code.

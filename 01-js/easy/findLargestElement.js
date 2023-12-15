@@ -6,7 +6,12 @@
 */
 
 function findLargestElement(numbers) {
-    
+  if(numbers.length == 0)
+  {
+    return undefined;
+  }
+  else{
+    return Math.max(...numbers);
+  }
 }
-
-module.exports = findLargestElement;
+console.log(findLargestElement([-3.5, -7.2, -2.1, -9.8, -1.9]))
