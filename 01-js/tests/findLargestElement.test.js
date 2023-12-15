@@ -7,7 +7,9 @@ describe('findLargestElement', () => {
         expect(findLargestElement([-5, -10, -2, -8])).toBe(-2);
         expect(findLargestElement([0, 0, 0, 0])).toBe(0);
     });
-
+    test('returns only one element in case of array of same element',()=>{
+        expect(findLargestElement([1,1,1])).toBe(1);
+    })
     test('works with arrays containing negative numbers', () => {
         expect(findLargestElement([-3, -7, -2, -9, -1])).toBe(-1);
         expect(findLargestElement([-15, -27, -8, -12])).toBe(-8);
