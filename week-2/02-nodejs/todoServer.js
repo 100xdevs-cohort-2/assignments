@@ -40,10 +40,143 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const fs=require("fs");
   const bodyParser = require('body-parser');
   
   const app = express();
   
   app.use(bodyParser.json());
+
+
+  app.get("/todos",(req,res)=>{
+      fs.readFile("./todos.json","utf-8",(err,data)=>{
+        if(err){
+          console.log("fetching error");
+        }
+        else{
+          res.status(200).send(data);
+        }
+      })
+  })
+  app.get("/todos/:id",(req,res)=>{
+
+    let id=req.params.id;
+    id=id.slice(1,id.length+1);
+    fs.readFile("./todos.json","utf-8",(err,data)=>{
+      if(err){
+        console.log("fetching error");
+      }
+      else{
+       const todos=JSON.parse(data);
+       const filteredData=todos.filter((todo)=>todo.id==id)
+       if(filteredData.length>0){
+        res.send(JSON.stringify(filteredData));
+       }
+       else{
+        res.status(404).send("404 Not Found");
+       }
+      }
+    })
+  })
+
+  app.post("/todos",(req,res)=>{
+    let body=req.body;
+    fs.readFile("./todos.json",(err,data)=>{
+      if(err){
+        console.log(err);
+      }
+      else{
+        let parsedData=JSON.parse(data);
+        body.id=parsedData.length+1;
+        parsedData.push(body);
+        fs.writeFile("./todos.json",JSON.stringify(parsedData),(err)=>{
+          if(err){
+              console.log(err);
+          }
+          else{
+            const ob={
+              id:parsedData.length+1,
+            }
+            res.status(201).json(ob);
+          }
+        })
+      }
+    })
+  })
+  app.put("/todos/:id",(req,res)=>{
+    let id=req.params.id;
+    const body=req.body;
+    id=id.slice(1,id.length+1);
+    fs.readFile("./todos.json","utf-8",(err,data)=>{
+      if(err){
+        console.log("fetching error");
+      }
+      else{
+       let todos=JSON.parse(data);
+       let c=0;
+       for(let i=0;i<todos.length;i++){
+        if(todos[i].id==id){
+          todos[i]={...todos[i],...body};
+          c+=1;
+        }
+       }
+       if(c>0)
+       {
+        fs.writeFile("./todos.json",JSON.stringify(todos),(err)=>{
+        if(err){
+          throw new Error(err);
+        }
+        else{
+          res.status(200).send("todo item was found and updated")
+        }
+       })
+      }
+       else{
+        res.status(404).send("404 Not found");
+       }
+      }  
+    })
+  })
+
+  app.delete("/todos/:id",(req,res)=>{
+    let id=req.params.id;
+    id=id.slice(1,id.length+1);
+    fs.readFile("./todos.json","utf-8",(err,data)=>{
+      if(err){
+        console.log("fetching error");
+      }
+      else{
+       let todos=JSON.parse(data);
+       let c=0;
+       for(let i=0;i<todos.length;i++){
+        if(todos[i].id==id){
+          c+=1;
+          todos.pop(i);
+        }
+       }
+       if(c>0)
+       {
+        fs.writeFile("./todos.json",JSON.stringify(todos),(err)=>{
+        if(err){
+          throw new Error(err);
+        }
+        else{
+          res.status(200).send("todo item was found and deleted")
+        }
+       })
+      }
+       else{
+        res.status(404).send("404 Not found");
+       }
+      }  
+    })
+  })
+
+  app.get("*",(req,res)=>{res.status(404).send("Route not found");}
+  )
+
+  app.listen(3000,()=>{
+    console.log("server listening at 3000");
+  })
   
   module.exports = app;
