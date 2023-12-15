@@ -8,4 +8,4 @@ function wait(n) {
     })
 }
 
-
+module.exports = wait;
