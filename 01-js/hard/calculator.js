@@ -18,38 +18,44 @@
 
 class Calculator {
   constructor(result) {
-    this.result = result;
+    this.result = 0;
   }
 
   add(num) {
     this.result = this.result + num;
+    return this.result
   }
 
   subtract(num) {
     this.result = this.result - num;
+    return this.result
   }
 
   multiply(num) {
     this.result = this.result * num;
+    return this.result
   }
 
   divide(num) {
     if (num === 0) {
       throw new Error("Cannot divide by 0");
     }
-    this.result = Math.abs(this.result / num);
+    this.result = this.result / num ;
+    return this.result
   }
 
   clear() {
     this.result = 0;
+    return this.result
   }
 
   getResult() {
-    console.log(parseFloat(this.result));
+    return this.result;
   }
 
+
   calculate(exp) {
-    const cleanExp = exp.replace(/\s+/g, " ").trim();
+    const cleanExp = exp.replace(/\s+/g, "").trim();
 
     try {
       this.result = eval(cleanExp);
@@ -59,7 +65,7 @@ class Calculator {
       } else if (error instanceof TypeError) {
         throw new Error("Invalid expression type");
       } else {
-        throw new Error(`Error in evaluating expression: ${error.message}`);
+        throw new Error(`Error`);
       }
     }
   }
