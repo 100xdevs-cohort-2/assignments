@@ -39,11 +39,66 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const uuid = require("uuid");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (todoIndex === -1) {
+    res.status(404).send("Not Found");
+  }
+  res.status(200).json(todos[todoIndex]);
+});
+
+app.post("/todos", (req, res) => {
+  const title = req.body.title;
+  const description = req.body.description;
+  if (!title || !description) {
+    res.status(400).json({ error: "Invalid request data." });
+  }
+  const id = uuid.v4();
+  todos.push({ id: id, title: title, description: description });
+  res.status(201).json({ id: id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (todoIndex === -1) {
+    res.status(404).send("Not Found");
+  }
+  const title = req.body.title;
+  const description = req.body.description;
+  if (!title || !description) {
+    res.status(400).json({ error: "Invalid request data." });
+  }
+  todos[todoIndex].title = title;
+  todos[todoIndex].description = description;
+  res.send();
+});
+
+app.delete("/todos/:id", (req, res) => {
+  let todoIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (todoIndex === -1) {
+    res.status(404).send("Not Found");
+  }
+  todos.splice(todoIndex, 1);
+  res.send();
+});
+
+app.use((req, res) => {
+  res.status(404).send("Not Found");
+});
+
+module.exports = app;
