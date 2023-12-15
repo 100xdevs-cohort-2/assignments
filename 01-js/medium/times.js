@@ -8,7 +8,6 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-<<<<<<< HEAD
 function calculateTime(n) {
 
     const startTime = new Date().getMilliseconds();
@@ -30,24 +29,3 @@ function calculateTime(n) {
 
   
 
-=======
-function calculateTime(num) {
-    function sum(n) {
-      let total = 0;
-      for (let i = 1; i <= n; i++) {
-        total += i;
-      }
-      console.log(total);
-    }
-  
-    const time = new Date();
-    const beforeTime = time.getSeconds();
-    sum(num)
-    const afterTime = time.getMilliseconds();
-    const timer = afterTime - beforeTime;
-    console.log(`${timer} ms`);
-    return 0.01;
-  }
-  
-  calculateTime(1000000)
->>>>>>> easy
