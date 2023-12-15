@@ -9,11 +9,11 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    const startTime = new Date().getTime();
-    let sum = 0;
-    for(let i = 1; i <= n; i++){
-        sum = sum + i;
-    }
-    const endTime = new Date().getTime();
-    return endTime - startTime;
+  const startTime = new Date().getTime();
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    sum = sum + i;
+  }
+  const endTime = new Date().getTime();
+  return endTime - startTime;
 }
