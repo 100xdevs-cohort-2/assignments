@@ -28,8 +28,8 @@ function calculateTime(t1, t2, t3) {
     return new Promise((resolve) => {
         wait1(t1)   // called 1st fn
         .then(() => wait2(t2)) // 1st fn resolve then called 2nd fn
-        .then(() => wait3(t3)) // 2nd fun resolve then called 3rd fn
-        .then(() => { // 3rd resolve then resolve main promise
+        .then(() => wait3(t3)) // 2nd fn resolve then called 3rd fn
+        .then(() => { // 3rd fn resolve then resolve main promise
             resolve(new Date - startTime); // calculate time... :)
         });
     });
