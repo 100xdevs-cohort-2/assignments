@@ -6,7 +6,14 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  let totalNumberOfVowels = 0;
+  str.split("").forEach((char) => {
+    if (/[aeiouAEIOU]/g.test(char)) {
+      totalNumberOfVowels += 1;
+    }
+  });
+  return totalNumberOfVowels;
 }
 
 module.exports = countVowels;
