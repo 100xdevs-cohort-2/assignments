@@ -45,5 +45,79 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  let todos = [];
+
+  // 1) GET /todos
+  app.get('/todos',(req,res)=>{
+    res.status(200).json(todos);
+  })
+
+  // 2) GET /todos/:id
+  app.get('/todos/:id', (req,res) =>{
+    let req_todo = todos.filter((obj)=>{
+      if(obj.id === parseInt(req.params.id)) return true;
+      else false;
+    })
+    //.find can also be used instead of .filter
+
+    if(req_todo.length == 0){
+      res.status(404).send();
+    }
+    else{
+      res.status(200).json(req_todo[0]);
+    }
+  })
+
+  // 3) POST /todo
+  app.post('/todos',(req,res)=>{
+    const newId = Math.floor(Math.random() * 100);
+    const newTodo = {
+      id: newId,
+      title: req.body.title,
+      description:req.body.description
+    }
+    todos.push(newTodo);
+    res.status(201).json({id : newId});
+  })
+
+  // 4) PUT /todos/:id
+  app.put('/todos/:id',(req,res)=>{
+    const todo = todos.find((obj)=>{
+      return obj.id === parseInt(req.params.id);
+    })
+
+    if(!todo) {
+      res.status(404).send();
+    }
+    else{
+      todo.title = req.body.title;
+      todo.description = req.body.description;
+      res.status(200).json(todo);
+    }
+  })
+
+  // 5) DELETE /todos/:id
+  app.delete('/todos/:id',(req,res)=>{
+    const index = todos.findIndex((obj)=>{
+      return obj.id === parseInt(req.params.id);
+    })
+
+    if(index == -1)
+    {
+      res.status(404).send();
+    }
+    else{
+      todos.splice(index,1);
+      res.status(200).send();
+    }
+  })
+
+  // 6) Give error for any other route
+  app.use((req, res, next) => {
+    res.status(404).send('Inexistent route accessed');
+  });
+
+  // app.listen(3000);
   
   module.exports = app;
