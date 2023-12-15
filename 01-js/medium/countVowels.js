@@ -6,7 +6,16 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let vowels = 'aAeEiIoOuU'
+  let vowelCount = 0;
+  for(let i =0; i<str.length;i++){
+    if(vowels.indexOf(str[i]) !== -1){
+      vowelCount += 1
+    }
+  }
+  return vowelCount
 }
+console.log("The no of vowels in Vasanth Chandrasekar: " + countVowels("Vasanth Chandrasekar"));
+
 
 module.exports = countVowels;

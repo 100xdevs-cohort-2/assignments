@@ -4,7 +4,14 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const lowerStr = str.toLowerCase()
+  
+  const alphaNumericStr = lowerStr.replace(/[^a-z0-9]/g, '')
+
+  return alphaNumericStr === alphaNumericStr.split('').reverse().join('')
 }
+
+const result1 = isPalindrome('Nan');
+console.log(result1)
 
 module.exports = isPalindrome;
