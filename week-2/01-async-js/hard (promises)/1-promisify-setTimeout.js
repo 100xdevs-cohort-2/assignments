@@ -3,4 +3,9 @@
 */
 
 function wait(n) {
+    return new Promise(function(resolve){
+        setTimeout(function(){resolve("Hello Manoj")},n*1000);
+    })
 }
+
+
