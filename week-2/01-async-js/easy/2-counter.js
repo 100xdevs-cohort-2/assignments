@@ -18,15 +18,21 @@
 // counter();
 
 
-let counter = 0
-let countDown = setTimeout(function tick(){
-    //console.log(countDown);
-    console.log(counter++);
-    setTimeout(()=>{
-        if(counter<=10){
-            tick();
-        }
-        }, 1000) }, 1000);
+let count = 0;
+
+setTimeout(() => {
+  console.log(count++);
+}, 1000);
+
+// let counter = 0
+// let countDown = setTimeout(function tick(){
+//     //console.log(countDown);
+//     console.log(counter++);
+//     setTimeout(()=>{
+//         if(counter<=10){
+//             tick();
+//         }
+//         }, 1000) }, 1000);
 
 
 
