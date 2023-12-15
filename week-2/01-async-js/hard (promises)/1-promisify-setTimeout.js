@@ -3,6 +3,20 @@
 */
 
 function wait(n) {
-}
+    return new Promise((resolve) => {
+    const time=n/1000;
+      setTimeout(() => {
+        
+        resolve(`Event done successfully after ${time} seconds`);
+      }, n);
+    });
+  }
 
-module.exports = wait;
+  wait(1200)
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  

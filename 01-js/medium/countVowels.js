@@ -6,7 +6,17 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  const vowels = 'aeiouAEIOU';
+  const uniqueVowels = new Set();
+  const characters = str.replace(/[^\w\s]/g, '').split('');
+
+  characters.forEach(char => {
+    if (vowels.includes(char)) {
+      uniqueVowels.add(char.toLowerCase()); 
+    }
+  });
+
+  return uniqueVowels.size>0? uniqueVowels.size:0;
 }
 
 module.exports = countVowels;

@@ -5,7 +5,11 @@
 */
 
 function isAnagram(str1, str2) {
-
+   const sorted1=str1.toLowerCase().replace(/\s/g,'').split('').sort().join('');
+   const sorted2=str2.toLowerCase().replace(/\s/g,'').split('').sort().join('');
+   return sorted1==sorted2 ? true : false;
+   
 }
+// console.log(isAnagram('Debit Card', 'Bad Credit'));
 
 module.exports = isAnagram;
