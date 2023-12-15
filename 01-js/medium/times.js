@@ -9,5 +9,8 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const lowerCaseStr = str.toLowerCase();
+    const alphanumericStr = lowerCaseStr.replace(/[^a-z0-9]/g, '');
+    const reversedStr = alphanumericStr.split('').reverse().join('');
+    return alphanumericStr === reversedStr;
 }
