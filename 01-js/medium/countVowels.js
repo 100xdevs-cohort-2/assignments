@@ -6,6 +6,7 @@
 */
 
 function countVowels(str) {
+<<<<<<< HEAD
   let count = 0;
   for (let i = 0; i < str.length; i++) 
     if (
@@ -19,6 +20,9 @@ function countVowels(str) {
       count ++ ;
   
   return count;
+=======
+    
+>>>>>>> easy
 }
 
 module.exports = countVowels;
