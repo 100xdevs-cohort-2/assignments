@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<!-- Display the counter -->
+<div id="counterDisplay">0</div>
+
+<script>
+// Initialize the counter variable
+let counter = 0;
+
+// Define a function to update the counter
+function updateCounter() {
+    counter++;
+    document.getElementById("counterDisplay").innerText = counter;
+}
+
+// Set the interval to call updateCounter every 1000 milliseconds (1 second)
+setInterval(updateCounter, 1000);
+</script>
+
+</body>
+</html>
