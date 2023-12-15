@@ -49,27 +49,30 @@
   const port = 3000;
 
   let idNo = 1
-  let firstTask = {
-    id: idNo,
-    title: "Academy",
-    completed: false,
-    description: "Project"
-  }
 
-  const list = [firstTask];
+  const list = [];
 
   app.get('/todos', (req, res)=>{
     res.json(list).status(200);
   })
 
   app.get('/todos/:id', (req, res)=>{
-    list.forEach((element)=> {
-      if(element.id == req.params.id){
-        res.json(element).status(200);
-      }
-    })
-    res.send("Not found").status(404);
+    const todo = list.find(t => t.id === parseInt(req.params.id));
+    if(!todo){
+      res.status(404).send();
+    } else {
+      res.json(todo);
+    }
   })
+
+  // app.get('/todos/:id', (req, res)=>{
+  //   list.forEach((element)=> {
+  //     if(element.id == req.params.id){
+  //       res.json(element).status(200);
+  //     }
+  //   })
+  //   res.send("Not found").status(404);
+  // })
 
   app.post('/todos', (req, res)=>{
     idNo++;
@@ -82,27 +85,38 @@
     res.status(201).json(newItem);
   })
 
-  app.put('/todos/:id', (req, res)=>{
-    list.forEach((element)=> {
-      if(element.id == req.params.id){
-        element.title = req.body.title;
-        element.description = req.body.description
-
-        res.json(element).status(404);
-      }
-    })
-    res.send("Not found").status(404);
-  })
-
-  app.delete('/todos/:id', (req, res)=>{
-    for(let i=0; i<list.length; i++){
-      if(list[i].id == req.params.id){
-        list.splice(i, 1);
-        res.status(200).send();
-      }
+  app.put('/todos/:id', (req, res) => {
+    const todoIndex = list.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      list[todoIndex].title = req.body.title;
+      list[todoIndex].description = req.body.description;
+      res.json(list[todoIndex]);
     }
-    res.send("Not found").status(404);
-  })
+  });
+
+  // app.put('/todos/:id', (req, res)=>{
+  //   list.forEach((element)=> {
+  //     if(element.id == req.params.id){
+  //       element.title = req.body.title;
+  //       element.description = req.body.description
+
+  //       res.json(element).status(200);
+  //     }
+  //   })
+  //   res.send("Not found").status(404);
+  // })
+
+  app.delete('/todos/:id', (req, res) => {
+    const todoIndex = list.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      list.splice(todoIndex, 1);
+      res.status(200).send();
+    }
+  });
 
   app.use((req, res, next) => {
     res.status(404).send();
