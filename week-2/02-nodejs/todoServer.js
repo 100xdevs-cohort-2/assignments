@@ -39,11 +39,65 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+// TODO[Hard todo]: Try to save responses in files, so that even if u exit the app and run it again, the data remains (similar to databases)
+
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+//middlewares
+app.use(express.json());
+
+const todos = [];
+
+app.get('/', (_, response) => {
+  response.send('Hello from ToodServer');
+});
+
+app.get('/todos', (_, response) => {
+  response.json(todos);
+});
+
+app.get('/todos/:id', (request, response) => {
+  const createdTodoId = request.params.id;
+  const todo = todos.find((todo) => todo.id === createdTodoId);
+  console.log({ createdTodoId, todo });
+  if (!todo) return response.status(404).end();
+  response.json(todo);
+});
+
+// TODO: Use strong uiid or unique id creation method
+app.post('/todos', (request, response) => {
+  const payload = request.body;
+  console.log({ todo: payload });
+  const todo = { ...payload, id: `${Math.random()}` };
+  todos.push(todo);
+  response.status(201).json(todo);
+});
+
+// INFO: let's use mutation
+app.put('/todos/:id', (request, response) => {
+  const toBeUpdatedTodoId = request.params.id;
+  const index = todos.findIndex((todo) => todo.id === toBeUpdatedTodoId);
+  if (index < 0) return response.status(404).end();
+  const todo = todos.find((todo) => todo.id === toBeUpdatedTodoId);
+  const payload = request.body;
+  const updatedTodo = { ...todo, ...payload };
+  todos.splice(index, 1, updatedTodo);
+  return response.json(updatedTodo);
+});
+
+// INFO: let's use mutation
+app.delete('/todos/:id', (request, response) => {
+  const toBeDeletedodoId = request.params.id;
+  const index = todos.findIndex((todo) => todo.id === toBeDeletedodoId);
+  if (index < 0) return response.status(404).end();
+  todos.splice(index, 1);
+  return response.status(200).end();
+});
+
+app.use(bodyParser.json());
+
+module.exports = app;
