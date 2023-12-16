@@ -35,6 +35,7 @@ app.get('/file/:filename', function (req, res) {
     }
     res.send(data);
     });
+    
 });
 
 app.all('*', (req, res) => {
