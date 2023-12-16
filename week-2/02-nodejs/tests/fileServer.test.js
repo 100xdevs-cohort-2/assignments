@@ -11,7 +11,7 @@ describe('API Endpoints', () => {
         globalServer.close();
     }
     globalServer = server.listen(3000);
-    done()
+    done();
   });
 
   afterAll((done) => {
