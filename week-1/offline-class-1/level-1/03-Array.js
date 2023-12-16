@@ -92,7 +92,6 @@ function reduceExample(arr) {
   }
 
   let sumWithInitial = arr.reduce(
-    // (accumulator, currentValue) => accumulator + currentValue,
     getSum,
     initialValue,
   );
