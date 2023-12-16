@@ -3,6 +3,7 @@
 */
 
 function wait(n) {
+
     return new Promise(function (resolve) {
         setTimeout(function (){
             resolve("Function resolved.");
@@ -18,3 +19,6 @@ wait(10).then(function (data){
     console.log("Error: " + err);
 })
 console.log("After Fn call");
+}
+
+module.exports = wait;
