@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Button Redirect</title>
+</head>
+
+<body>
+    <div>
+    </div>
+    <div>
+        <button onclick="redirectToFiles()">See the list of files</button>
+    </div>
+
+    <div>
+        <label for="filename">Enter Filename: </label>
+        <input type="text" id="filename" placeholder="Enter filename" />
+        <button onclick="redirectToSpecificFile()">Go to /files/filename</button>
+        <script>
+            function redirectToFiles() {
+                window.location.href = "/files";
+            }
+
+            function redirectToSpecificFile() {
+                const filename = document.getElementById("filename").value;
+                if (filename.trim() !== "") {
+                    window.location.href = `/files/${filename}`;
+                } else {
+                    alert("Please enter a filename.");
+                }
+            }
+        </script>
+    </div>
+    </div>
+</body>
+
+</html>

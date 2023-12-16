@@ -39,11 +39,149 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
+const app = express();
+
+app.use(bodyParser.json());
+
+app.get("/", (req, res) => {
+  res.status(200).send(
+    `<ul>
+    <li>GET /todos : to get all the todo list</li>
+    <li>GET /todos/:id : to get details of a particular todo</li>
+    <li>POST /todos with a new todo in the request body - To create a new todo</li>
+    <li> PUT 
+      /todos/:id - with an updated todo values in request - to update existing
+      todo
+    </li>
+    <li>DELETE /todos/delete/:id - deletes the todo related to the ID</li>
+  </ul>`
+  );
+});
+
+app.get("/todos", (req, res) => {
+  const absolutePath = path.join(__dirname, "/todos.json");
+  fs.readFile(absolutePath, (err, data) => {
+    if (err) {
+      console.error("Internal Server Error !!");
+    } else {
+      const jsonData = JSON.parse(data);
+      res.status(200).send(jsonData);
+    }
+  });
+});
+
+app.post("/todos", (req, res) => {
+  fs.readFile("./todos.json", (err, data) => {
+    if (err) {
+      console.error("Internal Server Error");
+      res.status(500).send("Internal Server Error");
+    } else {
+      let todos = JSON.parse(data);
+      let newId =
+        todos.length > 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1;
+      let newTodo = {
+        id: newId,
+        title: req.body.title,
+        isCompleted: req.body.isCompleted,
+        description: req.body.description,
+      };
+      todos.push(newTodo);
+
+      fs.writeFile(
+        "./todos.json",
+        JSON.stringify(todos, null, 2),
+        (err, data) => {
+          if (err) {
+            console.error("Error writing to todos.json:", err);
+            res.status(500).send("Internal Server Error");
+          } else {
+            res.status(201).json(newTodo); // Respond with the newly added todo
+          }
+        }
+      );
+    }
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", (err, data) => {
+    if (err) {
+      console.error("File Not Found !!");
+      res.status(404).send("File Not Found !!");
+    } else {
+      const todos = JSON.parse(data);
+      const todoIndex = todos.findIndex(
+        (todo) => todo.id === parseInt(req.params.id)
+      );
+      if (todoIndex !== -1) {
+        todos[todoIndex].id = Number(req.params.id);
+        todos[todoIndex].title = req.body.title;
+        todos[todoIndex].isCompleted = req.body.isCompleted;
+        todos[todoIndex].description = req.body.description;
+
+        fs.writeFile("./todos.json", JSON.stringify(todos, null, 2), (err) => {
+          if (err) {
+            console.error("Error writing to todos.json:", err);
+            res.status(500).send("Internal Server Error");
+          } else {
+            res.status(200).json(todos[todoIndex]);
+          }
+        });
+      } else {
+        res.status(404).send("Todo Not Found");
+      }
+    }
+  });
+});
+
+app.get("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", (err, data) => {
+    if (err) {
+      console.error("File Not Found !!");
+      res.status(404).send("File Not Found !!");
+    } else {
+      const todos = JSON.parse(data);
+      const todo = todos.find((todo) => todo.id === parseInt(req.params.id));
+      if (todo) {
+        res.status(200).json(todo);
+      } else {
+        res.status(404).send("Todo Not Found");
+      }
+    }
+  });
+});
+
+app.delete("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", (err, data) => {
+    if (err) {
+      res.status(404).send("File Not Found !!!");
+    } else {
+      let todos = JSON.parse(data);
+      const deleteId = parseInt(req.params.id);
+      const todoToDelete = todos.find((todo) => todo.id === deleteId);
+      if (!todoToDelete) {
+        res.status(404).send("Todo Not Found");
+      } else {
+        todos = todos.filter((todo) => todo.id !== deleteId);
+        fs.writeFile("./todos.json", JSON.stringify(todos, null, 2), (err) => {
+          if (err) {
+            res.status(500).send("Internal Server Error !!");
+          } else {
+            res.status(200).send("Delete Successful");
+          }
+        });
+      }
+    }
+  });
+});
+
+const port = 3001;
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+ 
+module.exports = app;
