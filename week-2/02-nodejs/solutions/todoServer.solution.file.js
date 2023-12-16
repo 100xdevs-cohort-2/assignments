@@ -1,5 +1,5 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express = require("express");
+const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
@@ -21,15 +21,15 @@ function removeAtIndex(arr, index) {
   return newArray;
 }
 
-app.get('/todos', (req, res) => {
-  fs.readFile("todos.json", "utf8", function(err, data) {
+app.get("/todos", (req, res) => {
+  fs.readFile("todos.json", "utf8", function (err, data) {
     if (err) throw err;
     res.json(JSON.parse(data));
   });
 });
 
-app.get('/todos/:id', (req, res) => {
-  fs.readFile("todos.json", "utf8", function(err, data) {
+app.get("/todos/:id", (req, res) => {
+  fs.readFile("todos.json", "utf8", function (err, data) {
     if (err) throw err;
     const todos = JSON.parse(data);
     const todoIndex = findIndex(todos, parseInt(req.params.id));
@@ -41,11 +41,11 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
-app.post('/todos', function(req, res) {
+app.post("/todos", function (req, res) {
   const newTodo = {
     id: Math.floor(Math.random() * 1000000), // unique random id
     title: req.body.title,
-    description: req.body.description
+    description: req.body.description,
   };
   fs.readFile("todos.json", "utf8", (err, data) => {
     if (err) throw err;
@@ -58,7 +58,7 @@ app.post('/todos', function(req, res) {
   });
 });
 
-app.put('/todos/:id', function(req, res) {
+app.put("/todos/:id", function (req, res) {
   fs.readFile("todos.json", "utf8", (err, data) => {
     if (err) throw err;
     const todos = JSON.parse(data);
@@ -69,7 +69,7 @@ app.put('/todos/:id', function(req, res) {
       const updatedTodo = {
         id: todos[todoIndex].id,
         title: req.body.title,
-        description: req.body.description
+        description: req.body.description,
       };
       todos[todoIndex] = updatedTodo;
       fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
@@ -80,8 +80,7 @@ app.put('/todos/:id', function(req, res) {
   });
 });
 
-app.delete('/todos/:id', function(req, res) {
-
+app.delete("/todos/:id", function (req, res) {
   fs.readFile("todos.json", "utf8", (err, data) => {
     if (err) throw err;
     let todos = JSON.parse(data);
