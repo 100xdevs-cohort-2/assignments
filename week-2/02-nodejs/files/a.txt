@@ -1,1 +1,1 @@
-hello from a.txt
+"Test file content"
