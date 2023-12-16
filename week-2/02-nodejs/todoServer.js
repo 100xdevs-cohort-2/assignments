@@ -39,11 +39,55 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const port = 3000;
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let toDos = [];
+
+app
+  .route("/todos")
+  .get((req, res) => {
+    res.status(200).json(toDos);
+  })
+  .post((req, res) => {
+    const newToDo = { id: Math.floor(Math.random() * 10000), ...req.body };
+    toDos.push(newToDo);
+    res.status(201).json(newToDo);
+  });
+
+app
+  .route("/todos/:id")
+  .get((req, res) => {
+    const toDo = toDos.find((todo) => todo.id === Number(req.params.id));
+    !toDo ? res.status(404).send(`404 Not Found`) : res.status(200).send(toDo);
+  })
+  .put((req, res) => {
+    const searchIndex = toDos.findIndex(
+      ({ id }) => id === Number(req.params.id)
+    );
+    if (searchIndex === -1) {
+      res.status(404).send(`404 Not Found`);
+    } else {
+      toDos[searchIndex] = { id: Number(req.params.id), ...req.body };
+      res.status(200).json(toDos[searchIndex]);
+    }
+  })
+  .delete((req, res) => {
+    const searchIndex = toDos.find(({ id }) => id === Number(req.params.id));
+
+    if (!searchIndex) {
+      res.status(404).send(`404 Not Found`);
+    } else {
+      let deletedToDo = toDos.splice(searchIndex, 1);
+      res.status(200).json(deletedToDo);
+    }
+  });
+
+// app.listen(port, () => console.log(`Server is running on PORT:${port}`));
+
+module.exports = app;
