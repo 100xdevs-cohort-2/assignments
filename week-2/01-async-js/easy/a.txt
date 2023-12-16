@@ -1,1 +1,1 @@
-Hii This is a.txt
+Hi this is new text from the js file.
