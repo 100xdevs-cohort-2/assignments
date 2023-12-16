@@ -16,6 +16,18 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const Port = 3000
+
+app.get('/',(req,res)=>{
+  res.send("Hello to file system")
+})
+
+app.get('/files',(req,res) => {
+  res.send("Hello")
+})
 
 
+app.listen(Port, ()=> {
+  console.log(`Server started at Port ${Port}`)
+})
 module.exports = app;
