@@ -39,11 +39,69 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const port = process.env.PORT || 3000;
+let courses = [];
+
+app.use(bodyParser.json());
+
+app.get("/todos", (req, res) => {
+  res.status(200).send(courses);
+})
+
+app.get("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const course = courses.find((item) => item.id === id);
+  if (!course) return res.status(404).send();
+  res.status(200).json(course);
+})
+
+app.post("/todos", (req, res) => {
+  const data = req.body;
+  const course = {
+    id: courses.length + 1, ...data
+  }
+  courses.push(course);
+  res.status(201).json(course)
+})
+
+app.put("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const data = req.body;
+  const course = {
+    id: id, ...data
+  }
+  const index = courses.findIndex(item => item.id === id);
+  if (index == -1) {
+    res.status(404).send("Item not found")
+  }
+  else {
+
+    courses.splice(index, 1, course);
+    res.status(200).json(courses[index])
+  }
+})
+
+app.delete("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = courses.findIndex(item => item.id === id);
+  if (index == -1) {
+
+    res.status(404).send("Item not found");
+  }
+  else {
+
+    courses.splice(index, 1);
+    res.status(200).send("Deleted the course")
+  }
+})
+
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+
+module.exports = app;
