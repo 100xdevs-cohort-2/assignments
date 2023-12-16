@@ -4,17 +4,37 @@
   transactions is an array where each
   Transaction - an object like 
         {
-		id: 1,
-		timestamp: 1656076800000,
-		price: 10,
-		category: 'Food',
-		itemName: 'Pizza',
-	}
+    id: 1,
+    timestamp: 1656076800000,
+    price: 10,
+    category: 'Food',
+    itemName: 'Pizza',
+  }
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  // Initialize dict and array
+  let res = [];
+  let res_dict = {};
+
+  // Loop through transactions
+  for (let i = 0; i < transactions.length; i++) {
+    if (transactions[i].category in res_dict) {
+      res_dict[transactions[i].category] += transactions[i].price;
+    } else {
+      res_dict[transactions[i].category] = transactions[i].price;
+    }
+  }
+
+  // Store unique in dict
+  // Loop over dict and put in array
+  for (let key in res_dict) {
+    res.push({ category: key, totalSpent: res_dict[key] });
+  }
+
+  return res;
 }
 
 module.exports = calculateTotalSpentByCategory;
+
