@@ -4,5 +4,21 @@
  */
 
 function sleep (seconds) {
-
+  return new Promise(function(resolve){
+    setTimeout(function(){
+      resolve(seconds +" seconds passed.");
+    }, seconds*1000);
+  });
 }
+
+async function main(seconds) {
+  console.log("Before await call");
+  const value = await sleep(seconds);
+  // halts the thread here for 'seconds' seconds
+  console.log("After await call");
+  console.log("Resolve value: " + value);
+}
+
+console.log("Before fn call");
+main(5);
+console.log("After fn call");
