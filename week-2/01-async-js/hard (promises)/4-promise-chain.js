@@ -5,54 +5,43 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function waitOneSecond() {
-  return new Promise(function(resolve) {
-    setTimeout(function(){resolve("waitOneSecond")}, 1000);
-  })
-}
-
-function waitTwoSecond() {
-  return new Promise(function(resolve) {
-    setTimeout(function(){resolve("waitTwoSecond")}, 2000);
-  })
-}
-
-function waitThreeSecond() {
-  return new Promise(function(resolve) {
-    setTimeout(function(){resolve("waitThreeSecond")}, 3000);
-  })
-}
-
-function calculateTime() {
-  let start = Date.now();
-  waitOneSecond().then(function (value1){
-    console.log(value1);
-    waitTwoSecond().then(function (value2) {
-      console.log(value2);
-      waitThreeSecond().then(function (value3) {
-        console.log(value3);
-        let end = Date.now();
-        console.log("Time taken = " + (end-start)/1000 + " seconds");
-      }, function (error3){});
-    }, function (error2){});
-  }, function (error1){})
-}
-
-calculateTime();
 function wait1(t) {
-
+  return new Promise(function(resolve) {
+    setTimeout(function () {
+      resolve()
+    }, t*1000);
+  });
 }
 
 function wait2(t) {
-
+  return new Promise(function(resolve) {
+    setTimeout(function () {
+      resolve()
+    }, t*1000);
+  });
 }
-
+  
 function wait3(t) {
-
+  return new Promise(function(resolve) {
+    setTimeout(function () {
+      resolve()
+    }, t*1000);
+  });
 }
+
 
 function calculateTime(t1, t2, t3) {
-
+  var start = Date.now();
+  var difference = 0;
+  return wait1(t1)
+    .then((value1) => wait2(t2))
+    .then((value2) => wait3(t3))
+    .then(function (value3) {
+      end = Date.now();
+      difference = parseInt(end-start);
+      // console.log("difference => " + difference);
+      return difference;
+    });
 }
 
 module.exports = calculateTime;

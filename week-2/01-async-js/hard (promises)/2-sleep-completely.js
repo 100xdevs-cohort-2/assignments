@@ -3,7 +3,7 @@
  * During this time the thread should not be able to do anything else.
  * the function should return a promise just like before
  */
-
+/*
 function sleep (seconds) {
   return new Promise(function(resolve){
     setTimeout(function(){
@@ -23,7 +23,14 @@ async function main(seconds) {
 console.log("Before fn call");
 main(5);
 console.log("After fn call");
+*/
+
 function sleep(milliseconds) {
+  return new Promise(function(resolve){
+    setTimeout(function(){
+      resolve();
+    }, milliseconds);
+  });
 }
 
 module.exports = sleep;
