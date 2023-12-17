@@ -48,27 +48,45 @@ app.use(bodyParser.json());
 const port = 3000;
 
 let todos = [];
+let globalCounter = 0;
 
 app.get("/todos", (req, res) => {
-  res.send(todos);
+  res.json(todos);
 });
 
 app.get("/todos/:id", (req, res) => {
   const reqId = parseInt(req.params.id);
-  const todoFromId = todos.filter(x => x.id === reqId);
-  todoFromId.length > 0 ? res.send(todoFromId) : res.sendStatus(404);
+  const todoFromId = todos.find((x) => x.id === reqId);
+  todoFromId ? res.json(todoFromId) : res.sendStatus(404);
 });
 
 app.post("/todos", (req, res) => {
-  let id = todos.length;
-  const currentTodo = req.body;
-  currentTodo.id = id;
-  todos.push(currentTodo);
-  res.sendStatus(200);
+  const newTodo = {
+    id : globalCounter++,
+    title: req.body.title,
+    description: req.body.description
+  }
+  todos.push(newTodo);
+  res.sendStatus(201).json(newTodo);
 });
 
-app.listen(port, (req, res) => {
-  console.log(`Server listening at port: ${port}`);
+app.put("/todos/:id", (req, res) => {
+  const reqId = parseInt(req.params.id);
+  const updatedTodo = req.body;
+  const todoToUpdate = todos.find((x) => x.id === reqId);
+  todoToUpdate.title = updatedTodo.title;
+  todoToUpdate.completed = updatedTodo.completed;
+  res.json(todoToUpdate);
 });
+
+app.delete("/todos/:id", (req, res) => {
+  const reqId = parseInt(req.params.id);
+  const todoToDelete = todos.splice(reqId, 1);
+  res.json(todoToDelete[0]);
+})
+
+// app.listen(port, (req, res) => {
+//   console.log(`Server listening at port: ${port}`);
+// });
 
 module.exports = app;
