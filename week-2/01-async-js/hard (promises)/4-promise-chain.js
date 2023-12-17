@@ -6,17 +6,51 @@
  */
 
 function waitOneSecond() {
-
-}
-
-function waitTwoSecond() {
-
-}
-
-function waitThreeSecond() {
-
-}
-
-function calculateTime() {
-
-}
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("Promise resolved after 1 second");
+      }, 1000);
+    });
+  }
+  
+  function waitTwoSeconds() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("Promise resolved after 2 seconds");
+      }, 2000);
+    });
+  }
+  
+  function waitThreeSeconds() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve("Promise resolved after 3 seconds");
+      }, 3000);
+    });
+  }
+  
+  function calculateTime() {
+    const startTime = Date.now();
+  
+    waitOneSecond()
+      .then((result) => {
+        console.log(result);
+        return waitTwoSeconds();
+      })
+      .then((result) => {
+        console.log(result);
+        return waitThreeSeconds();
+      })
+      .then((result) => {
+        console.log(result);
+        const endTime = Date.now();
+        const duration = endTime - startTime;
+        console.log("Sequential execution completed in", duration, "milliseconds");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  
+  calculateTime();
+  
