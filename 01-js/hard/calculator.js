@@ -15,7 +15,50 @@
 
   Once you've implemented the logic, test your code by running
 */
+class Calculator {
+  currentValue = 0.0;
 
-class Calculator {}
+  add(n) {
+    this.currentValue += n;
+  }
+
+  subtract(n) {
+    this.currentValue -= n;
+  }
+
+  multiply(n) {
+    this.currentValue *= n;
+  }
+
+  divide(n) {
+    if (n === 0) {
+      throw new Error("Cannot divide by zero");
+    } else {
+      this.currentValue /= n;
+    }
+  }
+
+  clear() {
+    this.currentValue = 0;
+  }
+
+  calculate(exp) {
+    try {
+      const answer = eval(exp);
+      if (answer === undefined || answer === Infinity) {
+        throw new Error("Cannot divide by zero");
+      } else {
+        this.currentValue = answer;
+      }
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  getResult() {
+    return this.currentValue;
+  }
+}
 
 module.exports = Calculator;
