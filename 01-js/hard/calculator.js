@@ -66,13 +66,5 @@ class Calculator {
     this.result = evalResult;
  }
 }
-const calc = new Calculator(); 
-calc.add(12);
-calc.divide(4);
-
-console.log(calc.calculate('2 + 3 * 4')); 
-
-// console.log(calc.getResult()); 
-// console.log(calc.calculate('10 + (2 + 3+6)')); 
 
 module.exports = Calculator;
