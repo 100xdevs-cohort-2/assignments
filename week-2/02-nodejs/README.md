@@ -15,7 +15,7 @@ Recommended order of attempting the assignments.
 4. To run individual tests - 
  - npm run test-fileServer
  - npm run test-todoServer
-5. clear `todos.json` after every test run for `todoServer.js` or it will fail for some test case.
+5. clear `todos.json` after every test run for `todoServer.js`. Otherwise, your code will fail for some test case.
 
 #### Development Setup
 1. Install the dependencies used by running `npm install` command in your terminal.
