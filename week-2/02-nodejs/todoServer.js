@@ -41,6 +41,7 @@
  */
 const express = require('express');
 const fs = require('fs');
+const { v4: uuidv4 } = require("uuid");
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -95,7 +96,7 @@ app.get('/todo/:id', function(req, res){
 //   Example: POST http://localhost:3000/todos
 //   Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
 function getRandomId(){
-    return new Date().getTime();
+    return uuidv4();
 }
 function newTodo(req){
     let randomId = getRandomId();
