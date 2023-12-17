@@ -12,8 +12,8 @@
       Points to Note: 
         1. the input can have multiple continuous spaces, you're supposed to avoid them and parse the expression correctly
         2. the input can have invalid non-numerical characters like `5 + abc`, you're supposed to throw error for such inputs
-  
-    Once you've implemented the logic, test your code by running
+
+  Once you've implemented the logic, test your code by running
 */
 
 class Calculator {}
