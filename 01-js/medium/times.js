@@ -20,8 +20,7 @@ function calculateTime(n) {
     // s=n*(n+1)/2; 
     const timeObj2 = new Date(); 
     const currentTime = timeObj2.getTime(); 
-    console.log(s); 
     console.log((currentTime-startTime)); 
 }
 
-calculateTime(10001); 
+calculateTime(100000); 
