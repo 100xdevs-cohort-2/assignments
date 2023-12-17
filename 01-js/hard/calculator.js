@@ -16,6 +16,63 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+ constructor()
+ {
+    this.result = 0; 
+ }
+ add(num)
+ {
+    this.result+=num;  
+ }
+ subtract(num)
+ {
+    this.result-=num; 
+ }
+ multiply(num)
+ {
+    this.result*=num; 
+ }
+ divide(num)
+ {
+    if(num===0)
+    throw new Error("Can't divide by zero"); 
+    this.result/=num; 
+ }
+ clear()
+ {
+  this.result = 0; 
+ }
+ getResult()
+ {
+   return this.result; 
+ }
+ deleteSpace(str)
+ {
+   let newStr="";
+   for(let i=0;i<str.length;i++)
+   {
+     if(str[i]!==' ')
+     newStr+=str[i]; 
+   }
+   return newStr; 
+ }
+ calculate(string)
+ {
+    string = this.deleteSpace(string); 
+    const evalResult = eval(string); 
+    if(evalResult===Infinity)
+    throw new Error(); 
+    this.result = evalResult;
+ }
+}
+const calc = new Calculator(); 
+calc.add(12);
+calc.divide(4);
+
+console.log(calc.calculate('2 + 3 * 4')); 
+
+// console.log(calc.getResult()); 
+// console.log(calc.calculate('10 + (2 + 3+6)')); 
 
 module.exports = Calculator;
