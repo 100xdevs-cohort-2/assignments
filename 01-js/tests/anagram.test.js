@@ -34,4 +34,15 @@ describe('isAnagram', () => {
 		expect(isAnagram('hello', 'hello!')).toBe(false);
 		expect(isAnagram('openai!', 'open')).toBe(false);
 	});
+
+	test('returns false for either one of empty strings, null, or undefined inputs', () => {
+        expect(isAnagram('', 'hello!')).toBe(false);
+        expect(isAnagram('openai!', '')).toBe(false);
+        expect(isAnagram(null, 'hello!')).toBe(false);
+        expect(isAnagram('openai!', null)).toBe(false);
+        expect(isAnagram(undefined, 'hello!')).toBe(false);
+        expect(isAnagram('openai!', undefined)).toBe(false);
+        expect(isAnagram(null, null)).toBe(false);
+        expect(isAnagram(undefined, undefined)).toBe(false);
+    });
 });
