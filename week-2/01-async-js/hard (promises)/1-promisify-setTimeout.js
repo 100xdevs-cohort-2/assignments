@@ -3,18 +3,20 @@
 */
 
 function wait(n) {
-    return new Promise(function (resolve, reject) {
-      setTimeout(function () {
+    return new Promise((resolve) => {
+      setTimeout(() => {
         resolve(`Promise resolved after ${n} seconds`);
       }, n * 1000);
     });
   }
   
   wait(3)
-    .then(function (message) {
+    .then((message) => {
       console.log(message);
     })
-    .catch(function (error) {
-      console.error(error);
+    .catch((error) => {
+      console.error("Error:", error);
     });
+  
+  module.exports = wait;
   

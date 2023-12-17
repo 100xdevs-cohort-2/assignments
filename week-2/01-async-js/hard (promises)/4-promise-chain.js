@@ -1,56 +1,66 @@
 /*
- * Write 3 different functions that return promises that resolve after 1, 2, and 3 seconds respectively.
+ * Write 3 different functions that return promises that resolve after t1, t2, and t3 seconds respectively.
  * Write a function that sequentially calls all 3 of these functions in order.
- * Print out the time it takes to complete the entire operation.
+ * Return a promise chain which return the time in milliseconds it takes to complete the entire operation.
  * Compare it with the results from 3-promise-all.js
  */
 
-function waitOneSecond() {
+function wait1(t) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve("Promise resolved after 1 second");
-      }, 1000);
+        resolve(`Promise 1 resolved after ${t} seconds`);
+      }, t * 1000);
     });
   }
   
-  function waitTwoSeconds() {
+  function wait2(t) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve("Promise resolved after 2 seconds");
-      }, 2000);
+        resolve(`Promise 2 resolved after ${t} seconds`);
+      }, t * 1000);
     });
   }
   
-  function waitThreeSeconds() {
+  function wait3(t) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve("Promise resolved after 3 seconds");
-      }, 3000);
+        resolve(`Promise 3 resolved after ${t} seconds`);
+      }, t * 1000);
     });
   }
   
-  function calculateTime() {
+  function calculateTime(t1, t2, t3) {
     const startTime = Date.now();
   
-    waitOneSecond()
+    return wait1(t1)
       .then((result) => {
         console.log(result);
-        return waitTwoSeconds();
+        return wait2(t2);
       })
       .then((result) => {
         console.log(result);
-        return waitThreeSeconds();
+        return wait3(t3);
       })
       .then((result) => {
         console.log(result);
         const endTime = Date.now();
         const duration = endTime - startTime;
         console.log("Sequential execution completed in", duration, "milliseconds");
+        return duration;
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
   
-  calculateTime();
+  // Example usage
+  calculateTime(1, 2, 3)
+    .then((totalTime) => {
+      console.log("Total time:", totalTime, "milliseconds");
+    })
+    .catch((error) => {
+      console.error("Error in calculation:", error);
+    });
+  
+  module.exports = calculateTime;
   
