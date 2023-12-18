@@ -14,7 +14,25 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let result = [];
+  for (let i = 0; i < transactions.length; i++) {
+    result = takeSingleObj(transactions[i], result);
+  }
+  return result;
 }
 
+function takeSingleObj(tran, result) {
+  let isInsideCheck = false;
+  for (let i = 0; i < result.length; i++) {
+    if (result[i].category === tran.category) {
+      result[i].totalSpent = tran.price + result[i].totalSpent;
+      isInsideCheck = true;
+    }
+  }
+
+  if (isInsideCheck === false) {
+    result.push({ category: tran.category, totalSpent: tran.price });
+  }
+  return result;
+}
 module.exports = calculateTotalSpentByCategory;
