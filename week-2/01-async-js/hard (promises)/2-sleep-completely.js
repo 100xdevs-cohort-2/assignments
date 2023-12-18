@@ -5,23 +5,15 @@
  */
 
 function sleep(milliseconds) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(`Slept for ${milliseconds} milliseconds`);
-      }, milliseconds);
-    });
-  }
-  
-  // Example usage:
-  sleep(2000)
-    .then((message) => {
-      console.log(message);
-    })
-    .catch((error) => {
-      console.error("Error: ", error);
-    });
-  
-  module.exports = sleep;
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, milliseconds);
+  });
+}
+
+module.exports = sleep;
+
   
 
 
