@@ -4,7 +4,13 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase().replace(/[ !.?,]/g,"");
+  let rstr = str.split('').reverse().join('');
+  if(str==rstr){
+    return true;
+  }
+  return false;
 }
+// console.log(isPalindrome("race car"))
 
 module.exports = isPalindrome;
