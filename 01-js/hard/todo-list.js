@@ -33,6 +33,8 @@ class Todo {
       removeIndex++;
     }
 
+    const removedElement = this.todoList[removeIndex];
+
     let remainingIndex = removeIndex + 1;
 
     while (remainingIndex < this.todoListLength) {
@@ -43,6 +45,8 @@ class Todo {
 
     this.todoList = tempList;
     this.todoListLength--;
+
+    return removedElement;
   }
 
   update(index, updatedTodo) {
