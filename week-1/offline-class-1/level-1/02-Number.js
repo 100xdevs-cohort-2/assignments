@@ -1,3 +1,5 @@
+//The parseInt() function parses a string and returns an integer.
+
 function explainParseInt(value) {
   console.log("Original Value:", value);
   let result = parseInt(value);

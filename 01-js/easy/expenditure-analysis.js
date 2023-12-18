@@ -14,6 +14,12 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
+  var categoryTotal = {};
+  for(let i=0;i<transactions.length;i++){
+    var transaction = transactions[i];
+    var category = transaction.category;
+    var price = transaction.price;
+  }
   return [];
 }
 
