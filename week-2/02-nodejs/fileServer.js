@@ -39,10 +39,10 @@ app.get('/file/:filename', function (req, res) {
 });
 
 app.use((req, res, next) => {
-  res.status(404).send();
+  res.status(404).send("Route not found");
 });
 
-app.listen(3000, () => {
-  console.log("app listening on port 3000");
-});
+// app.listen(3000, () => {
+//   console.log("app listening on port 3000");
+// });
 module.exports = app;
