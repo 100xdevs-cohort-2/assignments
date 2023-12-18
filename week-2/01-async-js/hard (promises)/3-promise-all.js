@@ -8,7 +8,7 @@ function wait1(t) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(`Promise 1 resolved after ${t} seconds`);
-    }, t);
+    }, t * 1000);
   });
 }
 
@@ -37,7 +37,7 @@ function calculateTime(t1, t2, t3) {
   });
 }
 
-calculateTime(2, 3, 1)
+calculateTime(10, 1, 1)
   .then((time) => {
     console.log(`Total time: ${time} milliseconds`);
   })

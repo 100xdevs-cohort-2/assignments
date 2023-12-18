@@ -5,18 +5,17 @@
  */
 
 function sleep(milliseconds) {
-  const startTime = Date.now();
-
-  while (Date.now() - startTime < milliseconds) {
-    // Busy-waiting loop
-  }
-
-  return Promise.resolve(`Slept for ${milliseconds} milliseconds`);
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`Slept for ${milliseconds} milliseconds`);
+      resolve();
+    }, milliseconds);
+  });
 }
 
 sleep(3000)
   .then((message) => {
-    console.log(message); // This will be printed after 3 seconds
+    console.log(message);
   })
   .catch((error) => {
     console.error("Error:", error);
