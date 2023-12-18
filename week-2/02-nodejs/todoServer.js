@@ -42,7 +42,6 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const port = 3000;
 
 const app = express();
 
@@ -76,10 +75,9 @@ app.post("/todos", (req, res) => {
     const {title, description} = req.body;
 
     if (isEmpty(title) || isEmpty(description)) {
-        res.status(400).json({
+        return res.status(400).json({
             msg: "Please provide title and description",
         });
-        return;
     }
 
     const todo = {
@@ -87,9 +85,7 @@ app.post("/todos", (req, res) => {
     };
 
     todoList.push(todo);
-    res.status(201).json({
-        msg: "Todo added successfully", todo: todo,
-    });
+    return res.status(201).json(todo);
 });
 
 app.put("/todos/:id", (req, res) => {
@@ -126,10 +122,6 @@ app.delete("/todos/:id", (req, res) => {
     res.json({
         msg: "Todo deleted successfully", todo: todo,
     });
-});
-
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
 });
 
 module.exports = app;
