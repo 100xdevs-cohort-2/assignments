@@ -4,7 +4,18 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+
+async function onDone(){
+    let a = await sleep(3000);
+    console.log("I guess this is async await.");
 }
+
+function sleep(milliseconds) {
+    return new Promise(function(){
+        setTimeout(function(){console.log("hi")}, milliseconds);
+    })
+}
+
+async
 
 module.exports = sleep;
