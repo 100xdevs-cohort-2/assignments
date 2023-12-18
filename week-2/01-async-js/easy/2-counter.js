@@ -1,6 +1,9 @@
-while (true) {
-    console.clear()
-    const date = new Date()
-    console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
-    setTimeout(console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`), 1000);
+let count = 0;
+
+function counter(){
+    console.log(count);
+    count++;
+    setTimeout(counter, 1000);
 }
+
+counter();
