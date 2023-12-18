@@ -16,6 +16,80 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
 
-module.exports = Calculator;
+  result = 0
+  removeUnwanted
+  number = 0
+  
+
+  add(num){
+    this.result = this.result + num
+  }
+
+  subtract(num){
+    this.result = this.result - num
+  }
+
+  multiply(num){
+    this.result = this.result * num
+  }
+
+  divide(num){
+    if( num == 0 ){
+      throw newError()
+    }
+    this.result /= num
+  }
+
+  clear(){
+    this.result = 0
+  }
+
+  getResult(){
+    console.log(this.result)
+    return this.result
+  }
+
+  calculate(str){
+  
+    this.removeUnwanted =  str.replace(/[^0-9\+*/-]/g,'').split(/([+\-*/])/).filter(Boolean);
+
+    this.number = this.removeUnwanted[0]
+
+    for (let i =1 ; i<this.removeUnwanted.length ; i++){
+
+      switch(this.removeUnwanted[i]){
+        case('+'):
+          this.number += this.removeUnwanted[i+1];
+          i++;
+          break;
+        case('-'):
+          this.number = this.number - this.removeUnwanted[i+1];
+          i++;
+          break;
+        case('*'):
+          this.number *= this.removeUnwanted[i+1];
+          i++;
+          break;
+        case('/'):
+          this.number /= this.removeUnwanted[i+1];
+          i++;
+          break;
+      }
+
+
+    
+    }
+
+    console.log(this.number)
+  }
+  
+}
+
+let calc = new Calculator()
+
+calc.calculate("0+2+500+ hj1 *20 -jksdflh /12")
+
+
+// module.exports = Calculator;
