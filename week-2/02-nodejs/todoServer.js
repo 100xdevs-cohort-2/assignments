@@ -39,11 +39,136 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const { log } = require("console");
+
+const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+const path = "./todos.json"
+
+app.get("/todos", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    // console.log(data);
+    if (err) {
+      console.log(err);
+      return;
+    }
+    data = JSON.parse(data);
+    console.log("ok: ", data[5].completed);
+    res.status(200).json(data);
+  });
+  // res.send('hello there')
+});
+
+app.get("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    let id = parseInt(req.params.id);
+    console.log(id);
+    let todos = JSON.parse(data);
+    console.log(todos);
+    let reponseTodo;
+    todos.forEach((todo) => {
+      if (todo.id === id) {
+        res.status(200).json({ todo });
+        return;
+      }
+    });
+    res.status(404).json({ msg: "todo not found" });
+  });
+});
+
+app.post("/todos", (req, res) => {
+  let todo = req.body;
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log(data);
+    let todos = JSON.parse(data);
+    todo.id = todos.length + 1;
+    todo.completed === "false"
+      ? (todo.completed = false)
+      : (todo.completed = true);
+    todos.push(todo);
+    let newTodos = JSON.stringify(todos);
+    fs.writeFile("./todos.json", newTodos, (err) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.status(201).json({ id: todo.id });
+    });
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  let newTodo = req.body;
+  let changed = false;
+  newTodo.completed === "false"
+    ? (newTodo.completed = false)
+    : (newTodo.completed = true);
+  let id = parseInt(req.params.id);
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    let todos = JSON.parse(data);
+    todos.forEach((todo) => {
+      if (todo.id === id) {
+        changed = true;
+        todo.title = newTodo.title;
+        todo.completed = newTodo.completed;
+        todo.description = newTodo.description;
+      }
+    });
+    if (changed) {
+      let patchedTodos = JSON.stringify(todos);
+        fs.writeFile("./todos.json", patchedTodos, (err) => {
+          if (err) console.log(err);
+          console.log("second");
+          res.status(200).json({ id: id });
+          return;
+        });
+    }else{
+      res.status(404).json({ msg: "todo not found" })
+    }
+  });
+});
+
+app.delete("/todos/:id", (req, res) => {
+  let id = parseInt(req.params.id);
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    let todos = JSON.parse(data);
+    let newTodos = todos.filter((todo) => {
+      if (todo.id === id) changed = true
+      return todo.id !== id;
+    });
+    if (changed) {
+      newTodos = JSON.stringify(newTodos)
+      fs.writeFile("./todos.json", newTodos, (err) => {
+        if (err) console.log(err);
+        console.log("second");
+        res.status(200).json({ id: id });
+        return;
+      });
+    }else{
+      res.status(404).json({ msg: "todo not found" });
+    }
+    
+    
+  });
+});
+
+// app.listen(3000, (err) => {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log("server started on port 3000");
+// });
+
+module.exports = app;

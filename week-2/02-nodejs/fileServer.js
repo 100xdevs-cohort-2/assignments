@@ -12,10 +12,55 @@
     - For any other route not defined in the server return 404
     Testing the server - run `npm run test-fileServer` command in terminal
  */
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const { error, log } = require("console");
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
+app.use(express.json());
+
+app.get("/files", (req, res) => {
+  try {
+    fs.readdir("./files", (err, files) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("internal server error");
+        return;
+      } else {
+        console.log(files);
+        res.status(200).json({ files });
+      }
+    });
+  } catch (error) {
+    console.log("some error: ", error);
+    res.status(500).send("internal server error");
+  }
+});
+
+app.get("/files/:filename", (req, res) => {
+  const path = `./files/${req.params.filename}`;
+  try {
+    fs.readFile(path, "utf-8", (err, data) => {
+      if (err) {
+        res.status(404).send("File not found");
+        return;
+      } else {
+        res.status(200).json({ filename: req.params.filename, data: data });
+      }
+    });
+  } catch (err) {
+    console.log("something went wrong: ", err);
+    res.status(404).send("File not found");
+  }
+});
+
+//global catch to handle nonexisting routes
+app.use((req, res) => {
+  console.log("the route you are looking for is not present");
+  res.status(404).send("Route not found");
+});
+
+// app.listen(3000);
 
 module.exports = app;
