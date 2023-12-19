@@ -1,4 +1,4 @@
-# hard-section:
+# hard-section - Calculator.js:
 
 ### eval function in js :
 
@@ -48,3 +48,17 @@ this.result = eval(cleanedExpression);
 thrownewError('Error in evaluating the expression');
 }
 }
+
+# hard-section - todo-list.js :
+
+### splice method():
+
+The `splice` method in JavaScript is used to change the contents of an array by removing or replacing existing elements and/or adding new elements in place. The `splice` method modifies the original array and returns an array containing the removed elements, if any.
+
+![1703003205847](image/notes/1703003205847.png)
+
+![1703003224259](image/notes/1703003224259.png)
+
+### ** Success Message **
+
+![1703003660220](image/notes/1703003660220.png)
