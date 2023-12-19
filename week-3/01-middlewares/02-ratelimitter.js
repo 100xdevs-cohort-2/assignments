@@ -10,22 +10,22 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000);
 
-app.use((req, res, next) => {
-    const userId = req.headers['user-id'];
-
-    if (!userId) {
-        next();
-        return;
+function rateLimitter(req, res, next) {
+    const user = req.headers["user-id"];
+  
+    if (!numberOfRequestsForUser[user]) {
+      numberOfRequestsForUser[user] = 1;
+      next();
     }
-
-    numberOfRequestsForUser[userId] = (numberOfRequestsForUser[userId] || 0) + 1;
-
-    if (numberOfRequestsForUser[userId] >= requestLimit) {
-        res.status(404).json({ msg: 'Request limit is exceeded' });
+    if (numberOfRequestsForUser[user] > 5) {
+      res.status(404).send("404");
     } else {
-        next();
+      ++numberOfRequestsForUser[user];
+      next();
     }
-});
+  }
+  
+  app.use(rateLimitter);
 
 app.get('/user', function (req, res) {
     res.status(200).json({ name: 'john' });
