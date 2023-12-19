@@ -49,7 +49,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get("/todos", (req, res) => {
-  res.status(200).send({ todos });
+  res.status(200).send(todos);
 });
 
 app.get("/todos/:id", (req, res) => {
@@ -75,7 +75,7 @@ app.post("/todos", (req, res) => {
 
   fs.writeFileSync("todos.json", JSON.stringify(todos));
 
-  res.status(201).send(id.toString());
+  res.status(201).send({ id: id });
 });
 
 app.put("/todos/:id", (req, res) => {
