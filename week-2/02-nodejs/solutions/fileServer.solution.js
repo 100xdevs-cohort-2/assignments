@@ -26,7 +26,7 @@ app.get('/files', function (req, res) {
     });
 });
 
-app.get('/file/:filename', function (req, res) {
+app.get('/files/:filename', function (req, res) {
     const filepath = path.join(__dirname, './files/', req.params.filename);
 
     fs.readFile(filepath, 'utf8', (err, data) => {
