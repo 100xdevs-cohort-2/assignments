@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1702994461908" clover="3.2.0">
-  <project timestamp="1702994461908" name="All files">
-    <metrics statements="86" coveredstatements="81" conditionals="7" coveredconditionals="6" methods="1" coveredmethods="1" elements="94" coveredelements="88" complexity="0" loc="86" ncloc="86" packages="1" files="3" classes="3"/>
+<coverage generated="1702996489425" clover="3.2.0">
+  <project timestamp="1702996489425" name="All files">
+    <metrics statements="102" coveredstatements="97" conditionals="11" coveredconditionals="10" methods="2" coveredmethods="2" elements="115" coveredelements="109" complexity="0" loc="102" ncloc="102" packages="1" files="3" classes="3"/>
     <file name="01-requestcount.js" path="C:\Users\HP\Desktop\Harikirat Cohort 2.0\Harikirat-assignments\week-3\01-middlewares\01-requestcount.js">
-      <metrics statements="33" coveredstatements="31" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+      <metrics statements="32" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
       <line num="3" count="1" type="stmt"/>
@@ -24,22 +24,21 @@
       <line num="18" count="1" type="stmt"/>
       <line num="19" count="1" type="stmt"/>
       <line num="20" count="1" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="0" type="stmt"/>
+      <line num="21" count="0" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
       <line num="23" count="1" type="stmt"/>
       <line num="24" count="1" type="stmt"/>
-      <line num="25" count="1" type="stmt"/>
-      <line num="26" count="0" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
       <line num="27" count="1" type="stmt"/>
-      <line num="28" count="1" type="stmt"/>
-      <line num="29" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="28" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="29" count="1" type="stmt"/>
       <line num="30" count="1" type="stmt"/>
       <line num="31" count="1" type="stmt"/>
       <line num="32" count="1" type="stmt"/>
-      <line num="33" count="1" type="stmt"/>
     </file>
     <file name="02-ratelimitter.js" path="C:\Users\HP\Desktop\Harikirat Cohort 2.0\Harikirat-assignments\week-3\01-middlewares\02-ratelimitter.js">
-      <metrics statements="27" coveredstatements="26" conditionals="2" coveredconditionals="2" methods="0" coveredmethods="0"/>
+      <metrics statements="44" coveredstatements="43" conditionals="6" coveredconditionals="6" methods="1" coveredmethods="1"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
       <line num="3" count="1" type="stmt"/>
@@ -54,19 +53,36 @@
       <line num="12" count="1" type="stmt"/>
       <line num="13" count="1" type="stmt"/>
       <line num="14" count="1" type="stmt"/>
-      <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="16" count="7" type="stmt"/>
-      <line num="17" count="1" type="stmt"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="16" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="17" count="2" type="stmt"/>
       <line num="18" count="1" type="stmt"/>
-      <line num="19" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="20" count="13" type="stmt"/>
-      <line num="21" count="1" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="23" count="1" type="stmt"/>
-      <line num="24" count="0" type="stmt"/>
-      <line num="25" count="1" type="stmt"/>
-      <line num="26" count="1" type="stmt"/>
-      <line num="27" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="20" count="13" type="cond" truecount="1" falsecount="0"/>
+      <line num="21" count="13" type="stmt"/>
+      <line num="22" count="13" type="stmt"/>
+      <line num="23" count="13" type="stmt"/>
+      <line num="24" count="13" type="cond" truecount="2" falsecount="0"/>
+      <line num="25" count="7" type="stmt"/>
+      <line num="26" count="7" type="stmt"/>
+      <line num="27" count="13" type="cond" truecount="1" falsecount="0"/>
+      <line num="28" count="13" type="stmt"/>
+      <line num="29" count="13" type="stmt"/>
+      <line num="30" count="13" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="35" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="36" count="13" type="stmt"/>
+      <line num="37" count="13" type="stmt"/>
+      <line num="38" count="1" type="stmt"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="40" count="1" type="stmt"/>
+      <line num="41" count="0" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="43" count="1" type="stmt"/>
+      <line num="44" count="1" type="stmt"/>
     </file>
     <file name="03-errorcount.js" path="C:\Users\HP\Desktop\Harikirat Cohort 2.0\Harikirat-assignments\week-3\01-middlewares\03-errorcount.js">
       <metrics statements="26" coveredstatements="24" conditionals="3" coveredconditionals="2" methods="0" coveredmethods="0"/>
