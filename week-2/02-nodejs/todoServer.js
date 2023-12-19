@@ -11,7 +11,7 @@
     Response: 200 OK with an array of todo items in JSON format.
     Example: GET http://localhost:3000/todos
     
-  2.GET /todos/:id - Retrieve a specific todo item by ID
+  2.GET /todos/:id - Retrieve a specific todo item by ID  
     Description: Returns a specific todo item identified by its ID.
     Response: 200 OK with the todo item in JSON format if found, or 404 Not Found if not found.
     Example: GET http://localhost:3000/todos/123
@@ -39,11 +39,95 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+var fs = require("fs");
+
+const app = express();
+
+app.use(bodyParser.json());
+let input = require("./todos.json");
+//input was not getting modified, needs to follow best practice,
+//it was returning old value it was holding after updating to any id
+app.get("/todos", (req, res) => {
+  res.status(200).send(input);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  if (id >= 0) {
+    // res.status(200).send(input);
+    //loop through array of objects by searching for id and return
+    const todoItem = input.find((task) => task.id == id);
+    res.status(200).send(todoItem);
+  } else {
+    res.status(404).send("Todo item Not found");
+  }
+});
+
+app.post("/todos", (req, res) => {
+  const tasks = req.body;
+  tasks.id = input.length + 1;
+  input.push(tasks);
+  fs.writeFile("./todos.json", JSON.stringify(input), "utf8", function (err) {
+    if (err) throw err;
+    console.log("complete");
+  });
+
+  res.status(201).send(input);
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const task = req.body;
+  task.id = id;
+  if (id >= 0) {
+    // res.status(200).send(input);
+    //loop through array of objects by searching for id and return
+    const todoItem = input.filter((item) => item.id != id);
+    todoItem.push(task);
+    input = todoItem;
+    res.status(201).send(todoItem);
+    fs.promises
+      .writeFile(
+        "./todos.json",
+        JSON.stringify(todoItem),
+        "utf8",
+        function (err) {
+          if (err) throw err;
+          console.log("complete");
+        }
+      )
+      .then((value) => {
+        res.status(200).send(value);
+      });
+  } else {
+    res.status(404).send("Todo item Not found");
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  if (id >= 0) {
+    // res.status(200).send(input);
+    //loop through array of objects by searching for id and return
+    const todoItem = input.filter((item) => item.id != id);
+    input = todoItem;
+    fs.promises.writeFile(
+      "./todos.json",
+      JSON.stringify(todoItem),
+      "utf8",
+      function (err) {
+        if (err) throw err;
+        console.log("complete");
+      }
+    );
+    // then promise is not resolved
+    res.status(200).send("Item deleted");
+  } else {
+    res.status(404).send("Todo item Not found");
+  }
+});
+
+app.listen(300, () => console.log("server started"));
+module.exports = app;
