@@ -39,11 +39,178 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const uuid = require('uuid');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// GET List of Todos
+app.get("/todos", (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) {
+      if (err.code == 'ENOENT') {
+        res.status(404).json({ "message": "file not found" });
+      }
+      else {
+        res.status(500).send(err);
+      }
+
+    }
+    else {
+      res.status(200).json(data);
+    }
+  })
+})
+
+//Get specific id
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) {
+      if (err.code == 'ENOENT') {
+        res.status(404).json({ "message": "file not found" });
+      } else {
+        res.status(500).send(err);
+      }
+    }
+
+    let existing_todos = JSON.parse(data);
+    let find_todo = existing_todos.find(todo => todo.id === id);
+
+    if (find_todo) {
+      res.status(200).send(find_todo);
+    }
+    else {
+      res.status(404).json({ "message": "No such id" });
+    }
+  })
+
+})
+
+// Create a new todo item
+app.post('/todos', (req, res) => {
+  const { title, description, completed } = req.body;
+
+  fs.readFile("todos.json", 'utf-8', (err, data) => {
+    if (err && err.code !== 'ENOENT') {
+      res.status(500).send(err);
+    } else {
+      let todos = [];
+      if (!err) {
+        try {
+          todos = JSON.parse(data);
+        } catch (parseError) {
+          res.status(500).send(parseError);
+          return;
+        }
+      }
+
+      const newTodo = {
+        id: uuid.v4(),
+        title,
+        description,
+        completed
+      };
+
+      todos.push(newTodo);
+
+      fs.writeFile("todos.json", JSON.stringify(todos, null, 2), (writeErr) => {
+        if (writeErr) {
+          res.status(500).send(writeErr);
+        } else {
+          res.status(201).json({ id: newTodo.id });
+        }
+      });
+    }
+  });
+});
+
+// Update a todo by id
+app.put('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  const { title, completed } = req.body;
+
+  fs.readFile('todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      if (err.code == 'ENOENT') {
+        res.status(404).json({ "message": "File not found" });
+      } else {
+        res.status(500).send(err);
+      }
+      return;
+    }
+
+    let existingTodos = JSON.parse(data);
+    const foundIndex = existingTodos.findIndex(todo => todo.id === id);
+
+    if (foundIndex !== -1) {
+      existingTodos[foundIndex].title = title || existingTodos[foundIndex].title;
+      existingTodos[foundIndex].completed = completed !== undefined ? completed : existingTodos[foundIndex].completed;
+
+      fs.writeFile('todos.json', JSON.stringify(existingTodos, null, 2), (writeErr) => {
+        if (writeErr) {
+          res.status(500).send(writeErr);
+        } else {
+          res.status(200).json(existingTodos[foundIndex]);
+        }
+      });
+    } else {
+      res.status(404).json({ "message": "No such id" });
+    }
+  });
+});
+
+//Delete a todo by id
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Read the contents of the 'todos.json' file
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) {
+      if (err.code == 'ENOENT') {
+        res.status(404).json({"message": "File not found"});
+      } else {
+        res.status(500).send(err);
+      }
+      return;
+    }
+
+    // Parse the existing todos from the file
+    let existingTodos = JSON.parse(data);
+
+    // Find the index of the todo with the specified ID
+    let findTodoIndex = existingTodos.findIndex(todo => todo.id === id);
+
+    if (findTodoIndex !== -1) {
+      // Remove the todo from the existing array using splice
+      existingTodos.splice(findTodoIndex, 1);
+
+      // Write the updated todos back to the 'todos.json' file
+      fs.writeFile('todos.json', JSON.stringify(existingTodos, null, 2), (writeErr) => {
+        if (writeErr) {
+          res.status(500).send(writeErr);
+        } else {
+          // Respond with the updated todos after deletion
+          res.status(200).json(existingTodos);
+        }
+      });
+    } else {
+      // If the todo with the specified ID is not found
+      res.status(404).json({ "message": "No such id" });
+    }
+  });
+});
+
+// For any other route not defined in the server, return 404
+app.use((req, res) => {
+  res.status(404).send('Route not found');
+});
+
+
+app.listen(3001, console.log("Listening on port 3001"));
+
+module.exports = app;
