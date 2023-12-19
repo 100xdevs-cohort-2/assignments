@@ -4,6 +4,26 @@
 */
 
 function isPalindrome(str) {
+  // Convert the string to lowercase and filter out non-alphanumeric characters
+  let alphanumericString = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  let start = 0;
+  let end = alphanumericString.length - 1;
+
+  // Handle the case of an empty string
+  if (alphanumericString.length === 0) {
+    return true;
+  }
+
+  while (start <= end) {
+    if (alphanumericString[start] !== alphanumericString[end]) {
+      return false;
+    }
+
+    start++;
+    end--;
+  }
+
   return true;
 }
 
