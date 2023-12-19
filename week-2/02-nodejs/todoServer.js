@@ -39,11 +39,79 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+const todos = require("./todos.json");
+const app = express();
+
+app.use(bodyParser.json());
+
+app.get("/todos", (req, res) => {
+  res.status(200).send({ todos });
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const todo = todos.find((t) => t.id === parseInt(id));
+  if (!todo) return res.status(404).send("Not Found");
+
+  res.status(200).send(todo);
+});
+
+app.post("/todos", (req, res) => {
+  const body = req.body;
+
+  let id;
+  let index = 0;
+  do {
+    id = Math.floor(Math.random() * 1000000) % 100000;
+    index = todos.indexOf((t) => t.id === id);
+  } while (index !== -1);
+
+  body.id = id;
+  todos.push(body);
+
+  fs.writeFileSync("todos.json", JSON.stringify(todos));
+
+  res.status(201).send(id.toString());
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  const index = todos.findIndex((t) => t.id === parseInt(id));
+  if (index === -1) return res.status(404).send("Not Found");
+
+  let todo = todos[index];
+  todo.title = body?.title || todo.title;
+  todo.description = body?.description || todo.description;
+
+  todos.splice(index, 1, todo);
+
+  fs.writeFileSync("todos.json", JSON.stringify(todos));
+
+  res.status(200).send(todo);
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const index = todos.findIndex((t) => t.id === parseInt(id));
+  if (index === -1) return res.status(404).send("Not Found");
+
+  todos.splice(index, 1);
+  fs.writeFileSync("todos.json", JSON.stringify(todos));
+
+  res.status(200).send();
+});
+
+app.get("*", (req, res) => {
+  res.status(404).send();
+});
+
+module.exports = app;
+
+// app.listen(3000, () => {
+//   console.log("Listening on port 3000....");
+// });

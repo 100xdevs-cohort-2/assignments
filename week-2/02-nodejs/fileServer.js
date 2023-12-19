@@ -12,10 +12,50 @@
     - For any other route not defined in the server return 404
     Testing the server - run `npm run test-fileServer` command in terminal
  */
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
+app.get("/files", async (req, res) => {
+  // Using callabck  /// Only this is working in test cases because of the spyOn on fs
+
+  fs.readdir("files", (err, files) => {
+    if (err) res.status(500).send({ err: "System err" });
+    else res.status(200).send({ files: files });
+  });
+
+  // Async/Await method
+
+  // try {
+  //   const files = await fs.promises.readdir("files");
+  //   res.status(200).send({ files });
+  // } catch (err) {
+  //   res.status(500).send("Inteternal Server Error");
+  // }
+
+  // Using then and catch
+
+  // fs.promises
+  //   .readdir("files")
+  //   .then((filenames) => res.status(200).send({ files: filenames }))
+  //   .catch((err) => res.status(500).send({ err: "System err" }));
+});
+
+app.get("/files/:filename", (req, res) => {
+  const filename = req.params.filename;
+  fs.promises
+    .readFile(path.join(__dirname + "/files/" + filename))
+    .then((data) => res.status(200).send(data.toString()))
+    .catch((err) => res.status(404).send("File not found"));
+});
+
+app.get("*", (req, res) => {
+  res.status(404).send("Route not found");
+});
+
+// app.listen(3000, () => {
+//   console.log("Listening on port 3000....");
+// });
 
 module.exports = app;
