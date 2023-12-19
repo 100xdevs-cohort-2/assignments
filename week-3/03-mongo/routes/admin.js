@@ -3,15 +3,15 @@ const adminMiddleware = require("../middleware/admin");
 const router = Router();
 
 // Admin Routes
-app.post('/signup', (req, res) => {
+router.route('/signup').post(async (req, res) => {
     // Implement admin signup logic
 });
 
-app.post('/courses', adminMiddleware, (req, res) => {
+router.route('/courses').post(adminMiddleware, (req, res) => {
     // Implement course creation logic
 });
 
-app.get('/courses', adminMiddleware, (req, res) => {
+router.route('/courses').get(adminMiddleware, (req, res) => {
     // Implement fetching all courses logic
 });
 
