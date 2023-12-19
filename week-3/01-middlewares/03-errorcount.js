@@ -23,4 +23,16 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+const handleError = (err, req, res, next) => {
+  if(err) {
+    errorCount++
+    res.status(404).json({
+      msg: 'Internal server error'
+    })
+    return
+  }
+}
+
+app.use(handleError)
+
 module.exports = app;
