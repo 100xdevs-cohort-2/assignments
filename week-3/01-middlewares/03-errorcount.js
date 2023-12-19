@@ -4,6 +4,12 @@ const express = require('express');
 
 const app = express();
 let errorCount = 0;
+app.use((err,req,res,next)=>{
+  
+    errorCount++;
+  
+  res.status(500).json({ error: 'Not Found' });
+})
 
 // You have been given an express server which has a few endpoints.
 // Your task is to
