@@ -22,7 +22,6 @@ describe('GET /user', function() {
               .get('/requestCount')
               .then(response => {
                 expect(response.body.requestCount).toBe(12);
-                done();
               })
       });
 });
