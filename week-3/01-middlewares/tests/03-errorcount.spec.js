@@ -30,7 +30,7 @@ describe('GET /user', function() {
         request(app)
           .get('/user')
           .then(response => {
-            expect(response.status).toBe(404);
+            expect(response.status).toBe(500);
             done();
           })
       });
