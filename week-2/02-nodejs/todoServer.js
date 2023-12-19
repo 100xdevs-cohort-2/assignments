@@ -41,9 +41,92 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs');
+  const { v4: uuidv4 } = require('uuid');
   const app = express();
   
   app.use(bodyParser.json());
+  
+
+  // const todo = {
+  //   title: '',
+  //  id: uuidv4(),
+  //   completed: false,
+  //   description: '',
+  // };
+  
+  let file = 'todos.json';
+  app.locals.todos = [];
+  app.locals.todos = JSON.parse(fs.readFileSync(file, 'utf8', (err, data) => {
+    if(err) throw err;
+    return data;
+  }));
+  // console.log("todos initialized");
+
+  app.get('/todos', (req, res) => {
+    // console.log(app.locals.todos)
+    res.status(200).send(app.locals.todos);
+  });
+
+  app.get('/todos/:ID', (req, res) => {
+    const ID = req.params.ID;
+    let todoFound = false;
+    app.locals.todos.forEach(todo => {
+      if(todo.id === ID){
+        todoFound = true;
+        res.status(200).send(todo);
+      }
+    });
+    if(!todoFound)
+    res.status(404).send("Not Found");
+  });
+
+  app.post('/todos', (req, res) => {
+    const  ID = uuidv4();
+    const todo = {...req.body, id: ID};
+    app.locals.todos.push(todo);
+    // update file synchronously
+    fs.writeFileSync(file, JSON.stringify(app.locals.todos));
+    // send response
+    res.status(201).send({id: ID});
+  });
+
+  app.put('/todos/:ID', (req, res) => {
+    const ID = req.params.ID;
+    let todoFound = false;
+    app.locals.todos.forEach((todo, index) => {
+      if(todo.id === ID){
+        todoFound = true;
+        const newTodo = {...todo, ...req.body};
+        app.locals.todos[index] = newTodo;
+        res.status(200).send("OK");
+      }
+    });
+    if(!todoFound)
+    res.status(404).send("Not Found");
+  });
+
+  app.delete('/todos/:ID', (req, res) => {
+    const ID = req.params.ID;
+    let todoFound = false;
+    app.locals.todos.forEach((todo, index) => {
+      if(todo.id === ID){
+        todoFound = true;
+        app.locals.todos.splice(index, 1);
+        res.status(200).send("OK");
+      }
+    });
+    if(!todoFound)
+    res.status(404).send("Not Found");
+  });
+
+  app.use((req, res) => {
+    res.status(404).send("Not Found");
+  });
+
+  // app.listen(3000, () => {
+  //   console.log('Listening on port 3000');
+  // });
+
   
   module.exports = app;
