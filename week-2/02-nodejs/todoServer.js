@@ -39,11 +39,83 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+// // ############ TOTO TEMPLATE ###############
+// {
+//   title: "Todo title",
+//   desription: "Todo description"
+// }
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const id = () => Math.random().toString().substring(2, 12);
+const addTodo = (todo) => {
+  const uid = id();
+  todos.push({ id: uid, ...todo });
+  return uid;
+};
+
+
+let todos = [];
+
+
+app.get("/todos", (req, res) => {
+  res.status(200).send(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const fetchedTodoIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (fetchedTodoIndex === -1) {
+    res
+      .status(404)
+      .send({ msg: `todo with id ${req.params.id} does not exist` });
+  } else {
+    res.status(200).send(todos[fetchedTodoIndex]);
+  }
+});
+
+app.post("/todos", async (req, res) => {
+  const newTodo = req.body;
+  const newTodoId = addTodo(newTodo);
+  res.status(201).send({ msg: "todo created", id: newTodoId });
+});
+
+app.put("/todos/:id", async (req, res) => {
+  const updateIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (updateIndex === -1) {
+    res
+      .status(404)
+      .send({ msg: `todo with id ${req.params.id} does not exist` });
+  } else {
+    todos[updateIndex] = { ...todos[updateIndex], ...req.body };
+    res.status(200).send(todos[updateIndex]);
+  }
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  const delIndex = todos.findIndex((todo) => todo.id === req.params.id);
+  if (delIndex === -1) {
+    res
+      .status(404)
+      .send({ msg: `todo with id ${req.params.id} does not exist` });
+  } else {
+    const deletedTodo = todos.splice(delIndex, 1)[0];
+    res.status(200).send({
+      msg: `the following todo was deleted`,
+      deletedTodo: deletedTodo,
+    });
+  }
+});
+
+app.use((req, res) => {
+  res.status(404).send({ msg: "invalid route" });
+});
+
+module.exports = app;
+
