@@ -13,15 +13,37 @@ const app = express();
 
 let numberOfRequestsForUser = {};
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = { "john": 0 };
 }, 1000)
 
-app.get('/user', function(req, res) {
-  res.status(200).json({ name: 'john' });
+function rateLimit(req, res, next) {
+  let id = req.headers['user-id'];
+  if (id in numberOfRequestsForUser) {
+    numberOfRequestsForUser[id]++;
+    if (numberOfRequestsForUser[id] > 5) {
+      res.status(404).send("Too Many Requests");
+    } else {
+      next();
+    }
+  } else {
+    numberOfRequestsForUser[id] = 1;
+    next();
+  }
+}
+
+// function blockUser(req, res, next) {
+//   res.status(404).send("You have been blocked")
+// }
+
+app.use(rateLimit)
+
+app.get('/user', function (req, res) {
+  res.status(200).json(numberOfRequestsForUser);
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', function (req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
 
 module.exports = app;
