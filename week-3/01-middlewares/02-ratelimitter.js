@@ -11,10 +11,43 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
-let numberOfRequestsForUser = {};
-setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
+// let numberOfRequestsForUser = {};
+// setInterval(() => {
+//     numberOfRequestsForUser = {};
+//     let max_request = 5;
+//     let countRequest = 0;
+//    //loop, countofrequest++, if(countofrequest<max_request){return user_id.auth.haeder} else {block 404}
+//    for(let i=1; i<=max_request; i++){
+//     countRequest++
+//    }
+// }, 1000)
+
+const MAX_REQUESTS_PER_SECOND = 5;
+const requestsPerUser = {};
+
+app.use((req, res, next) => {
+  const userId = req.headers.userId;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'User ID missing' });
+  }
+
+  if (!requestsPerUser[userId]) {
+    requestsPerUser[userId] = 1;
+  } else {
+    requestsPerUser[userId]++;
+  }
+
+  if (requestsPerUser[userId] > MAX_REQUESTS_PER_SECOND) {
+    return res.status(429).json({ error: 'Rate limit exceeded' });
+  }
+
+  setTimeout(() => {
+    requestsPerUser[userId] = 0;
+  }, 1000);
+
+  next();
+});
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

@@ -34,12 +34,10 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
   const app = express();
-  
   app.use(bodyParser.json());
   
-  let todos = [];
+  let todos = [];  //empty array
   
   app.get('/todos', (req, res) => {
     res.json(todos);
@@ -50,15 +48,15 @@
     if (!todo) {
       res.status(404).send();
     } else {
-      res.json(todo);
+      res.send(todo);
     }
   });
   
   app.post('/todos', (req, res) => {
     const newTodo = {
-      id: Math.floor(Math.random() * 1000000), // unique random id
+      id: Math.floor(Math.random() * 1000000), // unique random id,,, new object get added into array
       title: req.body.title,
-      description: req.body.description
+      description: req.body.description  //written by user in body
     };
     todos.push(newTodo);
     res.status(201).json(newTodo);
@@ -89,5 +87,7 @@
   app.use((req, res, next) => {
     res.status(404).send();
   });
+
+  app.listen(5000);
   
   module.exports = app;

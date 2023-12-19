@@ -49,4 +49,29 @@ function calculateTotalSpentByCategory(transactions) {
   return output;
 }
 
+function calculate(transactions){      //simpler code to understand
+  const array1 = [];
+  for(let i=0; i<transactions.length; i++){
+      let category = transactions[i].category;  //food, food, clothing
+      let price = transactions[i].price;  //10,15
+      var found = false;
+      for(let j=0; j<array1.length; j++){
+          console.log(array1[j])
+          if(array1[j].category === category){  //food,  
+              array1[j].totalSpent += price   //10+20 , 15+25
+              found = true
+          }
+      } 
+      if(!found){
+          let obj = {
+              category: category,
+              totalSpent: price
+          }
+          array1.push(obj)
+      }
+  }
+  return array1;
+}
+
+
 module.exports = calculateTotalSpentByCategory;

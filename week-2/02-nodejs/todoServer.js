@@ -45,5 +45,13 @@
   const app = express();
   
   app.use(bodyParser.json());
-  
+
+  let todos = [ ]
+app.get('/', (req,res) => {
+  for(let i=0; i<todos.length; i++){
+    todos[i] = todos[i]
+  }
+res.json({})
+}
+)
   module.exports = app;

@@ -8,6 +8,19 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-function calculateTime(n) {
-    return 0.01;
-}
+    function calculateTime(n) {
+        let sum = 0;
+        for(let i=0; i<n ; i++){
+            sum = sum + i;
+        }
+        return sum;
+    }
+    
+    const startTime = new Date().getTime();
+    console.log(startTime);
+    console.log(calculateTime(1000)); // Output: Sum of numbers from 0 to 999
+    const endTime = new Date().getTime();
+    console.log(endTime);
+    
+    let diff = endTime - startTime;
+    console.log(diff);
