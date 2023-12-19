@@ -5,16 +5,36 @@
 */
 
 function isAnagram(str1, str2) {
-  const charMap = new Map();
-  for (let w = 0; w < str1.length; w++) {
-    charMap.put(str1.charAt(w),1);
+  str1 = str1.replace(/[^\w]/g, "").toLowerCase()
+  str2 = str2.replace(/[^\w]/g, "").toLowerCase()
+
+  //Get the character map of both strings
+  const charMapA = getCharMap(str1)
+  const charMapB = getCharMap(str2)
+
+  /* Next, we loop through each character in the charMapA, 
+  and check if it exists in charMapB and has the same value as
+  in charMapA. If it does not, return false */
+  for (let char in charMapA) {
+    if (charMapA[char] !== charMapB[char]) {
+      return false
+    }
   }
-  for (let w = 0; w < str2.length; w++) {
-  if(!charMap.has(str2.charAt(w)){
-  return false;
-  } 
+
+  return true
+}
+
+function getCharMap(string) {
+  // We define an empty object that will hold the key - value pairs.
+  let charMap = {}
+
+  /*We loop through each character in the string. if the character 
+  already exists in the map, increase the value, otherwise add it 
+  to the map with a value of 1 */
+  for (let char of string) {
+    charMap[char] = charMap[char] + 1 || 1
   }
-  return true;
+  return charMap
 }
 
 module.exports = isAnagram;

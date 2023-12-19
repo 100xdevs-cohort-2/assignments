@@ -1,22 +1,22 @@
 /*
-  Write a function `findLargestElement` that takes an array of numbers and returns the largest element.
-  Example:
-  - Input: [3, 7, 2, 9, 1]
-  - Output: 9
+  Write a function `findLargestElement` that takes an array of numbers and returns the largest element.
+  Example:
+  - Input: [3, 7, 2, 9, 1]
+  - Output: 9
 */
 
 function findLargestElement(numbers) {
-  const cmp  = numbers[0];
-  numbers.forEach(ele => {
-    if (cmp < ele) {
-      cmp = ele;
-      
-    }
+    let cmp = numbers[0];
+    numbers.forEach(ele => {
+        if (cmp < ele) {
+            cmp = ele;
 
-    
-  });
-  return cmp;
-    
+        }
+
+
+    });
+    return cmp;
+
 }
 
 module.exports = findLargestElement;
