@@ -10,7 +10,7 @@ describe('signJwt', () => {
 	test('signs a jwt correctly', () => {
 		const token = signJwt('kirat@gmail.com', '123456' );
 		const decoded = jwt.decode(token);
-		expect(decoded.username).toBe('kirat@gmail.com');
+		expect(decoded.email).toBe('kirat@gmail.com');
 	});
 
 	test('returns null if invalid email', () => {
