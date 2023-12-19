@@ -61,9 +61,32 @@ const addTodo = (todo) => {
   return uid;
 };
 
+async function getTodosFromFile() {
+  try {
+    const fileContent = await fs.promises.readFile(
+      __dirname + "/myTodos.json",
+      "utf-8"
+    );
+    return JSON.parse(fileContent);
+  } catch (err) {
+    console.log("error in reading from file", err);
+    return [];
+  }
+}
+
+async function addTodosToFile(updatedTodos) {
+  try {
+    let contentToBeWriten = JSON.stringify(updatedTodos, null, 2);
+    await fs.promises.writeFile(__dirname + "/myTodos.json", contentToBeWriten);
+  } catch (err) {
+    console.log("error in writing to the file", err);
+    return [];
+  }
+}
 
 let todos = [];
 
+getTodosFromFile().then((e) => (todos = e));
 
 app.get("/todos", (req, res) => {
   res.status(200).send(todos);
@@ -83,6 +106,7 @@ app.get("/todos/:id", (req, res) => {
 app.post("/todos", async (req, res) => {
   const newTodo = req.body;
   const newTodoId = addTodo(newTodo);
+  await addTodosToFile(todos);
   res.status(201).send({ msg: "todo created", id: newTodoId });
 });
 
@@ -94,6 +118,7 @@ app.put("/todos/:id", async (req, res) => {
       .send({ msg: `todo with id ${req.params.id} does not exist` });
   } else {
     todos[updateIndex] = { ...todos[updateIndex], ...req.body };
+    await addTodosToFile(todos);
     res.status(200).send(todos[updateIndex]);
   }
 });
@@ -106,6 +131,7 @@ app.delete("/todos/:id", async (req, res) => {
       .send({ msg: `todo with id ${req.params.id} does not exist` });
   } else {
     const deletedTodo = todos.splice(delIndex, 1)[0];
+    await addTodosToFile(todos);
     res.status(200).send({
       msg: `the following todo was deleted`,
       deletedTodo: deletedTodo,
@@ -119,3 +145,4 @@ app.use((req, res) => {
 
 module.exports = app;
 
+app.listen(8081);
