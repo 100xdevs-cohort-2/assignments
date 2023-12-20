@@ -5,6 +5,21 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise ((resolve,reject)=> {
+        let timestart = new Date().getTime();
+        while (true){
+            let timeend = new Date().getTime();
+            if (timeend-timestart<milliseconds){
+                continue;
+            }
+            else{
+                break;
+            }
+        }    
+        resolve();
+
+    })
+    
 }
 
 module.exports = sleep;
