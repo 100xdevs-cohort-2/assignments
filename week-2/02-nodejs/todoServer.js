@@ -41,20 +41,28 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-
+  const fs = require('fs') 
   
   const app = express();
   
   app.use(bodyParser.json());
 
-  const todoList=[];
+  //const todoList=[];
 
   app.get("/todos",(req,res)=>{
-         res.status(200).send(todoList);
+       fs.readFile("todos.json","utf8",(err,result)=>{
+             if(err)throw err;
+             const todoList= JSON.parse(result);
+             res.status(200).send(todoList);
+       });
+         
   });
 
   app.get("/todos/:id",(req,res)=>{
       const id=parseInt(req.params.id);
+      fs.readFile('todos.json','utf8',(err,result)=>{
+      if(err) throw err;
+      const todoList= JSON.parse(result);
       const toDo= todoList.find(obj=> obj.id===id);
       if(toDo){
         res.status(200).json(toDo);
@@ -62,49 +70,75 @@
       else{
         res.sendStatus(404);
       }
+
+      })
+      
   })
 
   app.post("/todos",(req,res)=>{
-       
-        const id= Math.floor(Math.random()*1000000);
-        const newToDo= req.body;
-        newToDo['id']=id;
-        todoList.push(newToDo);
-        res.status(201).json(newToDo);
+         const id= Math.floor(Math.random()*1000000);
+         const newToDo= req.body;
+         newToDo['id']=id;
+        fs.readFile('todos.json','utf8',(err,result)=>{
+          if(err) throw err;
+          const todoList=JSON.parse(result);
+         
+          todoList.push(newToDo);
+          
+          fs.writeFile('todos.json',JSON.stringify(todoList),(err)=>{
+            if(err) throw err;
+            res.status(201).json(newToDo);
+          });
+          
+        });
+        
   });
 
   app.put("/todos/:id",(req,res)=>{
      const id= parseInt(req.params.id);
-     const toDo= todoList.find(obj=> obj.id===id);
-     
      const reqBody=req.body;
-     if(toDo){
-       
-         for(const key in reqBody){
-          toDo[key]= reqBody[key];
+     fs.readFile("todos.json","utf8",(err,result)=>{
+         if(err) throw err;
+         const todoList=JSON.parse(result);
+         const toDo= todoList.find(obj=> obj.id===id);
+         if(toDo){ 
+          for(const key in reqBody){
+            toDo[key]= reqBody[key];
+          }
+          fs.writeFile("todos.json",JSON.stringify(todoList),(err)=>{
+              if(err) throw err;
+              res.sendStatus(200);
+          })
+          
          }
-        
-         res.sendStatus(200);
-     }
-     else{
-        res.sendStatus(404);
-     }
+         else{
+          res.sendStatus(404);
+         }
 
+     })
   });
 
   app.delete('/todos/:id',(req,res)=>{
-       const id= parseInt(req.params.id);
-       const index= todoList.findIndex(obj=> obj.id===id);
-       if(index!=-1){
-          todoList.splice(index,1);
-          res.sendStatus(200);
-       }
-       else{
-          res.sendStatus(404);
-       }
+      const id= parseInt(req.params.id);
+      fs.readFile("todos.json","utf8",(err,result)=>{
+        if(err) throw err;
+        const todoList= JSON.parse(result);
+        const index= todoList.findIndex(obj=> obj.id===id);
+        if(index!=-1){
+           todoList.splice(index,1);
+           fs.writeFile("todos.json",JSON.stringify(todoList),(err)=>{
+             if(err) throw err;
+             res.sendStatus(200);
+           });   
+        }
+        else{
+           res.sendStatus(404);
+        }
+      });
+       
   });
 
-  
+
 
   app.all('*' ,(req,res)=>{
         res.status(404).send("Route not found");
