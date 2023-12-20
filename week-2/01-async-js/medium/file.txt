@@ -1,0 +1,2 @@
+oldData : This       is      a      example     file     for      1-file-cleaner
+newData : This is a example file for 1-file-cleaner
