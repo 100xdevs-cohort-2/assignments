@@ -51,7 +51,7 @@ const filePath = path.join(__dirname, "todos.json");
 
 let todo = [];
 try {
-  const data = fs.readFileSync(filePath, "utf8");
+  const data = fs.readFileSync(filePath, "utf-8");
   todo = JSON.parse(data) || [];
 } catch (err) {
   todo = [];
@@ -59,7 +59,7 @@ try {
 
 function saveTodoData() {
   const data = JSON.stringify(todo, null, 2);
-  fs.writeFileSync(filePath, data, "utf8");
+  fs.writeFileSync(filePath, data, "utf-8");
 }
 
 app.get("/todos", (req, res) => {
