@@ -5,18 +5,12 @@
 */
 
 function isAnagram(str1, str2) {
-  // Remove spaces and convert to lowercase for accurate comparison
-  const cleanStr1 = str1.replace(/\s/g, "").toLowerCase();
-  const cleanStr2 = str2.replace(/\s/g, "").toLowerCase();
+  const lowerStr1 = str1.toLowerCase();
+  const lowerStr2 = str2.toLowerCase();
 
-  // Check if the lengths are the same
-  if (cleanStr1.length !== cleanStr2.length) {
-    return false;
-  }
-
-  // Sort the characters and compare the strings
-  const sortedStr1 = cleanStr1.split("").sort().join("");
-  const sortedStr2 = cleanStr2.split("").sort().join("");
+  //converting to arrays first then sorting
+  const sortedStr1 = lowerStr1.split("").sort().join("");
+  const sortedStr2 = lowerStr2.split("").sort().join("");
 
   return sortedStr1 === sortedStr2;
 }

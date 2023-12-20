@@ -17,66 +17,50 @@
 */
 
 class Calculator {
-  constructor() {
-    // Initialize result variable to 0
+  constructor(result) {
     this.result = 0;
   }
 
-  // Method to add a number to the result
-  add(number) {
-    this.result += number;
+  add(num) {
+    this.result += num;
   }
 
-  // Method to subtract a number from the result
-  subtract(number) {
-    this.result -= number;
+  subtract(num) {
+    this.result -= num;
   }
 
-  // Method to multiply the result by a number
-  multiply(number) {
-    this.result *= number;
+  multiply(num) {
+    this.result *= num;
   }
 
-  // Method to divide the result by a number
-  divide(number) {
-    if (number === 0) {
+  divide(num) {
+    if (num === 0) {
       throw new Error("Cannot divide by zero");
     }
-    this.result /= number;
+    this.result /= num;
   }
 
-  // Method to clear the result (set it to 0)
   clear() {
     this.result = 0;
   }
 
-  // Method to get the current value of the result
   getResult() {
     return this.result;
   }
 
-  // Method to perform arithmetic operations based on a string expression
   calculate(expression) {
-    // Remove continuous spaces and trim the expression
-    const cleanedExpression = expression.replace(/\s+/g, "").trim();
-
-    // Check for invalid characters in the expression
-    if (!/^[0-9+\-*/(). ]+$/.test(cleanedExpression)) {
-      throw new Error("Invalid characters in the expression");
+    const cleanedExpression = expression.replace(/\s+/g, "");
+    const isValidExpression = /^[0-9+\-*/(). ]+$/.test(cleanedExpression);
+    if (!isValidExpression) {
+      throw new Error("Expression is invalid");
     }
-
-    console.log(cleanedExpression);
-
-    // Check for division by zero
     if (cleanedExpression.includes("/0")) {
-      throw new Error("Invalid expression");
+      throw new Error("Division by zero is not allowed");
     }
 
     try {
-      // Use eval to calculate the result of the expression
       this.result = eval(cleanedExpression);
     } catch (error) {
-      // Catch and rethrow any evaluation errors
       throw new Error("Invalid expression");
     }
   }
