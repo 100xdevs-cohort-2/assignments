@@ -39,11 +39,130 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const z = require("zod");
+const app = express();
+
+app.use(bodyParser.json());
+
+let todo_list = [];
+let id = 1;
+
+const todoSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+});
+
+function load_data(req, res, next) {
+  fs.readFile("db.txt", "utf-8", function (err, data) {
+    if (err) {
+      console.log("Creating file db.txt");
+      fs.writeFile("db.txt", "{}", function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else {
+      let data_json = JSON.parse(data);
+      todo_list = data_json.todo_list;
+      id = data_json.id;
+    }
+  });
+  next();
+}
+
+function write_data(todo_list, id) {
+  let data_json = { todo_list: todo_list, id: id };
+  fs.writeFile("db.txt", JSON.stringify(data_json), function (err) {
+    if (err) {
+      console.log(err, data_json);
+    }
+  });
+}
+
+function schemaMiddleware(req, res, next) {
+  const todos = req.body;
+  const response = todoSchema.safeParse(todos);
+  if (!response.success) {
+    res.status(422).json({
+      msg: "Input is invalid",
+    });
+    return;
+  }
+  next();
+}
+
+app.use(load_data);
+
+app.get("/todos", function (req, res) {
+  console.log("GET", todo_list);
+  res.status(200).json(todo_list);
+});
+
+app.get("/todos/:id", function (req, res) {
+  todo_id = req.params.id;
+  // console.log(todo_list);
+  for (let i = 0; i < todo_list.length; i++) {
+    // console.log(todo_list[i], todo_list[i].id);
+    if (todo_list[i].id == todo_id) {
+      console.log("GET ID", todo_list[i]);
+      res.status(200).json(todo_list[i]);
+      return;
+    }
+  }
+  res.status(404).send("Todo Not Found");
+  return;
+});
+
+app.post("/todos", schemaMiddleware, function (req, res) {
+  req.body.id = id;
+  id++;
+  todo_list.push(req.body);
+  // console.log("POST", todo_list);
+  res.status(201).json({
+    id: req.body.id,
+  });
+  write_data(todo_list, id);
+});
+
+app.put("/todos/:id", function (req, res) {
+  todo_id = req.params.id;
+  todo_item = req.body;
+  for (let i = 0; i < todo_list.length; i++) {
+    if (todo_list[i].id == todo_id) {
+      todo_item.id = todo_id;
+      todo_list[i] = todo_item;
+      res.status(200).json(todo_item);
+      write_data(todo_list, id);
+      return;
+    }
+  }
+  res.status(404).send("Todo Not Found");
+  return;
+});
+
+app.delete("/todos/:id", function (req, res) {
+  todo_id = req.params.id;
+  for (let i = 0; i < todo_list.length; i++) {
+    if (todo_list[i].id == todo_id) {
+      todo_list.splice(i, 1);
+      res.status(200).send("Item deleted successfully");
+      write_data(todo_list, id);
+      return;
+    }
+  }
+  res.status(404).send("Todo Not Found");
+  return;
+});
+
+app.all("*", function (req, res) {
+  res.status(404).send("Route not found");
+});
+
+// app.listen(3000, function () {
+//   console.log("Server running at port 3000");
+// });
+
+module.exports = app;

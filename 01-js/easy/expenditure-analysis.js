@@ -14,7 +14,23 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  hm = {};
+  for (const obj of transactions) {
+    if (hm[obj.category] == undefined) {
+      hm[obj.category] = obj.price;
+    } else {
+      hm[obj.category] += obj.price;
+    }
+  }
+  console.log(hm);
+  result = [];
+  if (!hm) {
+    return [];
+  }
+  for (const cate in hm) {
+    result.push({ category: cate, totalSpent: hm[cate] });
+  }
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;

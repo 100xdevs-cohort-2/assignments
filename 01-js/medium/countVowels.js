@@ -6,7 +6,16 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  hm = { a: 0, e: 0, i: 0, o: 0, u: 0 };
+  str = str.toLowerCase();
+  count = 0;
+  for (const s of str) {
+    if (hm.hasOwnProperty(s)) {
+      count++;
+    }
+  }
+  return count;
 }
 
 module.exports = countVowels;
