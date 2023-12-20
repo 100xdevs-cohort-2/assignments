@@ -16,7 +16,8 @@ let errorcount = 0;
 app.use((err, req, res, next) => {
   errorCount++;
   console.error(err);
-  res.status(400).json({ error: "nof found" });
+  next(error);
+  res.status(404).json({ error: "not found" });
 });
 
 app.get("/user", function (req, res, next) {
