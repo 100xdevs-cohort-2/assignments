@@ -31,12 +31,8 @@ function calculateTime(t1, t2, t3) {
             console.log(difference);
             resolve(difference);      
        
-        }
-        )  
-    
-    }        
-    );
-
+        })    
+    });
 }
 
 module.exports = calculateTime;
