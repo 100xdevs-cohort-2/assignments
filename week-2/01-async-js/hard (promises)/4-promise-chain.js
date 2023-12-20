@@ -38,8 +38,7 @@ function calculateTime(t1, t2, t3) {
     //         const difference = end - start;
     //         resolve(difference);
     //     })))
-    // })    
-    
+    // })       
        
 }
 

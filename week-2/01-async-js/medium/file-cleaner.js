@@ -3,9 +3,9 @@ const fs = require('fs');
 let unclean_data = "";
 
 function cleanText(text){
-    let cleaned_text = text.split(" ").filter(
-        (word) => word.length > 0
-        ).join(" ");
+    let cleaned_text = text.split(" ")
+                    .filter((word) => word.length > 0)
+                    .join(" ");
 
     return cleaned_text;
 }
@@ -22,7 +22,4 @@ fs.readFile("unclean-file.txt", "utf8", function(err, data){
             console.log("Clean data written to file");
         }
     });
-
 });
-
-
