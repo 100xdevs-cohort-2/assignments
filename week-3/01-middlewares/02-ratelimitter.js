@@ -16,12 +16,33 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+function accessLimiter(req,res,next) {
+  const user = req.header.user;
+  if(numberOfRequestsForUser[user]) {
+    if(numberOfRequestsForUser[user]>5) {
+      res.send(404).send("Limit exceeded!");
+      return ;
+    }else{
+      numberOfRequestsForUser[user] ++;
+    }
+  }else{
+    numberOfRequestsForUser[user]=1;
+  }
+  next();
+}
+
+app.use(accessLimiter);
 app.get('/user', function(req, res) {
+
+  // console.log(req.headers.user);
   res.status(200).json({ name: 'john' });
 });
 
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+
+// app.listen(4000)
 
 module.exports = app;
