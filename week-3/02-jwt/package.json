@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.2",
     "zod": "^3.22.4"
   }
