@@ -39,11 +39,81 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const {v4: uuidv4} = require('uuid');
+
+const app = express();
+
+// app.use(bodyParser.json());
+app.use(express.json());
+
+app.get('/todos', (req, res) => {
+  const data = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf-8');
+  if (data) {
+    res.status(200).send(JSON.parse(data));
+  }
+  else {
+    res.status(404).send('There are no todos');
+  }
+});
+
+app.get('/todos/:id', (req, res) => {
+  const data = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf-8');
+  let todos = JSON.parse(data);
+  const todo = todos.find(todo => todo.id === req.params.id);
+  if (todo) {
+    res.status(200).send(todo);
+  }
+  else {
+    res.status(404).json({msg: 'Todo not Found'});
+  }
+});
+
+app.post('/todos', (req, res) => {
+  let todo = req.body;
+  todo = {...todo, id: uuidv4()};
+  const data = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf-8');
+  let todos = JSON.parse(data);
+  todos.push(todo);
+  const storedTodos = todos.map(todo => JSON.stringify(todo));
+  fs.writeFile(path.join(__dirname, 'todos.json'), '[' + storedTodos.toString() + ']', (err, data) => {});
+  res.status(201).json({id: todo.id});
+});
+
+app.put('/todos/:id', (req, res) => {
+  const data = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf-8');
+  let todos = JSON.parse(data);
+  const todo = todos.find(todo => todo.id === req.params.id);
+  const updatedTodo = req.body;
+  updatedTodo.id = req.params.id;
+  if (todo) {
+    let todoIndex = todos.indexOf(todo);
+    todos = [...todos.slice(0, todoIndex), updatedTodo, ...todos.slice(todoIndex + 1,)];
+    const storedTodos = todos.map(todo => JSON.stringify(todo));
+    fs.writeFile(path.join(__dirname, 'todos.json'), '[' + storedTodos.toString() + ']', (err, data) => {});
+    res.status(200).json({msg: 'Updated the item'});
+  }
+  else {
+    res.status(404).json({msg: "Todo not Found"});
+  }
+});
+
+app.delete('/todos/:id', (req, res) => {
+  const data = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf-8');
+  let todos = JSON.parse(data);
+  const todo = todos.find(todo => todo.id === req.params.id);
+  if (todo) {
+    todos.splice(todos.indexOf(todo), 1);
+    const storedTodos = todos.map(todo => JSON.stringify(todo));
+    fs.writeFile(path.join(__dirname, 'todos.json'), '[' + storedTodos.toString() + ']', (err, data) => {});
+    res.status(200).json({msg: 'Deleted the todo with' + req.params.id});
+  }
+  else {
+    res.status(404).json({msg: 'Todo not Found'});
+  }
+});
+
+app.listen(8000);
+module.exports = app;
