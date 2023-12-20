@@ -17,5 +17,50 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+//** In Node.js, the path.join method is part of the built-in path module. It is used to concatenate path segments into a single path. This is especially useful for constructing file paths in a cross-platform manner, as it automatically handles the correct path separator based on the operating system. */
+
+/* 
+  In Node.js, the readdir function is part of the built-in fs (File System) module, and it is used to asynchronously read the contents of a directory.
+*/
+
+/*
+  const path = require('path');
+  const directory = '/path/to/your/directory';
+  const filename = 'example.txt';
+  //** Using path.join to create an absolute file path
+  const absoluteFilePath = path.join(directory, filename);
+
+  console.log('Absolute file path:', absoluteFilePath);
+*/
+
+app.get('/files', function (req, res) {
+  fs.readdir(path.join(__dirname, './files/'), (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve files' });
+    }
+    res.json(files);
+  });
+});
+
+app.get('/file/:filename', function (req, res) {
+  const filepath = path.join(__dirname, './files/', req.params.filename);
+
+  fs.readFile(filepath, 'utf8', (err, data) => {
+    if (err) {
+      return res.status(404).send('File not found');
+    }
+    res.send(data);
+  });
+});
+
+// app.all('*', (req, res) => {
+//   res.status(404).send('Route not found');
+// });
+
+//for all other routes return status code : 404 with error message
+app.use((req, res) => {
+  res.status(404).send('Route not found');
+});
+
 
 module.exports = app;
