@@ -48,7 +48,6 @@ describe('Todo API', () => {
         done();
       });
     });
-
     req.write(JSON.stringify(todo));
     req.end();
   });

@@ -41,7 +41,6 @@
  */
 const express = require('express');
 const fs = require('fs');
-const { v4: uuidv4 } = require("uuid");
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -69,24 +68,22 @@ app.get('/todos', function (req, res){
 //   Response: 200 OK with the todo item in JSON format if found, or 404 Not Found if not found.
 //   Example: GET http://localhost:3000/todos/123
 
-async function getTodoById(req, res){
+app.get('/todos/:id', function(req, res){
     fs.readFile('./todos.json', 'utf8', function (err, data){
         if(err) {
             console.err(err);
             res.status(500).send('Internal server error');
+            return;
         }
-        let todoList = JSON.parse(data);
-        for(let i =0;i<todoList.length;i++){
-            if(todoList[i]["id"] === parseInt(req.params.id)){
-                res.status(200).json(todoList[i]);
-                return;
-            } 
+        const todos = JSON.parse(data);
+        const id = req.params.id;
+        const todo = todos.find((todo) => todo.id === id);
+        if(!todo){
+            res.status(404).send("Not found");
+            return;
         }
-        res.status(404).send("Can't find the id");
+        res.status(200).json(todo);
     });
-}
-app.get('/todo/:id', function(req, res){
-    getTodoById(req,res);
 });
 
 // 3. POST /todos - Create a new todo item
@@ -96,12 +93,12 @@ app.get('/todo/:id', function(req, res){
 //   Example: POST http://localhost:3000/todos
 //   Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
 function getRandomId(){
-    return uuidv4();
+    return new Date().getTime();
 }
 function newTodo(req){
     let randomId = getRandomId();
     return {
-        id: randomId,
+        id: `${randomId}`,
         title: req.body.title,
         completed: false,
         description: req.body.description
@@ -111,12 +108,18 @@ function newTodo(req){
 app.post('/todos', function(req, res){
     let newTodoItem = newTodo(req);
     fs.readFile('todos.json', 'utf8', function(err, data){
-        if(err) throw err;
+        if(err) {
+            res.status(500).send('Internal server error');
+        }
         let todoList = JSON.parse(data);
         todoList.push(newTodoItem);
         fs.writeFile('todos.json',JSON.stringify(todoList), function (err){
-            if (err) throw err;
-            res.status(201).json(newTodoItem['id']);
+            if(err) {
+                res.status(500).send('Internal server error');
+            }
+            res.status(201).json({
+                'id' : `${newTodoItem['id']}`
+            });
         });
     });
 });
@@ -138,12 +141,13 @@ app.put('/todos/:id', function(req, res){
         }
         if(todoIndex < 0){
             res.status(404).send();
+            return;
         }
         else{
             const updatedTodo = {
                 id: todos[todoIndex].id,
-                title: req.body.title,
-                completed: req.body.completed,
+                title: todos[todoIndex].title,
+                completed: true,
                 description: todos[todoIndex].description
             };
             todos[todoIndex] = updatedTodo;
@@ -176,6 +180,7 @@ app.delete('/todos/:id', function(req, res) {
         }
         if (todoIndex === -1) {
             res.status(404).send("no todo");
+            return;
         } else {
             todos = removeAtIndex(todos, todoIndex);
             fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
@@ -191,6 +196,6 @@ app.use((req, res, next)=>{
     res.status(404).send("wrong route");
 });
 
-app.listen(3000);
+// app.listen(3000);
 
 module.exports = app;
