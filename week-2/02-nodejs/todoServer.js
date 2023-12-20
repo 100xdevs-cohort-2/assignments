@@ -39,11 +39,71 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+app.use(bodyParser.json());
+
+const todo = [];
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todo);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const { id } = req.params;
+  const foundTodo = todo.find((t) => t.id === id);
+
+  if (foundTodo) {
+    res.status(200).json(foundTodo);
+  } else {
+    res.status(404).json({ error: "Todo not found" });
+  }
+});
+
+app.post("/todos", (req, res) => {
+  const { title, description } = req.body;
+  const newTodo = {
+    id: Date.now().toString(),
+    title,
+    description,
+  };
+
+  todo.push(newTodo);
+  res.status(201).json({ id: newTodo.id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const { title, description } = req.body;
+  const { id } = req.params;
+
+  const foundTodo = todo.find((t) => t.id === id);
+
+  if (!foundTodo) {
+    res.status(404).json({ error: "Todo not found" });
+  } else {
+    foundTodo.title = title;
+    foundTodo.description = description;
+
+    res.json(foundTodo);
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const { id } = req.params;
+
+  const foundIndex = todo.findIndex((t) => t.id === id);
+  if (foundIndex === -1) {
+    res.status(404).json({ error: "Todo not found" });
+  } else {
+    todo.splice(foundIndex, 1);
+    res.status(200).json({});
+  }
+});
+
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+module.exports = app;
