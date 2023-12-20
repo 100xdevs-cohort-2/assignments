@@ -49,3 +49,19 @@ req.params.id :
   ![1703089651859](image/notes/1703089651859.png)
 
 ![1703089663722](image/notes/1703089663722.png)
+
+## Node.js :
+
+### File writing in node :
+
+![1703094201973](image/notes/1703094201973.png)
+
+In this example:
+
+1. `fs.writeFile()` is used to write data to a file. It takes three parameters: the file path, the data to be written, and a callback function that will be called once the write operation is complete.
+2. The `err` parameter in the callback function will be `null` if the write operation is successful. If there is an error, `err` will contain information about the error.
+3. Make sure to replace `'example.txt'` with the actual path and name of the file you want to write to.
+
+If you want to append data to an existing file instead of overwriting it, you can use `fs.appendFile()`:
+
+![1703094277827](image/notes/1703094277827.png)
