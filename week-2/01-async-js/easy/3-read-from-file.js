@@ -6,3 +6,27 @@
 // Make the expensive operation more and more expensive and see how it affects the output. 
 
 
+const { log } = require('console');
+const read = require('fs')
+
+read.readFile('temp.txt','utf-8',(err,data)=>{
+    console.log(data);
+})
+
+let sum = 0;
+for(let i =0;i<100000000;i++){
+    sum = sum+i;
+}
+
+console.log(sum)
+console.log("task1")
+
+let anotherSum = 0;
+
+for(let i = 0;i<1000000000;i++){
+    anotherSum = anotherSum+i;
+}
+console.log(anotherSum);
+
+console.log("task2")
+console.log("File will be displyed after all sync task completed");
