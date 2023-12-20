@@ -18,4 +18,59 @@ const path = require('path');
 const app = express();
 
 
+function getFileNames() {
+  return new Promise(function (resolve) {
+    fs.readdir(path.resolve("./files/"), function(err, files) {
+      if (err) {
+        reject("Internal server error")
+      } else {
+        resolve(files);
+      }
+    })
+  })
+}
+
+function readTextFromFile(fileName) {
+  return new Promise(function (resolve, reject) {
+    console.log("File Path = " + path.resolve("./files/", fileName))
+    fs.readFile(path.resolve("./files/", fileName), 'utf-8', function(err, data){
+      if (err) {
+        if (err.code == "ENOENT") {
+          // console.log(err)
+          reject("File not found");
+        } else {
+          reject("Internal server error")
+        }
+      } else {
+        resolve(data);
+      }
+    })
+  })
+}
+
+app.get("/files", function(req, res) {
+  getFileNames().then(function (data) {
+    let fileArray = data;
+    res.status(200).json(fileArray);
+  }, function (err) {
+    res.sendStatus(500);
+  })
+})
+
+app.get("/file/:filename", function(req, res) {
+  // console.log("filename="+req.params.filename)
+  readTextFromFile(req.params.filename).then(function (data) {
+    let fileContents = data;
+    res.status(200).send(fileContents);
+  }, function (err) {
+    res.status(404).send(err);
+  })
+})
+
+
+app.get("*", function (req, res) {
+  res.status(404).send("Route not found");
+})
+
+// app.listen(4000);
 module.exports = app;
