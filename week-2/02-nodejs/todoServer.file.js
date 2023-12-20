@@ -41,72 +41,87 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const fs = require('fs');
   
   const app = express();
   
   app.use(bodyParser.json());
 
-  let todoList = [
-    {"id": 1, "title": "Buy groceries", "completed": false, "description": "I should buy groceries" },
-    {"id": 2, "title": "Buy veggies", "completed": false, "description": "I should buy groceries" }
-  ];
+  //let todoList;
+  //
+  // function readData(filename){
+  //   return new Promise(function(resolve){
+  //     fs.readFile(filename, 'utf8', (err, data) => {
+  //       //console.log(data);
+  //       resolve(JSON.parse(data));
+  //     });
+  //   });
+  // }
 
+  // app.get("/todos", function(req, res){
+  //     readData("todos.json").then((data) => {        
+  //       todoList=data
+  //       console.log(todoList);
+  //       res.json(todoList);
+  //     });
+     
+  //     //res.json(todoList);
+  // });
 
   app.get("/todos", function(req, res){
-      res.status(200).json(todoList);
+        fs.readFile("todos.json", (err, data)=>{
+          if(err) throw err;
+          res.status(200).send(JSON.parse(data));
+     });
   });
 
   app.get("/todos/:id", function(req, res){    
-    let rid = parseInt(req.params.id);
-    let todoItem = todoList.filter((x) => (x["id"] === rid));
-    
-    if(todoItem == null){
-      res.status(404)
-    }
-    else{
-      res.status(200).json(todoItem);
-    }  
+    fs.readFile("todos.json", (err, data)=>{
+      const index = parseInt(req.params.id);
+      if(err) throw err;
+      
+      let filteredItem = JSON.parse(data).filter((item) => {
+        return item["id"] == index;
+      });      
 
-  });
-
-  app.post("/todos", function(req, res){
-      let item = req.body;
-      todoList.push(item);
-      res.status(201).json({id : item["id"]});
-  });
-
-  app.put("/todos/:id", function(req, res){
-      let rid = parseInt(req.params.id);
-
-      filtered_item = todoList.filter((item) => {item.id === rid})
-      if(!filtered_item){
+      if(filteredItem.length === 0){
         res.status(404).send("Item not found");
       }
-
-      for(let i=0; i<todoList.length; i++){
-       
-        if(todoList[i]["id"] === rid){
-          todoList[i]["title"] = req.body.title;
-          todoList[i]["completed"] = req.body.completed;
-        }
+      else{
+        res.status(200).json(filteredItem);
       }
-      res.status(200).send("Item updated");
+   });
   });
 
-  app.delete("/todos/:id", function(req, res){
-    let rid = parseInt(req.params.id);
 
-    filtered_item = todoList.filter((item) => {item.id === rid})
-    
-    if(!filtered_item){
-      res.status(404).send("Item not found");
-    }
+  app.post("/todos", function(req, res){
+        fs.readFile("todos.json", (err, data) => {
+          if(err) throw err;
+          let newItem = req.body;
+          let newItemId = Math.floor((Math.random() * 100) + 5);
 
-    todoList = todoList.filter((item) => (item["id"] !== rid));
+          newItem["id"] = newItemId;
+          data = JSON.parse(data);
+          data.push(newItem);
 
-    res.status(200).send("Item deleted");
-});
+          fs.writeFile("todos.json", JSON.stringify(data), ()=>{
+            res.status(200).json({"id": newItemId});
+          });
+
+        })
   
-  app.listen(3000);
+  });
+  
+  app.put("/todos", function(req, res){
+  
+  
+  });
+  
+  app.delete("/todos", function(req, res){
+  
+  
+  });
 
+  app.listen(4000);
+  
   module.exports = app;

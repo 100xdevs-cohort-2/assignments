@@ -4,8 +4,10 @@
 
 function wait(n) {
     return new Promise(function(resolve){
-        setTimeout(()=>{resolve("Hello")}, n * 1000)
-    })
+        setTimeout(() => {
+            resolve();
+        }, n * 1000);
+    });
 }
 
 // Should resolve be inside or outside setTimeout?

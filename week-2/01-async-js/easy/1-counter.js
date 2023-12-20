@@ -1,5 +1,4 @@
-function counter()
-{
+function counter(){
     let seconds = 0;
     setInterval(function(){
             a = a + 1;
