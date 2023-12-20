@@ -1,6 +1,7 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+const { error } = require('console');
 
 const app = express();
 let errorCount = 0;
@@ -22,5 +23,12 @@ app.post('/user', function(req, res) {
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
+
+app.use((err,req,res,next)=>
+{
+  errorCount=errorCount+1;
+  res.status(404).json({Error:'not found'})
+
+})
 
 module.exports = app;

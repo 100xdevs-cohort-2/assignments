@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for 01-requestcount.js</title>
+    <title>Code coverage report for 03-errorcount.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,20 +19,20 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> 01-requestcount.js</h1>
+        <h1><a href="index.html">All files</a> 03-errorcount.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.1% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/29</span>
+                <span class='fraction'>32/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.1% </span>
+                <span class="strong">94.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/29</span>
+                <span class='fraction'>32/34</span>
             </div>
         
             
@@ -91,7 +91,12 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -105,9 +110,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -116,26 +119,31 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+const { error } = require('console');
 &nbsp;
 const app = express();
-let requestCount = 0;
+let errorCount = 0;
 &nbsp;
 // You have been given an express server which has a few endpoints.
-// Your task is to create a global middleware (app.use) which will
-// maintain a count of the number of requests made to the server in the global
-// requestCount variable
-app.use((req,res,next)=&gt;{
-  requestCount=requestCount+1;
-  next();
-})
+// Your task is to
+// 1. Ensure that if there is ever an exception, the end user sees a status code of 404
+// 2. Maintain the errorCount variable whose value should go up every time there is an exception in any endpoint
 &nbsp;
 app.get('/user', function(req, res) {
+  throw new Error("User not found")<span class="branch-0 cbranch-no" title="branch not covered" >;</span>
 <span class="cstat-no" title="statement not covered" >  res.status(200).json({ name: 'john' });</span>
 });
 &nbsp;
@@ -143,9 +151,16 @@ app.post('/user', function(req, res) {
 <span class="cstat-no" title="statement not covered" >  res.status(200).json({ msg: 'created dummy user' });</span>
 });
 &nbsp;
-app.get('/requestCount', function(req, res) {
-  res.status(200).json({ requestCount });
+app.get('/errorCount', function(req, res) {
+  res.status(200).json({ errorCount });
 });
+&nbsp;
+app.use((err,req,res,next)=&gt;
+{
+  errorCount=errorCount+1;
+  res.status(404).json({Error:'not found'})
+&nbsp;
+})
 &nbsp;
 module.exports = app;</pre></td></tr></table></pre>
 
