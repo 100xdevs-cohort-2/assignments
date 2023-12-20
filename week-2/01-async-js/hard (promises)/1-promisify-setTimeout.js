@@ -9,11 +9,3 @@ function wait(n) {
     }, n * 1000);
   });
 }
-
-wait(4)
-  .then((message) => {
-    console.log(message);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
