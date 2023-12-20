@@ -11,4 +11,4 @@ const counter = () => {
     }, 1000);
 }
 
-module.exports = counter
+counter()

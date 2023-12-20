@@ -1,1 +1,0 @@
-This is example content that is written to this file.
