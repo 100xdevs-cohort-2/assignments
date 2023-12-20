@@ -41,11 +41,26 @@
  */
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 app.use(bodyParser.json());
 
-const todo = [];
+const filePath = path.join(__dirname, "todos.json");
+
+let todo = [];
+try {
+  const data = fs.readFileSync(filePath, "utf8");
+  todo = JSON.parse(data) || [];
+} catch (err) {
+  todo = [];
+}
+
+function saveTodoData() {
+  const data = JSON.stringify(todo, null, 2);
+  fs.writeFileSync(filePath, data, "utf8");
+}
 
 app.get("/todos", (req, res) => {
   res.status(200).json(todo);
@@ -64,6 +79,11 @@ app.get("/todos/:id", (req, res) => {
 
 app.post("/todos", (req, res) => {
   const { title, description } = req.body;
+  if (!title || !description) {
+    return res
+      .status(400)
+      .json({ error: "Title and description are required" });
+  }
   const newTodo = {
     id: Date.now().toString(),
     title,
@@ -71,6 +91,7 @@ app.post("/todos", (req, res) => {
   };
 
   todo.push(newTodo);
+  saveTodoData();
   res.status(201).json({ id: newTodo.id });
 });
 
@@ -85,7 +106,7 @@ app.put("/todos/:id", (req, res) => {
   } else {
     foundTodo.title = title;
     foundTodo.description = description;
-
+    saveTodoData();
     res.json(foundTodo);
   }
 });
@@ -98,6 +119,7 @@ app.delete("/todos/:id", (req, res) => {
     res.status(404).json({ error: "Todo not found" });
   } else {
     todo.splice(foundIndex, 1);
+    saveTodoData();
     res.status(200).json({});
   }
 });
