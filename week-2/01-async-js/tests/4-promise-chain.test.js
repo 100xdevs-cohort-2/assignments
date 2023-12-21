@@ -1,4 +1,4 @@
-const calculateTime = require("../hard (promises)/4-promise-chain");
+const calculateTime = require("../hard/4-promise-chain");
 
 describe("calculateTime function", () => {
   test("calculates time 1", async () => {
