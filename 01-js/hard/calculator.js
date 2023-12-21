@@ -17,5 +17,67 @@
 */
 
 class Calculator {}
+{
+  constructor()
+  {
+    this.result=0.0;
+  }
+
+
+  add(num)
+  {
+    this.result+=num;
+  }
+
+
+  subtract(num)
+  {
+    this.result-=num;
+  }
+
+
+  multiply(num)
+  {
+    this.result*=num;
+  }
+
+
+  divide(num)
+  {
+    if(num==0)
+    {
+      throw new Error("Invalid Input");
+    }
+    else{
+      this.result/=num;
+    }
+  }
+
+
+  clear()
+  {
+    this.result=0;
+  }
+
+
+  getResult()
+  {
+    return this.result;
+  }
+
+
+  calculate(expression)
+  {
+    const ans=eval(expression);
+    if(ans==Infinity || ans==NaN)
+    {
+      throw new Error("Invalid Input");
+    }
+    else{
+      this.result=ans;
+    }
+  }
+  
+}
 
 module.exports = Calculator;
