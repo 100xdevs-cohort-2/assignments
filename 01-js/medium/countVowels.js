@@ -5,8 +5,27 @@
   Once you've implemented the logic, test your code by running
 */
 
+
+
+
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  var vowelCount=0;
+  const vowels=['a','e','i','o','u'];
+
+  for(let char of str){
+
+    if(vowels.includes(char)){
+      vowelCount++;
+
+    }
+  }
+  console.log(
+    vowelCount
+
+  );
+  return vowelCount;
 }
+countVowels('vibhaw')
 
 module.exports = countVowels;
