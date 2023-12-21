@@ -41,9 +41,134 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const fs  = require ('fs').promises;
+  const path = require('path');
   
   const app = express();
   
   app.use(bodyParser.json());
+  // 1.GET /todos - Retrieve all todo items
+  // Description: Returns a list of all todo items.
+  // Response: 200 OK with an array of todo items in JSON format.
+  // Example: GET http://localhost:3000/todos
+
+  app.get('/todos', async (req,res)=>{
+
+      const todosdata = await fs.readFile(todoPath, "utf8",);
+      const todos = JSON.parse(todosdata);
+      if(todos){
+        res.status(200).json(todos);
+      }else{
+        res.send(404).send("File not found")
+      }
+  
+  });
+
+  // 2.GET /todos/:id - Retrieve a specific todo item by ID
+  //   Description: Returns a specific todo item identified by its ID.
+  //   Response: 200 OK with the todo item in JSON format if found, or 404 Not Found if not found.
+  //   Example: GET http://localhost:3000/todos/123
+  const todoPath = path.join(__dirname,'todos.json');
+    
+  app.get('/todos/:id',async (req,res)=>{
+    const { id } = req.params;
+    
+    try{
+      const todosdata = await fs.readFile(todoPath, "utf8",)
+      const todos = JSON.parse(todosdata);
+
+      const requiredTodo = todos.find(todo=> todo.id === parseInt(id));
+      if(requiredTodo){
+        res.status(200).json(requiredTodo)
+      }else{
+        res.status(404).send("Not Found")
+      }
+    }catch (error){
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  })
+
+      
+  // 3. POST /todos - Create a new todo item
+  //   Description: Creates a new todo item.
+  //   Request Body: JSON object representing the todo item.
+  //   Response: 201 Created with the ID of the created todo item in JSON format. eg: {id: 1}
+  //   Example: POST http://localhost:3000/todos
+  //   Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
+
+
+  app.post('/todos',async (req,res)=>{
+
+    try{
+
+    const todosdata = await fs.readFile(todoPath, "utf8",)
+    const todos = JSON.parse(todosdata);
+    const newTodo = req.body;
+    newTodo.id = todos.length + 1;
+    todos.push(newTodo);
+    await fs.writeFile(todoPath, JSON.stringify(todos, null, 2), "utf8");
+    res.status(201).json(todos)
+  }catch(error){
+    console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
+  })
+
+  // 4. PUT /todos/:id - Update an existing todo item by ID
+  // Description: Updates an existing todo item identified by its ID.
+  // Request Body: JSON object representing the updated todo item.
+  // Response: 200 OK if the todo item was found and updated, or 404 Not Found if not found.
+  // Example: PUT http://localhost:3000/todos/123
+  // Request Body: { "title": "Buy groceries", "completed": true }
+  app.put('/todos/:id',async (req,res)=>{
+    const {id}= req.params;
+    const updatedTodo = req.body;
+    
+    try{
+      const todosdata = await fs.readFile(todoPath, "utf8",)
+      const todos = JSON.parse(todosdata);
+      const index = todos.findIndex((todo)=> String(id) === String(todo.id) );
+      if(index ===-1){
+        res.status(404).json({ message: "User not found" });
+      }
+
+      todos[index] = {...todos[index], ...updatedTodo};
+      await fs.writeFile(todoPath, JSON.stringify(todos, null, 2), "utf8");
+      res.status(200).json(todos)
+
+    }catch (error){
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  })
+
+  // 5. DELETE /todos/:id - Delete a todo item by ID
+  // Description: Deletes a todo item identified by its ID.
+  // Response: 200 OK if the todo item was found and deleted, or 404 Not Found if not found.
+  // Example: DELETE http://localhost:3000/todos/123
+
+  app.delete("/todos/:id", async (req,res)=>{
+    const {id} =req.params;
+    try{
+      const todosdata = await fs.readFile(todoPath, "utf8",)
+      const todos = JSON.parse(todosdata);
+
+      const requiredTodo = todos.filter(todo => todo.id != parseInt(id))
+     await  fs.writeFile(todoPath, JSON.stringify(requiredTodo, null, 2), "utf8");
+      res.status(200).json(requiredTodo)
+
+
+    }catch (error){
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+    }
+  })
+
+  app.use((req, res) => {
+    res.status(404).send('Not Found');
+  });
+
+  app.listen(3000);
   
   module.exports = app;

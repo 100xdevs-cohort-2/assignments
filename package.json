@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

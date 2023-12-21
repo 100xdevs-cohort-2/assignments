@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "title": "Buy chicken",
+    "description": "Today",
+    "completed": false,
+    "id": 1
+  },
+  {
+    "title": "Buy mutton",
+    "description": "100 kg",
+    "completed": false,
+    "id": 2
+  }
+]
