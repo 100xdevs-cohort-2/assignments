@@ -12,9 +12,28 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
-setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
+setInterval(()=>{
+  numberOfRequestsForUser={};
+},1000);
+app.use((req,res,next)=>{
+  let userId=req.headers["user-id"];
+  let timeStamp=new Date().getTime();
+  if(!(userId in numberOfRequestsForUser)){
+    numberOfRequestsForUser[userId]={timestamp:timeStamp,count:1};
+  }
+  else{
+    if(Math.floor(timeStamp/1000)!=Math.floor(numberOfRequestsForUser[userId].timeStamp/1000) && numberOfRequestsForUser.userId<=5){
+      numberOfRequestsForUser[userId].timestamp=timeStamp;
+      numberOfRequestsForUser[userId].count+=1;
+    }
+    else{
+
+      return res.status(404).send("");
+    }
+  }
+  next();
+})
+
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
