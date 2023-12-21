@@ -45,5 +45,80 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  const todos = [];
+
+
+  app.get('/todos', (req, res)=>{
+    res.json(todos);
+  })
+
+  app.get('/todos/:id', (req, res)=>{
+    const id = req.params.id;
+    for(let i=0; i<todos.length; i++){
+      if(todos[i].id == id){
+        return res.status(200).json(todos[i]);
+      }
+    }
+    return res.status(404).json({ error: 'Not found' });
+  })
   
+  app.post('/todos', (req, res)=>{
+    const newTodo = {
+      title : req.body.title,
+      description : req.body.description,
+      id : Math.floor(Math.random() * 1000000), 
+      completed: req.body.completed
+    }
+    todos.push(newTodo);
+
+    return res.status(201).json(newTodo);
+  });
+// Using for loop
+  // app.put('/todos/:id', (req, res)=>{
+  //   const id = req.params.id;
+  //   for(let i=0; i<todos.length; i++){
+  //     if(todos[i].id == id ){
+  //       if(req.body.title){
+  //         todos[i].title = req.body.title;
+  //       }
+  //       if(req.body.description){
+  //         todos[i].description = req.body.description;
+  //       }
+  //       if(req.body.completed){
+  //         todos[i].completed = req.body.completed;
+  //       }
+  //       return res.status(200).json(todos[i]);
+  //     }
+  //   }
+  //   return res.status(404).send();
+  // })
+
+  app.put('/todos/:id', (req, res)=>{
+    const index = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if (index === -1){
+      res.status(404).send();
+    } else {
+      todos[index].title = req.body.title;
+      todos[index].description = req.body.description;
+      res.json(todos[index]);
+      res.status(200).send()
+    }
+  });
+
+  app.delete('/todos/:id', (req, res)=>{
+    for(let i=0; i<todos.length; i++){
+      if(todos[i].id == req.params.id){
+        todos.splice(i, 1);
+        return res.status(200).send();
+      }
+    }
+    return res.status(404).send();
+  })
+  
+  app.all('*', (req, res)=>{
+    res.status(404).send();
+  })
+
+  // app.listen(3000);
   module.exports = app;
