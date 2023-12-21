@@ -41,9 +41,97 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs');
   const app = express();
   
   app.use(bodyParser.json());
+  app.get('/todos',(req,res)=>{
+    fs.readFile('todos.json',(err,data)=>{
+      if(err) throw err;
+      let todos = JSON.parse(data);
+      res.json(todos);
+    })
+  })
   
+  app.get('/todos/:id',(req,res)=>{
+    fs.readFile('todos.json',(err,data)=>{
+      if(err) throw err;
+      let todos = JSON.parse(data);
+      todos.forEach(todo => {
+        if(todo.id===parseInt(req.params.id)){
+          res.json(todo);
+        }
+      });
+      res.status(404).send();
+
+    })
+  })
+  app.post('/todos',(req,res)=>{
+    const newtodo = {
+      id: parseInt(Math.random()),
+      title: req.body.title,
+      // completed: req.body.completed,
+      description: req.body.description
+    }
+    fs.readFile('todos.json','utf8',(err,data)=>{
+     if(err) throw err;
+     let todos = JSON.parse(data);
+     todos = todos.push(newtodo);
+     fs.writeFile('todos.json', JSON.stringify(todos),(err)=>{
+      if(err) throw err;
+      res.status(200).json(newtodo);
+     })
+     
+    })
+
+  })
+
+  app.put('/todos/:id',(req,res)=>{
+    fs.readFile('todos.json',(err,data)=>{
+      if(err) throw err;
+      let todos = JSON.parse(data);
+      todos.forEach(todo => {
+        if(todo.id===parseInt(req.params.id)){
+          const updatedtodo ={
+            id: todo.id,
+            title: req.body.title,
+            description: req.body.description
+          }
+          todo = updatedtodo;
+          fs.writeFile('todos.json',JSON.stringify(todos),(err)=>{
+            if(err) throw err;
+            res.status(200).json(updatedtodo);
+          })
+
+        }
+      });
+      
+      res.status(404).send();
+
+    })
+  })
+
+  app.delete('/todos/:id',(req,res)=>{
+    fs.readFile('todos.json',(err,data)=>{
+      if(err) throw err;
+      let todos = JSON.parse(data);
+      let arr = [];
+      todos.forEach(todo => {
+        if(todo.id!==parseInt(req.params.id)){
+
+          arr.push(todo);
+
+        }
+        
+      });
+      fs.writeFile('todos.json',JSON.stringify(arr),(err)=>{
+        if(err) throw err;
+        res.status(200).send();
+      })
+      
+      res.status(404).send();
+
+    })
+  })
+
   module.exports = app;
