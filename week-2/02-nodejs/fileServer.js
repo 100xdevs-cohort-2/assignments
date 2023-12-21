@@ -40,6 +40,4 @@ app.get('/file/:fileId', (req, res) => {
 
 app.all('*', (_, res) => res.status(404).send('Route not found'));
 
-app.listen(3000, () => console.log('on'));
-
 module.exports = app;
