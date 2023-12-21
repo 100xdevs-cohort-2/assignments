@@ -5,6 +5,18 @@
  */
 
 function sleep(milliseconds) {
+   return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
+
+const delayExecute = async () =>{
+    console.log("Delayed");
+
+    await sleep(5000);
+
+    console.log("Execute");
+}
+
+
+delayExecute();
 
 module.exports = sleep;
