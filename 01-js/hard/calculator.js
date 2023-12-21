@@ -16,6 +16,68 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
 
-module.exports = Calculator;
+
+
+class Calculator{
+  constructor(){
+    this.result=0
+  }
+  add(num){
+    this.result = this.result + num
+  }
+  sub(num){
+    this.result = this.result - num
+  }
+  multiply(num){
+    this.result = this.result *num
+  }
+  divide(num){
+    if(num!==0){
+      this.result = this.result/num
+    }else{
+      throw new Error("cannont divide by 0")
+    }
+  }
+
+  clear(){
+    this.result = 0
+  }
+   
+  getResult(){
+    return this.result
+  }
+  
+
+  calculate(expression){
+      
+    const regex = /[a-zA-Z]/;
+    const containsAlpha= regex.test(expression);
+
+    if(containsAlpha){
+      throw new Error("expresions cannot contain alphabets")
+    }
+
+     try {
+      const newExpr = expression.replace(/\s/g, "");
+
+
+      this.result = eval(newExpr)
+     } catch (error) {
+      throw new Error("invalid expression")
+     }
+  }
+
+
+}
+
+
+const calculator = new Calculator();
+
+calculator.calculate("10 + 2 * (6 - (4 + 1) / 2)  *1000-  7");
+console.log(calculator.getResult()); 
+
+calculator.clear();
+// calculator.calculate("5 + abc"); 
+
+//module.exports = Calculator;
