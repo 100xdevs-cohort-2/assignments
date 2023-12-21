@@ -41,9 +41,82 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  let storedTodos=require('./todos.json')
+  let fs=require('fs')
+
+  function updatedStoredTodos(){
+    fs.writeFile('./todos.json',JSON.stringify(storedTodos),(err)=>{
+      if(err)
+        console.log(err)
+    })
+  }
+
   const app = express();
   
   app.use(bodyParser.json());
   
+
+  app.get('/todos',(req,res)=>{
+    res.status(200).send(storedTodos)
+  })
+
+  app.get('/todos/:id',(req,res)=>{
+    const id=req.params.id
+    console.log(typeof id)
+    let result=storedTodos.filter((todo)=>{
+      return todo.id==id
+    })
+
+    result.length>0?res.status(200).send(JSON.stringify(result[0])):res.status(404).send(JSON.stringify(result))
+  })
+
+  app.post('/todos',(req,res)=>{
+    data=req.body
+    id=`${storedTodos.length+1}`
+    newObject={...data}
+    newObject['id']=id
+    storedTodos.push(newObject)
+    updatedStoredTodos()
+    res.status(201).send(newObject)
+  })
+
+  app.put('/todos/:id',(req,res)=>{
+    updatedData=req.body
+    id=req.params.id
+    foundFlag=false
+    storedTodos=storedTodos.map((val)=>{
+      if (val.id==id){
+        console.log('Here is the data to be updated',val)
+        foundFlag=true
+        return {id,...updatedData}
+      }
+      else{
+        return val
+      }
+    })
+    updatedStoredTodos()
+    foundFlag?res.status(200).send(`Data updated at ${id}`):res.status(404).send('ID not found')
+    
+  })
+
+
+  app.delete('/todos/:id',(req,res)=>{
+    id=req.params.id
+    found=false
+    storedTodos=storedTodos.filter((val)=>{
+      if(val.id==id){
+        found=true
+      }
+      return val.id!=id
+    })
+    updatedStoredTodos()
+    found?res.status(200).send('Deleted success fully'):res.status(404).send('ID not found')
+  })
+
+  app.use(function(req, res) {
+    // Invalid request
+      res.status(404).send('Route not found')
+    });
+    
+
   module.exports = app;
