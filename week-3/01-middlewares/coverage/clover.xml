@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1703064449447" clover="3.2.0">
-  <project timestamp="1703064449447" name="All files">
+<coverage generated="1703162856491" clover="3.2.0">
+  <project timestamp="1703162856491" name="All files">
     <metrics statements="108" coveredstatements="103" conditionals="12" coveredconditionals="11" methods="3" coveredmethods="3" elements="123" coveredelements="117" complexity="0" loc="108" ncloc="108" packages="1" files="3" classes="3"/>
     <file name="01-requestcount.js" path="C:\Users\HP\Desktop\Harikirat Cohort 2.0\Harikirat-assignments\week-3\01-middlewares\01-requestcount.js">
       <metrics statements="32" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
