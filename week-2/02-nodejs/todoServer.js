@@ -82,7 +82,7 @@
     else{
       todo[todoIndex].title = req.body.title;
       todo[todoIndex].description = req.body.description;
-      // todo[todoIndex].completed = true;
+      todo[todoIndex].completed = true;
       res.status(200).json(todo[todoIndex]);
     }
   })

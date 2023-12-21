@@ -11,6 +11,19 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
+
+function middleware1(req,res,next){
+  numberOfRequestsForUser[req.header['user-id']]=numberOfRequestsForUser[req.header['user-id']] || 0;
+  if (numberOfRequestsForUser[req.header['user-id']]>=5){
+    res.status(404).json({message : "rate limit exceeded"});
+    return;
+  }
+  numberOfRequestsForUser[req.header['user-id']]++;
+  next();
+}
+
+app.use(middleware1);
+
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
