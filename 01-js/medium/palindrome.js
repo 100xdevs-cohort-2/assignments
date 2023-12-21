@@ -4,6 +4,7 @@
 */
 
 function isPalindrome(str) {
+  
   return true;
 }
 

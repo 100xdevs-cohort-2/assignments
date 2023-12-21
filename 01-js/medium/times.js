@@ -13,7 +13,6 @@ function calculateTime(n) {
     for (let i =0; i < n ; i++){
         a = a+i;
     }
-
     return a;
 }
 
