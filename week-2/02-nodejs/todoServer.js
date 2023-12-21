@@ -41,9 +41,26 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
   const app = express();
-  
   app.use(bodyParser.json());
   
+  const data = [{
+    title: "",
+    description: "",
+    id: "",
+  }];
+
+  const allUsers = [{}];
+
+  app.get('/todos', (req, res)=>{
+    res.status(200).json(allUsers);
+  })
+
+  app.post("/todos", (req, res)=>{
+    let number = Math.random();
+    const body = req.body;
+    allUsers[0].push({body});
+  })
+
+  app.listen(3000);
   module.exports = app;
