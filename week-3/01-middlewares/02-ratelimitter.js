@@ -16,10 +16,27 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+// app.use((req, res, next) => {
+//   const userId = req.headers["user-id"];
+//   numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
+//   numberOfRequestsForUser[userId]++;
+//     if(numberOfRequestsForUser[userId] > 5){
+//       return res.status(404).send();
+//     }
+//     if(numberOfRequestsForUser[userId] <= 5){
+//       next();
+//     }
+    
+// })
+
 app.use((req, res, next) => {
   const userId = req.headers["user-id"];
-  numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
-  numberOfRequestsForUser[userId]++;
+  if(numberOfRequestsForUser.hasOwnProperty(userId)){  // can be done using this method too https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
+    numberOfRequestsForUser[userId]++;
+  }else{
+    numberOfRequestsForUser[userId] = 0;
+  }
+
     if(numberOfRequestsForUser[userId] > 5){
       return res.status(404).send();
     }
