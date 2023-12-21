@@ -5,12 +5,8 @@
  */
 
 function sleep(milliseconds) {
-    let sum = 0;
-    for(let i = 0 ;i<milliseconds;i++){
-        sum++;
-    }
     return new Promise((resolve)=>{
-        resolve();
+        setTimeout(resolve,milliseconds)
 
     })
 }
