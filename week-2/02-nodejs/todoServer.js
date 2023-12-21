@@ -39,11 +39,134 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let id = 1;
+
+app.get("/todos", function (req, res) {
+  let folder = path.join(__dirname, "./todos.json");
+  fs.readFile(folder, "utf8", function (err, data) {
+    if (err)
+      return res.status(500).json({
+        error: "Invalid Input",
+      });
+    data = JSON.parse(data);
+    return res.status(200).json(data);
+  });
+});
+
+app.get("/todos/:id", function (req, res) {
+  let folder = path.join(__dirname, "./todos.json");
+  let data1 = [];
+  fs.readFile(folder, "utf8", function (err, data) {
+    if (err)
+      return res.status(500).json({
+        error: "Invalid Input",
+      });
+
+    data1 = JSON.parse(data);
+    data1.forEach((element) => {
+      if (element.id == req.params.id)
+        return res.status(200).json({ element });
+    });
+
+    return res.status(500).json({ error: "element not found" });
+  });
+});
+
+app.post("/todos", function (req, res) {
+  let file = path.join(__dirname, "./todos.json");
+  let todo = {
+    id: id,
+    title: req.body.title,
+    completed: req.body.completed,
+    description: req.body.description,
+  };
+
+  let dataHere = [];
+  fs.readFile(file, function (err, data) {
+    dataHere = data;
+    dataHere = JSON.parse(dataHere);
+    dataHere.push(todo);
+    dataHere = JSON.stringify(dataHere);
+    fs.writeFile(file, dataHere, (error) => {
+      if (error) {
+        console.log("An error has occurred ", error);
+        return;
+      }
+      res.status(201).json({ id: todo.id });
+    });
+    id++;
+  });
+});
+
+app.put("/todos/:id", function (req, res) {
+  let folder = path.join(__dirname, "./todos.json");
+  let data1 = [];
+  fs.readFile(folder, "utf8", function (err, data) {
+    if (err)
+      return res.status(500).json({
+        error: "Invalid Input",
+      });
+    data1 = JSON.parse(data);
+    data1.forEach((element) => {
+      if (element.id == req.params.id) {
+        element.title = req.body.title;
+        element.completed = req.body.completed;
+        element.description = req.body.description;
+      }
+    });
+    fs.writeFile(folder, JSON.stringify(data1), (error) => {
+      if (error) {
+        console.log("An error has occurred ", error);
+        return;
+      }
+      res.status(200).send("Item was found and updated");
+    });
+  });
+});
+
+app.delete("/todos/:id", function (req, res) {
+  let folder = path.join(__dirname, "./todos.json");
+  let data1 = [];
+  fs.readFile(folder, "utf8", function (err, data) {
+    if (err)
+      return res.status(500).json({
+        error: "Invalid Input",
+      });
+    data1 = JSON.parse(data);
+      console.log(data1);
+    // data1.forEach((element) => {
+    //   if (element.id == req.params.id) {
+    //     console.log(element.id);
+    //     console.log(req.params.id);
+    //   }
+    // })
+    for (let i = 0; i < data1.length; i++) {
+      if (data1[i].id == req.params.id){ 
+        data1.splice(i, 1)};
+    }
+    fs.writeFile(folder, JSON.stringify(data1), (error) => {
+      if (error) {
+        console.log("An error has occurred ", error);
+        return;
+      }
+      res.status(200).send("Item was found and updated");
+    });
+  });
+});
+
+app.all("*", (req, res) => {
+  res.status(404).send("Route not found");
+});
+
+app.listen(3000);
+
+module.exports = app;
