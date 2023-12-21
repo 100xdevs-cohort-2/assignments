@@ -68,9 +68,9 @@ app.get("/todos/:id", (req, res) => {
 // POST todo item
 app.post("/todos", (req, res) => {
   const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
     title: req.body.title,
     description: req.body.description,
-    id: Math.floor(Math.random() * 1000000),
   };
 
   todos.push(newTodo);
