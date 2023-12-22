@@ -39,11 +39,87 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require("express")
+const app = express()
+
+app.use(express.json())
+
+let todos = [];
+
+app.get("/todos", function(req, res) {
+  res.status(200).json({
+    todos : todos
+  })
+})
+
+app.get("/todos/:id", function(req, res) {
+  const todoId = req.params.id;
+  const existingTodo = todos.find(function(todo) {
+    return todo.id == todoId
+  })
+  if(existingTodo) {
+    return res.status(200).json({
+      existingTodo
+    })
+  }
+  res.status(404).json({
+    msg : "Not found"
+  })
+})
+
+app.post("/todos", function(req, res) {
+  const newTodo = {
+    id : todos.length + 1, 
+    title : req.body.title,
+    description : req.body.description,
+    completed : req.body.completed || false
+  }
+  todos.push(newTodo)
+  res.status(201).json({
+    id : newTodo.id
+  })
+})
+
+app.put("/todos/:id", function(req, res) {
+  const todoId = req.params.id;
+  const todo = todos.find(function(todo){
+    return todo.id == todoId
+  })
+  if(!todo) {
+    return res.status(403).json({
+      msg : "Not found"
+    })
+  }
+  const updatedTodo = {
+    id : todoId,
+    title : req.body.title,
+    description : req.body.description,
+    completed : req.body.completed || false
+  }
+  todos[todoId-1] = updatedTodo;
+  res.status(200).json({
+    msg : "Updated"
+  })
+})
+
+app.delete("/todos/:id", function(req, res) {
+  const todoId = req.params.id;
+  const todoIndex = todos.findIndex(function(todo){
+    return todo.id == todoId
+  })
+  console.log(todoIndex)
+  if(todoIndex != -1) {
+    todos.splice(todoIndex, 1);
+    res.status(200).json({
+      msg : "Deleted successfully"
+    })
+  }
+  else{
+    res.status(400).json({
+      msg : "Not found"
+    })
+  }
+})
+
+app.listen(3000)
