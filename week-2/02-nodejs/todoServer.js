@@ -39,11 +39,125 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+// TODO[Hard todo]: Try to save responses in files, so that even if u exit the app and run it again, the data remains (similar to databases)
+
+/**
+ * INFO:
+ * - will be using PromisesAPI
+ * - on server start/re-start will fetch data from file
+ * - file is expected to be already created
+ * - not handling case when file is deleted
+ *
+ */
+
+// TODO: Handle open file or read file on server start only
+
+const { readFile, writeFile } = require('node:fs/promises');
+const { resolve } = require('node:path');
+
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+//middlewares
+app.use(express.json());
+app.use(bodyParser.json());
+
+const previousTodos = [];
+const todos = [];
+const path = './files/todos.json';
+const filePath = resolve(path);
+
+const readTodosFromFile = async () => {
+  try {
+    // chekc: fsPromises.access
+    const contents = await readFile(filePath, { encoding: 'utf-8' });
+    previousTodos.push(...(JSON.parse(contents) ?? []));
+    todos.push(...previousTodos);
+  } catch (err) {
+    console.error({ message: err?.message ?? 'Something Went Wrong' });
+  }
+};
+
+const writeTodosToFile = async () => {
+  try {
+    // chekc: fsPromises.access
+    await writeFile(filePath, JSON.stringify(todos, null, 2));
+  } catch (err) {
+    console.error({ message: err?.message ?? 'Something Went Wrong' });
+    // fallback to previous todos if failed
+    // also check is path correct
+    await writeFile(filePath, JSON.stringify(previousTodos, null, 2));
+  }
+};
+
+app.get('/', (_, response) => {
+  readTodosFromFile();
+  response.send('Hello from ToodServer');
+});
+
+app.get('/todos', (_, response) => {
+  response.json(todos);
+});
+
+app.get('/todos/:id', (request, response) => {
+  const createdTodoId = request.params.id;
+  const todo = todos.find((todo) => todo.id === createdTodoId);
+  if (!todo) return response.status(404).send();
+  response.json(todo);
+});
+
+// TODO: Use strong uiid or unique id creation method
+app.post('/todos', (request, response) => {
+  const payload = request.body;
+  const newTodo = { ...payload, id: `${Math.random()}` };
+  todos.push(newTodo);
+  response.status(201).json(newTodo);
+});
+
+// INFO: let's use mutation
+app.put('/todos/:id', (request, response) => {
+  const toBeUpdatedTodoId = request.params.id;
+  const index = todos.findIndex((todo) => todo.id === toBeUpdatedTodoId);
+  if (index < 0) return response.status(404).send();
+  const todo = todos.find((todo) => todo.id === toBeUpdatedTodoId);
+  const payload = request.body;
+  const updatedTodo = { ...todo, ...payload };
+  todos.splice(index, 1, updatedTodo);
+  return response.json(updatedTodo);
+});
+
+// INFO: let's use mutation
+app.delete('/todos/:id', (request, response) => {
+  const toBeDeletedodoId = request.params.id;
+  const index = todos.findIndex((todo) => todo.id === toBeDeletedodoId);
+  if (index < 0) return response.status(404).send();
+  todos.splice(index, 1);
+  return response.status(200).send();
+});
+
+app.use((req, res, next) => {
+  res.status(404).send('Route Not Found');
+});
+
+/**
+ * //INFO: doesn't work with tests
+ * Either need to mock the fs or don't know what to do.
+ */
+
+// Attach cleanup function to 'beforeExit' event
+process.on('beforeExit', async () => {
+  console.log('Received beforeExit. Cleaning up..');
+  await writeTodosToFile();
+});
+
+// Attach cleanup function to 'SIGINT' signal (Ctrl+C)
+process.on('SIGINT', async () => {
+  console.log('Received SIGINT. Cleaning up...');
+  await writeTodosToFile();
+  process.exit(0);
+});
+
+module.exports = app;
