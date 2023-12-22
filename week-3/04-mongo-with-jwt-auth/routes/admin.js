@@ -1,22 +1,98 @@
 const { Router } = require("express");
-const adminMiddleware = require("../middleware/admin");
 const router = Router();
+const dotenv = require('dotenv').config()
+const adminMiddleware = require("../middleware/admin");
+const { Admin } = require("../db");
+const { Course } = require("../db");
+const jwt = require("jsonwebtoken");
 
 // Admin Routes
-app.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement admin signup logic
+    const username = req.body.username;
+    const password = req.body.password;
+
+    try {
+        const exists = await Admin.findOne({username:username});
+        if(exists){
+            res.status(403).json({
+                message:"Username already exists"
+            })
+            return;
+        }
+        const new_admin =  new Admin({
+            username:username,
+            password:password
+        })
+        await new_admin.save();
+        res.status(200).json({
+            message:'Admin created successfully',
+        })
+    } catch (error) {
+        res.status(500).json({
+            message:"Internal server error"
+        });
+    }
 });
 
-app.post('/signin', (req, res) => {
+router.post('/signin',async (req, res) => {
     // Implement admin signup logic
+    const username = req.body.username;
+    const password = req.body.password;
+
+    try {
+        const exists = await Admin.findOne({username,password});
+        if(exists){
+            const token = jwt.sign({username},process.env.JWTPASSWORD)
+            res.status(200).json({
+                token
+            })
+        }else {
+            res.status(403).json({
+                message:"Invalid username or password!"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message:"Internal server error"
+        });
+    }
 });
 
-app.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses', adminMiddleware, async(req, res) => {
     // Implement course creation logic
+    const title = req.body.title;
+    const description = req.body.description;
+    const price = req.body.price;
+    const imageLink = req.body.imageLink;
+
+    const new_course = new Course({
+        title:title,
+        description:description,
+        price:price,
+        imageLink:imageLink,
+    })
+    await new_course.save()
+    res.status(200).json(
+        {
+            message: 'Course created successfully', 
+            courseId: new_course._id,
+        }
+    )
 });
 
-app.get('/courses', adminMiddleware, (req, res) => {
+router.get('/courses', adminMiddleware, async(req, res) => {
     // Implement fetching all courses logic
+    try {
+        const courses = await Course.find();
+        res.status(200).json({
+            courses:courses,
+        })
+    } catch (error) {
+        res.status(500).json({
+            message:"Internal server error"
+        });
+    }
 });
 
 module.exports = router;
