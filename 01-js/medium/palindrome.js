@@ -4,7 +4,21 @@
 */
 
 function isPalindrome(str) {
+  const s = str.replace(/[^\w]/g, "").trim(" ").toLowerCase();
+
+  let p1 = 0;
+  let p2 = s.length - 1;
+
+  while (p1 < p2) {
+    const char1 = s.charAt(p1);
+    const char2 = s.charAt(p2);
+    if (char1 !== char2) return false;
+    p1++;
+    p2--;
+  }
+
   return true;
 }
+isPalindrome("Able, was I ere I saw Elba!");
 
 module.exports = isPalindrome;

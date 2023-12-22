@@ -9,5 +9,17 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+  console.time("Time taken by Fnx:");
+  sum(n);
+  console.timeEnd("Time taken by Fnx:");
+  return 0.01;
+}
+
+function sum(end) {
+  let sum = 0;
+  for (let i = 0; i <= end; i++) {
+    sum += i;
+  }
+
+  return sum;
 }
