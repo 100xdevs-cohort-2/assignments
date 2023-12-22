@@ -1,47 +1,38 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const { Course } = require("../db");
 const router = Router();
-
-let id = 0;
+const {Admin, Course} = require("../db/index");
 
 // Admin Routes
-router.post('/signup', (req, res) => {
+router.post('/signup', async(req, res) => {
     // Implement admin signup logic
-    const username = req.body.username;
-    const password = req.body.password;
-
-    const adminDetail = new Admin({
-        username: username,
-        password: password
+    await Admin.create({
+        username: req.body.username,
+        password: req.body.password
     })
-    adminDetail.save().then(res.json({message: 'Admin created successfully'}));
+    res.json({
+        message: 'Admin created successfully'
+    })
 });
 
-router.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses', adminMiddleware, async(req, res) => {
 
-    id++;
-
-    const title = req.body.title;
-    const description = req.body.description;
-    const price = req.body.price;
-    const imageLink = req.body.imageLink;
-
-    const courseDetail = new Course({
-        title: title,
-        description: description,
-        price: price,
-        imageLink: imageLink
+    const newCourse = await Course.create({
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        imageLink: req.body.imageLink
     })
-    courseDetail.save().then(res.json
-        ({message: 'Course created successfully', 
-        courseId: id}));
+    res.json({
+        message: 'Course created successfully', 
+        courseId: newCourse._id
+    })
     // Implement course creation logic
 });
 
 router.get('/courses', adminMiddleware, async (req, res) => {
     // Implement fetching all courses logic
-    const allCourses = await User.find({});
+    const allCourses = await Course.find({});
     res.json({courses: allCourses});
 
 });
