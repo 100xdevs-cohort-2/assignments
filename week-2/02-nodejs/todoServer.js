@@ -38,12 +38,136 @@
     - For any other route not defined in the server return 404
 
   Testing the server - run `npm run test-todoServer` command in terminal
- */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+*/
+
+const express = require('express');
+const fs = require('fs')
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+function getIndex(todos, todoId) {
+  for (let i = 0; i < todos.length; i++) {
+    if (todos[i].id === todoId) {
+      return i
+    }
+  }
+  return -1
+}
+
+function generateId() {
+  return Math.floor(Math.random() * 1000000)
+}
+
+function updateId(todos, todoId, updatedTodoItem) {
+  for (let i = 0; i < todos.length; i++) {
+    if (todos[i].id === todoId) {
+      todos.splice(i, 1, updatedTodoItem)
+      return true
+    }
+  }
+  return false
+}
+
+function removeId(todos, todoId) {
+  for (let i = 0; i < todos.length; i++) {
+    if (todos[i].id === todoId) {
+      todos.splice(i, 1)
+      return true
+    }
+  }
+  return false
+}
+
+app.get('/', (req, res) => {
+  res.status(200).send('Hi there')
+})
+
+app.get('/todos', (req, res) => {
+  fs.readFile('./todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Could not read todos.json.')
+    }
+    res.json(JSON.parse(data))
+  })
+})
+
+app.get('/todos/:id', (req, res) => {
+  fs.readFile('./todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Could not read todos.json.')
+    }
+    const todos = JSON.parse(data)
+    const todoId = req.params.id
+    const index = getIndex(todos, todoId)
+    if (index === -1) {
+      return res.status(404).send('Not Found.')
+    }
+    return res.json(todos[index])
+  })
+})
+
+app.post('/todos', (req, res) => {
+  const todoId = generateId()
+  const todoObject = { id: todoId, ...req.body }
+  fs.readFile('./todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Could not read todos.json.')
+    }
+    const todos = JSON.parse(data)
+    todos.push(todoObject)
+    fs.writeFile('./todos.json', JSON.stringify(todos), (err) => {
+      if (err) {
+        return res.status(500).send('Could not write new todo.')
+      }
+      return res.status(201).json(todoObject)
+    })
+  })
+})
+
+app.put('/todos/:id', (req, res) => {
+  const todoObject = { id: req.params.id, ...req.body }
+  fs.readFile('./todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Could not read todos.json.')
+    }
+    const todos = JSON.parse(data)
+    const updateTodos = updateId(todos, req.params.id, todoObject)
+    if (updateTodos === false) {
+      return res.status(404).send('Not Found.')
+    }
+    fs.writeFile('./todos.json', JSON.stringify(todos), (err) => {
+      if (err) {
+        return res.status(500).send('Could not write new todo.')
+      }
+      return res.status(200).json(todoObject)
+    })
+  })
+})
+
+app.delete('/todos/:id', (req, res) => {
+  fs.readFile('./todos.json', 'utf-8', (err, data) => {
+    if (err) {
+      return res.status(500).send('Could not read todos.json.')
+    }
+    const todos = JSON.parse(data)
+    const updateTodos = removeId(todos, req.params.id)
+    if (updateTodos === false) {
+      return res.status(404).send('Not Found.')
+    }
+    fs.writeFile('./todos.json', JSON.stringify(todos), (err) => {
+      if (err) {
+        return res.status(500).send('Could not write new todo.')
+      }
+      return res.status(200)
+    })
+  })
+})
+
+app.all('*', (req, res) => {
+  return res.status(404).send('Not Found.')
+})
+
+module.exports = app
