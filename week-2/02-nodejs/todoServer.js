@@ -45,5 +45,43 @@
   const app = express();
   
   app.use(bodyParser.json());
-  
+
+  idExist=(id)=>{
+    const todo = todos.find((todo) => todo.id === id);
+    return todo;
+  }
+
+  let todos = [{
+  id: 123,
+  title: "buy pen",
+  description: "I have to buy linc pen."
+},
+{
+  id: 121,
+  title: "buy groceries",
+  description: "I have to buy vegetables."
+},
+{
+  id: 111,
+  title: "buy milk",
+  description: "I have to buy amul milk."
+}];
+
+  app.get('/todos', (req, res)=>{
+    res.json(todos);
+  });
+  app.get('/todos/:id', (req, res)=>{
+    const id = parseInt(req.params.id);
+    const todo = idExist(id);
+    if(!todo){
+      res.status(404).send("Not Found");
+    }
+    res.json(todo);
+  });
+  app.use((err,req,res,next)=>{
+    if(err){
+      res.json({error:"Server Internal Error"})
+    }
+  })
+  app.listen(3000);
   module.exports = app;
