@@ -16,6 +16,73 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.res = 0;
+  }
+
+  add(num) {
+    this.res += num;
+  }
+
+  subtract(num) {
+    this.res -= num;
+  }
+
+  multiply(num) {
+    this.res *= num;
+  }
+
+  divide(num) {
+    if (num === 0) {
+      throw new Error("Division by zero is not allowed.");
+    }
+    this.res /= num;
+  }
+
+  clear() {
+    this.res = 0;
+  }
+
+  getResult() {
+    return this.res;
+  }
+
+  calculate(expression) {
+    expression = expression.replace(/\s+/g, "");
+
+    const validCharsRegex = /^[0-9+\-*/().\s]+$/;
+
+    if (!validCharsRegex.test(expression)) {
+      throw new Error("calculate expression with invalid characters");
+    }
+
+    try {
+      this.res = eval(expression);
+      if (!isFinite(this.res)) throw new Error("Cannot divide by zero");
+    } catch (e) {
+      throw new Error("Invalid expression");
+    }
+  }
+}
+
+// function check(expression) {
+//   expression = expression.replace(/\s+/g, "");
+
+//   const validCharsRegex = /^[0-9+\-*/().\s]+$/;
+
+//   // Check for invalid characters
+//   if (!validCharsRegex.test(expression)) {
+//     throw new Error("calculate expression with invalid characters");
+//   }
+
+//   try {
+//     let ans = eval(expression);
+//     if (isFinite(ans)) throw new Error("Cannot divide by zero");
+//   } catch (e) {
+//     throw new Error("nvalid expression");
+//   }
+// }
+// check("10 * (2 + 3) + xyz");
 
 module.exports = Calculator;
