@@ -4,7 +4,7 @@ const { Admin, Course } = require("../db/index");
 
 const router = Router();
 
-router.post('/signup', async (req, res) => {
+router.post('/admin/signup', async (req, res) => {
     const { adminName, adminPassword } = req.body;
 
     try {
@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.post('/courses', adminMiddleware, async (req, res) => {
+router.post('/admin/courses', adminMiddleware, async (req, res) => {
     const { courseTitle, courseDescription, price, imageLink } = req.body;
 
     try {
@@ -37,7 +37,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
     }
 });
 
-router.get('/courses', adminMiddleware, async (req, res) => {
+router.get('/admin/courses', adminMiddleware, async (req, res) => {
     try {
         const allCourses = await Course.find();
         res.json({ courses: allCourses });

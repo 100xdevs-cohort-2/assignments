@@ -4,7 +4,7 @@ const { User, Course } = require("../db/index");
 
 const router = Router();
 
-router.post('/signup', async (req, res) => {
+router.post('/users/signup', async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -17,7 +17,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.get('/courses', userMiddleware, async (req, res) => {
+router.get('/users/courses', userMiddleware, async (req, res) => {
     try {
         const allCourses = await Course.find();
         res.json({ courses: allCourses });
@@ -26,7 +26,7 @@ router.get('/courses', userMiddleware, async (req, res) => {
     }
 });
 
-router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+router.post('/users/courses/:courseId', userMiddleware, async (req, res) => {
     const { courseId } = req.params;
 
     try {
@@ -48,7 +48,7 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     }
 });
 
-router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+router.get('/users/purchasedCourses', userMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.user._id).populate('purchasedCourses');
         res.json({ purchasedCourses: user.purchasedCourses });
