@@ -58,6 +58,7 @@ function decodeJwt(token) {
   }
 }
 
+
 module.exports = {
   signJwt,
   verifyJwt,
