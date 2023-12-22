@@ -45,12 +45,12 @@ app.post('/admin/signup', (req, res) => {
 
 app.post('/admin/courses', (req, res) => {
     Course
-    .create({
-        title: req.body.title,
-        description: req.body.description,
-        price: req.body.price,
-        image: req.body.image
-    })
+        .create({
+            title: req.body.title,
+            description: req.body.description,
+            price: req.body.price,
+            image: req.body.image
+        })
 });
 
 app.get('/admin/courses', (req, res) => {
