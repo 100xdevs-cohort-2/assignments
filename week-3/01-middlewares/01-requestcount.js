@@ -10,6 +10,13 @@ let requestCount = 0;
 // maintain a count of the number of requests made to the server in the global
 // requestCount variable
 
+function countMiddleware(req, res, next) {
+  requestCount++;
+  next();
+}
+
+app.use(countMiddleware);
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
@@ -20,6 +27,10 @@ app.post('/user', function(req, res) {
 
 app.get('/requestCount', function(req, res) {
   res.status(200).json({ requestCount });
+});
+
+app.listen(3000, function(req, res) {
+  console.log('Server is running on 3000 port')
 });
 
 module.exports = app;
