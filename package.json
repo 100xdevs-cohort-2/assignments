@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "uuid": "^9.0.1"
+  }
+}
