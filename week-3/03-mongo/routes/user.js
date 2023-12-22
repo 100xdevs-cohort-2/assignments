@@ -14,13 +14,13 @@ userRouter.post("/signup", async (req, res) => {
     return res.status(400).json(validatedData.error.format());
   }
 
-  // Check if admin with the given username already exists in the database.
-  const admin = await User.findOne({ username: username });
-  if (admin) {
+  // Check if user with the given username already exists in the database.
+  const user = await User.findOne({ username: username });
+  if (user) {
     return res.status(400).json({ error: "Username already in use" });
   }
 
-  // Create new admin in the database.
+  // Create new user in the database.
   await User.create({ username: username, password: password });
   res.status(201).json({ message: "User created successfully" });
 });
