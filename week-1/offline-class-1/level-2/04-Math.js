@@ -26,7 +26,7 @@ function mathMethods(value) {
   console.log("After sqrt():", squareRoot);
 }
 
-// Example Usage for Math Methods
-mathMethods(4.56);
-mathMethods(9);
+// Example Usage :
+mathMethods(3.14);
+mathMethods(9.56);
 mathMethods(25);

@@ -14,4 +14,16 @@ function jsonMethods(jsonString) {
 const sampleJSONString =
   '{"key": "value", "number": 42, "nested": {"nestedKey": "nestedValue"}}';
 
+const sampletJavaScriptObject = {
+  key: "value",
+  number: 42,
+  nested: {
+    nestedKey: "nestedValue",
+  },
+};
+
 jsonMethods(sampleJSONString);
+console.log(
+  "JavaScipt Object to JSON String : ",
+  JSON.stringify(sampletJavaScriptObject)
+);
