@@ -42,26 +42,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { randomUUID } = require("crypto");
+const fs = require("fs");
 
 const app = express();
 
 const PORT = 3000;
-
-// let todos = [
-//   {
-//     // id: randomUUID(),
-//     id: 1,
-//     title: "todo-1",
-//     completed: true,
-//     description: "todo-1-description",
-//   },
-//   {
-//     id: randomUUID(),
-//     title: "todo-2",
-//     completed: false,
-//     description: "todo-2-description",
-//   },
-// ];
 
 let todos = [];
 
@@ -69,57 +54,112 @@ app.use(bodyParser.json());
 
 // Retrieve all todo items
 app.get("/todos", (req, res) => {
-  res.json(todos);
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) throw new Error("File not found");
+    else {
+      res.json(JSON.parse(data));
+    }
+  });
 });
 
 //Retrieve a specific todo item by ID
 app.get("/todos/:id", (req, res) => {
   const todoID = req.params.id;
-  const todoItem = todos.find((item) => item.id == todoID);
 
-  if (todoItem) {
-    res.status(200).json(todoItem);
-  } else {
-    res.status(404).send("todo not found");
-  }
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) throw new Error("File not found");
+    else {
+      let todos = JSON.parse(data);
+      const todoItem = todos.find((item) => item.id == todoID);
+
+      if (todoItem) {
+        res.status(200).json(todoItem);
+      } else {
+        res.status(404).send("todo not found");
+      }
+    }
+  });
 });
 
 //Create a new todo item
 app.post("/todos", (req, res) => {
   let todoBody = req.body;
   const newTodo = { ...todoBody, id: randomUUID() };
-  todos = [...todos, newTodo];
-  res.status(201).json({ id: newTodo.id });
+
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) throw new Error("File not found");
+    else {
+      let todos = JSON.parse(data);
+      todos = [...todos, newTodo];
+
+      fs.writeFile("./todos.json", JSON.stringify(todos), (err) => {
+        if (err) throw new Error("File not saved");
+        else {
+          res.status(201).json({ id: newTodo.id });
+        }
+      });
+    }
+  });
 });
 
 //Update an existing todo item by ID
 app.put("/todos/:id", (req, res) => {
   const todoId = req.params.id;
   const todoBody = req.body;
-  const todoItem = todos.find((item) => item.id == todoId);
 
-  if (todoItem) {
-    todos.forEach((item) => {
-      if (item.id == todoId) {
-        item = { ...item, ...todoBody };
-        res.status(200).json(item);
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) throw new Error("File not found");
+    else {
+      let todos = JSON.parse(data);
+      let todoItem = todos.find((item) => item.id == todoId);
+
+      if (todoItem) {
+        todos = todos.map((item) => {
+          if (item.id == todoId) {
+            item = { ...item, ...todoBody };
+            todoItem = item;
+          }
+          return item;
+        });
+
+        fs.writeFile("./todos.json", JSON.stringify(todos), (err) => {
+          if (err) throw new Error("File not saved");
+          else {
+            res.status(200).json(todoItem);
+          }
+        });
+      } else {
+        res.status(404).send("Todo Not Found");
       }
-    });
-  } else {
-    res.status(404).send("Todo Not Found");
-  }
+    }
+  });
 });
 
 //Delete a todo item by ID
 app.delete("/todos/:id", (req, res) => {
   const todoId = req.params.id;
-  todoItem = todos.find((item) => item.id == todoId);
 
-  if (todoItem) {
-    const tempArr = todos.filter((item) => item.id != todoId);
-    todos = [...tempArr];
-    res.status(200).send();
-  } else res.status(404).send("Todo not found");
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    if (err) throw new Error("File not found");
+    else {
+      let todos = JSON.parse(data);
+      todoItem = todos.find((item) => item.id == todoId);
+
+      if (todoItem) {
+        const tempArr = todos.filter((item) => item.id != todoId);
+        todos = [...tempArr];
+
+        fs.writeFile("./todos.json", JSON.stringify(todos), (err) => {
+          if (err) throw new Error("File not saved");
+          else {
+            res.status(200).send();
+          }
+        });
+      } else {
+        res.status(404).send("Todo not found");
+      }
+    }
+  });
 });
 
 // For any other route not defined in the server return 404
