@@ -1,49 +1,60 @@
-import UserSchema, { Course } from '../db/index.js';
 const { Router } = require("express");
-const router = Router();
 const userMiddleware = require("../middleware/user");
+const { User, Course } = require("../db/index");
 
-// User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
-    const newUser = req.body.user;
-    const newPassword = req.body.password;
-    UserSchema.push({ newUser, newPassword });
-    res.json({
-        message: 'User created successfully',
-        userId: "newUserId"
-    })
+const router = Router();
+
+router.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        await User.create({ username, password });
+        res.json({
+            message: 'User created successfully'
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
-    const user = req.body.username;
-    const password = req.body.password;
-    const allCourses = UserSchema.Course.find(Course[user]);
-    res.json({
-        allCourses
-    });
+router.get('/courses', userMiddleware, async (req, res) => {
+    try {
+        const allCourses = await Course.find();
+        res.json({ courses: allCourses });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
-    const courseId = req.body.courseId;
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+    const { courseId } = req.params;
 
-    UserSchema.purchasedCourses.push(Course[courseId]);
-    res.json({
-        message: 'Course purchased successfully',
-        courseId: "courseId"
-    })
+    try {
+        const course = await Course.findById(courseId);
+        if (!course) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
+
+        const user = await User.findById(req.user._id); // Assuming you have stored the user ID in req.user after authentication
+        user.purchasedCourses.push(course);
+        await user.save();
+
+        res.json({
+            message: 'Course purchased successfully',
+            courseId: course._id
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
-    const user = req.body.username;
-    const password = req.body.password;
-    const purchasedCourses = UserSchema.purchasedCourses.find(Course[user]);
-    res.json({
-        purchasedCourses
-    });
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate('purchasedCourses');
+        res.json({ purchasedCourses: user.purchasedCourses });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-module.exports = router
+module.exports = router;

@@ -1,54 +1,48 @@
-import AdminSchema, { Course } from '../db/index.js';
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
+const { Admin, Course } = require("../db/index");
+
 const router = Router();
 
-// Admin Routes
-router.post('/signup', (req, res) => {
-    // Implement admin signup logic
-    //create new admin
+router.post('/signup', async (req, res) => {
+    const { adminName, adminPassword } = req.body;
 
-    const newAdminName = req.body.adminName;
-    const newAdminPassword = req.body.adminPassword;
-    const newAdminCourses = req.body.adminCourses;
-    AdminSchema.push({ newAdminName, newAdminPassword, newAdminCourses });
-    res.json({
-        message: 'Admin created successfully',
-        adminId: "newAdminId"
-    })   
+    try {
+        await Admin.create({ adminName, adminPassword });
+        res.json({
+            message: 'Admin created successfully'
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.post('/courses', adminMiddleware, (req, res) => {
-    // Implement course creation logic
-    //create new course
-    const adminUserName = req.headers['username'];
-    const adminPassword = req.headers['password'];
-    if (adminMiddleware(adminUserName, adminPassword)) {
-        
-        const newCourseTitle = req.body.courseTitle;
-        const newCourseDescription = req.body.courseDescription;
-        const newCoursePrice = req.body.price; 
-        Course.push({ newCourseTitle, newCourseDescription, newCoursePrice });
-        
+router.post('/courses', adminMiddleware, async (req, res) => {
+    const { courseTitle, courseDescription, price, imageLink } = req.body;
+
+    try {
+        const newCourse = await Course.create({
+            courseTitle,
+            courseDescription,
+            price,
+            imageLink,
+            published: true,
+        });
         res.json({
             message: 'Course created successfully',
-            courseId: "newCourseId"   
-        })
-    } else {
-        res.status(401).send('Unauthorized admin');
+            courseId: newCourse._id
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
 });
 
-router.get('/courses', adminMiddleware, (req, res) => {
-    // Implement fetching all courses logic
-    const adminUserName = req.headers['username'];
-    const adminPassword = req.headers['password'];
-    if (adminMiddleware(adminUserName, adminPassword)) {
-        const allCourses = AdminSchema.Course.find(Course[adminUserName]);
-        res.send(allCourses);
-    } else {
-        res.status(401).send('Unauthorized admin');
+router.get('/courses', adminMiddleware, async (req, res) => {
+    try {
+        const allCourses = await Course.find();
+        res.json({ courses: allCourses });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

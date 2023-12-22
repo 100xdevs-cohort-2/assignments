@@ -1,15 +1,23 @@
-function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
-    const userUserName = req.headers['username'];
-    const userPassword = req.headers['password'];
+const { User } = require('../db/index');
 
-    if (userUserName === 'user' && userPassword === 'user') {
+async function userMiddleware(req, res, next) {
+    try {
+        const userUserName = req.headers['username'];
+        const userPassword = req.headers['password'];
+
+        const user = await User.findOne({ username: userUserName, password: userPassword });
+
+        if (!user) {
+            return res.status(401).send('Unauthorized user');
+        }
+
+        // Attach the user object to the request for further use if needed
+        req.user = user;
+
         next();
-    } else {
-        res.status(401).send('Unauthorized user');
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-
 }
 
 module.exports = userMiddleware;
