@@ -36,6 +36,7 @@ function signJwt(username, password) {
         return null;
     }else{
         var token = jwt.sign(data, jwtPassword);
+        console.log(token);
         return token;
     }
 }
@@ -71,9 +72,13 @@ function decodeJwt(token) {
     if(!decode){
         return false;
     }else{
+        console.log(decode);
         return true;
     }
 }
+
+signJwt("vaibhavjangid@hmmail.com", ":fiubsibfuisbv");
+decodeJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InZhaWJoYXZqYW5naWRAaG1tYWlsLmNvbSIsInBhc3N3b3JkIjoiOmZpdWJzaWJmdWlzYnYiLCJpYXQiOjE3MDMxNTc3MTh9.Wl-ds5i0T42UU8RQoiDoKw5QgyJ4efOkX1CJa5SZY");
 
 module.exports = {
   signJwt,
