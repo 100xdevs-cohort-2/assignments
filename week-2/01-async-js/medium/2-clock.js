@@ -20,6 +20,6 @@ setInterval(() => {
   let suffix = (hh % 12) === 0 ? 'AM' : 'PM';
 
   console.clear()
-  console.log(`${Math.floor(hh % 12)}:${mm}:${ss}: ${suffix}`)
+  console.log(`${(Math.floor(hh % 12) < 10) ? '0' : ''}${Math.floor(hh % 12)}:${(mm < 10) ? '0' : ''}${mm}:${(ss < 10) ? '0' : ''}${ss}: ${suffix}`)
 
 }, 1000)

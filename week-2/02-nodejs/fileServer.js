@@ -17,5 +17,32 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get('/files', (req, res) => {
+  fs.readdir('files', 'utf-8', (err, files) => {
+    if (err) {
+      res.status(500).json({ error: 'failed to load files' })
+    }
+    res.status(200).json(files)
+  })
+})
+
+app.get('/file/:filename', (req, res) => {
+  const pathName = path.join(__dirname, 'files', req.params.filename)
+  fs.readFile(pathName, 'utf-8', (err, data) => {
+    if (err) {
+      res.status(404).send('File not found')
+    }
+    res.status(200).send(data)
+  })
+})
+
+// * covers all remaining routes that are not available in server
+app.all('*', (req, res) => {
+  res.status(404).type('txt').send('Route not found')
+})
+
+// app.listen(3001, () => {
+//   console.log(`server listening on port 3001`)
+// })
 
 module.exports = app;
