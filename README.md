@@ -2,17 +2,17 @@
 
 Welcome to Cohort 0-1 repository! This is where I'll be uploading all the code I write as I progress through my course. The code is neatly organized week by week, making it easy for anyone to follow along.
 
-## Weekly Repositories :calendar:
+<!-- ## Weekly Repositories :calendar:
 
-Here are the links to the repositories for each week:
+Here are the links to the repositories for each week: -->
 
-|  Week  |     Topic     | Assignments |
+<!-- |  Week  |     Topic     | Assignments |
 | ------ | ------------- | ----------- |
 | Week 0 | [HTML & CSS](https://github.com/Shivam29k/Hrkirat-0-1/tree/master/week0) | No Assignments |
 | Week 1 | [Javascript_Foundation](https://github.com/Shivam29k/100xDevs_0-1/tree/master/week1/Javascript_foundations) | [Assignments](https://github.com/Shivam29k/100xDevs_0-1/tree/master/assignments/01-js) |
 | Week 2 | [Async Js & Promisis](#) | [Assignments](https://github.com/Shivam29k/100xDevs_0-1/tree/master/assignments/week-2/01-async-js) |
 | ...... | ....... | ................ |
-| Week N | Topic N | [Assignments](#) |
+| Week N | Topic N | [Assignments](#) | -->
 
 ## Syllabus
 
