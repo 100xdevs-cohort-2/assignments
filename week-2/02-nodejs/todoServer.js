@@ -39,11 +39,63 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+todos = []
+
+
+app.get("/todos",(req,res)=>{
+  res.status(200).json(todos)
+})
+
+app.get("/todos/:id",(req,res)=>{
+  id_toFind = parseInt(req.params.id,10)
+  let temp = todos.find(todo => todo.id==id_toFind)
+  if (temp){
+  res.status(200).json(temp)
+  }
+  else{
+    res.status(404).send("The todo with id : {id_toFind} is not present")
+  }
+})
+
+app.post("/todos",(req,res)=>{
+  let temp_todo = req.body
+  temp_todo["id"] = todos.length+1
+  todos.push(temp_todo)
+  console.log(todos)
+  res.status(201).json({id:todos.length})
+})
+
+app.put("/todos/:id",(req,res)=>{
+  id_toFind = parseInt(req.params.id,10)
+  console.log(typeof(id_toFind))
+  todo_toUpdate = todos.find(todo => todo.id==id_toFind)
+  if (todo_toUpdate){
+    data = req.body
+    todo_toUpdate = {...todo_toUpdate,...data}
+    res.status(200).send("Updated the todo with id : {id_toFind}")
+  }
+  res.status(404).send("The todo with id : {id_toFind} is not present")
+})
+
+app.delete("/todos/:id",(req,res)=>{
+  id_toFind = parseInt(req.params.id,10)
+  todo_toDelete = todos.find(todo => todo.id==id_toFind)
+  if (todo_toDelete){
+    todos.splice((todo_toDelete.id-1),1)
+    res.status(200).send("The todo with id : {id_toDelete} is deleted")
+  }
+  res.status(404).send("The todo with id : {id_toDelete} is not present")
+})
+
+app.get("*",(req,res)=>{
+  res.status(404).send("INVALID Route")
+})
+
+module.exports = app;

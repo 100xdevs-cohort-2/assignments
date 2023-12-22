@@ -9,5 +9,11 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    temp1=performance.now()
+    a=0
+    for (let1=0;i<=1000000000;i++){
+        a+=i
+    }
+    temp2=performance.now()
+    return temp2-temp1
 }
