@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwtPassword = 'secret';
+const zod = require('zod')
 
 
 /**
@@ -13,8 +14,50 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+
+
+//  const emailSchema = zod.string().email()
+//  const passwordSchema = zod.string().min(6)
+
+
 function signJwt(username, password) {
     // Your code here
+    if (isValidGmail(username) == false) {
+        return null
+    }
+    if (isValidGmail(username) && password.length >= 6) {
+        const token = jwt.sign({ username: username }, jwtPassword)
+        return token;
+    } else {
+        return null
+    }
+
+
+// by harkirat method
+//      const usernameResponse = emailSchema.safeParse(username)
+//      const passwordResponse = passwordSchema.safeParse(password)
+
+//      if(!usernameResponse.success || !passwordResponse.success){
+//         return null;
+//      }
+
+//     const signature = jwt.sign({
+//         username
+//     },jwtPassword)
+//     return signature;
+
+// }
+}
+
+
+function isValidGmail(username) {
+    try {
+        const emailSchema = zod.string().email()
+        emailSchema.parse(username)
+        return true
+    } catch {
+        return false
+    }
 }
 
 /**
@@ -27,7 +70,15 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    try {
+        const verifytoken = jwt.verify(token, jwtPassword);
+    } catch (error) {
+    return false
+    }
+
+    return true;
 }
+
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -38,12 +89,18 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+    const res = jwt.decode(token)
+    if (res) {
+        return true
+    } else {
+        return false
+    }
 }
 
 
-module.exports = {
-  signJwt,
-  verifyJwt,
-  decodeJwt,
-  jwtPassword,
-};
+    module.exports = {
+        signJwt,
+        verifyJwt,
+        decodeJwt,
+        jwtPassword,
+    };

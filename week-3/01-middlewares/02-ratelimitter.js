@@ -16,6 +16,27 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+function ratelimitter (req,res,next){
+const id =  req.header('user-id')
+
+if(!numberOfRequestsForUser[id]){
+  numberOfRequestsForUser[id] = 0;
+}
+
+if(numberOfRequestsForUser[id] >= 5){
+  return res.status(404).json({ limitexceed: 'limit reached please try again' });
+}
+
+ numberOfRequestsForUser[id]++
+
+ next()
+
+}
+
+app.use(ratelimitter)
+
+
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
