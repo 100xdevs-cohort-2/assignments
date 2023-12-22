@@ -1,6 +1,22 @@
+require('dotenv').config()
+const jwt=require('jsonwebtoken')
 function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+    try{
+        const authHeader=req.headers.authorization;
+        if(!authHeader) throw new Error("no authorization header for admin");
+        
+        const token=authHeader.split(" ")[1];
+        const valid=jwt.verify(token,process.env.USER_SECRET);
+        if(!valid) throw new Error("ACCESS DENIED");
+
+        const username=jwt.decode(token).username;
+        req.headers.username=username;
+
+        next();
+    }
+    catch(e){
+        res.status(400).json({message:e.message})
+    }
 }
 
 module.exports = userMiddleware;

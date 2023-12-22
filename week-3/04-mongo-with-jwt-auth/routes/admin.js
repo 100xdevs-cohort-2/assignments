@@ -49,7 +49,7 @@ router.post('/course', adminMiddleware, async (req, res) => {
         const course=new Course(data);
         const savedCourse=await course.save();
         if(!savedCourse) throw new Error('cannot save course to db')
-        res.status(200).json({ message: 'Course created successfully',id:savedCourse._id})
+        res.status(200).json({ message: 'Course created successfully',courseId:savedCourse._id})
     }catch(e){
         res.status(400).json({message:e.message});
     }
