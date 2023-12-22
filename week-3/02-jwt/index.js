@@ -24,10 +24,12 @@ function signJwt(username, password) {
     const pass = passSchema.safeParse(password);
     if(!email.success || !pass.success) {
         return null;
-    } else {
-        let token = jwt.sign({username: username}, password);
-        return token;
     }
+    const signature = jwt.sign({
+        username
+    }, jwtPassword);
+
+    return signature;
 }
 
 /**
@@ -40,12 +42,14 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    let ans = true;
     try {
         jwt.verify(token, jwtPassword);
         return true;
     } catch (e) {
         return false;
     }
+    return ans;
 }
 
 /**
@@ -57,7 +61,7 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
-    let decoded = jwt.decode(token);
+    const decoded = jwt.decode(token);
     if(decoded) {
         return true
     } else {
