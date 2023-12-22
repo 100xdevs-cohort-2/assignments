@@ -39,11 +39,83 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const { v4: uuidv4 } = require("uuid");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+//Get All TODOS
+app.get("/todos", (req, res) => {
+  if(todos.length > 0) {
+    res.status(200).json(todos);
+  } else {
+    res.send("No todos there");
+  }
+});
+
+//Get Specific TODO
+app.get("/todos/:id", (req, res) => {
+  const todoId = req.params.id;
+  const todoItem = todos.find((item) => item.id === todoId);
+  if (!todoItem) {
+    res.send("Todo Not Found");
+  } else {
+    res.status(200).json(todoItem);
+  }
+});
+
+//Create a TODO
+app.post("/todos", (req, res) => {
+  const todo = req.body;
+  const uniqueId = uuidv4();
+
+  const newTodo = {
+    id: uniqueId,
+    title: todo.title,
+    desc: todo.desc,
+  };
+  todos.push(newTodo);
+  res.status(201).json({ id: uniqueId });
+});
+
+//Update a specific TODO
+app.put("/todos/:id", (req, res) => {
+  const todoId = req.params.id;
+  const updatedTodo = req.body;
+  const todoIndex = todos.findIndex((item) => item.id === todoId);
+  if (todoIndex !== -1) {
+    todos[todoIndex] = {
+      ...todos[todoIndex],
+      title: updatedTodo.title || todos[todoIndex].title,
+      desc: updatedTodo.desc || todos[todoIndex].desc,
+    };
+    res.status(200).json("Todo Updated successfully.");
+  } else {
+    res.status(404).json("Todo not found.");
+  }
+});
+
+//Delete a specific TODO
+app.delete("/todos/:id", (req, res) => {
+  const todoId = req.params.id;
+  const todoIndex = todos.findIndex((item) => item.id === todoId);
+  if (todoIndex !== -1) {
+    todos.splice(todoIndex, 1);
+    res.status(200).json("Todo Deleted successfully.");
+  } else {
+    res.status(404).json("Todo not found.");
+  }
+});
+
+//Any other Route
+app.use((req, res) => {
+  res.status(404).json("No routes matching.")
+})
+
+
+module.exports = app;
