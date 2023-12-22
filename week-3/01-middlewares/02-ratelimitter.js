@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   if(!user) {
     return res.status(404).send('user not found')
   }
-  numberOfRequestsForUser[user] = (numberOfRequestsForUser[user] || 0) + 1;
+  numberOfRequestsForUser[user] = (numberOfRequestsForUser[user]) + 1;
   if (numberOfRequestsForUser[user] > 5) {
     res.status(404).send("Too many requests")
   }
