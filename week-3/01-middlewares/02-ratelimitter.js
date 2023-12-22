@@ -1,5 +1,4 @@
-const request = require('supertest');
-const assert = require('assert');
+
 const express = require('express');
 const app = express();
 // You have been given an express server which has a few endpoints.
@@ -12,6 +11,19 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+function middleWare(req, res, next) {
+  const userId = req.headers['user-id'];
+  const userRequest = numberOfRequestsForUser[userId] ?? 0;
+  if(userRequest >= 5) {
+      const error = new Error("Too many request form this userId");
+      return next(error);
+    }
+  else {
+    numberOfRequestsForUser[userId] = userRequest + 1;
+    next();
+  }
+}
+app.use(middleWare);
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
@@ -23,5 +35,7 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
-
+app.use((err, req, res, next) => {
+  res.status(404).send();
+}); 
 module.exports = app;

@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwtPassword = 'secret';
-
-
+const zod = require('zod');
 /**
  * Generates a JWT for a given username and password.
  *
@@ -13,33 +12,61 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+const authenticationCheck = zod.object({
+    user: zod.string().email(),
+    pass: zod.string().min(6)
+});
+
 function signJwt(username, password) {
     // Your code here
+    try {
+        const validation = authenticationCheck.parse({
+            user: username,
+            pass: password
+        });
+        const token =  jwt.sign({username, password}, jwtPassword);
+        return token;
+    
+    }catch(error) {
+        return null;
+    }
 }
 
 /**
  * Verifies a JWT using a secret key.
  *
- * @param {string} token - The JWT string to verify.
+ * @param {string} token - The JWT string to ve rify.
  * @returns {boolean} Returns true if the token is valid and verified using the secret key.
  *                    Returns false if the token is invalid, expired, or not verified
  *                    using the secret key.
  */
 function verifyJwt(token) {
-    // Your code here
+    try {
+        jwt.verify(token, jwtPassword);
+        return true;
+    }catch(error) {
+        return false;
+    }
 }
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
  *
  * @param {string} token - The JWT string to decode.
- * @returns {object|false} The decoded payload of the JWT if the token is a valid JWT format.
+ * @returns {object|false} The decoded payload of the JWT if the token is a JWT format.
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
     // Your code here
+    const part = token.split('.');
+    if(part.length !== 3) {
+        return false;
+    }
+    if(!part.every(p => p.trim() !== '')) {
+        return false;
+    }
+    return true;
 }
-
 
 module.exports = {
   signJwt,
