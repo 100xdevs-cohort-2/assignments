@@ -1,22 +1,65 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const router = Router();
-
+const { Admin, Course } = require("../db/index.js");
+const jwt = require("jsonwebtoken");
+const jwtPassword = "secretKey";
 // Admin Routes
-app.post('/signup', (req, res) => {
-    // Implement admin signup logic
+router.post("/signup", async (req, res) => {
+  const { username, password } = req.body;
+  const newAdmin = new Admin({
+    username,
+    password,
+  });
+  await newAdmin.save();
+  res.send("Admin Created Sucessfully!!");
 });
 
-app.post('/signin', (req, res) => {
-    // Implement admin signup logic
+router.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
+  const admin = await Admin.findOne({ username });
+  if (!admin) res.send("Admin Not Resgistered!");
+  const token = jwt.sign({ username, password }, jwtPassword);
+  res.json({
+    token: token,
+  });
 });
 
-app.post('/courses', adminMiddleware, (req, res) => {
-    // Implement course creation logic
+router.post("/courses", adminMiddleware, async (req, res) => {
+  try {
+    const { id, title, description, price, imageLink } = req.body;
+    const token = req.headers.authorization;
+    const admin = jwt.verify(token, jwtPassword);
+    if (!admin) res.send("Not Authorized!!");
+    const newCourse = new Course({
+      id,
+      title,
+      description,
+      price,
+      imageLink,
+    });
+    const savedCourse = await newCourse.save();
+    res.json({
+      msg: "New Course created!",
+      CourseId: savedCourse.id,
+    });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
-app.get('/courses', adminMiddleware, (req, res) => {
-    // Implement fetching all courses logic
+router.get("/courses", adminMiddleware, async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    const admin = jwt.verify(token, jwtPassword);
+    if (!admin) {
+      res.send("Not Authorized!");
+    }
+    const allCourses = await Course.find();
+    res.send(allCourses);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 module.exports = router;

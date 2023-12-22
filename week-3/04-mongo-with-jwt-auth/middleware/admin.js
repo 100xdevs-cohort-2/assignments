@@ -1,7 +1,19 @@
+const { Admin } = require("../db/index.js");
 // Middleware for handling auth
-function adminMiddleware(req, res, next) {
-    // Implement admin auth logic
-    // You need to check the headers and validate the admin from the admin DB. Check readme for the exact headers to be expected
+async function adminMiddleware(req, res, next) {
+  // Implement admin auth logic
+  // You need to check the headers and validate the admin from the admin DB. Check readme for the exact headers to be expected
+  try {
+    const username = req.headers.username;
+    const password = req.headers.password;
+    const admin = await Admin.findOne({ username });
+    if (!admin) {
+      res.send({ msg: "Admin not registered!!" });
+    }
+    next();
+  } catch (error) {
+    res.send(error);
+  }
 }
 
 module.exports = adminMiddleware;
