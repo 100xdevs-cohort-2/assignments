@@ -35,7 +35,7 @@ router.post("/courses", adminMiddleware, async (req, res) => {
       price: price,
       imageLink: imageLink,
       published: true,
-      owner: req.admin.username,
+      owner: admin.username,
     });
     admin.courses.push(course._id);
     await admin.save();
