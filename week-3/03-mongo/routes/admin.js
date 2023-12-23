@@ -25,7 +25,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
   // Implement course creation logic
 });
 
-
+// TODO: check why only extracting property `courses` works?
 router.get('/courses', adminMiddleware, async (req, res) => {
   // Implement fetching all courses logic
   const admin = req.admin;

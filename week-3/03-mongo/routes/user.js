@@ -36,11 +36,18 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
   }
 });
 
+// TODO: check why only extracting property `courses` works?
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
-  const user = req.user;
-  const { courses } = await User.findById(user._id).populate('courses');
-  res.json(courses);
+  try {
+    const user = req.user;
+    const { courses } = await User.findById(user._id).populate('courses');
+    console.log({ courses });
+    res.json(courses);
+  } catch (error) {
+    console.log({ error });
+    res.status(500).send();
+  }
 });
 
 module.exports = router;
