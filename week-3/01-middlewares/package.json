@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:rl": "jest ./tests/02-ratelimitter.spec.js  --runInBand --detectOpenHandles --forceExit",
+    "test:ec": "jest ./tests/03-errorcount.spec.js  --runInBand --detectOpenHandles --forceExit"
   },
   "keywords": [],
   "author": "",

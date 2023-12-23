@@ -12,16 +12,41 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
-setInterval(() => {
-    numberOfRequestsForUser = {};
-}, 1000)
+let intervalId = setInterval(() => {
+  numberOfRequestsForUser = {};
+}, 1000);
 
-app.get('/user', function(req, res) {
+const ratelimitter = (req, res, next) => {
+  const userId = req.headers['user-id'];
+  if (numberOfRequestsForUser[userId] && numberOfRequestsForUser[userId] > 4) {
+    res.status(404).send();
+  }
+  numberOfRequestsForUser[userId] =
+    (numberOfRequestsForUser?.[userId] ?? 0) + 1;
+  next();
+};
+
+app.use(ratelimitter);
+
+app.get('/user', function (req, res) {
   res.status(200).json({ name: 'john' });
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', function (req, res) {
   res.status(200).json({ msg: 'created dummy user' });
+});
+
+// Attach cleanup function to 'beforeExit' event
+process.on('beforeExit', async () => {
+  console.log('Received beforeExit. Cleaning up..');
+  clearInterval(intervalId);
+});
+
+// Attach cleanup function to 'SIGINT' signal (Ctrl+C)
+process.on('SIGINT', async () => {
+  console.log('Received SIGINT. Cleaning up...');
+  clearInterval(intervalId);
+  process.exit(0);
 });
 
 module.exports = app;
