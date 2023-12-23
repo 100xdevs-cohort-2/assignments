@@ -14,7 +14,26 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const map = new Map();
+  transactions.forEach(element => {
+    if(map.has(element.category)){
+      map.set(element.category, map.get(element.category) + element.price);
+    }
+    else map.set(element.category , element.price);
+  });
+  console.log(map);
+  const ans = [];
+  map.forEach((value,key)=>{
+    ans.push({category : key , totalSpent : value});
+  });
+  return ans;
 }
-
+// let a = calculateTotalSpentByCategory([{
+//   id: 1,
+//   timestamp: 1656076800000,
+//   price: 10,
+//   category: 'Food',
+//   itemName: 'Pizza',
+// }]);
+// console.log(a);
 module.exports = calculateTotalSpentByCategory;
