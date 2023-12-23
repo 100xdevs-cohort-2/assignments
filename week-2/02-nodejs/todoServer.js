@@ -46,4 +46,25 @@
   
   app.use(bodyParser.json());
   
+  const todos = [];
+  app.get('/',(req,res)=>{
+    res.send("helllp")
+  })
+
+  app.get('/todos',(req,res)=>{
+    res.json(todos)
+  })
+
+  app.get('/todos/:id',(req,res)=>{
+    const findtodos = todos.find(t => t.id === parseInt((req.params.id)))
+    if(!findtodos){
+      res.status(404).send();
+    }
+    else{
+      res.status(200).json(todos)
+    }
+  })
+
+
+  app.listen(3000)
   module.exports = app;

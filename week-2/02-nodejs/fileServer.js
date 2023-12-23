@@ -23,11 +23,34 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/files',(req,res) => {
-  res.send("Hello")
+  const filePath = path.join(__dirname,'./files');
+  fs.readdir(filePath, (err,files)=>{
+    if(err){
+      return res.status(500).json({
+        error:"Error reading files"
+      })
+    }
+    res.json(files)
+  })
+
+  
+  // res.send("Hello")
 })
 
+app.get('/file/:filename', function (req, res) {
+    const filepath = path.join(__dirname, './files/', req.params.filename);
 
-app.listen(Port, ()=> {
-  console.log(`Server started at Port ${Port}`)
-})
+    fs.readFile(filepath, 'utf8', (err, data) => {
+    if (err) {
+        return res.status(404).send('File not found');
+    }
+    res.send(data);
+    });
+});
+
+app.all('*', (req, res) => {
+  res.status(404).send('Route not found');
+});
+
+
 module.exports = app;
