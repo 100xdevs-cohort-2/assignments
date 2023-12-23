@@ -20,26 +20,41 @@ class Calculator {
   constructor() {
     this.result = 0;
   }
-
-  add(x) {
-    this.result += x;
+  isValidNumber(num) {
+    return typeof num === "number";
   }
 
-  subtract(x) {
-    this.result -= x;
+  throwError() {
+    throw new Error("Invalid number");
   }
-
-  multiply(x) {
-    this.result *= x;
-  }
-
-  divide(x) {
-    if (x === 0) {
-      throw new Error(`Can not divide by zero`);
+  add(num) {
+    if (this.isValidNumber(num)) {
+      this.result += num;
+    } else {
+      this.throwError();
     }
-    this.result /= x;
   }
-
+  subtract(num) {
+    if (this.isValidNumber(num)) {
+      this.result -= num;
+    } else {
+      this.throwError();
+    }
+  }
+  multiply(num) {
+    if (this.isValidNumber(num)) {
+      this.result *= num;
+    } else {
+      this.throwError();
+    }
+  }
+  divide(num) {
+    if (this.isValidNumber(num) && num !==0) {
+      this.result /= num;
+    } else {
+      this.throwError();
+    }
+  }
   clear() {
     this.result = 0;
   }
@@ -47,29 +62,20 @@ class Calculator {
   getResult() {
     return this.result;
   }
-
   calculate(expression) {
-    expression = expression.replaceAll(" ", "");
-    const validCharacters = /^[\d\s\+\-\*\/().]+$/;         
-    /* a+: Matches one or more occurrences of the character 'a'. 
-     a\+: Matches the character 'a' followed by the literal character '+'.
-     \d: Matches any digit (0-9).
-     \s: Matches any whitespace character (e.g., space, tab).  */
 
-    if (!validCharacters.test(expression)) {
-      throw new Error("Invalid characters in the expression");
-    }
+    // This is to handle invalid expressions.
+    this.result = eval(expression.replace(/\s+/g, " "));
 
-    try {
-      const res = eval(expression);
-      if (!isFinite(res)) {
-        throw new Error(`Can not divide by zero`);
-      }
-      this.result = res;
-    } catch (error) {
-      throw new Error("Invalid expression");
+    // Check if the result is Infinity. If so, throw an Error.
+    if (this.result === Infinity) {
+      throw new Error("Infinity");
     }
+    return this.result;
   }
 }
+
+// const calc = new Calculator();
+// console.log(calc.calculate(`10 +   2 *    (   6 - (4 + 1) / 2) + 7`));
 
 module.exports = Calculator;
