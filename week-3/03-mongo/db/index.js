@@ -6,7 +6,7 @@
 // app.use(express.json());
 
 // mongoose.connect(
-//   "mongodb+srv://spvarun47:123123123@gpt-app.sbaqyub.mongodb.net/Userlocal"
+//   ""
 // );
 
 // const User = mongoose.model("Users", {
@@ -54,7 +54,7 @@ const mongoose = require("mongoose");
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://spvarun47:123123123@gpt-app.sbaqyub.mongodb.net/course_selling"
+  ""
 );
 
 // Define schemas
