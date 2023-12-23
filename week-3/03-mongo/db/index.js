@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose
-  .connect(
-    "mongodb+srv://codesoniyt:Mbe1U7pZYhmPz3du@cluster0.jprgeac.mongodb.net/cohort-assignment"
-  )
-  .then((data) => {
-    console.log("connected to MongoDB");
-  });
+console.log(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI).then((data) => {
+  console.log("connected to MongoDB");
+});
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
