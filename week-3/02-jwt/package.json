@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:jwt": "jest ./tests/index.spec.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jest": "^29.7.0",
     "jsonwebtoken": "^9.0.2",
     "zod": "^3.22.4"
   }
