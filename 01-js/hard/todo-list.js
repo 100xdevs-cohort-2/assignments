@@ -23,17 +23,11 @@ class Todo {
     if (indexOfTodo > -1 && indexOfTodo < this.todos.length) {
       this.todos.splice(indexOfTodo, 1);
     }
-    else {
-     console.error("Invalid index!")
-    }
   }
 
   update(index, updatedTodo) {
     if (index > -1 && index < this.todos.length) {
       this.todos[index] = updatedTodo;
-    }
-    else {
-      console.error("Invalid index!")
     }
   }
 
@@ -44,9 +38,6 @@ class Todo {
   get(indexOfTodo) {
     if (indexOfTodo > -1 && indexOfTodo < this.todos.length) {
       return this.todos[indexOfTodo];
-    }
-    else {
-      console.error("Invalid index!")
     }
     return null;
   }

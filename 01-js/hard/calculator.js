@@ -74,7 +74,6 @@ class Calculator {
       }
     }
     catch (error) {
-      console.error(error.message);
       throw new Error("Invalid expression");
     }
     return this.result;
