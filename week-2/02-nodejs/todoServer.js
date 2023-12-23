@@ -39,11 +39,71 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// id,title,  description
+const todosArray = [];
+
+app.get("/todos", (req, res) => {
+  return res.status(200).json(todosArray);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const todoId = Number(req.params["id"]);
+
+  const todoItem = todosArray.find((item) => item.id === todoId);
+  if (todoItem) return res.status(200).json(todoItem);
+
+  return res.status(404).json({ error: "Not found" });
+});
+
+app.post("/todos", (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description)
+    return res
+      .status(500)
+      .json({ error: "Please send title and description of the todo Item" });
+
+  const newTodoItem = {
+    id: Math.random().toPrecision(6) * 1000000,
+    title,
+    description,
+  };
+
+  todosArray.push(newTodoItem);
+
+  return res.status(201).json(newTodoItem);
+});
+
+app.put("/todos/:id", (req, res) => {
+  const todoId = Number(req.params.id);
+
+  const { title, description } = req.body;
+
+  const existingTodoItem = todosArray.find((item) => item.id === todoId);
+  if (!existingTodoItem) return res.status(404).send("Not Found");
+
+  existingTodoItem.description = description;
+  existingTodoItem.title = title;
+  return res.status(200).send("OK");
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const itemId = Number(req.params.id);
+
+  const existingItem = todosArray.find((item) => item.id === itemId);
+  if (!existingItem) return res.status(404).send("Not Found");
+
+  const existingItemIndex = todosArray.indexOf(existingItem);
+
+  todosArray.splice(existingItemIndex, 1);
+  return res.status(200).send("OK");
+});
+
+module.exports = app;
