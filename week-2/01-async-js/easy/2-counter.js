@@ -1,10 +1,8 @@
 function counter() {
-  let a = 0;
-  for (; a < 10; a++) {
+  for (let a = 1; a < 10; a++) {
     setTimeout(() => {
       console.log(a);
-      a = a + 1;
-    }, 1000);
+    }, 1000 * a);
   }
 }
 
