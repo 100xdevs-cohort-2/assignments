@@ -39,11 +39,93 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+class Todo {
+  constructor(title, description, completed) {
+    this.id = uuid.v4();
+    this.title = title;
+    this.description = description;
+    this.completed = completed;
+  }
+};
+
+
+let myTodos = [];
+
+
+function findTodo(id) {
+  for(let i=0; i<myTodos.length; i++) {
+    if(myTodos[i]["id"]===id) {
+      return i;
+    }
+  }
+
+  return null;
+}
+
+
+app.get("/todos", function(req, resp) {
+  resp.status(200).json(myTodos);
+});
+
+
+app.get("/todos/:id", function(req, resp) {
+  const id = req.params.id;
+  const todoIndex = findTodo(id);
+
+  if(todoIndex == null) {
+    return resp.status(404).json("Not found");
+  }
+  resp.status(200).json(myTodos[todoIndex]);
+});
+
+
+app.post("/todos", function(req, resp) {
+  const {title, description, completed} = req.body;
+  const body = new Todo(title, description, completed);
+  myTodos.push(body);
+  resp.status(201).json("Added in todolist");
+})
+
+app.put("/todos/:id", function(req, resp) {
+  const {title, completed} = req.body;
+  const id = req.params.id;
+  const todoIndex = findTodo(id);
+
+  if(todoIndex == null) {
+    return resp.status(404).json("Not found");
+  }
+
+  myTodos[todoIndex]["title"] = title;
+  myTodos[todoIndex]["completed"] = completed;
+
+  resp.status(200).json(myTodos[todoIndex]);
+
+});
+
+app.delete("/todos/:id", function(req, resp) {
+  const id = req.params.id;
+  const todoIndex = findTodo(id);
+  if(todoIndex == null) {
+    return resp.status(404).json("Not found");
+  }
+  myTodos.splice(todoIndex, 1);
+  resp.status(200).json("Successfully deleted");
+})
+
+
+// app.listen("8080", function() {
+//   console.log("Running on port 8080")
+// })
+
+
+module.exports = app;
