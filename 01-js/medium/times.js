@@ -9,5 +9,18 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+   
+    // Find the start time.
+  const startTime = new Date().getTime();
+  // To find the sum.
+  let sum = 0;
+  // Calculate sum from 1 to n.
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  }
+  // Find the end time.
+  const endTime = new Date().getTime();
+  // Calculate the time difference between the end time and start time.
+  const elapsedTime = (endTime - startTime) / 1000;
+  return elapsedTime;
 }
