@@ -45,7 +45,7 @@ class Calculator {
 
   calculate(expression){
     try{
-      //remobving extra spaces 
+      //removing extra spaces 
       this.result=eval(expression.replace("/\s+/g",''));
       if(!isFinite(this.result)){
         throw new Error('Infinite result');
