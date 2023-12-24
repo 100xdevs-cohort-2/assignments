@@ -1,20 +1,37 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
+const { User,Course } = require("../db");
 
 // User Routes
-app.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement user signup logic
+    await User.create({username: req.body.username, password: req.body.password, courses: []})
+    res.json({ message: 'User created successfully' });
 });
 
-app.get('/courses', (req, res) => {
+router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
+    let data = await Course.find();
+    res.json({courses:data});
 });
 
-app.post('/courses/:courseId', userMiddleware, (req, res) => {
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
+    let userName = req.headers.username;
+    let password = req.headers.password;
+    let user = User.find({username:userName,password:password});
+    user.courses.push(req.params.courseId);
+    await user.save();
+    res.json({ message: 'Course purchased successfully' });
 });
 
-app.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
     // Implement fetching purchased courses logic
+    let userName = req.headers.username;
+    let password = req.headers.password;
+    let data = await User.find({username: userName, password:password});
+    res.json({purchasedCourses: data});
 });
+
+module.exports = router;
