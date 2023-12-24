@@ -70,8 +70,6 @@ function decodeJwt(token) {
     }
     return true;
 }
-
-console.log(decodeJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imxva2VzaCIsInBhc3N3b3JkIjoiMTIzNCIsImlhdCI6MTcwMzM4ODY1OH0.6JiGDhH0cXFpwo7t0ofYzdy9XdAAlO0U1oOtMUUOQMQ"))
 module.exports = {
   signJwt,
   verifyJwt,
