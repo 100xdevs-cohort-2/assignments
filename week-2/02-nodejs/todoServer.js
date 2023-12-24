@@ -39,11 +39,80 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs')
+
+const app = express();
+
+app.use(bodyParser.json());
+
+
+let todoItems = []
+
+function generateRandomId() {
+  const timestamp = Date.now().toString(36); // Convert current timestamp to base36 string
+  const randomPart = Math.random().toString(36).substr(2, 5); // Generate a random string
+
+  return timestamp + randomPart;
+}
+
+
+app.get('/todos', function(req, res){
+  return res.status(200).json(todoItems)
+})
+
+app.get('/todos/:id', function(req, res){
+  todoId = req.params.id
+  for(todoItem of todoItems){
+    if(todoItem.id == todoId){
+      res.status(200).json(todoItem)
+      return
+    }
+  }
+  return res.status(404).json({'message': 'Todo item not found'})
+})
+
+
+app.post('/todos', function(req, res){
+  todoItem = req.body
+  randomId = generateRandomId()
+  todoItem.id = randomId
+  todoItems.push(todoItem)
+  return res.status(201).json({'id' : randomId})
+})
+
+
+app.put('/todos/:id', function(req, res){
+  const todoId = req.params.id;
+  const updatedData = req.body;
+  for(todoItem of todoItems){
+    if(todoItem.id == todoId){
+      todoItem = updatedData
+      todoItem.id = todoId
+      return res.status(200).json({'message': 'Todo Item Updated'})
+    }
+  }
+  return res.status(404).json({'message': 'Item not found'})
+})
+
+app.delete('/todos/:id', function(req, res){
+  let id = req.params.id;
+  console.log("Debug: ",id)
+  console.log("Debug: ",todoItems)
+  for(let i = 0; i < todoItems.length; i++){
+    if(todoItems[i].id == id){
+      //console.log(todoItems)
+      todoItems.splice(i, 1);
+      return res.status(200).json({"message": 'todo item deleted'})
+    }
+  }
+  return res.status(200).json({'message': 'Item not found'})
+})
+
+
+// app.listen(3000)
+
+
+
+module.exports = app;
