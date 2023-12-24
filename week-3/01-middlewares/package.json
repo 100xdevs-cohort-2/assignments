@@ -17,6 +17,7 @@
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "eslint-plugin-jest": "^27.6.0",
+    "nodemon": "^3.0.2",
     "ts-node": "^10.9.2"
   }
 }
