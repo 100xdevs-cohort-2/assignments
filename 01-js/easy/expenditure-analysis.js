@@ -14,6 +14,13 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
+
+  const listOfObject = [];
+
+  transactions.array.forEach(element => {
+    
+  });
+
  
 }
 

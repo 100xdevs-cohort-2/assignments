@@ -23,36 +23,35 @@ class Calculator {
 
   add(num) {
     this.result = this.result + num;
-    return this.result
+    return this.result;
   }
 
   subtract(num) {
     this.result = this.result - num;
-    return this.result
+    return this.result;
   }
 
   multiply(num) {
     this.result = this.result * num;
-    return this.result
+    return this.result;
   }
 
   divide(num) {
     if (num === 0) {
       throw new Error("Cannot divide by 0");
     }
-    this.result = this.result / num ;
-    return this.result
+    this.result = this.result / num;
+    return this.result;
   }
 
   clear() {
     this.result = 0;
-    return this.result
+    return this.result;
   }
 
   getResult() {
     return this.result;
   }
-
 
   calculate(exp) {
     const cleanExp = exp.replace(/\s+/g, "").trim();
