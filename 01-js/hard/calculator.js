@@ -16,6 +16,55 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    if(typeof(num) == "number") {
+      this.result += num;
+    } else {
+      throw new error("NAN")
+    }
+  }
+
+  subtract(num) {
+    if(typeof(num) == "number") {
+      this.result -= num;
+    } else{
+      throw new error("NAN");
+    }
+  }
+
+  multiply(num) {
+    if(typeof(num) == "number") {
+      this.result *= num;
+    }
+  }
+
+  divide(num) {
+    if(typeof(num) == "number" && num !== 0) {
+      this.result /= num;
+    } else {
+      throw new error("invalid input");
+    }
+  }
+
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+
+  calculate(exp) {
+    this.result = eval(exp.replace(/\s+/g, ""));
+    if(this.result === Infinity) {
+      throw new error("infinity");
+    }
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
