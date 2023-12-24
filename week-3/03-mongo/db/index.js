@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     courses: [{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         autopopulate:true,
         ref:'Course',
     }]
