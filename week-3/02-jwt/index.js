@@ -15,6 +15,14 @@ const jwtPassword = 'secret';
  */
 function signJwt(username, password) {
     // Your code here
+    const usernameResponse = emailSchema.safeParse(username);
+    const passwordResponse = passwordSchema.safeParse(password);
+    if(!usernameResponse.success || !passwordResponse.success){
+        return null;
+    }
+    jwt.sign({
+        username
+    }, jwtPassword)
 }
 
 /**
@@ -27,6 +35,20 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    // const verified = jwt.verify(token, jwtPassword);
+    // if(verified){
+    //     return true
+    // }else{
+    //     return false
+    // }
+    let ans = true;
+    try{
+        jwt.verify(token,jwtPassword);
+    }catch(e){
+        ans =false
+    }
+    return ans;
+    
 }
 
 /**
@@ -38,6 +60,12 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+    const decode = jwt.decode(token);
+    if(decode){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 
