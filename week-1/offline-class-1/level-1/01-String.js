@@ -14,7 +14,6 @@ getlength("hello");
 
 function indexof(str1, target) {
   console.log("Orginial str:", str1);
-  // console.log("Index",str1.indexOf(target));
   console.log("index", str1.indexOf(target));
 }
 indexof("Helloworld", "world");
