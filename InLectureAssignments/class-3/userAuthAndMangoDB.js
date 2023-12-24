@@ -16,7 +16,7 @@ const User = mongoose.model("User", {
 
 
 async function userExists(username, password) {
-  let isExist = await User.findOne({ email: username, password: password }).exec();
+  let isExist = await User.findOne({ email: username, password: password });
   if (isExist != null) {
     return true;
   } return false;
