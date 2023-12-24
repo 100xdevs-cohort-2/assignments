@@ -6,7 +6,7 @@ const { User,Course } = require("../db");
 // User Routes
 router.post('/signup', (req, res) => {
     // Implement user signup logic
-    await User.create({username: req.body.username, password: req.body.password, courses: []})
+    await User.create({username: req.body.username, password: req.body.password})
     res.json({ message: 'User created successfully' });
 });
 
@@ -20,7 +20,8 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
     let userName = req.headers.username;
     let password = req.headers.password;
-    let user = User.find({username:userName,password:password});
+    let user = await User.findOne({username:userName,password:password}).exec();
+    console.log(user);
     user.courses.push(req.params.courseId);
     await user.save();
     res.json({ message: 'Course purchased successfully' });
@@ -28,10 +29,11 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
 
 router.get('/purchasedCourses', userMiddleware, (req, res) => {
     // Implement fetching purchased courses logic
+    
     let userName = req.headers.username;
     let password = req.headers.password;
-    let data = await User.find({username: userName, password:password});
-    res.json({purchasedCourses: data});
+    let data = await User.findOne({username:userName, password: password}).populate('courses');
+    res.json({purchasedCourses: data.courses});
 });
 
 module.exports = router
