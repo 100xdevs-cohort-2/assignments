@@ -141,7 +141,7 @@ app.get("/admin/courses", (req, res) => {
   let token = req.headers.authorization;
   try {
     let decoded = jwt.verify(token, jwtPassword);
-    Course.getAll().then((courses) => {
+    Course.find().then((courses) => {
       res.json(courses);
     });
   } catch (err) {
@@ -188,12 +188,12 @@ app.get("/users/courses", (req, res) => {
     });
   }
 });
-app.post("/users/courses/:courseId", (req, res) => {
+app.post("/users/courses/:courseId", async (req, res) => {
   let token = req.headers.authorization;
   try {
     let decoded = jwt.verify(token, jwtPassword);
     let courseId = req.params.courseId;
-    Course.findOneAndUpdate(
+    await Course.findOneAndUpdate(
       {
         courseId: courseId,
       },
@@ -201,25 +201,22 @@ app.post("/users/courses/:courseId", (req, res) => {
         purchased: true,
       }
     );
+    res.json({ msg: "Course purchased successfully" });
   } catch (err) {
     res.json({
       msg: "Athorization err",
     });
   }
 });
-app.post("/users/courses/purchasedCourses", (req, res) => {
+app.get("/users/courses/purchasedCourses", async (req, res) => {
   let token = req.headers.authorization;
   try {
     let decoded = jwt.verify(token, jwtPassword);
-    Course.find()
-      .$where({ purchased: true })
-      .then((purchases) => {
-        res.json(purchases);
-      });
+    const purchasedCourses = await Course.find({ purchased: true });
+
+    res.json(purchasedCourses);
   } catch (err) {
-    res.json({
-      msg: "Athorization err",
-    });
+    res.status(401).json({ msg: "Authorization error" });
   }
 });
 app.listen(3000, () => {
