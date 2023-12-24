@@ -18,49 +18,40 @@ router.post('/signup', async(req, res) => {
 router.get('/courses',userMiddleware ,async(req, res) => {
 
     let allCourses = await Course.find({});
+    // res.json(typeof allCourses[0]._id);
     res.json({courses: allCourses});
     // Implement listing all courses logic
 });
 
 router.post('/courses/:courseId', userMiddleware, async(req, res) => {
-    // try{
-    //     await Purchase.create({
-    //         id: req.params.courseId
-    //     })
-    //     res.json({message: 'Course Purchase successfully'});
-    //     // Implement course purchase logic
-    // } catch(e) {
-    //     res.json({message: e.message});
-    // }
-    const { courseId } = req.params;
-
-    try {
-        const course = await Course.findById(courseId);
-        if (!course) {
-            return res.status(404).json({ error: 'Course not found' });
-        }
-
-        const user = await User.findById(req.user._id); // Assuming you have stored the user ID in req.user after authentication
-        user.purchasedCourses.push(course);
-        await user.save();
-
+    let courseId = req.params.courseId;
+    try{
+        const check = await Course.findById(courseId);
+            if(check !== null){
+                await Purchase.create({
+                    id: courseId
+                })
+                res.json({message: 'Course Purchase successfully'});
+            } else {
+                res.json("Course not available");
+            }
+        // Implement course purchase logic
+    } catch(e) {
         res.json({
-            message: 'Course purchased successfully',
-            courseId: course._id
+            message: "input must be a 24 character hex string, 12 byte Uint8Array, or an integer"
         });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
     }
 });
 
 router.get('/purchasedCourses', userMiddleware, async(req, res) => {
     // Implement fetching Purchase courses logic
-    try {
-        const user = await User.findById(req.user._id).populate('purchasedCourses');
-        res.json({ purchasedCourses: user.purchasedCourses });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+    try{
+        let allCourses = await Purchase.find({});
+    res.json({purchasedCourses: allCourses})
+    } catch(e){
+        res.json(e);
     }
+    
 });
 
 module.exports = router;

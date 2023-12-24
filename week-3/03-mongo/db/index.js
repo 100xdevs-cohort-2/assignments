@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema({
 
 const CourseSchema = new mongoose.Schema({
     // Schema definition here
-    id: Number,
     title: String,
     description: String,
     price: Number,
@@ -27,6 +26,7 @@ const CourseSchema = new mongoose.Schema({
 });
 
 const PurchasedSchema = new mongoose.Schema({
+    // id: mongoose.Schema.Types.ObjectId
     id: String
 })
 
