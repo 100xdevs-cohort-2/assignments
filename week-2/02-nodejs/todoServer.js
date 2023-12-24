@@ -63,36 +63,22 @@ function findIndex(arr, id) {
 }
 
 app.get("/todos", async (req, res) => {
-  fs.readFile("todos.json", "utf-8", (err, data) => {
-    if (err) {
-      throw err;
-    }
-
-    res.status(200).json(JSON.parse(data));
+  fs.readFile("todos.json", "utf8", function (err, data) {
+    if (err) throw err;
+    res.json(JSON.parse(data));
   });
 });
 
 app.get("/todos/:id", async (req, res) => {
   fs.readFile("todos.json", "utf-8", (err, data) => {
     if (err) throw err;
-
     const todos = JSON.parse(data);
-    const todoId = parseInt(req.params.id);
-
-    let foundTodo = null;
-
-    for (let i = 0; i < todos.length; i++) {
-      if (todos[i].id === todoId) {
-        foundTodo = todos[i];
-        break;
-      }
-    }
-
-    if (foundTodo === null) {
+    const todoIndex = findIndex(todos, parseInt(req.params.id));
+    if (todoIndex === -1) {
       res.status(404).send();
+    } else {
+      res.json(todos[todoIndex]);
     }
-
-    res.status(200).json(foundTodo);
   });
 });
 
