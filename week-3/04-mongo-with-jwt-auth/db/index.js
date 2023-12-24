@@ -92,9 +92,14 @@ app.post("/admin/signup", adminMiddleWare, (req, res) => {
     msg: "Admin created sucessfully",
   });
 });
-app.post("/admin/signin", (req, res) => {
+app.post("/admin/signin", async (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
+  const user = await User.findOne({ username, password });
+  if (!user) {
+    return res.status(401).json({ message: "Invalid username or password" });
+  }
+
   const token = jwt.sign(
     {
       username: username,
