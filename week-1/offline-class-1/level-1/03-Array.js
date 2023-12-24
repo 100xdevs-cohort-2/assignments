@@ -5,16 +5,15 @@
 
 // Run each function to see the output, play and learn by doing.
 
-// push()
-function pushExample(arr, element) {
-  console.log("Original Array:", arr);
-
-  arr.push(element);
-  console.log("After push:", arr);
+// push example -- Add the last element of the Array
+function push(arr,elements)
+{
+  arr.push(elements);
+  console.log(arr);
 }
-pushExample([1, 2, 3], 4);
+push([1,2,3,4],5)
 
-// pop()
+// pop Example -- Remove the last element from the array
 function popExample(arr) {
   console.log("Original Array:", arr);
 
@@ -23,16 +22,16 @@ function popExample(arr) {
 }
 popExample([1, 2, 3]);
 
-// shift()
+// The shift() method removes the first item of an array.
 function shiftExample(arr) {
   console.log("Original Array:", arr);
 
   arr.shift();
   console.log("After shift:", arr);
 }
-shiftExample([1, 2, 3]);
+shiftExample([1, 2, 3,4,5]);
 
-// unshift()
+//The unshift() method adds new elements to the beginning of an array.
 function unshiftExample(arr, element) {
   console.log("Original Array:", arr);
 
@@ -41,14 +40,16 @@ function unshiftExample(arr, element) {
 }
 unshiftExample([1, 2, 3], 0);
 
-// concat()
-function concatExample(arr1, arr2) {
-  console.log("Original Arrays:", arr1, arr2);
+// Concat -- add two arrays together
 
-  let arr3 = arr1.concat(arr2);
-  console.log("After concat:", arr3);
+function ConcatExample(arr1,arr2){
+  console.log("Original Array1:",arr1);
+  console.log("Original Array2:",arr2);
+  arr1.concat(arr2);
+  console.log("After concat:",arr1);
 }
-concatExample([1, 2, 3], [4, 5, 6]);
+ConcatExample([1,2,3],[4,5,6]);
+
 
 // forEach()
 function forEachExample(arr) {
