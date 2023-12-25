@@ -21,7 +21,7 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
     let userName = req.headers.username;
     let password = req.headers.password;
     let user = await User.findOne({username:userName,password:password}).exec();
-    console.log(user);
+
     user.courses.push(req.params.courseId);
     await user.save();
     res.json({ message: 'Course purchased successfully' });
