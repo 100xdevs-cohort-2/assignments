@@ -67,8 +67,11 @@ router.post(
 );
 
 router.get("/courses", adminMiddleware, async (req, res) => {
-  const courses = await Course.find({}, {title: 1, description: 1, price: 1, imageLink: 1, _id: 1});
-  res.json(courses);
+  const courses = await Course.find(
+    {},
+    { title: 1, description: 1, price: 1, imageLink: 1, _id: 1 }
+  );
+  res.json({ courses: courses });
 });
 
 module.exports = router;
