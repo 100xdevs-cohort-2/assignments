@@ -1,26 +1,27 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
+const { User, Course } = require("../db/index");
+const jwt = require("jsonwebtoken")
+const jwtPassword = "mr_krishna"
 
-// User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
-    let username = req.body.username;
-    let password = req.body.password;
-    User.create({
+router.post('/signup', userMiddleware, async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const user = await User.create({
         username: username,
         password: password,
     });
     res.json({
         msg: "User created successfully",
+        user: user.username
     });
 });
 
 router.post('/signin', (req, res) => {
-    // Implement admin signup logic
-    let username = req.body.username;
-    let password = req.body.password;
-    let token = jwt.sign(
+    const username = req.body.username;
+    const password = req.body.password;
+    const token = jwt.sign(
         {
             username: username,
             password: password,
@@ -28,56 +29,56 @@ router.post('/signin', (req, res) => {
         jwtPassword
     );
     res.json({
+        msg: "signed in successfully",
         token: token,
     });
 });
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
-    let token = req.headers.authorization;
+
+router.get('/courses', async (req, res) => {
+    const token = req.headers.authorization;
     try {
-        let decoded = jwt.verify(token, jwtPassword);
-        Course.find().then((courses) => {
+        jwt.verify(token, jwtPassword);
+        await Course.find().then((courses) => {
             res.json(courses);
         });
     } catch (err) {
         res.json({
-            msg: "Athurization err",
+            msg: "Authorization err",
         });
     }
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
-    let token = req.headers.authorization;
+router.post('/courses/:courseId', async (req, res) => {
+    const token = req.headers.authorization;
     try {
-        let decoded = jwt.verify(token, jwtPassword);
-        let courseId = req.params.courseId;
-        Course.findOneAndUpdate(
-            {
-                courseId: courseId,
-            },
-            {
-                purchased: true,
-            }
-        );
+        jwt.verify(token, jwtPassword);
+        const courseId = req.params.courseId;
+        const course = await Course.findOneAndUpdate(
+            { _id: courseId },
+            { $set: { purchased: true } },
+            { new: true }
+        )
+        res.json({
+            msg: "Course successfully purchased",
+            course: course
+        })
     } catch (err) {
         res.json({
-            msg: "Athorization err",
+            msg: "Authorization err",
         });
     }
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
+router.get('/purchasedCourses', async (req, res) => {
     let token = req.headers.authorization;
     try {
-        let decoded = jwt.verify(token, jwtPassword);
-        Course.find()
-            .$where({ purchased: true })
-            .then((purchases) => {
-                res.json(purchases);
-            });
+        jwt.verify(token, jwtPassword);
+        const course = await Course.find({ purchased: true })
+        res.json({
+            msg: "list of purchased courses",
+            courses: course
+        })
     } catch (err) {
         res.json({
             msg: "Athorization err",
