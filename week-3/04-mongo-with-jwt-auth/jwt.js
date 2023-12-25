@@ -1,19 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { jwtPassword } = require('../02-jwt');
 const jwtPassword = '123456';
 
-
-function performChecks(email,pass) {
-    if (!emailSchema.safeParse(email).success) {
-        return false;
-    }
-    if (!passSchema.safeParse(pass).success) {
-        return false;
-    }
-    return true;
-}
-
 function verifyJwt(token) {
+    console.log("jwt verify");
     try {
         jwt.verify(token,jwtPassword); 
     } catch (error) {
@@ -24,15 +13,12 @@ function verifyJwt(token) {
 
 
 function signJwt(username, password) {
-    
-    if(!performChecks(username,password)){
-        return null;
-    }
-    return  jwt.sign({username:username, password: password},jwtPassword);
+    console.log("sign sign");
+    return  jwt.sign({username:username},jwtPassword);
 }
 
 function decodeJwt(token) {
-    
+    console.log("jwt decode");
     return jwt.decode(token).username;
 }
 

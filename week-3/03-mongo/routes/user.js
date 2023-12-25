@@ -36,4 +36,4 @@ router.get('/purchasedCourses', userMiddleware, async (req, res) => {
     res.json({purchasedCourses: data.courses});
 });
 
-module.exports = router;
+module.exports = router

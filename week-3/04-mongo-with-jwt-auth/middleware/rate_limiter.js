@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+
+const { decodeJwt } = require('../jwt');
 
 let reqPerUser={};
 
@@ -8,22 +9,28 @@ setInterval(() => {
 
 
 function rateLimiter(req,res,next) {
-    
-    if (req.hasOwnProperty('Authorization')) {
-        let token = req.headers.Authorization;
-        var user = jwt.decode()
+
+    console.log("request reached to rateLimiter");
+
+    if (req.hasOwnProperty('authorization')) {
+        let token = req.headers.authorization;
+        var user = decodeJwt(token);
     }
     else{
         var user = req.headers.username;
     }   
+
     if(!reqPerUser.hasOwnProperty(user)){
-        reqPerUser[user] = 1;
-        next();
+        reqPerUser[user] = 0;
     }
+
     reqPerUser[user]++;
     if(reqPerUser[user]>=5){
         res.status(404).send("too many requests. Try again");
+        return;
     }
+
+    next();
 }
 
 module.exports = rateLimiter;
