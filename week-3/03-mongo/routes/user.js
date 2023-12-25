@@ -11,7 +11,7 @@ router.post('/signup', async (req, res) => {
   console.log(existingUser)
   if (existingUser) return res.status(409).json({ message: 'User already exist' })
   try {
-    const hashedPwd = bcrypt.hash(password, 10)
+    const hashedPwd = await bcrypt.hash(password, 10)
     const userCreated = await User.create({
       username,
       password: hashedPwd
@@ -42,11 +42,15 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     const purchasedCourse = await User.findOneAndUpdate(
       { username },
       { $push: { purchasedCourses: courseExists._id } },
-      { new: true, upsert: true })
+      { new: true, upsert: true }
+    )
+    res.status(200).json({
+      message: 'Course purchased successfully',
+      courseId: courseExists._id
+    })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
-
 });
 
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
