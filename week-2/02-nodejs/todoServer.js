@@ -51,21 +51,7 @@
     return todo;
   }
 
-  let todos = [{
-  id: 123,
-  title: "buy pen",
-  description: "I have to buy linc pen."
-},
-{
-  id: 121,
-  title: "buy groceries",
-  description: "I have to buy vegetables."
-},
-{
-  id: 111,
-  title: "buy milk",
-  description: "I have to buy amul milk."
-}];
+  let todos = [];
 
   app.get('/todos', (req, res)=>{
     res.json(todos);
@@ -78,10 +64,41 @@
     }
     res.json(todo);
   });
-  app.use((err,req,res,next)=>{
-    if(err){
-      res.json({error:"Server Internal Error"})
+
+  app.post('/todos', (req, res)=>{
+    const newTodo = {
+      id : Math.floor(Math.random() * 100000),
+      title: req.body.title,
+      completed: false,
+      description: req.body.description
     }
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+  });
+
+  app.put('/todos/:id', (req, res) => {
+    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      todos[todoIndex].title = req.body.title;
+      todos[todoIndex].description = req.body.description;
+      res.json(todos[todoIndex]);
+    }
+  });
+
+  app.delete('/todos/:id', (req, res)=>{
+    const id = parseInt(req.params.id);
+    const todo = idExist(id);
+    if(!todo){
+      res.status(404).send("Not Found");
+    }
+    todos = todos.filter((todo) => todo.id!== id);
+    res.status(200).send(); 
+  });
+
+  app.all('*', (req, res)=>{
+    res.status(404).send();
   })
-  app.listen(3000);
+
   module.exports = app;

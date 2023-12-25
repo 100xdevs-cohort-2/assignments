@@ -35,13 +35,7 @@ app.get("/file/:filename", (req, res)=>{
   })
 });
 app.all('*', (req, res)=>{
-  res.status(404).send("Route not found");
+  res.status(404).send();
 })
-app.use((err, req, res, next)=>{
-  if(err){
-    res.status(404).json({
-      msg: "Server internal problem"
-    })
-  }
-})
+
 module.exports = app;
