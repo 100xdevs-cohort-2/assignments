@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { SignUpSchema } = require("../validators");
+const { SignInSchema, SignUpSchema } = require("../validators");
 const { User, Course } = require("../db/index");
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // User Routes
 router.post("/signup", async (req, res) => {
@@ -31,8 +32,32 @@ router.post("/signup", async (req, res) => {
   });
 });
 
-router.post("/signin", (req, res) => {
-  // Implement admin signup logic
+router.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
+
+  const validator = SignInSchema.safeParse({ username, password });
+  if (!validator.success) {
+    return res.status(400).json(validator.error.flatten());
+  }
+
+  const user = await User.findOne({ username: username }).exec();
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid credentials!",
+    });
+  }
+
+  const isPasswordValid = await bcryptjs.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({
+      message: "Invalid credentials!",
+    });
+  }
+
+  const payload = { id: user.id, username: user.username };
+  const token = jwt.sign(payload, process.env.JWT_PASSWORD);
+
+  return res.json({ token: token });
 });
 
 router.get("/courses", async (req, res) => {
@@ -51,7 +76,7 @@ function isEmpty(value) {
 
 router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   const { courseId } = req.params;
-  const user = await User.findOne({ username: req.headers.username }).exec();
+  const user = await User.findOne({ username: req.user.username }).exec();
   const purchasedCourses = user.purchasedCourses;
 
   if (!isEmpty(purchasedCourses) && purchasedCourses.includes(courseId)) {
@@ -77,7 +102,7 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
 });
 
 router.get("/purchasedCourses", userMiddleware, async (req, res) => {
-  const user = await User.findOne({ username: req.headers.username }).exec();
+  const user = await User.findOne({ username: req.user.username }).exec();
 
   const courses = await Course.find({
     _id: { $in: user.purchasedCourses },

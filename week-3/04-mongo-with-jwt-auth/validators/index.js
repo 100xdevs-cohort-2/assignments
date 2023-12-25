@@ -5,6 +5,11 @@ const SignUpSchema = zod.object({
   password: zod.string().min(8),
 });
 
+const SignInSchema = zod.object({
+  username: zod.string().email(),
+  password: zod.string(),
+});
+
 const CourseSchema = zod.object({
   title: zod.string(),
   description: zod.string(),
@@ -13,5 +18,6 @@ const CourseSchema = zod.object({
 
 module.exports = {
   SignUpSchema,
+  SignInSchema,
   CourseSchema
 };

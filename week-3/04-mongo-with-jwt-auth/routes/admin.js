@@ -1,11 +1,12 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const router = Router();
-const { SignUpSchema, CourseSchema } = require("../validators");
+const { SignUpSchema, SignInSchema, CourseSchema } = require("../validators");
 const { Admin, Course } = require("../db/index");
 const bcryptjs = require("bcryptjs");
 const multer = require("multer");
 const upload = multer({ dest: "uploads" });
+const jwt = require("jsonwebtoken");
 
 // Admin Routes
 router.post("/signup", async (req, res) => {
@@ -33,8 +34,32 @@ router.post("/signup", async (req, res) => {
   });
 });
 
-router.post("/signin", (req, res) => {
-  // Implement admin signup logic
+router.post("/signin", async (req, res) => {
+  const { username, password } = req.body;
+
+  const validator = SignInSchema.safeParse({ username, password });
+  if (!validator.success) {
+    return res.status(400).json(validator.error.flatten());
+  }
+
+  const user = await Admin.findOne({ username: username }).exec();
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid credentials!",
+    });
+  }
+
+  const isPasswordValid = await bcryptjs.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({
+      message: "Invalid credentials!",
+    });
+  }
+
+  const payload = { id: user.id, username: user.username };
+  const token = jwt.sign(payload, process.env.JWT_PASSWORD);
+
+  return res.json({ token: token });
 });
 
 router.post(

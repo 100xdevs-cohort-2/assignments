@@ -1,25 +1,27 @@
-const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { Admin } = require("../db/index");
 
-// Middleware for handling auth
 async function adminMiddleware(req, res, next) {
-  const { username, password } = req.headers;
+  try {
+    const { authorization } = req.headers;
+    const decoded = jwt.verify(authorization, process.env.JWT_PASSWORD);
 
-  const user = await Admin.findOne({ username: username }).exec();
-  if (!user) {
+    if (decoded && decoded.username) {
+      const user = await Admin.findOne({ username: decoded.username }).exec();
+      if (user) {
+        req.user = user;
+        return next();
+      } else {
+        throw new Error("Unauthorized");
+      }
+    } else {
+      throw new Error("Unauthorized");
+    }
+  } catch (error) {
     return res.status(401).json({
-      message: "Invalid credentials!",
+      message: "Unauthorized",
     });
   }
-
-  const isPasswordValid = await bcryptjs.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(401).json({
-      message: "Invalid credentials!",
-    });
-  }
-
-  next();
 }
 
 module.exports = adminMiddleware;
