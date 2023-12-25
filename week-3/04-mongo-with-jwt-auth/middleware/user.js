@@ -1,17 +1,21 @@
-const { verifyJwt } = require("../../02-jwt");
+const { verifyJwt } = require("../jwt");
 
 function userMiddleware(req, res, next) {
     // Implement user auth logic
     // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+    console.log("request reached to user middleware");
+
     try {
-        let token = req.headers.Authorization;
+        var token = req.headers.authorization;     
     } catch (error) {
         res.status(404).json({message: "Authorisation details missing"});
-    }
-    if(!verifyJwt(token)){
-        res.status(404).json({message:"Please log in"});
+        return;
     }
     
+    if(!verifyJwt(token)){
+        res.status(404).json({message:"Please log in"});
+        return;
+    }
     next();
 }
 

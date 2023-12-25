@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://flutterydev:Allem%40080603@learn.kobcnq7.mongodb.net/user_app?retryWrites=true&w=majority");
  
-
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here

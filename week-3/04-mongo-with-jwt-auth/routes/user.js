@@ -1,24 +1,41 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { User } = require("../../03-mongo/db");
-const { decodeJwt } = require("../jwt");
+const { decodeJwt, signJwt } = require("../jwt");
+const { User, Course } = require("../db");
+const performChecks = require("../middleware/validator");
 
 // User Routes
 router.post('/signup', (req, res) => {
     // Implement user signup logic
-    await User.create({username: req.body.username, password: req.body.password})
-    res.json({ message: 'User created successfully' });
-});
 
 router.post('/signin', (req, res) => {
     // Implement admin signup logic
 
     let username= req.body.username;
     let password= req.body.password;
+
+    await User.create(
+        {
+            username: username,
+            password: password,
+        }
+    );
+    res.json({ message: 'User created successfully' });
+});
+
+router.post('/signin', performChecks, async(req, res) => {
+    // Implement admin signup logic
+    console.log("user/signin");
+
+    let username= req.body.username;
+    let password= req.body.password;
+
     let user = await User.findOne({username: username, password:password});
+
     if(!user){
         res.status(404).json({message:"Wrong credentials"});
+        return;
     }
     
     let token = signJwt(username,password);
@@ -27,13 +44,26 @@ router.post('/signin', (req, res) => {
 
 router.get('/courses', (req, res) => {
     // Implement listing all courses logic
+
+    
+    console.log("user/courses - view all courses");
+
     let data = await Course.find();
+    // try {
+    //     var data = await Course.find(); 
+    // } catch (err) {
+    //     console.log(err);
+    //     res.json(err);
+    // }
     res.json({courses:data});
 });
 
 router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
-    let userName = decodeJwt(req.headers.Authorization);
+
+    console.log("user/courses/:courseId - purchase a course");
+
+    let userName = decodeJwt(req.headers.authorization);
     let user = await User.findOne({username:userName});
     user.courses.push(req.params.courseId);
     await user.save();
@@ -42,8 +72,18 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
 
 router.get('/purchasedCourses', userMiddleware, (req, res) => {
     // Implement fetching purchased courses logic
-    let userName = decodeJwt(req.headers.Authorization);
-    let data = await User.findOne({username:userName}).populate('courses');
+
+    console.log("user/courses - view all purchased courses");
+
+    let userName = await decodeJwt(req.headers.authorization);
+
+    try {
+        var data = await User.findOne({username:userName}).populate('courses'); 
+    } catch (err) {
+        console.log(err);
+        res.json(err);
+    }
+    // let data = await User.findOne({username:userName}).populate('courses');
     res.json({purchasedCourses: data.courses});
 });
 
