@@ -24,12 +24,20 @@ const CourseSchema = new mongoose.Schema({
     imageLink: String
 });
 
+const PurchasedSchema = new mongoose.Schema({
+    // id: mongoose.Schema.Types.ObjectId
+    id: String
+})
+
 const Admin = mongoose.model('Admin', AdminSchema);
 const User = mongoose.model('User', UserSchema);
 const Course = mongoose.model('Course', CourseSchema);
+const Purchase = mongoose.model('Purchase', PurchasedSchema)
+
 
 module.exports = {
     Admin,
     User,
-    Course
+    Course,
+    Purchase
 }

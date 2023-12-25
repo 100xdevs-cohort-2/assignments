@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const {User, Course} = require("../db/index")
+const {User, Course, Purchase} = require("../db/index")
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 // User Routes
@@ -36,12 +36,35 @@ router.get('/courses', userMiddleware, async(req, res) => {
     res.json({courses: allCourses});
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
+router.post('/courses/:courseId', userMiddleware, async(req, res) => {
     // Implement course purchase logic
+    let courseId = req.params.courseId;
+    try{
+        const check = await Course.findById(courseId);
+            if(check !== null){
+                await Purchase.create({
+                    id: courseId
+                })
+                res.json({message: 'Course Purchase successfully'});
+            } else {
+                res.json("Course not available");
+            }
+        // Implement course purchase logic
+    } catch(e) {
+        res.json({
+            message: "input must be a 24 character hex string, 12 byte Uint8Array, or an integer"
+        });
+    }
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware, async(req, res) => {
     // Implement fetching purchased courses logic
+    try{
+        let allCourses = await Purchase.find({});
+    res.json({purchasedCourses: allCourses})
+    } catch(e){
+        res.json(e);
+    }
 });
 
 module.exports = router
