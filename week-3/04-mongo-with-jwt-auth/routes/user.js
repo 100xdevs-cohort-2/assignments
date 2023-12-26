@@ -64,7 +64,7 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
 });
 
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
-  const user = await User.findOne({ username: req.headers.username }).exec()
+  const user = await User.findOne({ username: req.user }).exec()
   const coursesPurchasedByUser = await Promise.all(
     user.purchasedCourses.map(async (courseId) => {
       const course = await Course.findOne({ _id: courseId }).exec();

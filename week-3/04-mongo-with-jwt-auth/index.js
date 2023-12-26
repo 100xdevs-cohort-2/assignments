@@ -1,8 +1,13 @@
+require("dotenv").config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const adminRouter = require("./routes/admin")
 const userRouter = require("./routes/user");
+const { connectDB } = require('./db/index');
+
+// connect to db
+connectDB();
 
 // Middleware for parsing request bodies
 app.use(bodyParser.json());

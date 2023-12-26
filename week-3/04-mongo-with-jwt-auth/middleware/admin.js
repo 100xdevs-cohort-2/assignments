@@ -1,9 +1,10 @@
 const { Admin } = require("../db/index")
+const jwt = require('jsonwebtoken')
 
 // Middleware for handling auth
 async function adminMiddleware(req, res, next) {
 
-  const authHeader = req.headers["Authorization"]
+  const authHeader = req.headers["authorization"]
   if (!(authHeader.startsWith("Bearer"))) return res.status(401).json({ message: "UNAUTHORISED: Invalid Token" })
   const token = authHeader.split(" ")[1];
   await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decodedToken) => {
