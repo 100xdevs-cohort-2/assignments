@@ -7,16 +7,42 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+
+      const todoDiv=document.createElement('div');
+      todoDiv.setAttribute("id",`${todo.id}`);
+
+      const titleDiv=document.createElement('div');
+      todoDiv.setAttribute("id",`title-${todo.id}`);
+      titleDiv.innerText=todo.title
+
+      const descriptionDiv=document.createElement('div')
+      descriptionDiv.setAttribute("id",`description-${todo.id}`);
+      descriptionDiv.innerText=todo.description
+
+      todoDiv.appendChild(titleDiv);
+      todoDiv.appendChild(descriptionDiv);
+
+      const todosDiv=document.querySelector('#todos')
+      todosDiv.appendChild(todoDiv);
+
     }
 
     function removeTodoFromDom(todo) {
       
+      const todosDiv=document.querySelector('#todos')
+      const todoDiv=document.querySelector(`#${todo.id}`)
+
+      todosDiv.removeChild(todoDiv);
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+
+      const titleDiv=document.querySelector(`#title-${todo.id}`)
+      const descriptionDiv=document.querySelector(`#description-${todo.id}`)
+
+      titleDiv.innerText=newTodo.title;
+      descriptionDiv.innerText=newTodo.description;
     }
 
     function updateState(newTodos) {
@@ -28,10 +54,53 @@
       const added = [];
       const deleted = [];
       const updated = [];
+
+      // thanks to merge sort, got this idea kek
+      // assuming ids are numbers
+      newTodos.sort((a,b)=>a.id-b.id);
+
+      let oldPointer=0;
+      let newPointer=0;
+
+      // comparing todos with ids. assuming them as numbers again
+      while(oldPointer<oldTodoState.length && newPointer<newTodos.length){
+
+        if(oldTodoState[oldPointer].id < newTodos[newPointer].id) {
+          deleted.push(oldTodoState[oldPointer]);
+          oldPointer++;
+        }
+        else if(oldTodoState[oldPointer].id > newTodos[newPointer].id){
+          added.push(newTodos[newPointer]);
+          newPointer++;
+        }
+        else{
+          if(JSON.stringify(oldTodoState[oldPointer])!==JSON.stringify(newTodos[newPointer])){
+            updateState.push({oldTodo:oldTodoState[oldPointer],newTodo:newTodos[newPointer]});
+          }
+          oldPointer++;
+          newPointer++;
+        }
+      }
+      while(oldPointer<oldTodoState.length) {
+        deleted.push(oldTodoState[oldPointer]);
+        oldPointer++;
+      }
+      while(newPointer<newTodos.length){
+        added.push(newTodos[newPointer]);
+        newPointer++;
+      }
+
+      console.log(added,updated,deleted)
+      console.log(oldTodoState,newTodos)
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
-      oldTodoState = newTodos;
+
+      added.forEach((todo)=>addTodoToDom(todo));
+      deleted.forEach((todo)=>removeTodoFromDom(todo))
+      updated.forEach(({oldTodo,newTodo})=>updateTodoInDom(oldTodo,newTodo));
+
+      oldTodoState = [...newTodos];
     }
 
     function addTodo() {
