@@ -36,7 +36,7 @@ class Calculator {
     this.result *= val;
   }
   divide(val){
-    if(val == 0) throw new Error("Can't divide by 0");
+    if(val === 0) throw new Error("Can't divide by 0");
     this.result /= val;
   }
   clear(){

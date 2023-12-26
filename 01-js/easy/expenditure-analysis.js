@@ -22,7 +22,12 @@ function calculateTotalSpentByCategory(transactions) {
       res[tran.category] += tran.price;     
     }
   }
-  return res;
+  return Object.keys(res).map(category => {
+    return { 
+        category: category, 
+        totalSpent: res[category] 
+    };
+});
 }
 
 module.exports = calculateTotalSpentByCategory;
