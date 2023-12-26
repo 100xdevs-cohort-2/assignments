@@ -17,4 +17,4 @@ fs.writeFile(filePath, "Testing writing", function (err) {
   console.log("Successfully update in the file.");
 });
 
-// expensiveFn(100000000);
+expensiveFn(100000000);
