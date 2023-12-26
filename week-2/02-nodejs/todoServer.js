@@ -45,5 +45,78 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  let toDos = [];
+
+  app.get('/todos', (req, res)=>{
+    res.status(200).json(toDos);
+  })
+
+  app.get("/todos/:id", (req, res)=>{
+    const id = parseInt(req.params.id,10);
+    
+    for(let i=0; i<toDos.length; i++){
+      if(toDos[i]?.id === id){
+       return res.status(200).json(toDos[i]);
+      }
+    }
+    return res.status(404).send();
+  })
+
+  app.post("/todos", (req, res)=>{
+    const {title, completed, description} = req.body;
+    const totalToDos = toDos.length;
+    let newTask = {
+      id : toDos[totalToDos-1] ? (toDos[totalToDos-1].id +1) : 1,
+      title : title,
+      completed : completed,
+      description : description
+    };
+    toDos.push(newTask);
+    return res.status(201).json({id: newTask.id });
+  })
+
+  app.put("/todos/:id", (req, res)=>{
+    let id = parseInt(req.params.id,10);
+
+    const { title, completed} = req.body;
+    let task;
+    for(let i=0; i<toDos.length; i++){
+      if(toDos[i]?.id === id){
+        task = toDos[i];
+      }
+    }
+    if(!task)
+      return res.status(404).send("Task not found");
+
+    task.title = title;
+    task.completed = completed;
+    return res.status(200).send(task);
+  })
+
+  app.delete("/todos/:id", (req, res)=>{
+    let updatedToDos= [];
+    let id = parseInt(req.params.id,10);
+    for(let i=0; i<toDos.length; i++){
+      if(toDos[i]?.id === id){
+        continue;
+      }
+      else{
+        updatedToDos.push(toDos[i]);
+      }
+    }
+    if(updatedToDos.length === toDos.length)
+      res.status(404).send('Task not found');
+    else{
+      toDos = updatedToDos;
+      res.status(200).send(`Task with ${id} deleted`);
+    }
+  })
+
+  app.use((req,res)=>{
+    res.status(404).send('Path not found');
+  })
+
+  // app.listen(3000);
   
   module.exports = app;

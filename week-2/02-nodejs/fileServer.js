@@ -15,7 +15,41 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+
 const app = express();
 
+app.get("/files", (req, res)=>{
+  let filePath = path.join(__dirname, './files/');
+
+  fs.readdir(filePath, (err, data)=>{
+    if(err){
+      res.status(500).send(err)
+    }
+    else
+      res.status(200).json(data)
+  })
+});
+
+
+app.get("/file/:file", (req, res)=>{
+  let fileName = req.params.file;
+  let filePath = path.join(__dirname, './files/', fileName);
+
+  fs.readFile(filePath, 'utf-8', (err, data)=>{
+    if(err){
+      res.status(404).send('File not found');
+    }
+    else{
+      res.status(200).send(data);
+    }
+    
+  })
+})
+
+app.use((req, res) => {
+  res.status(404).send('Route not found');
+});
+
+// app.listen(3000);
 
 module.exports = app;
