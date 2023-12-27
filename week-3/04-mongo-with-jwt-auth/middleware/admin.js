@@ -4,7 +4,8 @@ const { Admin } = require("../db/index");
 async function adminMiddleware(req, res, next) {
   try {
     const { authorization } = req.headers;
-    const decoded = jwt.verify(authorization, process.env.JWT_PASSWORD);
+    const authArr = authorization.split(" ");
+    const decoded = jwt.verify(authArr[1], process.env.JWT_PASSWORD);
 
     if (decoded && decoded.username) {
       const user = await Admin.findOne({ username: decoded.username }).exec();
