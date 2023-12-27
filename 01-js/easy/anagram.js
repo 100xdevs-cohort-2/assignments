@@ -5,6 +5,23 @@
 */
 
 function isAnagram(str1, str2) {
+   let a = str1.replace(/\s/g, '').toLowerCase()
+   let b = str2.replace(/\s/g, '').toLowerCase()
+  //  console.log(a)
+  //  console.log(b)
+   a = a.split('').sort().join('')
+   b= b.split('').sort().join('')
+   if (a.length !== b.length){
+    return false
+   }
+
+   if( a===b){
+    return true
+   }
+   return false
+
+
+
 
 }
 
