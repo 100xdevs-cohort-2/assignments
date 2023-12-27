@@ -24,7 +24,7 @@ router.post('/signin', (req, res) => {
     res.json({ message: 'User created successfully' });
 });
 
-router.post('/signin', performChecks, async(req, res) => {
+router.post('/signin', async (req, res) => {
     // Implement admin signup logic
     console.log("user/signin");
 
