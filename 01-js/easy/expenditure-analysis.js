@@ -14,7 +14,25 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let total_spent_list = [];
+  let total_spent_category = {};
+  for(i=0; i< transactions.length; i++){
+    let category = transactions[i].category;
+    let money_spent = transactions[i].price;
+    if (total_spent_category.hasOwnProperty(category)){
+      total_spent_category[category] += money_spent;
+    } else { 
+      total_spent_category[category] = money_spent;
+    }
+  }
+  for(let category in total_spent_category){
+    let obj = {
+      "category": category,
+      "totalSpent": total_spent_category[category]
+    }
+    total_spent_list.push(obj);
+  }
+  return total_spent_list;
 }
 
 module.exports = calculateTotalSpentByCategory;
