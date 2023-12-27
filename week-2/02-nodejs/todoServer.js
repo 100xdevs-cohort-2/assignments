@@ -39,11 +39,88 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+  let toDoList= [];
+  let id=1;
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs= require('fs');
+
   const app = express();
   
   app.use(bodyParser.json());
+
   
+
+  app.get("/todos",function(req,res){
+    
+    const data=fs.readFileSync("./todos.json",'utf-8');
+    res.status(200).json(JSON.parse(data));
+
+  })
+
+  
+  app.post("/todos", function(req,res){
+    let newData= req.body;
+    newData.id=id;
+    let data=JSON.parse(fs.readFileSync("./todos.json",'utf-8'));
+    data.push(newData);
+
+    fs.writeFile("./todos.json",JSON.stringify(data), function(){
+      res.status(201).json({"id":id});
+      id++;
+      return;
+    });
+    
+  })
+
+  app.put("/todos/:id", function(req,res){
+
+    let newData= req.body;
+    let todoId= parseInt(req.params.id);
+
+    let data=JSON.parse(fs.readFileSync("./todos.json",'utf-8'));
+
+
+    for(let i=0;i<data.length;i++){
+      if(data[i].id===todoId){
+        
+        data[i]=newData;
+        data[i].id=todoId;
+        fs.writeFileSync("./todos.json",JSON.stringify(data));
+        res.status(200).end();
+          return;
+      }
+    }
+    res.status(404).end();
+  })
+
+  app.get("/todos/:id",function(req,res){
+    let toDoId= parseInt(req.params.id);
+    let data=JSON.parse(fs.readFileSync("./todos.json",'utf-8'));
+
+    for(let i=0;i<data.length;i++){
+      if(data[i].id === toDoId){
+        res.status(200).json(data[i]);
+        return;
+      }
+    }
+    res.status(404).end();
+  })
+
+  app.delete("/todos/:id",function(req,res){
+    let toDoId=parseInt(req.params.id);
+    let data=JSON.parse(fs.readFileSync("./todos.json",'utf-8'));
+
+    for(let i=0;i<data.length;i++){
+      if(toDoId===data[i].id){
+        data.splice(i,1);
+        fs.writeFileSync("./todos.json",JSON.stringify(data));
+        res.status(200).end();
+        return;
+      }
+    }
+    res.status(400).end();
+  })
+
   module.exports = app;
+
