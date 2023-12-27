@@ -10,12 +10,17 @@ function printCount(){
     console.clear()
     console.log(counter)
     counter = counter+1;
+    setTimeout(printCount, 1 *1000);
+
 }
 
+setTimeout(printCount, 1 *1000);
 
-for(var i=0; i<100;i++){
-    setTimeout(printCount, (i+1) *1000)
-}
+
+
+// for(var i=0; i<100;i++){
+//     setTimeout(printCount, (i+1) *1000)
+// }
 
 
 
