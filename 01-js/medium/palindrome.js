@@ -4,7 +4,13 @@
 */
 
 function isPalindrome(str) {
-  return true;
+   // Converting the word in an array and removing characters and spaces
+  const word = str.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+  // Reversing the word
+  const reversed = word.split("").reverse().join("");
+
+  return word === reversed ? true : false;
 }
 
 module.exports = isPalindrome;

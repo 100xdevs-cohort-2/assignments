@@ -16,6 +16,22 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+const limitRequests = function (req, res, next) {
+  const id = req.headers["user-id"];
+
+  if (!numberOfRequestsForUser[id]) numberOfRequestsForUser[id] = 0;
+
+  if (numberOfRequestsForUser[id] > 5) res.status(404).send();
+
+  numberOfRequestsForUser[id]++;
+
+  console.log(numberOfRequestsForUser);
+
+  next();
+};
+
+app.use(limitRequests);
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });

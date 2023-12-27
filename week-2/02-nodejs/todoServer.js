@@ -39,11 +39,84 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+  const taskList = [];
+
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+const port = 3001;
+
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/todos", (req, res) => {
+  return res.status(200).json(taskList);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const taskIndex = taskList.findIndex((el) => el.id === id);
+
+  if (taskIndex < 0) return res.status(404).json("Task not found");
+
+  res.status(200).json(taskList[taskIndex]);
+});
+
+
+
+app.post("/todos", (req, res) => {
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+    completed: false,
+  };
+
+  taskList.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const newTitle = req.body.title;
+  const newState = req.body.completed;
+  const newDescription = req.body.description;
+
+  const taskIndex = taskList.findIndex((el) => el.id === id);
+
+  if (taskIndex < 0) return res.status(404).json("Task not found");
+
+  const updatedTask = {
+    id: id,
+    title: newTitle || taskList[taskIndex].title,
+    description: newDescription || taskList[taskIndex].description,
+    completed: newState || taskList[taskIndex].completed,
+  };
+
+  taskList[taskIndex] = updatedTask;
+
+  res.status(200).json(taskList[taskIndex]);
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const taskIndex = taskList.findIndex((el) => el.id === id);
+
+  if (index < 0) return res.status(404).json("Task not found");
+
+  taskList.splice(taskIndex, 1);
+  res.status(200);
+});
+
+app.all("*", (req, res) => {
+  res.status(404).send("Route not found");
+});
+
+app.listen(port, () => {
+  console.log("Server running on port " + port);
+});
+
+module.exports = app;
