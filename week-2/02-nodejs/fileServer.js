@@ -16,6 +16,49 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const port=3000;
 
+
+app.get('/files', (req, res)=> {
+  fs.readdir('./files/', (err, files) => {
+  if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve files' });
+  }
+  res.json(files);
+  });
+});
+
+
+app.get('/files/:filename', (req, res) => {
+  let filename = req.params.filename;
+  fs.readdir('./files/', (err, files) => {
+    let fileFound = false;
+
+    files.forEach((file) => {
+      if (file === filename) {
+        fileFound = true;
+        fs.readFile(path.join('./files/', filename), 'utf8', (err, data) => {
+          if (err) {
+            return res.status(500).json({ error: 'Failed to retrieve file' });
+          }
+          return res.send(data);
+        });
+      }
+    });
+
+    if (!fileFound) {
+      return res.status(404).send('File not found');
+    }
+  });
+});
+
+
+app.use((req, res, next) => {
+  res.status(404).send('Not Found');
+});
+
+app.listen(port,() => {
+  console.log(`Server is listening on port ${port}`);
+});
 
 module.exports = app;
