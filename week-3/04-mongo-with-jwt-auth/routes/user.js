@@ -6,7 +6,7 @@ const { User, Course } = require("../db");
 const performChecks = require("../middleware/validator");
 
 // User Routes
-router.post('/signup', performChecks, async (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement user signup logic
 
     console.log("user/signup");
@@ -23,7 +23,7 @@ router.post('/signup', performChecks, async (req, res) => {
     res.json({ message: 'User created successfully' });
 });
 
-router.post('/signin', performChecks, async(req, res) => {
+router.post('/signin', async (req, res) => {
     // Implement admin signup logic
     console.log("user/signin");
 
