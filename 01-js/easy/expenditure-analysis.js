@@ -13,8 +13,34 @@
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
+function isCategoryAlreadPresent(category, arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].category === category) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let resultArr = [];
+  for (let i = 0; i < transactions.length; i++) {
+    let currentCategory = transactions[i].category;
+    let indexOfCategoryInReslutArr = isCategoryAlreadPresent(
+      currentCategory,
+      resultArr
+    );
+    if (indexOfCategoryInReslutArr !== -1) {
+      resultArr[indexOfCategoryInReslutArr].totalSpent += transactions[i].price;
+    } else {
+      resultArr.push({
+        category: currentCategory,
+        totalSpent: transactions[i].price,
+      });
+    }
+  }
+  return resultArr;
 }
 
 module.exports = calculateTotalSpentByCategory;

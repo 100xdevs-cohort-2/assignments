@@ -8,6 +8,24 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-function calculateTime(n) {
-    return 0.01;
+function getCurrentTime() {
+  const date = new Date();
+  return `${date.getHours()}hrs:${date.getMinutes()}mins:${date.getSeconds()}secs`;
 }
+
+function calculateTime(n) {
+  let startTime = getCurrentTime();
+  let sum = 0;
+  for (let i = 1; i <= n; i++) {
+    sum += i;
+  }
+  let endTime = getCurrentTime();
+
+  console.log(
+    `Sum of 1 to ${n}:${sum}\nStart Time: ${startTime} \nEnd Time: ${endTime}\n------------\n`
+  );
+}
+
+calculateTime(100);
+calculateTime(100000);
+calculateTime(1000000000);
