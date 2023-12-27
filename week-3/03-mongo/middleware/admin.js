@@ -1,7 +1,30 @@
+const { Admin } = require("../db");
+const bcrypt = require("bcrypt");
+
 // Middleware for handling auth
-function adminMiddleware(req, res, next) {
-    // Implement admin auth logic
-    // You need to check the headers and validate the admin from the admin DB. Check readme for the exact headers to be expected
+async function adminMiddleware(req, res, next) {
+  try {
+    const { username, password } = req.headers;
+
+    const admin = await Admin.findOne({ username: username });
+    if (!admin) {
+      return res
+        .status(401)
+        .json({ err: "Authentication failed: user not found." });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, admin.password);
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ err: "Authentication failed: incorrect password." });
+    }
+
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ err: "An error occurred during authentication." });
+  }
 }
 
 module.exports = adminMiddleware;
