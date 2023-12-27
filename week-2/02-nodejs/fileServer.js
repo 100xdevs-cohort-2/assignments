@@ -23,7 +23,7 @@ app.get("/files", (req, res) => {
 		if (err) {
 			throw new Error("invalid ");
 		} else {
-			res.send(filess);
+			res.status(200).send(filess);
 		}
 	})
 })
@@ -43,4 +43,6 @@ app.all("*", (req, res) => {
 	res.status(404).send("Route not found");
 })
 
-app.listen(3000);
+// app.listen(3000);
+
+module.exports = app;
