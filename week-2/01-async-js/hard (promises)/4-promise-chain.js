@@ -6,19 +6,33 @@
  */
 
 function wait1(t) {
-
+  return new Promise(function (resolve) {
+    setTimeout(resolve, t * 1000);
+  });
 }
 
 function wait2(t) {
-
+  return new Promise(function (resolve) {
+    setTimeout(resolve, t * 1000);
+  });
 }
 
-function wait3(t) {
-
+async function wait3(t) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, t * 1000);
+  });
 }
 
-function calculateTime(t1, t2, t3) {
+async function calculateTime(t1, t2, t3) {
+  const now = new Date();
+  const getStartTime = now.getTime();
+  await wait1(t1);
+  await wait2(t2);
+  await wait3(t3);
 
+  const endTime = new Date();
+  const getEndTime = endTime.getTime();
+  return getEndTime - getStartTime;
 }
 
 module.exports = calculateTime;
