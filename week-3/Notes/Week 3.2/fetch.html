@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+</head>
+<body>
+    <script>
+        // function getAnimalData(){
+        //     fetch("https://fakerapi.it/api/v1/persons")
+        //     .then(function(response){
+        //         response.json()
+        //         .then(function(finalData){
+        //             console.log(finalData);
+        //         })
+        //     })
+        // }
+        // alert("Hi there");
+        
+        // or 
+        // async function getAnimalData() {
+        //     const response =await fetch("https://fakerapi.it/api/v1/persons");
+        //     const finalData = await response.json();
+        //     console.log(finalData);
+        // }
+        // or using axios
+        function getAnimalData() {
+            axios.get("https://fakerapi.it/api/v1/persons")
+            .then(function(response){
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        }
+    </script>
+    <button onclick="getAnimalData()">Get Animal</button>
+</body>
+</html>
