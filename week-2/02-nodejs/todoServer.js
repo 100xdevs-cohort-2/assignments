@@ -37,13 +37,81 @@
 
     - For any other route not defined in the server return 404
 
-  Testing the server - run `npm run test-todoServer` command in terminal
+  Testing the server - run ` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+// choose the port number to be 3000 otherwise whatever provided in the environment of the PORT 
+const PORT = 3000 | process.env.PORT;
+
+
+app.get("/todos", (request, response) => {
+  // console.log("got the request on this particular route to get the list of todos present in the current array \n");
+  const responseData = JSON.stringify(todos);
+
+  response.status(200).send(responseData);
+});
+
+
+
+app.post("/todos", (request, response) => {
+  // console.log("the new id is \n", uuid.v4())
+  const newId = uuid.v4();
+  const newTodo = {
+    id : newId,
+    title : request.body.title, 
+    description : request.body.description
+  };
+
+  // we have to append this to the end of the todos app for this purpose 
+  todos.push(newTodo);
+
+  console.log(todos);
+
+  // we have to return the final response to the client for this purpose 
+  response.status(201).send({id : newTodo.id});
+})
+
+app.get("/todos/:id", (request, response) => {
+  const currentTodoId = request.params.id;
+  console.log("the value of the id of the todo to be searched \n", currentTodoId);
+
+  let data = {};
+  // using the for loop to find the value of the todo 
+  todos.forEach(currTodo => {
+    if(currTodo.id === currentTodoId)
+    {
+      data = currTodo;
+    }
+  });
+
+  if(data == {})
+  {
+    response.status(404).send({});
+  }
+
+  console.log("the data that i got is after searching is as follows \n", data);
+  // we have to return the data that we haeve got 
+  response.status(200).send(data);
+  // now we have to find the given todo 
+  // using the for loop for this purpose 
+
+})
+
+
+// creating the server in express for this purpose 
+app.listen(3000, () => {
+  console.log(`Listening the server on port number ${PORT}`);
+})
+
+
   
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+module.exports = app;
