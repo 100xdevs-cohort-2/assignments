@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://root:1234@cluster0.kmmktxz.mongodb.net/user_app');
+mongoose.connect('your url');
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
