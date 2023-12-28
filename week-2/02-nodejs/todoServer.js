@@ -45,5 +45,52 @@
   const app = express();
   
   app.use(bodyParser.json());
-  
+  let todos=[{
+    id:1,
+    name:"potato",
+    description:"1 kg"
+  }]
+  app.get("/todos",function(req,res){
+    res.status(200).send(todos);
+  })
+  app.get("/todos/:id",function(req,res){
+      const todo= todos.find(t=>t.id=req.params.id);
+      if(!todo){
+        res.status(404).send("Not found")
+      }
+      else{
+        res.status(200).send(todo)
+      }
+  })
+  app.post("/todos",function(req,res){
+    const newTodo={
+      id: Math.floor(Math.random()*100000),
+      name: req.body.name,
+      description: req.body.description
+    }
+    todos.push[newTodo];
+    res.send(todos)
+  })
+  app.put("/todos/:id",function(req,res){
+    const todo= todos.findIndex(t=> t.id=== req.params.id);
+    if(!todo){
+      res.status(404).send();
+    }
+    else{
+      todos[todo].name=req.body.name,
+      todos[todo].description=req.body.description
+      res.send(todos[todo]);
+    }
+  })
+  app.delete("/todos/:id",function(req,res){
+    const todo= todos.findIndex(t=> t.id=== req.params.id);
+    if(!todo){
+      res.status(404).send()
+    }
+    else{
+      todos.splice(todo,1);
+      res.status(200).send()
+    }
+  })
+  app.listen(3000);
   module.exports = app;
