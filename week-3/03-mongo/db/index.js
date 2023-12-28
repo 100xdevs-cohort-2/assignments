@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema({
   // Schema definition here
   username: String,
   password: String,
+  purchased: Array,
 });
 
 const CourseSchema = new mongoose.Schema({

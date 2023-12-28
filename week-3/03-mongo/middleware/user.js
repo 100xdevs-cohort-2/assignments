@@ -1,21 +1,22 @@
 const { User } = require("../db");
 
-function userMiddleware(req, res, next) {
+async function userMiddleware(req, res, next) {
   const username = req.headers.username;
-  const password = req.header.password;
+  const password = req.headers.password;
 
   if (!username || !password) {
     return res.status(401).json({
-      message: "Kamaal hai! Bhai headers me username or password toh dede?",
+      message:
+        "Middleware: Kamaal hai! Bhai headers me username or password toh dede?",
     });
   }
 
-  const ExistingUser = User.findOne({ username: username });
+  const ExistingUser = await User.findOne({ username: username });
   if (!ExistingUser) {
-    return res.status(401).send("Bhai pehle register toh karle :)");
+    return res.status(401).send("Middleware: Bhai pehle register toh karle :)");
   }
 
-  if (ExistingUser.password == password) {
+  if (ExistingUser.password === password) {
     res.status(200);
     next();
   }
