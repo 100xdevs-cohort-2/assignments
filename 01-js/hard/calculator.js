@@ -16,6 +16,65 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+
+  constructor(num=0){
+    this.num=num
+  }
+
+  add(num){
+    if(typeof num !='number'){
+      throw new Error('The type is not number')
+    }
+    this.num+=num
+  }
+
+  subtract(num){
+    
+    if(typeof num !='number'){
+      throw new Error('The type is not number')
+    }
+    this.num-=num
+  }
+
+  multiply(num){
+    
+    if(typeof num !='number'){
+      throw new Error('The type is not number')
+    }
+    this.num*=num
+  }
+
+  divide(num){
+    
+    if(typeof num !='number'){
+      throw new Error('The type is not number')
+    }
+    if(num==0){
+      throw new Error(`Can't divide with zero`)
+    }
+    this.num/=num 
+
+  }
+
+  clear(){
+    this.num=0
+  }
+
+  getResult(){
+    return this.num
+  }
+
+  calculate(expr){
+    if(expr.match(/^[a-z]+$/)){
+      throw new Error(`Can't evaluate this expression this expression contains alphabets`)
+    }
+    expr=expr.replaceAll(' ','')
+    if(expr.includes('/0')){
+      throw new Error("Can't divide by zero")
+    }
+    return this.num=eval(expr)
+  }
+}
 
 module.exports = Calculator;
