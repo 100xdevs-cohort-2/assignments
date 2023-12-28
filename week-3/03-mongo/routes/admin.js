@@ -4,7 +4,8 @@ const { Admin } = require("../db");
 const router = Router();
 
 // Admin Routes
-application.use(adminMiddleware);
+
+let id = 0;
 
 router.post("/signup", async (req, res) => {
   // Implement admin signup logic
@@ -26,14 +27,39 @@ router.post("/signup", async (req, res) => {
   } catch (error) {}
 });
 
-router.post("/courses", adminMiddleware, (req, res) => {
+router.post("/courses", adminMiddleware, async (req, res) => {
   // Implement course creation logic
-  const username = req.headers.username;
-  const password = req.headers.password;
+  const { title, description, price, imageLink, published } = req.body;
+
+  if (!title || !description || !price || !imageLink || !published) {
+    return res.status(400).send("Bhai course data me kuch missing hai");
+  }
+
+  id = id + 1;
+
+  const newCourse = {
+    id: id,
+    title: title,
+    description: description,
+    price: price,
+    imageLink: imageLink,
+    published: published,
+  };
+
+  try {
+    const savedCourse = await new Course(newCourse).save();
+  } catch (error) {
+    res.status(500).json({ error: "Bhai DB mein save karne me takleef hai!" });
+  }
 });
 
-router.get("/courses", adminMiddleware, (req, res) => {
+router.get("/courses", adminMiddleware, async (req, res) => {
   // Implement fetching all courses logic
+  try {
+    const allCourses = await Course.find();
+  } catch (error) {
+    res.status(500).json({ error: "Bhai DB se fetch karne me takleef hai!" });
+  }
 });
 
 module.exports = router;
