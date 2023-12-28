@@ -3,7 +3,7 @@ const app = require("../03-errorcount");
 const request = require('supertest');
 const assert = require('assert');
 describe('GET /user', function() {
-  it('Initial request responds with 0', function(done) {
+  if('Initial request responds with 0', function(done) {
     request(app)
       .get('/errorCount')
       .then(response => {
@@ -12,7 +12,7 @@ describe('GET /user', function() {
       })
   });
 
-  it('If there is an exception, errCount goes up', function(done) {
+  if('If there is an exception, errCount goes up', function(done) {
           for (let i = 0; i<10; i++) {
             request(app)
                   .get('/user')
@@ -26,7 +26,7 @@ describe('GET /user', function() {
               })
       });
 
-      it('Exception endpoint returns a 404', function(done) {
+      if('Exception endpoint returns a 404', function(done) {
         request(app)
           .get('/user')
           .then(response => {
