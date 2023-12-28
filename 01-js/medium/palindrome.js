@@ -4,7 +4,20 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
+    let st=0;
+    let end=str.length-1;
+    while(st<=end){
+      if(str[st]!=str[end]){
+        return false;
+      }
+       st++;
+       end--;
+    }
+    return true;
+
 }
+
+// console.log(isPalindrome("nitin"));
 
 module.exports = isPalindrome;

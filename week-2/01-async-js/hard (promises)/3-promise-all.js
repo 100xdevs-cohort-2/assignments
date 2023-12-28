@@ -4,20 +4,86 @@
  * Return a promise.all which return the time in milliseconds it takes to complete the entire operation.
  */
 
-function wait1(t) {
 
+
+function waitOneSecond() {
+  return new Promise(function (resolve) {
+    setTimeout(()=>{
+     resolve("Done waitOneSecond");
+    },1000)
+  })
+}
+
+function waitTwoSecond() {
+    return new Promise(function (resolve) {
+        setTimeout(()=>{
+            resolve("Done waitTwoSecond");
+        },2000)
+      })
+}
+
+function waitThreeSecond() {
+    return new Promise(function (resolve) {
+        setTimeout(()=>{
+            resolve("Done waitThreeSecond");
+        },3000)
+      })
+}
+
+function calculateTime() {
+    const startTime = Date.now();
+    Promise.all([waitOneSecond(), waitTwoSecond(), waitThreeSecond()])
+      .then((results) => {
+        const endTime = Date.now();
+        const duration = (endTime - startTime)/1000;
+        console.log("All promises resolved in", duration, "seconds");
+        console.log("Results:", results);
+      })
+     
+  }
+  
+  calculateTime();
+function wait1(t) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Done waiting for ${t} seconds`);
+    }, t);
+  });
 }
 
 function wait2(t) {
-
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Done waiting for ${t} seconds`);
+    }, t);
+  });
 }
 
 function wait3(t) {
-
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Done waiting for ${t} seconds`);
+    }, t);
+  });
 }
+
 
 function calculateTime(t1, t2, t3) {
+  const startTime = Date.now();
 
+  const promises = [
+    wait1(t1),
+    wait2(t2),
+    wait3(t3)
+  ];
+
+  Promise.all(promises)
+    .then((results) => {
+      const endTime = Date.now();
+      const duration = (endTime - startTime) / 1000;
+      console.log("All promises resolved in", duration, "seconds");
+      console.log("Results:", results);
+    });
 }
-
 module.exports = calculateTime;
+
