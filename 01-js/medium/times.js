@@ -8,6 +8,22 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
+const { start } = require("repl");
+let startTime = performance.now();
+let endTime =0;
 function calculateTime(n) {
-    return 0.01;
+   
+    
+    let ans = 0
+    let ind = 0;
+    for (let index = 1; index <= n; index++) {
+        ans = ans + index;
+        ind =index;
+    }
+
+
 }
+
+calculateTime(1000);
+endTime=performance.now();
+console.log((endTime-startTime)/1000);
