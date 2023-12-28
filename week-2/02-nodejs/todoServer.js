@@ -40,10 +40,150 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const fs = require('fs')
   const bodyParser = require('body-parser');
   
   const app = express();
   
   app.use(bodyParser.json());
+
+  let todos_db = "./todos.json"
+
+  app.get('/todos', (req, res) => {
+      // console.log("Ping at /todos GET")
+      fs.readFile(todos_db, 'utf8', (err, data) => {
+        if (err) {
+          // console.error('Error reading file:', err)
+          return res.status(500).send('Internal Server Error')
+        }
+        // console.log(data);
+        res.status(200).send(data);
+      })   
+  })
+
+  app.get('/todos/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    // console.log("Get id", id, req.params.id)
+    fs.readFile(todos_db, 'utf8', (err, data) => {
+        if (err) {
+          // console.error('Error reading file:', err)
+          return res.status(500).send('Internal Server Error')
+        }
+     
+        let toDos = JSON.parse(data);
+        toDos = toDos.filter((x) => {
+          return (x['id'] == id);
+        })
+
+        if(toDos.length == 0) {
+            // console.error('ToDo not found:', err)
+            return res.status(404).send('ToDo not found')
+        }
+        res.json(toDos[0]);
+    })
+  })
+
+  app.post('/todos', (req, res) => {
+      // console.log("Ping at /todos POST")
+      fs.readFile(todos_db, 'utf8', (err, data) => {
+        if (err) {
+          // console.error('Error reading file:', err)
+          return res.status(500).send('Internal Server Error')
+        }
+        
+        // generate unique id
+        let toDos = JSON.parse(data);
+        let existingNumbers = new Set(toDos.map(todo => todo.id));
+        let newId;
+        do {
+          newId = Math.floor(Math.random() * 10000); // Generate a random number between 0 and 9999
+        } while (existingNumbers.has(newId));      
+        let newToDo = {id : newId};
+        newToDo = {...newToDo, ...req.body};
+        // console.log("Body", req.body)
+        // console.log(newToDo)
+        // add ToDo
+        toDos.push(newToDo);
+
+        fs.writeFile(todos_db, JSON.stringify(toDos), (err) => {
+          if (err) {
+            // console.error('Error writing file:', err);
+            return res.status(500).send('Internal Server Error');
+          }
+          let output = {id : newToDo.id}
+          // console.log("POST output id", output.id)
+          res.status(201).send(JSON.stringify(output));
+        })
+      })
+  })
+
+  app.put('/todos/:id', (req, res) => {
+    // console.log("Ping at /todos PUT")
+    let toDo_id = parseInt(req.params.id);
+    // console.log(toDo_id)
+    fs.readFile(todos_db, 'utf8', (err, data) => {
+      if (err) {
+        // console.error('Error reading file:', err)
+        return res.status(500).send('Internal Server Error')
+      }
+      
+
+      let toDos = JSON.parse(data);
+      // console.log(toDos)
+      let idx = toDos.findIndex((x) => {
+        return x['id'] == toDo_id;
+      });
+      if (idx === -1) {
+        return res.status(404).send('Todo not found');
+      }
+      let newToDo = {'id' : toDo_id};
+      newToDo = {...newToDo, ...req.body};
+      toDos[idx] = newToDo
+
+
+      fs.writeFile(todos_db, JSON.stringify(toDos), (err) => {
+        if (err) {
+          // console.error('Error writing file:', err);
+          return res.status(500).send('Internal Server Error');
+        }
+        res.status(200).send("Successfully updated");
+      })
+    })
+  })
+
+  app.delete('/todos/:id', (req, res) => {
+      let id = parseInt(req.params.id);
+      // console.log("delete id", req.params.id, id)
+      fs.readFile(todos_db, 'utf8', (err, data) => {
+        if (err) {
+          // console.error('Error reading file:', err)
+          return res.status(500).send('Internal Server Error')
+        }
+        
+  
+        let toDos = JSON.parse(data);
+        let idx = toDos.findIndex((x) => {
+          return x['id'] == id;
+        });
+        if (idx === -1) {
+          // console.log("Delete operation failed", toDos, id, idx);
+          return res.status(404).send('Todo not found');
+        }
+        toDos.splice(idx, 1);
+  
+  
+        fs.writeFile(todos_db, JSON.stringify(toDos), (err) => {
+          if (err) {
+            // console.error('Error writing file:', err);
+            return res.status(500).send('Internal Server Error');
+          }
+          res.status(200).send("Successfully removed");
+        })
+      })
+
+  })
+
+  // app.listen(3000)
+
   
   module.exports = app;

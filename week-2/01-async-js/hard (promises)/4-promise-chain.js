@@ -5,20 +5,32 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function wait1(t) {
+// different functions are redundant, hence used the same function
 
-}
-
-function wait2(t) {
-
-}
-
-function wait3(t) {
-
+function wait(n) {
+    let p = new Promise(function(resolve) {
+        setTimeout(function() {
+            resolve();
+        }, n*1000);
+    })
+    
+    return p;
 }
 
 function calculateTime(t1, t2, t3) {
-
+    let start = new Date();
+    let p = wait(t1).then(function() {
+        return wait(t2);
+    })
+    .then(function () {
+        return wait(t3);
+    })
+    .then(function () {
+        let end = new Date();
+        console.log("All promises have resolved after", (end - start)/1000, "seconds");
+        return (end - start);
+    })
+    return p;
 }
 
 module.exports = calculateTime;

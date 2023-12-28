@@ -6,7 +6,13 @@
   "directories": {
     "test": "tests"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
