@@ -5,33 +5,122 @@
   <script>
     let globalId = 1;
     let todoState = [];
-    let oldTodoState = [];
+    let oldTodoState = [
+      {
+        "title": "t1",
+        "description": "d new",
+        "id": 1
+      },
+      {
+        "title": "t2",
+        "description": "d2",
+        "id": 2
+      },
+      {
+        "title": "t3",
+        "description": "d3",
+        "id": 3
+      }
+    ];
 
-    function addTodoToDom() {
+    // To create todos for old state 1st time website loads
+    function showOldState() {
+      for(let todo of oldTodoState) {
+        addTodoToDom(todo)
+      }
+    }
+
+    function createChild(title, description, id) {
+      // Using the same function written during class
+      // 2. document.createElement => foundation for react 
+      const outerDiv = document.createElement("div")
+      const titleDiv = document.createElement("div");
+      titleDiv.innerHTML = title;
+      const descriptionDiv = document.createElement("div");
+      descriptionDiv.innerHTML = description;
+      // const doneButton = document.createElement("button");
+      // doneButton.innerHTML = "Mark as Done";
+      // doneButton.setAttribute("onclick",`markAsDone(${id})`);
       
+      outerDiv.appendChild(titleDiv);
+      outerDiv.appendChild(descriptionDiv);
+      outerDiv.appendChild(document.createElement("br"));
+      // outerDiv.appendChild(doneButton);
+      outerDiv.setAttribute("id", id);
+      
+      return outerDiv;
+    }
+
+    function addTodoToDom(todo) {
+      const parent = document.getElementById("todos")
+      parent.appendChild(createChild(todo.title, todo.description, todo.id))
     }
 
     function removeTodoFromDom(todo) {
-      
+      const node = document.getElementById(todo.id)
+      node.remove()
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const node = document.getElementById(oldTodo.id);
+      console.log(node.children)
+      if (oldTodo.title != newTodo.title) {
+        node.children[0].innerHTML = newTodo.title
+      }
+
+      if (oldTodo.description != newTodo.description) {
+        node.children[1].innerHTML = newTodo.description
+      }
     }
 
     function updateState(newTodos) {
-      // calculate the diff b/w newTodos and oldTodos.
-      // More specifically, find out what todos are - 
-      // 1. added
-      // 2. deleted
-      // 3. updated
       const added = [];
-      const deleted = [];
       const updated = [];
-      // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
-      oldTodoState = newTodos;
+      const deleted = [];
+
+      for (const newTodo of newTodos) {
+        const oldTodoIndex = oldTodoState.findIndex(todo => todo.id === newTodo.id);
+
+        if (oldTodoIndex !== -1) {
+          // Todo found in old state
+          const oldTodo = oldTodoState[oldTodoIndex];
+
+          if (newTodo.title !== oldTodo.title || newTodo.description !== oldTodo.description) {
+            // Todo is updated
+            updated.push({"oldTodo":oldTodo, "newTodo":newTodo});
+          }
+        } else {
+          // Todo not found in old state
+          added.push(newTodo);
+        }
+      }
+
+      // Find deleted todos (present in old state but not in new state)
+      for (const oldTodo of oldTodoState) {
+        if (!newTodos.find(todo => todo.id === oldTodo.id)) {
+          deleted.push(oldTodo);
+        }
+      }
+
+      console.log('Added:', added);
+      console.log('Updated:', updated);
+      console.log('Deleted:', deleted);
+
+      // ==== update DOM ====
+      for (let todo of added) {
+        addTodoToDom(todo);
+      }
+
+      for (let obj of updated) {
+        updateTodoInDom(obj["oldTodo"], obj["newTodo"]);
+      }
+
+      for (let todo of deleted) {
+        removeTodoFromDom(todo);
+      }
+
+      // Update oldTodoState with the new state
+      oldTodoState = [...newTodos];
     }
 
     function addTodo() {
@@ -57,5 +146,9 @@
 
   </div>
 </body>
-
+<script>
+  // ==== To show old Todos in website ===
+  // called here as div => #todos needs to be rendered first to use in function
+  showOldState(); 
+</script>
 </html>
