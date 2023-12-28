@@ -8,6 +8,25 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-function calculateTime(n) {
-    return 0.01;
+function  calculateTime(n) {
+  const dateTime = new Date();
+  const beforeDate = dateTime.getTime();
+
+  let a = 0;
+  for (let i = 0; i < n; i++) {
+    a += i;
+  }
+  const dateTime2 = new Date();
+  const afterDate = dateTime2.getTime();
+  return afterDate - beforeDate;
 }
+
+console.log("100 ------------ " + calculateTime(100));
+console.log("1000 ------------ " + calculateTime(1000));
+console.log("10000 ------------ " + calculateTime(10000));
+console.log("100000 ------------ " + calculateTime(100000));
+console.log("1000000 ------------ " + calculateTime(1000000));
+console.log("10000000 ------------ " + calculateTime(10000000));
+console.log("100000000 ------------ " + calculateTime(100000000));
+console.log("1000000000 ------------ " + calculateTime(1000000000));
+
