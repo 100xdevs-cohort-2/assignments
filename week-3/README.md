@@ -13,4 +13,9 @@ This week is divided into three parts for assignments -
  - Write a function that takes a jwt as input and returns true if the jwt can be VERIFIED. Return false otherewise
  - To test, go to the 02-jwt folder and run `npx jest ./tests`
 
-## Databases
+## Database
+ - You need to use MongoDB and Mongoose to connect to the database
+ - go to the db folder and write the schema as per your webapp logic
+
+
+
