@@ -4,6 +4,7 @@ const userMiddleware = require("../middleware/user");
 const { User, Course } = require("../db");
 
 // User Routes
+
 router.post("/signup", (req, res) => {
   const { username, password } = req.headers;
   User.create({ username, password, purchasedCourses: [] });
@@ -38,3 +39,4 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

@@ -17,7 +17,7 @@ const userAlreadyExists = async function (req, res, next) {
   }
 };
 
-// User Routes
+
 router.post("/signup", userAlreadyExists, async (req, res) => {
   const { username, password } = req.body;
   await User.create({
@@ -73,3 +73,4 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+

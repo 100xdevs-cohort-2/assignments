@@ -18,7 +18,7 @@ const adminAlreadyExists = async function (req, res, next) {
   }
 };
 
-// Admin Routes
+
 router.post("/signup", adminAlreadyExists, async (req, res) => {
   // Implement admin signup logic
   const { username, password } = req.body;
@@ -71,6 +71,6 @@ router.get("/courses", adminMiddleware, async (req, res) => {
     res.status(500).send("Server Error");
     return;
   }
-});
+
 
 module.exports = router;

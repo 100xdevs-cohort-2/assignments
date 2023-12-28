@@ -51,6 +51,6 @@ router.get("/courses", adminMiddleware, async (req, res) => {
     res.status(500).send("Server Error");
     return;
   }
-});
+
 
 module.exports = router;
