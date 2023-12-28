@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { Course } = require('../../db/index');
+const { Course } = require('../../db');
 
 const isCourseTitlePresent = async (courseTitle) => {
   const resp = await Course.findOne({ title: courseTitle });
