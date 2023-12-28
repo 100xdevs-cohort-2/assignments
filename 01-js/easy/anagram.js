@@ -5,7 +5,21 @@
 */
 
 function isAnagram(str1, str2) {
-
+  let lowerStr1=str1.toLowerCase();
+  let lowerStr2=str2.toLowerCase();
+  if(lowerStr1.length!=lowerStr2.length){
+    return false;
 }
+const sortedString1=lowerStr1.split('').sort().join('');
+const sortedStriong2=lowerStr2.split('').sort().join('');
+// console.log(sortedString1);
+if(sortedString1===sortedStriong2){
+    return true;
+}
+else if(str1!=str2){
+   return false;
+}
+}
+
 
 module.exports = isAnagram;
