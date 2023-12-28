@@ -39,11 +39,135 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require('fs');
+const app = express();
+const fileName = "./todos.json";
+
+app.use(express.json());
+
+function readTodoFromFile() {
+  return new Promise(function (resolve) {
+    fs.readFile(fileName, 'utf-8', function(err, data){
+      if (err) {
+        console.log(err);
+      } else {
+        resolve(JSON.parse(data));
+      }
+    })
+  })
+}
+
+function writeTodoToFile() {
+  return new Promise(function (resolve) {
+    fs.writeFile(fileName, JSON.stringify(todos), 'utf-8', function(err, data){
+      if (err) {
+        console.log(err);
+      } else {
+        resolve();
+      }
+    })
+  })
+}
+
+
+var todos = []
+readTodoFromFile().then(function (value) {
+  if (value != null) {
+    todos = value;
+  }
+  // console.log("todos =" + JSON.stringify(todos));
+  // console.log("todos =" + typeof(todos));
+})
+
+
+// 1. Get /todos - Retrieve all todo items
+app.get("/todos", function (req, res) {
+  res.status(200).json(todos);
+})
+ 
+// 2.GET /todos/:id - Retrieve a specific todo item by ID
+app.get("/todos/:id", function (req, res) {
+  // console.log("user requested id="+req.params.id);
+  let todoArray = todos.filter(function(todo) {
+    if (todo.id == req.params.id) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+
+  if (todoArray.length == 0) {
+    res.sendStatus(404)
+  } else {
+    // console.log("Found todo= " + todo);
+    res.status(200).json(todoArray[0]);
+  }
+})
+
+// 3. POST /todos - Create a new todo item
+app.post("/todos", function (req, res) {
+  const todo = {
+    id : Date.now().toString(), // timestamp as Id
+    title : req.body.title,
+    completed : false,
+    description : req.body.description
+  }
+  todos.push(todo);
+  res.status(201).json({id : todo.id});
+  writeTodoToFile().then(function(data){
+    // console.log("POST: File saved.")
+  })
+})
+
+// 4. PUT /todos/:id - Update an existing todo item by ID
+app.put("/todos/:id", function (req, res) {
+  let todoFound = false;
+  for (let i=0; i<todos.length; i++) {
+    // console.log("id="+todos[i].id + ", params="+req.params.id);
+    if (todos[i].id == req.params.id) {
+      // Iterate over body object and update Todo
+      for (let key of Object.keys(req.body)) {
+        todos[i][key] = req.body[key]
+      }
+      todoFound = true;
+    }
+  }
+  if (todoFound == false) {
+    res.sendStatus(404);
+  } else {
+    res.sendStatus(200);
+    writeTodoToFile().then(function(data){
+      // console.log("PUT: File saved.")
+    })
+  }
+})
+
+// 5. DELETE /todos/:id - Delete a todo item by ID
+app.delete("/todos/:id", function(req, res) {
+  let todoFound = false;
+  todos = todos.filter(function (todo) {
+    if (todo.id == req.params.id) {
+      todoFound = true;
+      return false;
+    } else {
+      return true;
+    }
+  })
+  if (todoFound == false) {
+    res.sendStatus(404);
+  } else {
+    res.sendStatus(200);
+    writeTodoToFile().then(function(data){
+      // console.log("DELETE: File saved.")
+    })
+  }
+})
+
+// - For any other route not defined in the server return 404
+app.get("*", function(req, res) {
+  res.sendStatus(404);
+})
+
+// app.listen(4000, function(){ console.log("Started listening at 4000")})
+module.exports = app;

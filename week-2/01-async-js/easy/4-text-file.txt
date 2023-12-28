@@ -1,0 +1,1 @@
+This is written from script to file.
