@@ -11,7 +11,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.get("/courses", (req, res) => {
-  const courses = User.find({});
+  const courses = Course.find({});
   res.send(courses);
 });
 
