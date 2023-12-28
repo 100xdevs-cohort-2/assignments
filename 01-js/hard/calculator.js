@@ -16,6 +16,58 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  result;
+  constructor() {
+    this.result = 0;
+  }
+
+  clear = () => (this.result = 0);
+
+  checkInput = (num) => {
+    if (isNaN(num)) {
+      throw new Error("Invalid Input");
+    }
+  };
+
+  add = (num) => {
+    this.checkInput(num);
+    this.result += num;
+  };
+
+  subtract = (num) => {
+    this.checkInput(num);
+    this.result -= num;
+  };
+
+  multiply = (num) => {
+    this.checkInput(num);
+    this.result *= num;
+  };
+
+  divide = (num) => {
+    this.checkInput(num);
+    if (num === 0) {
+      throw new Error("divide by 0 error");
+    }
+    return (this.result /= num);
+  };
+
+  calculate = (expression) => {
+    expression = expression.replaceAll(" ", "");
+    if (!/^[0-9+\-*/().]+$/.test(expression)) {
+      throw new Error("Invalid experssion");
+    }
+    this.result = eval(expression);
+    if (!isFinite(this.result)) {
+      this.result = 0;
+      throw new Error(
+        "Expression resulted in infinite, possible division by 0"
+      );
+    }
+  };
+
+  getResult = () => this.result;
+}
 
 module.exports = Calculator;
