@@ -4,7 +4,14 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let newStr = str.split(' ').join('').replace(/[.,?!@#$%^&*(){}]/g, '').toLowerCase();// it defines various punctuation marks in between the /  and g represents global
+  let revStr = newStr.split('').reverse().join('');
+
+  if (newStr === revStr) {
+    return true;
+  }
+
+  return false;
 }
 
 module.exports = isPalindrome;
