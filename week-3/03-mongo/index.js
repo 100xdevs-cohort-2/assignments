@@ -5,9 +5,10 @@ const adminRouter = require("./routes/admin")
 const userRouter = require("./routes/user");
 
 // Middleware for parsing request bodies
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use("/admin", adminRouter)
-app.use("/user", userRouter)
+app.use("/users", userRouter)
 
 const PORT = 3000;
 
