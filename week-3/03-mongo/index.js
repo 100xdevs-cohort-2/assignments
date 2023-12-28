@@ -13,5 +13,9 @@ app.use("/user", userRouter);
 
 app.listen(3000, () => {
   console.log(`Server is running on port ${PORT}`);
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
 module.exports = router;

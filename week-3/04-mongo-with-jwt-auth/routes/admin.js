@@ -8,6 +8,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const secretKey = "yourSecretKey";
 // Admin Routes
+<<<<<<< HEAD
 router.post("/signup", async (req, res) => {
   // Implement admin signup logic
   const { username, password } = req.body;
@@ -67,6 +68,22 @@ router.get("/courses", adminMiddleware, async (req, res) => {
   // Implement fetching all courses logic
   const courses = await Course.find({});
   res.json(courses).send;
+=======
+router.post('/signup', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/signin', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/courses', adminMiddleware, (req, res) => {
+    // Implement course creation logic
+});
+
+router.get('/courses', adminMiddleware, (req, res) => {
+    // Implement fetching all courses logic
+>>>>>>> 44221a6567c34bcb8321268b6c0180e2a2a48d63
 });
 
 module.exports = router;
