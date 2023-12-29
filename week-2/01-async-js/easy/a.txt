@@ -1,0 +1,3 @@
+Hi, i am a.txt file.
+Good to meet you :)
+Hi, i am added data into the file using node.js

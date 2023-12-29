@@ -5,6 +5,22 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise((resolve) => {
+        const startTime = Date.now()
+
+        function checkTime() {
+            if (Date.now() - startTime >= milliseconds) {
+                resolve()
+            }
+            else {
+                setTimeout(checkTime, 10);// Adjust the interval as needed as 10ms
+            }
+        }
+
+        checkTime()
+
+
+    })
 }
 
 module.exports = sleep;
