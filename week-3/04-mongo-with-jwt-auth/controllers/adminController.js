@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const db = require('../db/index');
+const jwt = require('jsonwebtoken');
 
 exports.createNewAdmin = catchAsync(async (req, res, next) => {
   const admin = await db.Admin.create(req.body);
@@ -28,4 +29,23 @@ exports.getAllCourses = catchAsync(async (req, res, next) => {
       courses
     }
   });
-}); 
+});
+
+exports.signInAdmin = catchAsync(async (req, res, next) => {
+  const admin = await db.Admin.findOne(req.body);
+
+  if (!admin) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid Username or Password'
+    });
+  }
+
+  const token = jwt.sign(admin.username, '12345678');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      token
+    }
+  });
+});

@@ -45,6 +45,14 @@ exports.purchaseCourse = catchAsync(async (req, res, next) => {
 exports.getAllPurchasedCourses = catchAsync(async (req, res, next) => {
   const user = await db.User.findOne({ username: req.headers.username }).populate('purchasedCourses');
 
+  if (!admin) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid Username or Password'
+    });
+  }
+
+
   res.status(200).json({
     status: 'success',
     results: user.purchasedCourses.length,
