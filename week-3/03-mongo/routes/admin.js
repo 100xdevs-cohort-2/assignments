@@ -24,12 +24,24 @@ router.post('/signup', async (req, res) => {
 
 router.post('/courses', adminMiddleware, (req, res) => {
     // Implement course creation logic
-    let courseId = 1
-
+    const title = req.body.title
+    const description = req.body.description
+    const price = req.body.price
+    const imageLink = req.body.imageLink
+    const course = new db.Course({
+        title: title,
+        description: description,
+        price: price,
+        imageLink: imageLink
+    })
+    course.save()
+    res.json({ message: 'Course created successfully', courseId: course._id })
 });
 
-router.get('/courses', adminMiddleware, (req, res) => {
+router.get('/courses', adminMiddleware, async (req, res) => {
     // Implement fetching all courses logic
+    const response = await db.Course.find({})
+    res.json({ courses: response })
 });
 
 module.exports = router;
