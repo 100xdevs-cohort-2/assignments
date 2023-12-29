@@ -32,8 +32,8 @@ const UserSchema = new mongoose.Schema({
     minlength: [8, 'Password must have greater than equal to 8 characters'],
     maxlength: [16, 'Password must have less than equal to 16 characters'],
   },
-  parchasedCourse: {
-    type: mongoose.Schema.Types.ObjectId,
+  parchasedCourses: {
+    type: [mongoose.Schema.Types.ObjectId],
     ref: 'Course',
   }
 });
