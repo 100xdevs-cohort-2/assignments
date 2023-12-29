@@ -39,11 +39,103 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs')
+
+const app = express();
+const path = '/home/ganesh/Documents/cohort/Assignment/week-2/02-nodejs/todos.json'
+
+
+app.use(bodyParser.json());
+
+app.get('/todos', (req, res) => {
+  fs.readFile(path, (err, data) => {
+    data = JSON.parse(data)
+    res.json(data)
+  })
+})
+
+app.get('/todos/:id', (req, res) => {
+  fs.readFile(path, (err, data) => {
+    let arr = JSON.parse(data)
+    for (let i of arr) {
+      if (i.id == req.params.id) {
+        return res.status(200).json(i)
+      }
+    }
+    res.status(404).send("ID does not exist")
+  })
+})
+
+app.post("/todos", (req, res) => {
+
+  let todo = {
+    id: Math.floor(Math.random() * 10000),
+    title: req.body.title,
+    completed: false,
+    description: req.body.description
+  }
+  fs.readFile(path, "utf-8", (err, data) => {
+    data = JSON.parse(data)
+    data.push(todo)
+    fs.writeFile(path, JSON.stringify(data), "utf-8", (err) => {
+      if (err) {
+        console.log("Err")
+      }
+      res.status(201).json({ id: todo.id })
+    })
+  })
+})
+
+app.put('/todos/:id', (req, res) => {
+  fs.readFile(path, "utf-8", (err, data) => {
+    data = JSON.parse(data)
+    console.log(req.params.id)
+    let flag = 0
+    data.forEach(element => {
+      if (element.id == req.params.id) {
+        flag = 1
+        element.title = req.body.title
+        element.completed = req.body.completed
+      }
+    });
+    if (flag == 0) {
+      return res.status(404).send("Not found")
+    }
+    fs.writeFile(path, JSON.stringify(data), "utf-8", (err) => {
+      if (err) {
+        console.log("Err")
+      }
+      res.status(200).send("Error")
+    })
+  })
+})
+
+app.delete("/todos/:id", (req, res) => {
+  fs.readFile(path, "utf-8", (err, data) => {
+    data = JSON.parse(data)
+    console.log(req.params.id)
+    let flag = data.length
+    data = data.filter(element => {
+      if (element.id != req.params.id) {
+        return true
+      }
+    });
+    if (flag == data.length) {
+      return res.status(404).send("Not found")
+    }
+    fs.writeFile(path, JSON.stringify(data), "utf-8", (err) => {
+      if (err) {
+        console.log("Err")
+      }
+      res.status(200).json("Error")
+    })
+  })
+})
+
+// app.listen(3000, () => {
+//   console.log("hello")
+// })
+
+module.exports = app;

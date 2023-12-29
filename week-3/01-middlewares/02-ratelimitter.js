@@ -11,10 +11,24 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
-let numberOfRequestsForUser = {};
+let numberOfRequestsForUser = 0;
 setInterval(() => {
-    numberOfRequestsForUser = {};
+    numberOfRequestsForUser = 0;
 }, 1000)
+
+function rate(req,res,next){
+  if(numberOfRequestsForUser < 5)
+  {
+    numberOfRequestsForUser += 1
+    next()
+  }
+  else
+  {
+    res.status(404).send("sorry u requested too many times")
+  }
+}
+
+app.use(rate)
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

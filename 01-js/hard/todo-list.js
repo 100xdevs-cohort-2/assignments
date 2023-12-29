@@ -11,7 +11,28 @@
 */
 
 class Todo {
-
+  constructor(){
+    this.todo_list = []
+  }
+  add(lis){
+    this.todo_list.push(lis)
+  }
+  remove(index){
+    this.todo_list.splice(index,1)
+  }
+  update(index,lis){
+    if(index<this.todo_list.length) 
+    this.todo_list[index] = lis
+  }
+  getAll(){
+    return [...this.todo_list]
+  }
+  get(index){
+    return index<this.todo_list.length ? this.todo_list[index] : null 
+  }
+  clear(){
+    this.todo_list = []
+  }
 }
 
 module.exports = Todo;
