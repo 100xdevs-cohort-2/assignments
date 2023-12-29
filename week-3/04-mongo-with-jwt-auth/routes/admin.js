@@ -6,6 +6,8 @@ const router = Router();
 // Admin Routes
 router.post('/signup', adminController.createNewAdmin);
 
+router.post('/signin', adminController.signInAdmin);
+
 router
   .route('/courses')
   .get(adminMiddleware, adminController.getAllCourses)
