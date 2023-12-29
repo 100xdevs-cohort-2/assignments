@@ -12,15 +12,61 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
+// ..middleare for rate limitting
+//** Remerber to call next function **//
+//m-1
+/*
+const rateLimitter = (req, res, next) => {
+  const userId = req.headers["user-id"]
+
+  if (numberOfRequestsForUser[userId]) {
+
+    numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] + 1;
+
+    if (numberOfRequestsForUser[userId] > 5) {
+      res.status(404).send("no entry")
+    }
+    else {
+      next()
+    }
+  }
+  else {
+    numberOfRequestsForUser[userId] = 1;
+    next()
+  }
+}
+*/
+//m-2
+const rateLimiter = (req, res, next) => {
+  const userId = req.headers['user-id'];
+
+  // Initialize the request count for the user if not present
+  numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
+
+  // Check if the user has exceeded the rate limit
+  if (numberOfRequestsForUser[userId] >= 5) {
+    return res.status(404).json({ error: 'Rate limit exceeded for this user' });
+  }
+
+  // Increment the request count for the user
+  numberOfRequestsForUser[userId]++;
+
+  // Call next middleware/route handler
+  next();
+};
+
+app.use(rateLimiter)
+
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
 
-app.get('/user', function(req, res) {
+app.get('/user', function (req, res) {
   res.status(200).json({ name: 'john' });
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', function (req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 
