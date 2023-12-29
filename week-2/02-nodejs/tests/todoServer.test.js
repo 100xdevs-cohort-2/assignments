@@ -11,7 +11,7 @@ describe('Todo API', () => {
 
   beforeAll((done) => {
     if (globalServer) {
-        globalServer.close();
+      globalServer.close();
     }
     globalServer = server.listen(3000);
     done()
@@ -23,6 +23,7 @@ describe('Todo API', () => {
 
   const todo = {
     title: 'New Todo',
+    completed: false,
     description: 'A new todo item',
   };
 
@@ -95,6 +96,7 @@ describe('Todo API', () => {
     const updatedTodo = {
       title: 'Updated Todo',
       description: 'An updated todo item',
+      completed: true,
     };
 
     const options = {

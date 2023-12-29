@@ -32,62 +32,87 @@
     - For any other route not defined in the server return 404
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  let todos = [];
-  
-  app.get('/todos', (req, res) => {
-    res.json(todos);
-  });
-  
-  app.get('/todos/:id', (req, res) => {
-    const todo = todos.find(t => t.id === parseInt(req.params.id));
-    if (!todo) {
-      res.status(404).send();
-    } else {
-      res.json(todo);
-    }
-  });
-  
-  app.post('/todos', (req, res) => {
-    const newTodo = {
-      id: Math.floor(Math.random() * 1000000), // unique random id
-      title: req.body.title,
-      description: req.body.description
-    };
-    todos.push(newTodo);
-    res.status(201).json(newTodo);
-  });
-  
-  app.put('/todos/:id', (req, res) => {
-    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
-    if (todoIndex === -1) {
-      res.status(404).send();
-    } else {
-      todos[todoIndex].title = req.body.title;
-      todos[todoIndex].description = req.body.description;
-      res.json(todos[todoIndex]);
-    }
-  });
-  
-  app.delete('/todos/:id', (req, res) => {
-    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
-    if (todoIndex === -1) {
-      res.status(404).send();
-    } else {
-      todos.splice(todoIndex, 1);
-      res.status(200).send();
-    }
-  });
-  
-  // for all other routes, return 404
-  app.use((req, res, next) => {
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get('/todos', (req, res) => {
+  res.json(todos);
+});
+
+app.get('/todos/:id', (req, res) => {
+  const todo = todos.find(t => t.id === parseInt(req.params.id));
+  if (!todo) {
     res.status(404).send();
-  });
-  
-  module.exports = app;
+  } else {
+    res.json(todo);
+  }
+});
+
+let nextTodoId = 1;
+
+// Route to create a new todo item
+app.post('/todos', (req, res) => {
+  const { title, completed, description } = req.body;
+
+  // Validate request body
+  if (!title || typeof completed !== 'boolean' || !description) {
+    return res.status(400).json({ error: 'Invalid request body' });
+  }
+
+  // Create new todo item
+  const newTodo = {
+    id: nextTodoId++,
+    title,
+    completed,
+    description,
+  };
+
+  // Add todo to the list
+  todos.push(newTodo);
+
+  // Respond with the created todo item and status 201
+  res.status(201).json(newTodo);
+});
+
+// Route to update an existing todo item by ID
+app.put('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id);
+  const { title, completed } = req.body;
+
+  // Find todo by ID
+  const todoToUpdate = todos.find(todo => todo.id === todoId);
+
+  // If todo not found, respond with 404
+  if (!todoToUpdate) {
+    return res.status(404).json({ error: 'Todo not found' });
+  }
+
+  // Update todo properties
+  todoToUpdate.title = title || todoToUpdate.title;
+  todoToUpdate.completed = typeof completed === 'boolean' ? completed : todoToUpdate.completed;
+
+  // Respond with the updated todo item and status 200
+  res.status(200).json(todoToUpdate);
+});
+app.delete('/todos/:id', (req, res) => {
+  const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send();
+  } else {
+    todos.splice(todoIndex, 1);
+    res.status(200).send();
+  }
+});
+
+// for all other routes, return 404
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+module.exports = app;
