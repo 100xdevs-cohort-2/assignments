@@ -39,11 +39,56 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+let todos = [];
+let id = 1;
+
+app.use(bodyParser.json());
+
+app.get("/todos", (_, res) => {
+  res.status(200).send(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = req.params["id"];
+  const todo = todos.find((todo) => todo.id == id);
+
+  if (todo !== undefined) res.status(200).send(todo);
+  else res.status(404).send({});
+});
+
+app.post("/todos", (req, res) => {
+  const todo = { ...req.body };
+  todo.id = id++;
+  todos.push(todo);
+
+  res.status(201).send({ id: todo.id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const todo = todos.find((todo) => todo.id == id);
+  if (todo) {
+    todo.title = req.body.title;
+    todo.description = req.body.description;
+    res.status(200).send({});
+  } else {
+    res.status(404).send({});
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params["id"];
+  const todo = todos.findIndex((todo) => todo.id == id);
+  if (todo === -1) return res.status(404).send({});
+
+  todos.slice(todo, todo + 1);
+
+  res.status(200).send({});
+});
+
+module.exports = app;
