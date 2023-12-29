@@ -18,4 +18,14 @@ exports.getAllCourses = catchAsync(async (req, res, next) => {
       courses
     }
   });
+});
+
+exports.getCourse = catchAsync(async (req, res, next) => {
+  const course = await db.Course.findById(req.params.courseId);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      course
+    }
+  });
 }); 
