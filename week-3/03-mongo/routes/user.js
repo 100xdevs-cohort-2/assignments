@@ -29,9 +29,9 @@ router.get('/courses', userMiddleware, async (req, res) => {
 
 router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
-    const courseId = req.params.courseId;
+    console.log("hii")
     const username = req.headers.username;
-
+    const courseId = req.params.courseId;
     await db.User.updateOne({
         username: username
     }, {
