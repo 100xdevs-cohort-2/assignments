@@ -8,6 +8,6 @@ router.post('/signup', adminController.createNewAdmin);
 
 router.post('/courses', adminMiddleware, adminController.createNewCourse);
 
-router.get('/courses', adminMiddleware, adminController.getAllCourse);
+router.get('/courses', adminMiddleware, adminController.getAllCourses);
 
 module.exports = router;
