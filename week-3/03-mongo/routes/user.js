@@ -49,7 +49,6 @@ router.get("/courses", async (req, res) => {
   }
 });
 
-//Correct the spagetti code :')
 router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   // Implement course purchase logic
 
