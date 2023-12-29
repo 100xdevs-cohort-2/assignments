@@ -4,7 +4,13 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  const word = str.replace(/[!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~\s]/g, '').toLowerCase();
+
+  const reverseWord = word.split('').reverse().join('');
+
+
+  return reverseWord === word;
 }
 
 module.exports = isPalindrome;
