@@ -19,7 +19,7 @@ exports.createNewCourse = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getAllCourse = catchAsync(async (req, res, next) => {
+exports.getAllCourses = catchAsync(async (req, res, next) => {
   const courses = await db.Course.find();
   res.status(200).json({
     status: 'success',
