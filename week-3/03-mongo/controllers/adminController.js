@@ -7,4 +7,14 @@ exports.createNewAdmin = catchAsync(async (req, res, next) => {
     status: 'success',
     message: 'Admin created successfully'
   });
+});
+
+exports.createNewCourse = catchAsync(async (req, res, next) => {
+  const course = await db.Course.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      course
+    }
+  });
 }); 
