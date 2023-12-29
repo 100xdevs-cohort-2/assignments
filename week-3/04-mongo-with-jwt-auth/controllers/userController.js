@@ -45,14 +45,6 @@ exports.purchaseCourse = catchAsync(async (req, res, next) => {
 exports.getAllPurchasedCourses = catchAsync(async (req, res, next) => {
   const user = await db.User.findOne({ username: req.headers.username }).populate('purchasedCourses');
 
-  if (!admin) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid Username or Password'
-    });
-  }
-
-
   res.status(200).json({
     status: 'success',
     results: user.purchasedCourses.length,
@@ -60,4 +52,23 @@ exports.getAllPurchasedCourses = catchAsync(async (req, res, next) => {
       purchasedCourses: user.purchasedCourses
     }
   });
-}); 
+});
+
+exports.signInUser = catchAsync(async (req, res, next) => {
+  const user = await db.User.findOne(req.body);
+
+  if (!user) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid Username or Password'
+    });
+  }
+
+  const token = jwt.sign(user.username, '12345678');
+  res.status(200).json({
+    status: 'success',
+    data: {
+      token
+    }
+  });
+});
