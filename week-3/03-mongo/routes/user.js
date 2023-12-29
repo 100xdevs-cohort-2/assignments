@@ -6,9 +6,7 @@ const router = Router();
 // User Routes
 router.post('/signup', userController.createNewUser);
 
-router.get('/courses', (req, res) => {
-  // Implement listing all courses logic
-});
+router.get('/courses', userController.getAllCourses);
 
 router.post('/courses/:courseId', userMiddleware, (req, res) => {
   // Implement course purchase logic
