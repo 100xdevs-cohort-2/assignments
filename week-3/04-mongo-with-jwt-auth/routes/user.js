@@ -5,6 +5,7 @@ const router = Router();
 
 // User Routes
 router.post('/signup', userController.createNewUser);
+router.post('/signin', userController.signInUser);
 
 router.get('/courses', userController.getAllCourses);
 
