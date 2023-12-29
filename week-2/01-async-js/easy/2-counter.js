@@ -4,9 +4,14 @@
 
 
 
+let count = 0
 
+function timer() {
+    console.log(count++);    
+    setTimeout(timer, 1000);
+}
 
-
+timer();
 
 
 
