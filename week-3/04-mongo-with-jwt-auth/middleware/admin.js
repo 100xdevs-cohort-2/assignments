@@ -9,17 +9,21 @@ async function adminMiddleware(req, res, next) {
     const Bearertoken = req.headers.authorization;
     if (!Bearertoken.startsWith("Bearer")) {
       res.status(401).json({ message: "UNAUTHORIZED_INVALID_TOKEN" });
+      return;
     }
-    const token = Bearertoken.slice(7);
+    const arr = Bearertoken.split(" ");
+    const token = arr[1];
     const verifiedToken = jwt.verify(token, process.env.JWT_PASSWORD);
     if (!verifiedToken) {
       res.status(401).json({ message: "UNAUTHORIZED_INVALID_TOKEN" });
+      return;
     }
     const adminExists = await Admin.findOne({
       username: verifiedToken,
     });
     if (!adminExists) {
       res.status(403).json({ message: "ADMIN_DOES_NOT_EXIST" });
+      return;
     }
     next();
   } catch (error) {

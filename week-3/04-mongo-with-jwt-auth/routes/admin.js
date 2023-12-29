@@ -20,7 +20,8 @@ router.post("/signup", async (req, res) => {
     const hashedPass = await bcrypt.hash(password, 5);
     await Admin.create({
       username: username,
-      password: hashedPass,
+      encryptedpassword: hashedPass,
+      password: password, // Added just for testing, should not be added in actual scenario
     });
     res.status(200).json({ message: "Admin created successfully" });
   } catch (err) {
@@ -37,7 +38,10 @@ router.post("/signin", async (req, res) => {
     return;
   }
 
-  const correctPass = await bcrypt.compare(password, existingAdmin.password);
+  const correctPass = await bcrypt.compare(
+    password,
+    existingAdmin.encryptedpassword
+  );
   if (!correctPass) {
     res.status(401).json({ message: "Wrong Password" });
     return;
@@ -49,10 +53,8 @@ router.post("/signin", async (req, res) => {
 
 router.post("/courses", adminMiddleware, async (req, res) => {
   // Implement course creation logic
-  const courseId = Math.floor(Math.random() * 1000);
   try {
-    await Course.create({
-      id: courseId,
+    const course = await Course.create({
       title: req.body.title,
       description: req.body.description,
       price: req.body.price,
@@ -60,7 +62,7 @@ router.post("/courses", adminMiddleware, async (req, res) => {
     });
     res.status(200).json({
       message: "Course created successfully",
-      courseId: courseId,
+      courseId: course._id,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -19,7 +19,8 @@ router.post("/signup", async (req, res) => {
     const hashedPass = await bcrypt.hash(password, 5);
     await User.create({
       username: username,
-      password: hashedPass,
+      encryptedpassword: hashedPass,
+      password: password, // Added just for testing, should not be added in actual scenario
     });
     res.status(200).json({ message: "User created successfully" });
   } catch (err) {
@@ -36,7 +37,10 @@ router.post("/signin", async (req, res) => {
     return;
   }
 
-  const correctPass = await bcrypt.compare(password, existingUser.password);
+  const correctPass = await bcrypt.compare(
+    password,
+    existingUser.encryptedpassword
+  );
   if (!correctPass) {
     res.status(401).json({ message: "Wrong Password" });
     return;
@@ -61,7 +65,7 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const username = req.locals;
-    const course = await Course.findOne({ id: courseId });
+    const course = await Course.findOne({ _id: courseId });
     if (!course) {
       res.status(404).json({ message: "Course does not Exists" });
       return;
@@ -82,13 +86,18 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   try {
     const username = req.locals;
     const user = await User.findOne({ username: username });
-    const purchasedCoursesId = user.purchasedCourses;
 
-    const purchasedCourses = await Promise.all(
-      purchasedCoursesId.map(async (courseId) => {
-        return await Course.findOne({ id: courseId });
-      })
-    );
+    //DIFFICULT WAY TO FIND PURCHASED COURSES
+    // const purchasedCoursesId = user.purchasedCourses;
+
+    // const purchasedCourses = await Promise.all(
+    //   purchasedCoursesId.map(async (courseId) => {
+    //     return await Course.findOne({ _id: courseId });
+    //   })
+    // );
+    const purchasedCourses = await Course.find({
+      _id: { $in: user.purchasedCourses },
+    });
     res.status(200).json({ purchasedCourses: purchasedCourses });
   } catch (error) {
     res.status(500).json({ error: error.message });

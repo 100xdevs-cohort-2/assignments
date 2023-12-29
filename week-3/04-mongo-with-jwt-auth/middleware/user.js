@@ -9,15 +9,19 @@ async function userMiddleware(req, res, next) {
     const Bearertoken = req.headers.authorization;
     if (!Bearertoken.startsWith("Bearer")) {
       res.status(401).json({ message: "UNAUTHORIZED_INVALID_TOKEN" });
+      return;
     }
-    const token = Bearertoken.slice(7);
+    const arr = Bearertoken.split(" ");
+    const token = arr[1];
     const verifiedToken = jwt.verify(token, process.env.JWT_PASSWORD);
     if (!verifiedToken) {
       res.status(401).json({ message: "UNAUTHORIZED_INVALID_TOKEN" });
+      return;
     }
     const userExists = await User.findOne({ username: verifiedToken });
     if (!userExists) {
       res.status(403).json({ message: "USER_DOES_NOT_EXIST" });
+      return;
     }
     req.locals = verifiedToken;
     next();

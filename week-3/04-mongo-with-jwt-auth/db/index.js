@@ -14,19 +14,25 @@ const connectDB = async () => {
 const AdminSchema = new mongoose.Schema({
   // Schema definition here
   username: String,
+  encryptedpassword: String,
   password: String,
 });
 
 const UserSchema = new mongoose.Schema({
   // Schema definition here
   username: String,
+  encryptedpassword: String,
   password: String,
-  purchasedCourses: [String],
+  purchasedCourses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    },
+  ],
 });
 
 const CourseSchema = new mongoose.Schema({
   // Schema definition here
-  id: Number,
   title: String,
   description: String,
   price: Number,
