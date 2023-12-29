@@ -16,6 +16,77 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(a) {
+    this.result += a;
+  }
+
+  subtract(a) {
+    this.result -= a;
+  }
+  multiply(a) {
+    this.result = this.result * a;
+  }
+  divide(a) {
+    if (a == 0) throw Error();
+    this.result = this.result / a;
+  }
+  getResult() {
+    return this.result;
+  }
+  clear() {
+    this.result = 0;
+  }
+
+  calculate(expression) {
+    this.result = eval(expression);
+    if (this.result === Infinity) {
+      throw new Error("Infinity");
+    }
+  }
+}
+
+//   calculate(str) {
+//     let reducedStr = str.replace(/ /g, "");
+//     this.calc(reducedStr);
+//   }
+
+//   calc(str) {
+//     for (let i = 0; i < str.length; i++) {
+//       if (
+//         str[0] == "+" ||
+//         str[0] == "/" ||
+//         str[0] == "*" ||
+//         str[0] == "-" ||
+//         str[0] == ")"
+//       ) {
+//         throw Error;
+//       }
+//       if (str[i] == "+") {
+//         let a = parseInt(str.slice(0, i));
+//         a.add(str.slice(i + 1, str.length));
+//       }
+//       if (str[i] == "-") {
+//         let a = parseInt(str.slice(0, i));
+//         a.subtract(str.slice(i + 1, str.length));
+//       }
+//       if (str[i] == "*") {
+//         let a = parseInt(str.slice(0, i));
+//         a.multiply(str.slice(i + 1, str.length));
+//       }
+//       if (str[i] == "/") {
+//         let a = parseInt(str.slice(0, i));
+//         a.divide(str.slice(i + 1, str.length));
+//       }
+//     }
+//   }
+// }
+
+// let cal = new Calculator();
+// cal.calculate("22+44");
 
 module.exports = Calculator;

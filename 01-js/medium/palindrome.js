@@ -4,6 +4,28 @@
 */
 
 function isPalindrome(str) {
+  let ucStr = str.toUpperCase();
+  let strLength = ucStr.length;
+  let i = 0;
+  let lastIndex = strLength - 1;
+  while (i < strLength / 2) {
+    if (i > lastIndex) {
+      break;
+    }
+    if (ucStr.charCodeAt(i) < 65 || ucStr.charCodeAt(i) > 90) {
+      i++;
+      continue;
+    }
+    if (ucStr.charCodeAt(lastIndex) < 65 || ucStr.charCodeAt(lastIndex) > 90) {
+      lastIndex--;
+      continue;
+    }
+    if (ucStr[i] != ucStr[lastIndex]) {
+      return false;
+    }
+    i++;
+    lastIndex--;
+  }
   return true;
 }
 
