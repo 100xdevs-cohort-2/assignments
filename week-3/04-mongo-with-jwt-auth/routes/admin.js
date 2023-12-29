@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const router = Router();
+<<<<<<< HEAD
 const {Admin,Course} =require('../db/index.js');
 const jwt =require('jsonwebtoken');
 
@@ -91,6 +92,24 @@ router.get('/courses', verifyToken, adminMiddleware, async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+=======
+
+// Admin Routes
+router.post('/signup', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/signin', (req, res) => {
+    // Implement admin signup logic
+});
+
+router.post('/courses', adminMiddleware, (req, res) => {
+    // Implement course creation logic
+});
+
+router.get('/courses', adminMiddleware, (req, res) => {
+    // Implement fetching all courses logic
+>>>>>>> origin/master
 });
 
 module.exports = router;

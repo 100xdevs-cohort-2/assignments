@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
+<<<<<<< HEAD
 mongoose.connect('mongodb+srv://angrybrothers02:gBVAfVYJvZhktlCO@cluster0.gwetxoo.mongodb.net/Course_Website');
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -51,6 +52,23 @@ const purchasedCourseSchema = new mongoose.Schema({
 const PurchasedCourse = mongoose.model('PurchasedCourse', purchasedCourseSchema);
 
 
+=======
+mongoose.connect('your-mongodb-url');
+
+// Define schemas
+const AdminSchema = new mongoose.Schema({
+    // Schema definition here
+});
+
+const UserSchema = new mongoose.Schema({
+    // Schema definition here
+});
+
+const CourseSchema = new mongoose.Schema({
+    // Schema definition here
+});
+
+>>>>>>> origin/master
 const Admin = mongoose.model('Admin', AdminSchema);
 const User = mongoose.model('User', UserSchema);
 const Course = mongoose.model('Course', CourseSchema);
@@ -58,6 +76,10 @@ const Course = mongoose.model('Course', CourseSchema);
 module.exports = {
     Admin,
     User,
+<<<<<<< HEAD
     Course,
     PurchasedCourse
+=======
+    Course
+>>>>>>> origin/master
 }
