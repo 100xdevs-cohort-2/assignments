@@ -39,11 +39,78 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const todos = [];
+let id = 0;
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const data = todos.find((e) => e.id === parseInt(req.params.id));
+
+  if (data === undefined) {
+    return res.sendStatus(404);
+  }
+
+  res.status(200).json(data);
+});
+
+app.post("/todos", (req, res) => {
+  id++;
+  const data = { ...req.body, id };
+  todos.push(data);
+
+  res.status(201).json({
+    id,
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const index = todos.findIndex((e) => e.id === parseInt(req.params.id));
+
+  if (index === -1) {
+    return res.sendStatus(404);
+  }
+
+  todos[index].title =
+    req.body.title !== undefined ? req.body.title : todos[index].title;
+  todos[index].description =
+    req.body.description !== undefined
+      ? req.body.description
+      : todos[index].description;
+  todos[index].completed =
+    req.body.completed !== undefined
+      ? req.body.completed
+      : todos[index].completed;
+
+  res.status(200).json({
+    message: "Updates Successfully",
+  });
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const index = todos.findIndex((e) => e.id === parseInt(req.params.id));
+  if (index === -1) {
+    return res.sendStatus(404);
+  }
+  todos.splice(index, 1);
+  res.status(200).json({
+    message: "Deleted Successfully",
+  });
+});
+
+// Route not found middleware (404 error)
+app.use((req, res, next) => {
+  res.status(404).send("Route not found");
+});
+
+module.exports = app;
+//app.listen(3000);
