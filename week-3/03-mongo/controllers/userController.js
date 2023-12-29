@@ -40,4 +40,16 @@ exports.purchaseCourse = catchAsync(async (req, res, next) => {
     status: 'success',
     message: 'Course purchased successfully'
   });
+});
+
+exports.getAllPurchasedCourses = catchAsync(async (req, res, next) => {
+  const user = await db.User.findOne({ username: req.headers.username }).populate('purchasedCourses');
+
+  res.status(200).json({
+    status: 'success',
+    results: user.purchasedCourses.length,
+    data: {
+      purchasedCourses: user.purchasedCourses
+    }
+  });
 }); 
