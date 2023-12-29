@@ -1,0 +1,12 @@
+.todos-container{
+    display:flex;
+    flex-wrap: wrap;
+    gap:10px;
+}
+.todo-container{
+    width:300px;
+    height:300px;
+    display:flex;
+    flex-direction: column;
+    border:2px solid;
+}
