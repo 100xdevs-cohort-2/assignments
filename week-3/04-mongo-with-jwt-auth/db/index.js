@@ -33,7 +33,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  purchasedCourses: [String]
+  purchasedCourses: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Course
+  }]
 });
 
 const CourseSchema = new mongoose.Schema({
