@@ -8,9 +8,7 @@ router.post('/signup', userController.createNewUser);
 
 router.get('/courses', userController.getAllCourses);
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-  // Implement course purchase logic
-});
+router.post('/courses/:courseId', userMiddleware, userController.purchaseCourse);
 
 router.get('/purchasedCourses', userMiddleware, (req, res) => {
   // Implement fetching purchased courses logic
