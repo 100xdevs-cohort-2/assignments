@@ -20,12 +20,24 @@ exports.getAllCourses = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getCourse = catchAsync(async (req, res, next) => {
+exports.purchaseCourse = catchAsync(async (req, res, next) => {
   const course = await db.Course.findById(req.params.courseId);
+
+  if (!course) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid Course Id'
+    });
+  }
+
+  const user = await db.User.findOneAndUpdate(
+    { username: req.headers.username },
+    { $push: { purchasedCourses: course._id } },
+    { new: true }
+  );
+
   res.status(200).json({
     status: 'success',
-    data: {
-      course
-    }
+    message: 'Course purchased successfully'
   });
 }); 
