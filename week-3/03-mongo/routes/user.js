@@ -10,8 +10,6 @@ router.get('/courses', userController.getAllCourses);
 
 router.post('/courses/:courseId', userMiddleware, userController.purchaseCourse);
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-  // Implement fetching purchased courses logic
-});
+router.get('/purchasedCourses', userMiddleware, userController.getAllPurchasedCourses);
 
 module.exports = router
