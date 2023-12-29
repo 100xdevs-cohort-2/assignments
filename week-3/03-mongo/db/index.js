@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // Connect to MongoDB
 mongoose
   .connect(
-    "MONGO_URI"
+    "mongodb+srv://root:root@100xdev.kmbpv1b.mongodb.net/week-3?retryWrites=true&w=majority"
   )
   .then(() => console.log("DB connected"));
 
