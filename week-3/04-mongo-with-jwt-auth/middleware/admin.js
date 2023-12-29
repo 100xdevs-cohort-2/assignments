@@ -1,5 +1,5 @@
 const { Admin } = require('../db/index');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 // Middleware for handling auth
 async function adminMiddleware(req, res, next) {
