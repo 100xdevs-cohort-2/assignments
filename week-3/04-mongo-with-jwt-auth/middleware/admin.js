@@ -1,15 +1,11 @@
 const { Admin } = require('../db/index');
+const jwt = require('jsonwebtoken')
 
 // Middleware for handling auth
 async function adminMiddleware(req, res, next) {
   try {
-    const admin = await Admin.findOne({ username: req.headers.username });
-    if (!admin) {
-      return res.status(404).json({
-        status: 'fail',
-        message: 'No admin found with that ID'
-      });
-    }
+    jwt.verify(req.headers.authorization, '12345678');
+    req.username = jwt.decode(req.headers.authorization);
     next();
   } catch (e) {
     next(e);
