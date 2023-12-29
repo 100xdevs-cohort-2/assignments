@@ -31,7 +31,7 @@ function signJwt(username, password) {
         return jwt.sign({username: username}, jwtPassword);
     }
 }
-// console.log(signJwt('kisrat@gmail', 123456));
+// console.log(signJwt('kisrat@gmail.com', 123456));
 
 /**
  * Verifies a JWT using a secret key.
@@ -45,7 +45,8 @@ function verifyJwt(token) {
     // Your code here
     try {
         const decoded = jwt.verify(token, jwtPassword);
-        if(decoded && decoded.username){
+        console.log(decoded);
+        if(decoded){
             return true;
         } else {
             return false;
@@ -55,6 +56,7 @@ function verifyJwt(token) {
     }
 
 }
+verifyJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtpc3JhdEBnbWFpbC5jb20iLCJpYXQiOjE3MDM3OTI4ODJ9.I55Zw11yIyOCxzwBhn2lVTriiKOtLrreomYjusFZJVI");
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -67,6 +69,7 @@ function decodeJwt(token) {
     // Your code here
     try {
         const decoded = jwt.decode(token);
+        console.log(decoded);
         if (decoded) {
             return true;
         } else {
@@ -78,6 +81,8 @@ function decodeJwt(token) {
     }
 
 }
+decodeJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtpc3JhdEBnbWFpbC5jb20iLCJpYXQiOjE3MDM3OTI4ODJ9.I55Zw11yIyOCxzwBhn2lVTriiKOtLrreomYjusFZJVI");
+
 
 // console.log(decodeJwt(jwt.sign({ username: 'kirat@gmail.com', password: '123456' }, "randomPassword")))
 

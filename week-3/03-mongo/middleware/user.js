@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User } = require('../db/index.js');
 
 async function userMiddleware(req, res, next) {
     const username = req.headers.username;

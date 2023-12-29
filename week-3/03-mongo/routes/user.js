@@ -2,7 +2,7 @@ const { Router } = require("express");
 const mongoose = require("mongoose")
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { User, Course } = require('../models');
+const { User, Course } = require('../db/index.js');
 
 
 // User Routes
