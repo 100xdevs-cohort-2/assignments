@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase().replace(/[\W_]/g, '')
+  new_str = ''
+  for(let i = str.length - 1; i > -1; i--){
+    new_str += str[i]
+  }
+  if (str == new_str){
+    return true
+  }
+  return false;
 }
 
 module.exports = isPalindrome;
