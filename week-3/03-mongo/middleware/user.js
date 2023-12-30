@@ -1,23 +1,23 @@
+const { response } = require('express');
 const { User } = require('../db/index');
 
-async function userMiddleware(req, res, next) {
-    try {
-        const userUserName = req.headers['username'];
-        const userPassword = req.headers['password'];
+function userMiddleware(req, res, next) {
+    const username = req.headers.username;
+    const password = req.headers.password;
 
-        const user = await User.findOne({ username: userUserName, password: userPassword });
-
-        if (!user) {
-            return res.status(401).send('Unauthorized user');
+    User.findOne({
+        username: username,
+        password:password
+    }).then((response) => {
+        if (response) {
+            next();
+        } else {
+            res.status(403).json({
+                msg:"User not found"
+            })
         }
-
-        // Attach the user object to the request for further use if needed
-        req.user = user;
-
-        next();
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+            
+    })
 }
 
 module.exports = userMiddleware;

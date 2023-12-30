@@ -1,64 +1,54 @@
-const { Router } = require("express");
-const adminMiddleware = require("../middleware/admin");
-const { Admin, Course } = require("../db/index");
+const express = require('express');
+const router = express.Router();
 
-const router = Router();
+const { Admin } = require('../db/index');
+const {Course} = require('../db/index')
+const adminMiddleware = require('../middleware/admin')
 
-router.post('/admin/signup', async (req, res) => {
-    const { adminName, adminPassword } = req.body;
+router.post('/signup', async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
 
-    try {
-
-        const existingAdmin = await Admin.findOne({ adminName });
-        if (existingAdmin) {
-            return res.status(400).json({ error: 'Admin name already exists' });
-        }
-
-        await Admin.create({ adminName, adminPassword });
+    Admin.create({
+        username: username,
+        password: password
+    }).then(() => {
         res.json({
-            message: 'Admin created successfully'
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+            msg: "Admin created successfully"
+        })
+    }).catch((err) => {
+        res.json({
+            msg: " Error creating admin"
+        })
+    })
 });
 
-router.post('/admin/courses', adminMiddleware, async (req, res) => {
-    const { courseTitle, courseDescription, price, imageLink } = req.body;
-    const adminId = req.admin._id; 
+router.post('/courses', adminMiddleware, async (req, res) => {
+    const title = req.body.title;
+    const description = req.body.description;
+    const imageLink = req.body.imageLink;
+    const price = req.body.price;
 
-    try {
-        const newCourse = await Course.create({
-            courseTitle,
-            courseDescription,
-            price,
-            imageLink,
-            published: true,
-            admin: adminId 
-        });
+    const newCourse = await Course.create({
+        title: title,
+        description: description,
+        imageLink: imageLink, 
+        price: price
+    })
 
-        // Push the new course to the admin's list of courses
-        await Admin.findByIdAndUpdate(adminId, { $push: { adminCourses: newCourse._id } });
-
-        res.json({
-            message: 'Course created successfully',
-            courseId: newCourse._id
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+    res.json({
+        msg: "Course created successfully",
+        courseid : newCourse._id
+    })
+    
 });
 
 
-router.get('/admin/courses', adminMiddleware, async (req, res) => {
-    const adminId = req.admin._id; 
-
-    try {
-        const adminCourses = await Course.find({ admin: adminId });
-        res.json({ adminCourses });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+router.get('/courses', adminMiddleware, async (req, res) => {
+    const response = await Course.find({});
+    res.json({
+        courses: response
+    })
 });
 
 
