@@ -20,9 +20,7 @@ router.post('/signup', async (req, res) => {
 
 });
 
-router.get('/courses', userMiddleware, async (req, res) => {
-    const username = req.headers.username;
-    const password = req.headers.password;
+router.get('/courses', async (req, res) => {
 
     const courses = await Course.find({});
     res.json({
@@ -32,10 +30,37 @@ router.get('/courses', userMiddleware, async (req, res) => {
 
 router.post('/courses/:courseId', userMiddleware, async (req, res) => {
 
+    const courseID = req.params.courseId;
+
+    const username = req.headers.username;
+    const password = req.headers.password;
+    
+    await User.updateOne({
+        username: username
+    }, {
+        "$push": {
+            purchasedCourses: courseID
+        }
+    });
+
+    res.json({
+        msg: "Course purchased successfully"
+    })
 });
 
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
-    
+    const user = await User.findOne({
+        username: req.headers.username
+    });
+
+    const courses = await Course.find({
+        _id: {
+            "$in": user.purchasedCourses
+        }
+    });
+    res.json({
+        courses: courses
+    })
 });
 
 module.exports = router;
