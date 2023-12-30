@@ -1,29 +1,28 @@
 const mongoose = require('mongoose');
+const { stringifyError } = require('next/dist/shared/lib/utils');
 
-mongoose.connect('mongodb+srv://username:password@cluster0.clkvine.mongodb.net/', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-});
+mongoose.connect('mongodb+srv://admin:mongopassword@cluster0.clkvine.mongodb.net/course_selling_app_with_jwt');
 
 const AdminSchema = new mongoose.Schema({
-    adminName: String,
-    adminPassword: String,
- /* ->*/   adminCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    username: String,
+    password: String,
 });
 
 const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
-   /* ->*/ purchasedCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    purchasdCourses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    
 });
 
 const CourseSchema = new mongoose.Schema({
-    courseTitle: String,
-    courseDescription: String,
-    price: Number,
+    title: String,
+    description: String,
     imageLink: String,
-   /* ->*/ published: Boolean,
+    price: Number,
 });
 
 const Admin = mongoose.model('Admin', AdminSchema);

@@ -1,26 +1,20 @@
-// Updated to handle JWT authentication
-const { User } = require('../db/index');
 const jwt = require('jsonwebtoken');
+const {JWT_SECRET}  = require('../config');
 
-async function userMiddleware(req, res, next) {
-    try {
-        const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
+function userMiddleware(req, res, next) {
+    const token = req.headers.authorization;    
+    const authWOrds = token.split(" ");
 
-        if (!token) {
-            return res.status(401).json({ error: 'Token not provided' });
-        }
+    const jwtToken = authWOrds[1]; 
 
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        const user = await User.findById(decoded.id);
+    const decoded = jwt.verify(jwtToken, JWT_SECRET);
 
-        if (!user) {
-            return res.status(401).json({ error: 'Unauthorized user' });
-        }
-
-        req.user = user;
+    if (decoded.username) {
         next();
-    } catch (err) {
-        res.status(500).json({ error: err.message });
+    } else {
+        res.status(403).json({
+            message: "Unauthenticated"
+        })  
     }
 }
 
