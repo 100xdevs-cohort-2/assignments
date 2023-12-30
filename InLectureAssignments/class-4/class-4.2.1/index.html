@@ -1,0 +1,80 @@
+<html>
+
+<body>
+  <div>
+    <input id="title" type="text" placeholder="title">
+    <br> </br>
+    <input id="description" type="text" placeholder="description">
+    <br> </br>
+    <button id="addTodo" onclick="addTodo()">Add Todo</button>
+    <br> </br>
+    <div id="todos">
+    </div>
+  </div>
+
+
+  <script>
+    let globalId = 1;
+    let todoState = [
+      {
+        id: 1,
+        title: "Go to gym",
+        description: "Go to gym from 7-9 pm"
+      }
+    ];
+
+    function markAsDone(todoId) {
+      const parent = document.getElementById(todoId);
+      parent.children[2].innerHTML = "Done!"
+    }
+
+    function createChild(title, description, id) {
+      const child = document.createElement("div");
+      const firstGrandChild = document.createElement("div");
+      firstGrandChild.innerHTML = title;
+      const secondGrandChild = document.createElement("div");
+      secondGrandChild.innerHTML = description;
+      const thirdGrandChild = document.createElement("button");
+      thirdGrandChild.innerHTML = "Mark as done";
+      thirdGrandChild.setAttribute("onclick", `markAsDone(${id})`);
+      child.appendChild(firstGrandChild);
+      child.appendChild(secondGrandChild);
+      child.appendChild(thirdGrandChild)
+      child.setAttribute("id", id);
+      return child;
+    }
+
+    function updateState(newTodos) {
+      const parent = document.getElementById("todos");
+      parent.innerHTML = "";
+      for (let i = 0; i < newTodos.length; i++) {
+        const title = newTodos[i].title;
+        const description = newTodos[i].description;
+        parent.appendChild(createChild(title, description, globalId++));
+      }
+    }
+
+    function addTodo() {
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const parent = document.getElementById("todos");
+
+      todoState.push({
+        title: title,
+        description: description,
+        id: globalId++,
+      })
+      updateState(todoState);
+    }
+
+    window.setInterval(async () => {
+      const response = await fetch("https://sum-server.100xdevs.com/todos");
+      const responseData = await response.json();
+      updateState(responseData.todos);
+    }, 1000);
+
+    updateState(todoState);
+  </script>
+</body>
+
+</html>

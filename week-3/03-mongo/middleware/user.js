@@ -1,6 +1,18 @@
-function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+const { User } = require('../db/index');
+
+async function userMiddleware(req, res, next) {
+  try {
+    const user = await User.find({ username: req.headers.username });
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'No user found with that ID'
+      });
+    }
+    next();
+  } catch (e) {
+    next(e);
+  }
 }
 
 module.exports = userMiddleware;

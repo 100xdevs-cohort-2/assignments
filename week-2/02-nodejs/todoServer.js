@@ -39,11 +39,102 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
+const fs = require('fs/promises');
+
+const app = express();
+const jsonFilePath = 'todos.json';
+
+app.use(bodyParser.json());
+
+const errorResponses = {
+  badRequest: {
+    "error": "Bad Request",
+    "message": "The request could not be processed due to invalid syntax or missing parameters."
+  },
+  notFound: {
+    "error": "Not Found",
+    "message": "The requested resource could not be found."
+  },
+};
+
+let todosList = [];
+
+async function loadTodos() {
+  try {
+    const data = await fs.readFile(jsonFilePath, 'utf-8');
+    if (data.length > 3) {
+      todosList = JSON.parse(data);
+    }
+  } catch (e) {
+    console.error('Error loading todos:', e.message);
+  }
+}
+
+async function saveTodos() {
+  try {
+    await fs.writeFile(jsonFilePath, JSON.stringify(todosList, null, 2));
+  } catch (e) {
+    console.error('Error saving todos:', e.message);
+  }
+}
+
+loadTodos();
+
+app.post("/todos", async (req, res) => {
+  if (req.body.title !== undefined && req.body.description !== undefined) {
+    todosList.push({
+      id: uuid.v4(),
+      title: req.body.title,
+      description: req.body.description,
+      completed: false,
+    });
+    await saveTodos(todosList);
+    res.status(201).send(JSON.stringify({ id: todosList.slice(-1)[0].id }));
+  } else {
+    res.status(400).json(errorResponses.badRequest);
+  }
+});
+
+app.get("/todos", (req, res) => {
+  if (todosList.length > 0) {
+    res.status(200).send(JSON.stringify(todosList));
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+app.get("/todos/:id", (req, res) => {
+  const foundElement = todosList.find(todo => todo.id === req.params.id);
+  if (foundElement) {
+    res.status(200).send(JSON.stringify(foundElement));
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  const foundElementIndex = todosList.findIndex(todo => todo.id === req.params.id);
+  if (foundElementIndex !== -1) {
+    todosList.splice(foundElementIndex, 1);
+    await saveTodos(todosList);
+    res.sendStatus(200);
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+app.put("/todos/:id", async (req, res) => {
+  const foundElementIndex = todosList.findIndex(todo => todo.id === req.params.id);
+  if (foundElementIndex !== -1) {
+    todosList[foundElementIndex] = { ...todosList[foundElementIndex], ...req.body };
+    await saveTodos(todosList);
+    res.sendStatus(200);
+  } else {
+    res.status(404).json(errorResponses.notFound);
+  }
+});
+
+module.exports = app;
