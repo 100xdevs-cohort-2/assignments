@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.23.3",
+    "chai": "^4.3.10",
     "eslint-plugin-jest": "^27.6.0",
     "ts-node": "^10.9.2"
   }
