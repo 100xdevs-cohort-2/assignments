@@ -55,9 +55,7 @@
          2. if a todo is found in both oldTodoState and newTodoState that means it was updated
          3. if a todo is only found in oldTodoState that means its deleted from newTodoState
       */
-/* 
-[{updated1},{added1},{updated},{added2}]  [{updated2},{updated1},{deleted1},{deleted2}]
-*/
+     
       let todoFound
       newTodoState.forEach(newTodo => {
         todoFound = oldTodoState.find(oldTodo => oldTodo.id === newTodo.id)
