@@ -12,9 +12,44 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+
+function rateLimiter(req, res, next) {
+  const userId = req.headers["user-id"];
+  let count =  numberOfRequestsForUser[userId];
+  if(count >= 5) {
+    res.status(404).send("no entry");
+  }
+
+  if(count === undefined) {
+    numberOfRequestsForUser[userId] = 1;
+  } else {
+    numberOfRequestsForUser[userId] = ++count;
+  }
+
+  next();
+}
+
+ app.use(rateLimiter);
+
+// app.use(function(req, res, next) {
+//   const userId = req.headers["user-id"];
+
+//   if (numberOfRequestsForUser[userId]) {
+//     numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] + 1;
+//     if (numberOfRequestsForUser[userId] > 5) {
+//       res.status(404).send("no entry");
+//     } else {
+//       next();
+//     }
+//   } else {
+//     numberOfRequestsForUser[userId] = 1;
+//     next();
+//   }
+// })
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
@@ -23,5 +58,7 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+app.listen(3000);
 
 module.exports = app;
