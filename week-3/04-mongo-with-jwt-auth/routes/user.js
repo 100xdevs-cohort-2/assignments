@@ -14,7 +14,9 @@ router.post("/signup", async (req, res) => {
     return res.status(400).json(validator.error.flatten());
   }
 
-  const userExists = await User.findOne({ username: username }).exec();
+  const userExists = await User.findOne({
+    username: username
+  });
   if (userExists) {
     return res.status(400).json({ message: "User already exists" });
   }
@@ -40,7 +42,9 @@ router.post("/signin", async (req, res) => {
     return res.status(400).json(validator.error.flatten());
   }
 
-  const user = await User.findOne({ username: username }).exec();
+  const user = await User.findOne({
+    username: username
+  });
   if (!user) {
     return res.status(401).json({
       message: "Invalid credentials!",
@@ -76,37 +80,30 @@ function isEmpty(value) {
 
 router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   const { courseId } = req.params;
-  const user = await User.findOne({ username: req.user.username }).exec();
-  const purchasedCourses = user.purchasedCourses;
 
-  if (!isEmpty(purchasedCourses) && purchasedCourses.includes(courseId)) {
-    return res.status(400).json({
-      message: "You already purchased this course",
-    });
-  } else {
-    purchasedCourses.push(courseId);
-    user.updateOne(
-      {},
-      {
-        $set: {
-          purchasedCourses: purchasedCourses,
-        },
-      }
-    );
-    user.save();
+  await User.updateOne({
+    username: req.user.username
+  }, {
+    "$push": {
+      purchasedCourses: courseId,
+    }
+  })
 
-    return res.json({
-      message: "Course purchased successfully",
-    });
-  }
+  return res.json({
+    message: "Course purchased successfully",
+  });
 });
 
 router.get("/purchasedCourses", userMiddleware, async (req, res) => {
-  const user = await User.findOne({ username: req.user.username }).exec();
+  const user = await User.findOne({
+    username: req.user.username
+  });
 
   const courses = await Course.find({
-    _id: { $in: user.purchasedCourses },
-  }).exec();
+    _id: {
+      "$in": user.purchasedCourses
+    },
+  });
 
   return res.json({
     purchasedCourses: courses,

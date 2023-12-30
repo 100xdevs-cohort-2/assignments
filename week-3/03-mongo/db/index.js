@@ -13,7 +13,10 @@ const AdminSchema = new mongoose.Schema({
 const UserSchema = new mongoose.Schema({
   username: String,
   password: String,
-  purchasedCourses: Array,
+  purchasedCourses: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course",
+  }],
 });
 
 const CourseSchema = new mongoose.Schema({
@@ -21,7 +24,10 @@ const CourseSchema = new mongoose.Schema({
   description: String,
   price: Number,
   imageLink: String,
-  published: {type: Boolean, default: false},
+  published: {
+    type: Boolean,
+    default: false
+  },
 });
 
 const Admin = mongoose.model("Admin", AdminSchema);

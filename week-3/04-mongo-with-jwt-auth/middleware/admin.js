@@ -8,7 +8,7 @@ async function adminMiddleware(req, res, next) {
     const decoded = jwt.verify(authArr[1], process.env.JWT_PASSWORD);
 
     if (decoded && decoded.username) {
-      const user = await Admin.findOne({ username: decoded.username }).exec();
+      const user = await Admin.findOne({ username: decoded.username });
       if (user) {
         req.user = user;
         return next();

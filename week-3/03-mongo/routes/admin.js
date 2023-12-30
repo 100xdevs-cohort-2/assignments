@@ -15,7 +15,7 @@ router.post("/signup", async (req, res) => {
     return res.status(400).json(validator.error.flatten());
   }
 
-  const userExists = await Admin.findOne({ username: username }).exec();
+  const userExists = await Admin.findOne({ username: username });
   if (userExists) {
     return res.status(400).json({ message: "User already exists" });
   }

@@ -5,7 +5,7 @@ const { Admin } = require("../db/index");
 async function adminMiddleware(req, res, next) {
   const { username, password } = req.headers;
 
-  const user = await Admin.findOne({ username: username }).exec();
+  const user = await Admin.findOne({ username: username });
   if (!user) {
     return res.status(401).json({
       message: "Invalid credentials!",

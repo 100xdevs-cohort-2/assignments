@@ -8,7 +8,7 @@ async function userMiddleware(req, res, next) {
     const decoded = jwt.verify(authArr[1], process.env.JWT_PASSWORD);
 
     if (decoded && decoded.username) {
-      const user = await User.findOne({ username: decoded.username }).exec();
+      const user = await User.findOne({ username: decoded.username });
       if (user) {
         req.user = user;
         return next();

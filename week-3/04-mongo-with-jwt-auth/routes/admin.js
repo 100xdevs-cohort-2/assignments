@@ -16,7 +16,7 @@ router.post("/signup", async (req, res) => {
     return res.status(400).json(validator.error.flatten());
   }
 
-  const userExists = await Admin.findOne({ username: username }).exec();
+  const userExists = await Admin.findOne({ username: username });
   if (userExists) {
     return res.status(400).json({ message: "User already exists" });
   }
@@ -42,7 +42,7 @@ router.post("/signin", async (req, res) => {
     return res.status(400).json(validator.error.flatten());
   }
 
-  const user = await Admin.findOne({ username: username }).exec();
+  const user = await Admin.findOne({ username: username });
   if (!user) {
     return res.status(401).json({
       message: "Invalid credentials!",
