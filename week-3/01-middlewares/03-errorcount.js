@@ -23,4 +23,12 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+
+//global catches
+app.use(function(err,req,res,next){
+  res.status(404).send();
+  errorCount++;
+  return;
+})
+
 module.exports = app;

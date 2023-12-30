@@ -4,6 +4,25 @@
 */
 
 function isPalindrome(str) {
+
+  str=str.toLowerCase();
+
+  let i=0;
+  let j=str.length;
+  while(i<j){
+    if((str[i]>='a' && str[i]<='z') && (str[j]>='a' && str[j]<='z') && str[i]!=str[j]){
+      return false;
+    }else if(!(str[i]>='a' && str[i]<='z')){
+      i++;
+      continue;
+    }else if(!(str[j]>='a' && str[j]<='z')){
+      j--;
+      continue;
+    }
+    i++;
+    j--;
+  }
+
   return true;
 }
 

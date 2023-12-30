@@ -41,9 +41,188 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const fs = require("fs");
   
   const app = express();
   
   app.use(bodyParser.json());
+
+
+  let todoNumber=1;
+
+  app.get("/todos",function(req,res){
+    fs.readFile("todos.json","utf-8",function(err,data){
+      if(err){
+        throw err;
+      }
+      let todoList = JSON.parse(data);
+      res.status(200).json(todoList);
+    })
+  })
+
+  app.get("/todos/:id",function(req,res){
+    const todoId = parseInt(req.params.id);
+
+    fs.readFile("todos.json","utf-8",function(err,data){
+      if(err){
+        throw err;
+      }
+      let todoList = JSON.parse(data);
+      todoList.forEach(function(item){
+        if(item.id==todoId){
+          return res.status(200).json(item);
+        }
+      })
+
+      return res.status(404).send();
+        
+      });
+  })
+
+
+  app.post("/todos",function(req,res){
+    const todoTitle = req.body.title;
+    const todoDesc = req.body.description;
+
+    let newTodo = {
+      id:todoNumber,
+      title:todoTitle,
+      description:todoDesc
+    }
+    todoNumber++;
+
+    fs.readFile("todos.json","utf-8",function(err,data){
+      let todoList = JSON.parse(data);
+      todoList.push(newTodo);
+      fs.writeFile("todos.json",JSON.stringify(todoList),function(err,data){
+        res.status(201).json({id:newTodo.id});
+      })
+    })
+  })
+
+
+  app.put("/todos/:id",function(req,res){
+    const todoId = parseInt(req.params.id);
+    const todoTitle = req.body.title;
+    const todoDesc = req.body.description;
+
+    fs.readFile("todos.json","utf-8",function(err,data){
+      if(err){
+        throw err;
+      }
+
+      let todoList = JSON.parse(data);
+      for(let i=0;i<todoList.length;i++){
+        if(todoList[i].id==todoId){
+          todoList[i].title=todoTitle;
+          todoList[i].description=todoDesc;
+          return res.json(todoList[i]);
+        }
+      }
+      res.send(404).send();
+    })
+  })
+
+  app.delete("/todos/:id",function(req,res){
+    const todoId = req.params.id;
+    fs.readFile("todos.json","utf-8",function(err,data){
+      if(err){
+        throw err;
+      }
+
+      let todoList = JSON.parse(data);
+      for(let i=0;i<todoList.length;i++){
+        if(todoList[i].id==todoId){
+          todoList.splice(i,1);
+          fs.writeFile("todos.json",JSON.stringify(todoList),function(err,data){
+            if(err){
+              throw err;
+            }
+          })
+          return res.status(200).send("Todo deleted successfully");
+        }
+      }
+
+      res.status(404).send("Todo not found");
+
+    })
+  })
+  // app.get("/todos",function(req,res){
+  //   res.status(200).json(todoList);
+  // })
+
+  // app.get("/todos/:id",function(req,res){
+  //   const todoId = parseInt(req.params.id);
+
+  //   todoList.forEach(function(item){
+  //     if(item.id==todoId){
+  //       return res.status(200).json(item);
+  //     }
+  //   })
+
+  //   res.status(404).json({error:"Todo not found"});
+  // })
+
+  // app.post("/todos",function(req,res){
+  //   const todoTitle = req.body.title;
+  //   const todoDesc = req.body.description;
+
+  //   let newTodo = {
+  //     id:todoNumber,
+  //     title:todoTitle,
+  //     description:todoDesc
+  //   }
+  //   todoNumber++;
+
+  //   todoList.push(newTodo);
+  //   res.status(201).json({id:newTodo.id});
+
+  // })
+
+  // app.put("/todos/:id",function(req,res){
+  //   const todoId = parseInt(req.params.id);
+  //   const todoTitle = req.body.title;
+  //   const todoDesc = req.body.description;
+
+  //   for(let i=0;i<todoList.length;i++){
+  //     if(todoList[i].id==todoId){
+  //       if(todoTitle!=undefined){
+  //         todoList[i].title=todoTitle;
+  //       }
+  //       if(todoDesc!=undefined){
+  //         todoList[i].description=todoDesc;
+
+  //       }
+        
+  //       return res.json(todoList[i]);
+  //     }
+  //   }
+
+  //   res.status(404).send();
+  // })
+
+  // app.delete("/todos/:id",function(req,res){
+  //   const todoId = parseInt(req.params.id);
+
+  //   for(let i=0;i<todoList.length;i++){
+  //     if(todoList[i].id==todoId){
+  //       todoList.splice(i,1);
+  //       return res.status(200).send("Todo deleted successfully");
+  //     }
+  //   }
+
+  //   res.status(404).send("Todo not found");
+  // })
+
+  app.all("*",function(req,res){
+    res.status(404).send("Route not found");
+  })
+
+
+  
+
+
+
+
   
   module.exports = app;
