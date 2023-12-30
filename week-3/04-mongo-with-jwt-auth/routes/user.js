@@ -32,29 +32,11 @@ router.get('/users/courses', userMiddleware, async (req, res) => {
     }
 });
 
-router.post('/users/courses/:courseId', userMiddleware, async (req, res) => {
-    const { courseId } = req.params;
-
-    try {
-        const course = await Course.findById(courseId);
-        if (!course) {
-            return res.status(404).json({ error: 'Course not found' });
-        }
-
-        const user = await User.findById(req.user._id); // Assuming you have stored the user ID in req.user after authentication
-        user.purchasedCourses.push(course);
-        await user.save();
-
-        res.json({
-            message: 'Course purchased successfully',
-            courseId: course._id
-        });
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+    const username = req.username;
 });
 
-router.get('/users/purchasedCourses', userMiddleware, async (req, res) => {
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.user._id).populate('purchasedCourses');
         res.json({ purchasedCourses: user.purchasedCourses });
