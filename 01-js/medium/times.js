@@ -9,5 +9,21 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
-}
+    let start = Date.now();
+    let sum = 0;
+  
+    for (let i = 1; i <= n; i++) {
+      sum += i;
+    }
+  
+    let end = Date.now();
+  
+    console.log(end - start + " milliseconds");
+  
+    return sum;
+  }
+  
+  ans = calculateTime(1000000000);
+  
+  console.log(ans);
+  

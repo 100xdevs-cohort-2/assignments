@@ -4,7 +4,22 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+function sleep(seconds) {
+    let time = Date.now();
+    let now = Date.now();
+  
+    console.log(`sleeping for ${seconds}`);
+  
+    // do {
+    //   now = Date.now();
+    // } while((now - time) <= seconds * 1000);
+  
+    while((now - time) <= seconds * 1000) {
+      now = Date.now();
+    }
+  
+    console.log("resumed");
 }
-
-module.exports = sleep;
+  
+  
+sleep(5);
