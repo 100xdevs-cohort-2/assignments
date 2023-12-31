@@ -5,6 +5,6 @@ It should go up as time goes by in intervals of 1 second
 let counterValue = 0;
 function Counter() {
   console.log( ++counterValue);
+  setInterval(Counter, 1000);
 }
 
-setInterval(Counter, 1000);
