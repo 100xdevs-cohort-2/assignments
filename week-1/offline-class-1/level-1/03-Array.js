@@ -27,8 +27,8 @@ popExample([1, 2, 3]);
 function shiftExample(arr) {
   console.log("Original Array:", arr);
 
-  arr.shift();
-  console.log("After shift:", arr);
+  const shifted= arr.shift();
+  console.log("After shift:", arr, shifted);
 }
 shiftExample([1, 2, 3]);
 

@@ -12,6 +12,7 @@ describe('countVowels', () => {
         expect(countVowels('fly')).toBe(0);
         expect(countVowels('chatbot')).toBe(2);
     });
+    
 
     test('returns 0 for an empty string', () => {
         expect(countVowels('')).toBe(0);

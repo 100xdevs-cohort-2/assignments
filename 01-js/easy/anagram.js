@@ -5,7 +5,17 @@
 */
 
 function isAnagram(str1, str2) {
+  
+    let firstStr = str1.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().split('').sort().join('');
+    let secondStr = str2.replace(/[^a-zA-Z0-9]/g, '').toLowerCase().split('').sort().join('');
 
+    console.log( firstStr, secondStr);
+
+    return firstStr === secondStr;
+  
+  
 }
 
-module.exports = isAnagram;
+console.log(isAnagram("ab3   d", "ad!sb3"));
+
+//module.exports = isAnagram;
