@@ -40,10 +40,71 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const uuid = require("uuid");
   const bodyParser = require('body-parser');
   
   const app = express();
   
   app.use(bodyParser.json());
+
+
+  //id to todo map to fetch faster
+  let todoIndex = new Map();
+
+  app.get('/todos', (req, res) => {
+    res.status(200).json(Array.from(todoIndex.values()));
+  })
+
+  app.get('/todos/:id', (req, res) => {
+    const todoId = req.params.id;
+    if(todoIndex.has(todoId)) {
+      const todo = todoIndex.get(todoId);
+      res.status(200).json(todo);
+    } else {
+      res.status(404).send("Item not found!");
+    }
+  })
+
+  app.post('/todos', (req, res) => {
+    let todoBody = req.body;
+    const id = uuid.v4();
+    todoBody['id'] = id;
+    todoIndex.set(id, todoBody);
+    res.status(201).json({id:id});
+  })
+
+  app.put('/todos/:id', (req, res) => {
+    const todoId = req.params.id;
+    const todoData = req.body
+    if(todoIndex.has(todoId)) {
+      let currTodo = todoIndex.get(todoId);
+      
+      for(const key of Object.keys(todoData)) {
+        currTodo[key] = todoData[key];
+      }
+
+      todoIndex.set(todoId, currTodo);
+      res.status(200).json(currTodo);
+
+    } else {
+      res.status(400).send("Item not found!");
+    }
+  })
+
+  app.delete('/todos/:id', (req, res) => {
+    const todoId = req.params.id;
+    
+    if(todoIndex.has(todoId)) {
+      todoIndex.delete(todoId);
+      res.status(200).send("Deleted!")
+    } else {
+      res.status(404).send("Item not found!");
+    }
+  })
+
+  app.use('*', (req, res) => {
+    res.status(404).send("Route not found!");
+  })
+
   
   module.exports = app;
