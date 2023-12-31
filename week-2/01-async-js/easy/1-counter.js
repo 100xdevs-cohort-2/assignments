@@ -5,10 +5,10 @@
 
 let counter = 0;
 
-setInterval(()=>{
-    counter++
+setInterval(() => {
+  counter++;
 
-    console.log(counter);
-},1000)
+  console.log(counter);
+}, 1000);
 
 console.log(counter);
