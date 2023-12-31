@@ -3,7 +3,7 @@ const adminMiddleware = require("../middleware/admin");
 const router = Router();
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../config/config')
-const { Admin, User, Course } = require('../db')
+const { Admin, Course } = require('../db')
 
 // Admin Routes
 router.post('/signup', async (req, res) => {
@@ -24,11 +24,11 @@ router.post('/signin', (req, res) => {
     const username = req.body.username
     const password = req.body.password
 
-    const user = User.findOne({
+    const admin = Admin.findOne({
         username,
         password
     })
-    if (user) {
+    if (admin) {
         const token = jwt.sign({
             username
         }, JWT_SECRET)

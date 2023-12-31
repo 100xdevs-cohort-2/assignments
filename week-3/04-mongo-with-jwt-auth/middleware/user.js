@@ -9,8 +9,6 @@ function userMiddleware(req, res, next) {
     const jwtToken = words[1]
     const authenticated = jwt.verify(jwtToken, JWT_SECRET)
     if (authenticated.username) {
-        req.username = authenticated.username
-        req.password = "abcdef"
         next()
     } else {
         res.status(403).json({
