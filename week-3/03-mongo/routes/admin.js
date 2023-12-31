@@ -27,6 +27,9 @@ router.post("/signup", async (req, res) => {
 
 router.post("/courses", adminMiddleware, async (req, res) => {
   const { title, description, price, imageLink } = req.body;
+  if(!title || !description || !price || !imageLink){
+    return res.status(400).send({message:"All fields are required!"})
+  }
   try {
     const admin = await Admin.findById(req.admin._id);
     const course = await Course.create({
