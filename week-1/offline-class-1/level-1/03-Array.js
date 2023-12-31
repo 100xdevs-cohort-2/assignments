@@ -24,6 +24,7 @@ function popExample(arr) {
 popExample([1, 2, 3]);
 
 // shift()
+// it is used to pop element from the starting of array.
 function shiftExample(arr) {
   console.log("Original Array:", arr);
 
@@ -33,6 +34,7 @@ function shiftExample(arr) {
 shiftExample([1, 2, 3]);
 
 // unshift()
+// it is used to push element in the starting of array.
 function unshiftExample(arr, element) {
   console.log("Original Array:", arr);
 

@@ -16,6 +16,45 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(number) {
+    this.result += number;
+  }
+
+  subtract(number) {
+    this.result -= number;
+  }
+
+  divide(number) {
+    if (number === 0) {
+      throw new Error("Cannot divide by zero!!!");
+    }
+    this.result /= number;
+  }
+
+  multiply(number) {
+    this.result *= number;
+  }
+
+  clear(number) {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    let res = eval(expression);
+    if (res === Infinity) {
+      throw new Error("Giving Infinity!!");
+    }
+    this.result = res;
+  }
+}
 
 module.exports = Calculator;
