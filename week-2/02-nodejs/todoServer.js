@@ -40,10 +40,16 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const fs = require('fs/promises');
   const bodyParser = require('body-parser');
   
   const app = express();
-  
+  const PORT = 3000;
+
   app.use(bodyParser.json());
+
   
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  })
   module.exports = app;
