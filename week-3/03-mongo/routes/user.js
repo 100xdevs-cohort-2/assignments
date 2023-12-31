@@ -1,22 +1,60 @@
 const { Router } = require("express");
-const router = Router();
+const { Course, User } = require("../db/index");
 const userMiddleware = require("../middleware/user");
+const { userSchema } = require("../schema");
 
-// User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
+const userRouter = Router();
+
+userRouter.post("/signup", async (req, res) => {
+  const { username, password } = req.body;
+
+  // Validate request body data.
+  const validatedData = userSchema.safeParse({ username: username, password: password });
+  if (!validatedData.success) {
+    return res.status(400).json(validatedData.error.format());
+  }
+
+  // Check if user with the given username already exists in the database.
+  const user = await User.findOne({ username: username });
+  if (user) {
+    return res.status(400).json({ error: "Username already in use" });
+  }
+
+  // Create new user in the database.
+  await User.create({ username: username, password: password });
+  res.status(201).json({ message: "User created successfully" });
 });
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
+userRouter.get("/courses", userMiddleware, async (req, res) => {
+  // Get all the courses and exclude "__v" feild from each course document.
+  const courses = await Course.find({}, "-__v");
+  res.json(courses);
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
+userRouter.post("/courses/:courseId", userMiddleware, async (req, res) => {
+  // Check if the course corresponding to the course id exists
+  const user = req.user;
+  const course = await Course.findById(req.params.courseId);
+  if (!course) {
+    return res.status(404).json({ error: "Course not found" });
+  }
+
+  // Check if course is already purchased.
+  if (user.purchasedCourses.includes(course.id)) {
+    return res.status(400).json({ error: "Course already purchased" });
+  }
+
+  // Add the course to the user's purchased courses.
+  user.purchasedCourses.push(course.id);
+  user.save();
+
+  res.status(200).json({ message: "Course purchased successfully" });
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
+userRouter.get("/purchasedCourses", userMiddleware, async (req, res) => {
+  // Get all the purchased courses of the user.
+  const user = await req.user.populate("purchasedCourses", "-__v");
+  res.json({ purchasedCourses: user.purchasedCourses });
 });
 
-module.exports = router
+module.exports = userRouter;
