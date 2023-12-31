@@ -12,9 +12,26 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
-setInterval(() => {
-    numberOfRequestsForUser = {};
+function ratelimitter(res, req, next){
+    const user = req.headers["user-id"]
+
+    const userRequest = numberOfRequestsForUser[user] ?? 0
+    if(userRequest >= 5){
+      return res.status(404).send(new Error("the error is occasional"))
+    }
+    else{
+      numberOfRequestsForUser[user] = userRequest + 1
+      next()
+    }
+}
+
+app.use(ratelimitter)
+
+setInterval(()=>{
+  numberOfRequestsForUser = {}
 }, 1000)
+
+
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
@@ -23,5 +40,9 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+app.use((err, req, res, next) =>{
+  res.status(404).send("error")
+})
 
 module.exports = app;
