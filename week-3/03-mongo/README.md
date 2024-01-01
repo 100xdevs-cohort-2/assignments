@@ -24,7 +24,7 @@ You need to use mongodb to store all the data persistently.
   Output: { message: 'Admin created successfully' }
 - POST /admin/courses
   Description: Creates a new course.
-  Input: Headers: { 'username': 'username', 'password': 'password' }, Body: { title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com' }
+  Input: Headers: { 'username': 'username', 'password': 'password' }, Body: { title: 'course title', description: 'course description', price: 100, imagLinke: 'https://linktoimage.com' }
   Output: { message: 'Course created successfully', courseId: "new course id" }
 - GET /admin/courses
   Description: Returns all the courses.
