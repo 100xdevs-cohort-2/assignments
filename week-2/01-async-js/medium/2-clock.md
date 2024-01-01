@@ -6,3 +6,34 @@ Can you make it so that it updates every second, and shows time in the following
  - HH:MM::SS (Eg. 13:45:23)
 
  - HH:MM::SS AM/PM (Eg 01:45:23 PM)
+
+function updateClock() {
+    const now = new Date();
+
+    const options24Hour = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'IST' 
+    };
+
+    const options12Hour = {
+        hour12: true,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'IST'
+    };
+
+    const time24Hour = now.toLocaleTimeString('en-IN', options24Hour);
+    const time12Hour = now.toLocaleTimeString('en-IN', options12Hour);
+
+    console.clear(); // Clear console for better visibility (you may remove this line if you prefer)
+    console.log(`Current Time (24-hour format): ${time24Hour}`);
+    console.log(`Current Time (12-hour format): ${time12Hour}`);
+}
+
+updateClock();// Initial call to start the clock
+
+
+setInterval(updateClock, 1000); // Update the clock every second using setInterval

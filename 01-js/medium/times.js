@@ -8,6 +8,34 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
-function calculateTime(n) {
-    return 0.01;
+function calculateTime() {
+    const start=1;
+    const end1=100,end2=100000,end3=1000000000;
+    let st= Date.now();
+    let totalTime=0;
+    Sum(start,end1);
+    let res=Date.now()-st;
+    totalTime+=res;
+    console.log("Time taken for calculation sum using Sum from 1-100: "+res/1000+"'s");
+    st=Date.now();
+    Sum(start,end2);
+    res=Date.now()-st;
+    totalTime+=res;
+    console.log("Time taken for calculation sum using Sum from 1-100000: "+res/1000+"'s");
+    st=Date.now();
+    Sum(start,end3);
+    res=Date.now()-st;
+    totalTime+=res;
+    console.log("Time taken for calculation sum using Sum from 1-1000000000: "+res/1000+"'s");
+    return totalTime;
 }
+function Sum(start,end)
+{
+    let sum=0;
+    for(let i=start;i<=end;i++)
+    {
+        sum+=i;
+    }
+    return sum;
+}
+console.log("Total time :"+ calculateTime()/1000+"'s");
