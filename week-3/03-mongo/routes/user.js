@@ -66,6 +66,9 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
     }
     user.purchasedCourses.push(courseId);
     await user.save();
+    // await User.updateOne({username:username},{
+    //     $push: {purchasedCourses:courseId}
+    // });
     res
       .status(200)
       .send({
