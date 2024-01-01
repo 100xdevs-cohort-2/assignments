@@ -9,5 +9,16 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const startTime = new Date().getTime();
+
+    let sum = 0;
+    for (let i = 1; i <= n; i++) {
+        sum += i;
+    }
+    const endTime = new Date().getTime();
+
+    return ((endTime - startTime) / 1000);
 }
+
+// console.log(calculateTime(98_00_00_000));
+// it was under 1 second for 9.8 Billion and 
