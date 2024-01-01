@@ -37,22 +37,10 @@ router.post("/courses", adminMiddleware, async (req, res) => {
   });
 });
 
-router.get("/courses", adminMiddleware, (req, res) => {
-  // Implement fetching all courses logic
-  //   Description: Returns all the courses.
-  //   Input: Headers: { 'username': 'username', 'password': 'password' }
-  //   Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+router.get("/courses", adminMiddleware, async (req, res) => {
+  const courseResponse = await Course.find({});
   res.json({
-    courses: [
-      {
-        id: 1,
-        title: "course title",
-        description: "course description",
-        price: 100,
-        imageLink: "https://linktoimage.com",
-        published: true,
-      },
-    ],
+    course: courseResponse,
   });
 });
 
