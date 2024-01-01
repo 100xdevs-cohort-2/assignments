@@ -8,8 +8,17 @@
   },
   "keywords": [],
   "author": "",
+  "scripts": {
+    "release": "standard-version",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "license": "ISC",
   "dependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "standard-version": "^9.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
