@@ -9,8 +9,39 @@
 
   Once you've implemented the logic, test your code by running
 */
-
 class Todo {
+   todo = [];
+  
+  add(tasks)
+  {
+    this.todo.push(tasks);
+  }
+  remove(index)
+  {
+    if(index < this.todo.length)
+     {
+      this.todo.splice(index , 1);
+    }
+  }
+  update(index , newtasks)
+  {
+    if(index < this.todo.length)
+     {
+    this.todo[index] = newtasks;
+     }
+  }
+  getAll()
+  {
+    return this.todo;
+  }
+  get(indexOfTodo){
+    if(indexOfTodo >= this.todo.length) return null;
+    return this.todo[indexOfTodo];
+  }
+  clear()
+  {
+    this.todo=  []
+  }
 
 }
 

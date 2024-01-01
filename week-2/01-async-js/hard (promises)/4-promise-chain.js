@@ -5,20 +5,46 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function wait1(t) {
+const { re } = require("mathjs");
 
+function wait1(t) {
+    let p = new Promise(function(resolve , reject){
+        setTimeout(function(){
+            resolve();
+        } , t*1000);
+    })
+    return p;
 }
 
 function wait2(t) {
-
+    let p = new Promise(function(resolve , reject){
+        setTimeout(function(){
+            resolve();
+        } , t*1000);
+    })
+    return p;
 }
 
 function wait3(t) {
-
+    let p = new Promise(function(resolve , reject){
+        setTimeout(function(){
+            resolve();
+        } , t*1000);
+    })
+    return p;
 }
 
-function calculateTime(t1, t2, t3) {
+ async function calculateTime(t1, t2, t3) {
 
+    const start =  Date.now();
+
+    return wait1(t1)
+        .then(() => wait2(t2))
+        .then(() => wait3(t3))
+        .then(() => {
+            const totalTime =  Date.now() - start;
+            return totalTime;
+        });
 }
 
 module.exports = calculateTime;
