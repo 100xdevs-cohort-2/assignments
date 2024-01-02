@@ -5,6 +5,7 @@ describe("wait function", () => {
     const start = Date.now();
     return expect(wait(1))
       .resolves.toBeUndefined() // Wait for 1 second
+                                // Ensures the promise resolves with undefined
       .then(() => {
         const end = Date.now();
         const difference = end - start;
