@@ -38,12 +38,323 @@
     - For any other route not defined in the server return 404
 
   Testing the server - run `npm run test-todoServer` command in terminal
- */
-  const express = require('express');
-  const bodyParser = require('body-parser');
   
+*/
+
+
+
+
+
+
+
+  
+// const express = require('express');
+// const bodyParser = require('body-parser');
+
+// const app = express();
+
+// app.use(bodyParser.json());
+
+// let todos = [];
+
+// app.get('/todos', (req, res) => {
+//   res.json(todos);
+// });
+
+// app.get('/todos/:id', (req, res) => {
+//   const todo = todos.find(t => t.id === parseInt(req.params.id));
+//   if (!todo) {
+//     res.status(404).send();
+//   } else {
+//     res.json(todo);
+//   }
+// });
+
+// app.post('/todos', (req, res) => {
+//   const newTodo = {
+//     id: Math.floor(Math.random() * 1000000), 
+//     title: req.body.title,
+//     description: req.body.description
+//   };
+//   todos.push(newTodo);
+//   res.status(201).json(newTodo);
+// });
+
+// app.put('/todos/:id', (req, res) => {
+//   const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+//   if (todoIndex === -1) {
+//     res.status(404).send();
+//   } else {
+//     todos[todoIndex].title = req.body.title;
+//     todos[todoIndex].description = req.body.description;
+//     res.json(todos[todoIndex]);
+//   }
+// });
+
+// app.delete('/todos/:id', (req, res) => {
+//   const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+//   if (todoIndex === -1) {
+//     res.status(404).send();
+//   } else {
+//     todos.splice(todoIndex, 1);
+//     res.status(200).send();
+//   }
+  
+// });
+
+// // for all other routes, return 404
+// app.use((req, res, next) => {
+//   res.status(404).send();
+// });
+
+// module.exports = app;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  const express = require('express');
+  const fs = require('fs');
+  const bodyParser = require('body-parser')
   const app = express();
   
+  app.use(express.json());
   app.use(bodyParser.json());
   
+  
+  // To get all data 
+  app.get('/todos', async(req, res) => {
+      await fs.readFile('todos.json','utf8' ,(err, data)=>{
+        if (err) throw err;
+        res.json(JSON.parse(data));
+      })
+  });
+  
+  // To get a particular data given a ID
+  app.get('/todos/:id',(req, res)=>{
+      const id = parseInt(req.params.id);
+      fs.readFile('todos.json', 'utf8',(err, data)=>{
+        if (err) throw err;
+        const todoIndex = todos.findIndex(t => t.id === id);
+        if (todoIndex === -1) {
+          res.status(404).send();
+        } 
+        else{
+          data = JSON.parse(data);
+          res.json(data[todoIndex]);
+        }
+      })
+  })
+  
+  // To add todo to our array
+  app.post('/todos', async(req, res)=>{
+      const description = req.body.description;
+      const title = req.body.title;
+      const todo = {
+          id: Math.floor(Math.random()*1000),
+          title: title,
+          description:description
+      }
+  
+      await fs.readFile('todos.json', 'utf8',(err, data)=>{
+        if (err) throw err;
+          data = JSON.parse(data);
+          data.push(todo);
+          fs.writeFile('todos.json',JSON.stringify(data) ,(err)=>{
+            if (err) throw err;
+            res.status(201).json(newTodo);
+          })
+      })
+      
+  })
+  
+  // To delete todo from our array
+  app.delete('/todos/:id', async(req, res)=>{
+      const id = parseInt(req.params.id);
+      await fs.readFile('todos.json', 'utf8',(err,data)=>{
+        if (err) throw err;
+          data = JSON.parse(data);
+          const todoIndex = todos.findIndex(t => t.id === id);
+          if (todoIndex === -1) {
+            res.status(404).send();
+          } 
+          else{
+            data = data.filter(todo => todo.id!==id);
+            fs.writeFile('todos.json',JSON.stringify(data),(err)=>{
+              if (err) throw err;
+              res.status(200).send();
+            })
+          }
+      })
+      
+  })
+  
+  // To update todo in our array
+  app.put('/todos/:id',async(req, res)=>{
+    const id = parseInt(req.params.id);
+    const description = req.body.description;
+    const title = req.body.title;
+    // console.log(description);
+      await fs.readFile('todos.json', 'utf8', (err, data)=>{
+        if (err) throw err;
+          data = JSON.parse(data);
+          const todoIndex = todos.findIndex(t => t.id === id);
+          if (todoIndex === -1) {
+            res.status(404).send();
+          } 
+          else{
+            data[todoIndex].description = description;
+            data[todoIndex].title = title;
+
+            // data = data.map(todo => todo.id === id? updateData : todo);
+            // console.log(data);
+            fs.writeFile('todos.json', JSON.stringify(data),(err)=>{
+              if (err) throw err;
+              res.status(200).json(data);
+            })
+          }
+      })
+  })
+  
+  // for all other routes, return 404
+  app.use((req, res, next) => {
+    res.status(404).send();
+  });
+  
   module.exports = app;
+
+  // app.listen(2000, (req,res)=>{
+  //   console.log('Server running on port 2000');
+  // });
+  
+  
+  
+  
+  
+  
+  
+  
+
+//   const express = require('express');
+// const bodyParser = require('body-parser');
+// const fs = require("fs");
+
+// const app = express();
+
+// app.use(bodyParser.json());
+
+// function findIndex(arr, id) {
+//   for (let i = 0; i < arr.length; i++) {
+//     if (arr[i].id === id) return i;
+//   }
+//   return -1;
+// }
+
+// function removeAtIndex(arr, index) {
+//   let newArray = [];
+//   for (let i = 0; i < arr.length; i++) {
+//     if (i !== index) newArray.push(arr[i]);
+//   }
+//   return newArray;
+// }
+
+// app.get('/todos', (req, res) => {
+//   fs.readFile("todos.json", "utf8", function(err, data) {
+//     if (err) throw err;
+//     res.json(JSON.parse(data));
+//   });
+// });
+
+// app.get('/todos/:id', (req, res) => {
+//   fs.readFile("todos.json", "utf8", function(err, data) {
+//     if (err) throw err;
+//     const todos = JSON.parse(data);
+//     const todoIndex = findIndex(todos, parseInt(req.params.id));
+//     if (todoIndex === -1) {
+//       res.status(404).send();
+//     } else {
+//       res.json(todos[todoIndex]);
+//     }
+//   });
+// });
+
+// app.post('/todos', function(req, res) {
+//   const newTodo = {
+//     id: Math.floor(Math.random() * 1000000), // unique random id
+//     title: req.body.title,
+//     description: req.body.description
+//   };
+//   fs.readFile("todos.json", "utf8", (err, data) => {
+//     if (err) throw err;
+//     const todos = JSON.parse(data);
+//     todos.push(newTodo);
+//     fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+//       if (err) throw err;
+//       res.status(201).json(newTodo);
+//     });
+//   });
+// });
+
+// app.put('/todos/:id', function(req, res) {
+//   fs.readFile("todos.json", "utf8", (err, data) => {
+//     if (err) throw err;
+//     const todos = JSON.parse(data);
+//     const todoIndex = findIndex(todos, parseInt(req.params.id));
+//     if (todoIndex === -1) {
+//       res.status(404).send();
+//     } else {
+//       const updatedTodo = {
+//         id: todos[todoIndex].id,
+//         title: req.body.title,
+//         description: req.body.description
+//       };
+//       todos[todoIndex] = updatedTodo;
+//       fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+//         if (err) throw err;
+//         res.status(200).json(updatedTodo);
+//       });
+//     }
+//   });
+// });
+
+// app.delete('/todos/:id', function(req, res) {
+
+//   fs.readFile("todos.json", "utf8", (err, data) => {
+//     if (err) throw err;
+//     let todos = JSON.parse(data);
+//     const todoIndex = findIndex(todos, parseInt(req.params.id));
+//     if (todoIndex === -1) {
+//       res.status(404).send();
+//     } else {
+//       todos = removeAtIndex(todos, todoIndex);
+//       fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+//         if (err) throw err;
+//         res.status(200).send();
+//       });
+//     }
+//   });
+// });
+
+// // for all other routes, return 404
+// app.use((req, res, next) => {
+//   res.status(404).send();
+// });
+
+// module.exports = app;
