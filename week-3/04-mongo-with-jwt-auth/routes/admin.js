@@ -5,24 +5,29 @@ const router = Router();
 const app = express();
 
 // Admin Routes
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   // Implement admin signup logic
-  Admin.create({
-    userName: req.headers.username,
-    passeord: req.headers.password,
-  });
-  res.json("User created successfully");
+  const admin = await Admin.find(req.headers.username);
+  if (admin) {
+    throw new Error("User already exists");
+  } else {
+    Admin.create({
+      userName: req.headers.username,
+      password: req.headers.password,
+    });
+    res.json("User created successfully");
+  }
 });
 
-router.post("/signin", (req, res) => {
+router.post("/signin", async (req, res) => {
   // Implement admin signin logic
   let details = {
     userName: req.headers.username,
     password: req.headers.password,
   };
 
-  const token = jwt.sign({ 'details': details }, "123456");
-  res.json({ token: token });
+  const token = await jwt.sign({ details: details }, "123456");
+  res.json({ token: `Bearer ${token}` });
 });
 
 router.post("/courses", adminMiddleware, (req, res) => {
@@ -33,9 +38,13 @@ router.post("/courses", adminMiddleware, (req, res) => {
     price: req.Admin.price,
     imageLink: req.body.imageLink,
   });
-  Course.findOne({ title: req.body.title }).then((course) => {
-    res.json({ message: "course Created Successfully", courseId: course.id });
-  });
+  try {
+    Course.findOne({ title: req.body.title }).then((course) => {
+      res.json({ message: "course Created Successfully", courseId: course.id });
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
 });
 
 router.get("/courses", adminMiddleware, (req, res) => {
