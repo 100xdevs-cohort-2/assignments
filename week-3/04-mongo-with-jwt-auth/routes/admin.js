@@ -1,55 +1,44 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const { Course } = require("../../03-mongo/db");
 const router = Router();
-const app = express();
+const { Admin, Course } = require("../db/index");
+const jwt = require("jsonwebtoken");
+const jwtPassword = "secret";
 
 // Admin Routes
 router.post("/signup", async (req, res) => {
   // Implement admin signup logic
-  const admin = await Admin.find(req.headers.username);
-  if (admin) {
-    throw new Error("User already exists");
-  } else {
-    Admin.create({
-      userName: req.headers.username,
-      password: req.headers.password,
-    });
-    res.json("User created successfully");
-  }
+  const { username, password } = req.body;
+
+  const newAdmin = new Admin({ username, password });
+
+  await newAdmin.save();
+
+  let token = jwt.sign({ username }, jwtPassword, { expiresIn: "1h" });
+
+  res.send(token);
 });
 
-router.post("/signin", async (req, res) => {
-  // Implement admin signin logic
-  let details = {
-    userName: req.headers.username,
-    password: req.headers.password,
-  };
-
-  const token = await jwt.sign({ details: details }, "123456");
-  res.json({ token: `Bearer ${token}` });
-});
-
-router.post("/courses", adminMiddleware, (req, res) => {
+router.post("/courses", adminMiddleware, async (req, res) => {
   // Implement course creation logic
-  Course.create({
-    title: req.body.title,
-    description: req.body.description,
-    price: req.Admin.price,
-    imageLink: req.body.imageLink,
+  const { id, title, description, price, image } = req.body;
+
+  await Course.create({
+    id: id,
+    title: title,
+    description: description,
+    price: price,
+    image: image,
   });
-  try {
-    Course.findOne({ title: req.body.title }).then((course) => {
-      res.json({ message: "course Created Successfully", courseId: course.id });
-    });
-  } catch (err) {
-    throw new Error(err);
-  }
+
+  res.status(201).json({ msg: "course added successfully" });
 });
 
 router.get("/courses", adminMiddleware, (req, res) => {
   // Implement fetching all courses logic
-  Course.find().then((courses) => res.json(courses));
+  Course.find().then((courses) => {
+    res.send(courses);
+  });
 });
 
 module.exports = router;

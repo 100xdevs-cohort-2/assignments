@@ -1,40 +1,65 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { User } = require("../../03-mongo/db");
+const { User, Course } = require("../db/index");
+const jwt = require("jsonwebtoken");
+const jwtPassword = "secret";
 
 // User Routes
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   // Implement user signup logic
-  User.create({
-    userName: req.headers.username,
-    passeord: req.headers.password,
-  });
-  res.json("User created successfully");
-});
+  const { username, password } = req.body;
 
-router.post("/signin", (req, res) => {
-  // Implement admin signup logic
-  let details = {
-    userName: req.headers.username,
-    password: req.headers.password,
-  };
+  const newUser = new User({ username, password });
 
-  const token = jwt.sign({ details: details }, "123456");
-  res.json({ token: token });
+  await newUser.save();
+  let token = jwt.sign({ username }, jwtPassword, { expiresIn: "1h" });
+
+  res.send(token);
 });
 
 router.get("/courses", (req, res) => {
   // Implement listing all courses logic
-  Course.find().then((courses) => res.json(courses));
+  Course.find().then((courses) => {
+    res.send(courses).status(201);
+  });
 });
 
 router.post("/courses/:courseId", userMiddleware, (req, res) => {
   // Implement course purchase logic
+  const id = req.params.courseId;
+
+  const { username, password } = req.body;
+
+  Course.findOne({ id: id }).then(async (course) => {
+    //storing the purchased course in the user database
+
+    const updatedUser = await User.findOneAndUpdate(
+      { username: username, password: password },
+      {
+        purchasedCourses: {
+          id: id,
+          title: course.title,
+          description: course.description,
+          price: course.price,
+          image: course.image,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+
+    res.send(updatedUser).status(201);
+  });
 });
 
-router.get("/purchasedCourses", userMiddleware, (req, res) => {
+router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
+
+  const { username, password } = req.body;
+  const user = await User.findOne({ username: username, password: password });
+  res.send(user.purchasedCourses);
 });
 
 module.exports = router;
