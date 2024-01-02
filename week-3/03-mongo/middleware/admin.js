@@ -1,3 +1,5 @@
+const { Admin } = require("../db");
+
 // Middleware for handling auth
 async function adminMiddleware(req, res, next) {
   // Implement admin auth logic

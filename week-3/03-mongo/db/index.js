@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://rgoyal4122:7699865455@Rg@cluster0.rbdyknl.mongodb.net/"
+  "mongodb+srv://rgoyal4122:7699865455%40Rg@cluster0.rbdyknl.mongodb.net/courseSelling-1"
 );
 
 // Define schemas
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
   password : String,
   purchasedCourses : [{
     type : mongoose.Schema.Types.ObjectId,
-    ref : Course,
+    ref : 'Course',
   }]
 });
 

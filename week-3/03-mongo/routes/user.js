@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
-const { Course } = require("../db");
+const { User,Course } = require("../db");
 const { mongo, default: mongoose } = require("mongoose");
 
 // User Routes
@@ -44,5 +44,6 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
       $in: user.purchaseCourses,
     },
   });
+  res.json(courses);
 });
 module.exports = router;
