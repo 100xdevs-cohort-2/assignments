@@ -32,19 +32,19 @@ You need to use mongodb to store all the data persistently.
   Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
 
 ### User routes
-- POST /users/signup
+- POST /user/signup
   Description: Creates a new user account.
   Input: { username: 'user', password: 'pass' }
   Output: { message: 'User created successfully' }
-- GET /users/courses
+- GET /user/courses
   Description: Lists all the courses.
   Input: Headers: { 'username': 'username', 'password': 'password' }
   Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
-- POST /users/courses/:courseId
+- POST /user/courses/:courseId
   Description: Purchases a course. courseId in the URL path should be replaced with the ID of the course to be purchased.
   Input: Headers: { 'username': 'username', 'password': 'password' }
   Output: { message: 'Course purchased successfully' }
-- GET /users/purchasedCourses
+- GET /user/purchasedCourses
   Description: Lists all the courses purchased by the user.
   Input: Headers: { 'username': 'username', 'password': 'password' }
   Output: { purchasedCourses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
