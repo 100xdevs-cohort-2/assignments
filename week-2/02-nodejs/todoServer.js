@@ -45,5 +45,60 @@
   const app = express();
   
   app.use(bodyParser.json());
-  
+
+  idExist=(id)=>{
+    const todo = todos.find((todo) => todo.id === id);
+    return todo;
+  }
+
+  let todos = [];
+
+  app.get('/todos', (req, res)=>{
+    res.json(todos);
+  });
+  app.get('/todos/:id', (req, res)=>{
+    const id = parseInt(req.params.id);
+    const todo = idExist(id);
+    if(!todo){
+      res.status(404).send("Not Found");
+    }
+    res.json(todo);
+  });
+
+  app.post('/todos', (req, res)=>{
+    const newTodo = {
+      id : Math.floor(Math.random() * 100000),
+      title: req.body.title,
+      completed: false,
+      description: req.body.description
+    }
+    todos.push(newTodo);
+    res.status(201).json(newTodo);
+  });
+
+  app.put('/todos/:id', (req, res) => {
+    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      todos[todoIndex].title = req.body.title;
+      todos[todoIndex].description = req.body.description;
+      res.json(todos[todoIndex]);
+    }
+  });
+
+  app.delete('/todos/:id', (req, res)=>{
+    const id = parseInt(req.params.id);
+    const todo = idExist(id);
+    if(!todo){
+      res.status(404).send("Not Found");
+    }
+    todos = todos.filter((todo) => todo.id!== id);
+    res.status(200).send(); 
+  });
+
+  app.all('*', (req, res)=>{
+    res.status(404).send();
+  })
+
   module.exports = app;

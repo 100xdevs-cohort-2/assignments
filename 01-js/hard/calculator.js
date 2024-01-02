@@ -16,6 +16,42 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(){
+    this.result = 0;  
+  }
+  //methods Initialize
+  calculate(str){
+    if(str == /[a-zA-Z]/g){
+      return console.error();
+    }
+    const expression = str.replace(/\s/g,'');
+    if(eval(expression) == Infinity){
+      throw new Error('Division by zero error')
+    }
+    this.result = eval(expression);
+  }
+  add(number){
+    this.result += number;
+  }
+  subtract(number){
+    this.result -= number;
+  }
+  multiply(number){
+    this.result *= number;
+  }
+  divide(number){
+    if(number === 0){
+      return error;
+    }
+    this.result /= number;
+  }
+  clear(){
+    this.result = 0;
+  }
+  getResult(){
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
