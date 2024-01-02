@@ -8,7 +8,7 @@ You have to fill in the following functions -
 These 4 functions comprise of what it means to create a library like React.
 The goal is the following - 
 1. Any time the updateState function is called with a new state, the updateState function calculates the diff between newTodos and oldTodos and call `addTodoToDom`, `removeTodoFromDom` or `updateState` based on the calculated diff.
-2. They id of a todo uniquely identifies it. If the title of a todo with the same id changes in two iterations, updateTodoInDom should be called for it.
+2. The id of a todo uniquely identifies it. If the title of a todo with the same id changes in two iterations, updateTodoInDom should be called for it.
 3. The structure of the state variable looks something like this - 
 ```js
     const todos = [{
