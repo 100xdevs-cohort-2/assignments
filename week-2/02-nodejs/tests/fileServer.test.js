@@ -1,7 +1,7 @@
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
-const server = require('../fileServer');
+const server = require('../solutions/fileServer.solution');
 
 describe('API Endpoints', () => {
   let globalServer;
