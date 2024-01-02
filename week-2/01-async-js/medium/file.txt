@@ -1,2 +1,1 @@
-oldData : This       is      a      example     file     for      1-file-cleaner
-newData : This is a example file for 1-file-cleaner
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Feugiat vivamus at augue eget arcu. Sed risus ultricies tristique nulla aliquet.
