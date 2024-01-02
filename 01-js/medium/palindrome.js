@@ -4,7 +4,11 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  //We repalces special symboll or spaces with emty sring 
+  let newstr = str.replace(/[^a-zA-Z0-9]/g, "");
+  let reverseStr = newstr.split("").reverse().join("");
+  return newstr.toLowerCase()===reverseStr.toLowerCase();
 }
 
 module.exports = isPalindrome;
