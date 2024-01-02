@@ -1,0 +1,77 @@
+<!-- approach 2 now in this situationour data is coming from a backend server and we need to update the frontend -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo</title>
+    
+  </head>
+  <body>
+    <div>
+      <input type="text" name="title" id="title" placeholder="title" />
+      <br /><br />
+      <input
+        type="text"
+        name="description"
+        id="description"
+        placeholder="description"
+      />
+      <br /><br />
+      <!-- <button onclick="addTodo()" type="button">Add ToDo</button> -->
+    </div>
+    <div id="container"></div>
+
+    <script>
+        let globalId = 1;
+        function markAsDone(id) {
+          const todo = document.getElementById(id);
+          todo.children[2].innerHTML = "Done";
+        }
+        function createChild(title, description, id) {
+          const todo = document.createElement("div");
+          
+          const titleDiv = document.createElement("div");
+          titleDiv.innerHTML = title;
+          
+          const descriptionDiv = document.createElement("div");
+          descriptionDiv.innerHTML = description;
+          
+          const button = document.createElement("button");
+          button.innerHTML = "Mark as done";
+          button.setAttribute("onclick", `markAsDone(${id})`);
+          
+          todo.setAttribute("id", id);
+          todo.append(titleDiv, descriptionDiv, button);
+          return todo;
+        }
+
+        function updateDomAccToState(state) {
+            const parent = document.getElementById("container");
+            parent.innerHTML = "";
+            for(let i=0;i<state.length;i++){
+                const title = state[i].title;
+                const description = state[i].description;
+                const id = state[i].id;
+                parent.appendChild(createChild(title, description, id));
+            }
+        }
+
+        // fetching from actual server
+        window.setInterval(async function (){
+            try {
+                const res = await fetch("http://localhost:3000/gettodos");
+                const json = await res.json();
+                updateDomAccToState(json.todos);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }, 3000)
+
+  
+      //   difference between element.append() and element.appendChild()
+      //   both do same work but append can take more than one html element to append but appendChild can't
+      </script>
+  </body>
+</html>

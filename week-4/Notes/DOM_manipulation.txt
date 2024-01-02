@@ -1,0 +1,13 @@
+DOM Manipulation Basic Neccisity Stuffs
+
+document.createElement('div');
+document.appendChild('div');
+document.removeChild('div');
+document.replaceChild('div');
+
+element.setAttribute('class', 'my-class');
+element.getAttribute('class');  
+
+all the children of an element can be called similar to elements of a list.
+element.children[0]
+element.children[1]
