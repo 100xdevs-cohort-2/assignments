@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost:27017/100X")
+  .connect(process.env.dbUrl || "mongodb://localhost:27017/100X")
   .then(() => console.log("db connected successfully"));
 
 // Define schemas
