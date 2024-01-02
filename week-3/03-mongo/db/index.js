@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 //  const DB_url = require('../config.js').default;
 
-mongoose.connect("mongodb+srv://root:admin@cluster0.lz5uy4y.mongodb.net/");
+mongoose.connect("mongodb+srv://:cluster0.lz5uy4y.mongodb.net/");
 
 // mongoose.connect(DB_url)
 
