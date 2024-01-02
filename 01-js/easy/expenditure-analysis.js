@@ -14,7 +14,32 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let totalCategory1 = 0;
+  let totalCategory2 = 0;
+
+  transactions.foreach((transaction) => {
+    const { category, price } = transaction;
+
+    //Check category and update total accordingly
+    if(category === 'grocery'){
+      totalCategory1 += price;
+    } else if(category === 'stationary'){
+      totalCategory2 += price;
+    }
+  });
+
+  const result = [{
+    category: 'grocery' , totalamount : 'totalCategory1'},
+    {category : 'stationary', totalamount: totalCategory2 },
+    ];
+      
+  return result;
 }
+// Example Usage:
+const transactions = [
+  { itemName: 'milk', category: 'grocery', price: 25, timestamp: 10 },
+  { itemName: 'notebook', category: 'stationary', price: 40, timestamp: 10 },
+  // Add more transactions as needed
+];
 
 module.exports = calculateTotalSpentByCategory;
