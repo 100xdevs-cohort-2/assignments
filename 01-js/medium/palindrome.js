@@ -4,7 +4,15 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const newStr = str.toLowerCase().replace(/[ ,!?.]/g, '');
+  console.log(newStr)
+  let left = 0, right = newStr.length - 1
+  while (left < right) {
+    if (newStr[left] !== newStr[right]) return false
+    left++
+    right--
+  }
+  return true
 }
 
 module.exports = isPalindrome;
