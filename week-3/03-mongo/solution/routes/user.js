@@ -10,7 +10,7 @@ router.post('/signup', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     User.create({
-        username, 
+        username,
         password
     })
     res.json({
@@ -20,15 +20,15 @@ router.post('/signup', (req, res) => {
 
 router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
-     // Implement fetching all courses logic
-     const response = await Course.find({});
+    // Implement fetching all courses logic
+    const response = await Course.find({});
 
-     res.json({
-         courses: response
-     })
+    res.json({
+        courses: response
+    })
 });
 
-router.post('/courses/:courseId', userMiddleware, async(req, res) => {
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
     const courseId = req.params.courseId;
     const username = req.headers.username;
