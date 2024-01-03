@@ -43,7 +43,7 @@ app.get('/todos/:id', (req, res) => {
 
 app.post('/todos', function(req, res) {
   const newTodo = {
-    id: Math.floor(Math.random() * 1000000), // unique random id
+    id: Math.floor(Math.random() * 1000000),
     title: req.body.title,
     description: req.body.description
   };
