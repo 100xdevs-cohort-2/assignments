@@ -58,9 +58,9 @@ describe('API Endpoints', () => {
       fs.writeFileSync(testFilePath, 'Test file content');
     });
 
-    afterAll(() => {
-      fs.unlinkSync(testFilePath);
-    });
+    // afterAll(() => {
+    //   fs.unlinkSync(testFilePath);
+    // });
 
     test('should serve the requested file', async () => {
       const options = {
