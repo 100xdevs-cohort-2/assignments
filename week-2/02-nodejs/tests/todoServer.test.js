@@ -33,7 +33,6 @@ describe('Todo API', () => {
         'Content-Type': 'application/json',
       },
     };
-
     const req = http.request(`${baseUrl}/todos`, options, (res) => {
       expect(res.statusCode).toBe(201);
       let data = '';
@@ -49,7 +48,6 @@ describe('Todo API', () => {
         done();
       });
     });
-
     req.write(JSON.stringify(todo));
     req.end();
   });
