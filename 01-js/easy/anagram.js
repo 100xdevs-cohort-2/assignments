@@ -5,7 +5,8 @@
 */
 
 function isAnagram(str1, str2) {
-
+  // write code to check if two strings are anagrams or not
+  return str1.toLowerCase().split('').sort(). join('') === str2.toLowerCase().split('').sort().join('');
 }
 
 module.exports = isAnagram;

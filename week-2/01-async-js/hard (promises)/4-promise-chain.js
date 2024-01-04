@@ -5,19 +5,23 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function wait1(t) {
+const wait = require("./1-promisify-setTimeout");
 
-}
-
-function wait2(t) {
-
-}
-
-function wait3(t) {
-
+function waitn(n) {
+    return new Promise(function(resolve) {
+        setTimeout(() => resolve(), n * 1000);
+    });
 }
 
 function calculateTime(t1, t2, t3) {
+    let start = Date.now();
+    
+    return (
+        waitn(t1)
+        .then(() => waitn(t2))
+        .then(() => wait(t3))
+        .then(() => Date.now() - start)
+    );
 
 }
 
