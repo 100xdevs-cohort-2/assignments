@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const { Admin, User, Course } = require("../db");
+const { Admin, Course } = require("../db");
 const {JWT_SECRET} = require("../config");
 const router = Router();
 
@@ -27,7 +27,7 @@ router.post('/signin', async (req, res) => {
     const password = req.body.password;
     console.log(JWT_SECRET);
 
-    const user = await User.find({
+    const user = await Admin.find({
         username,
         password
     })
