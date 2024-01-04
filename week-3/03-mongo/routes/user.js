@@ -26,11 +26,7 @@ router.get('/courses', (req, res) => {
         .then((courses) => (res.status(200).send(courses)));
 });
 
-<<<<<<< HEAD
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-=======
 router.post('/courses/:courseId', userMiddleware, async (req, res) => {
->>>>>>> 1bcf07e (w3 assignment solved)
     // Implement course purchase logic
     let course = await Course.findOne({_id : req.params.courseId});
     
@@ -52,13 +48,6 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
 
 });
 
-<<<<<<< HEAD
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
-});
-
-module.exports = router
-=======
 router.get("/purchasedCourses", userMiddleware, async (req, res) => {
     try {
         const user = await User.findOne({
@@ -72,4 +61,3 @@ router.get("/purchasedCourses", userMiddleware, async (req, res) => {
     }
   });
 module.exports = router;
->>>>>>> 1bcf07e (w3 assignment solved)
