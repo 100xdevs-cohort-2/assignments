@@ -17,43 +17,43 @@
 */
 
 class Calculator {
-  constructor(){
-    this.todos = new Array();
+ constructor(){
+     this.result = 0;
   }
-  InvalidIndex(index){
-    if(index<0 || index >= this.todos.length) return true;
+  add(a) {
+		this.result += a;
+	}
 
-    return false;
-  }
+	subtract(a) {
+		this.result -= a;
+	}
 
-  add(todo){
-    this.todos.push(todo);
-  }
+	multiply(a) {
+		this.result *= a;
+	}
 
-  remove(indexOfTodo){
-    if(this.InvalidIndex(indexOfTodo)){
-      return;
-    }
-    this.todos.splice(indexOfTodo,1);
-  }
-  update(index, updatedTodo){
-    if(this.InvalidIndex(index)){
-      return;
-    }
-    this.todos[index] = updatedTodo;
-  }
-  getAll(){
-    return this.todos;
-  }
-  get(indexOfTodo){
-    if(this.InvalidIndex(indexOfTodo)){
-      return null;
-    }
-    return this.todos[indexOfTodo];
-  }
-  clear(){
-    this.todos = [];
-  }
+	divide(a) {
+		if (a == 0) {
+			throw new Error("invalid input 0");
+		}
+		this.result /= a;
+	}
+  clear() {
+		this.result = 0;
+	}
+
+	getResult() {
+		return this.result;
+	}
+
+  calculate(expression) {
+		const pattern = /^[0-9+\-*/().\s]+$/;
+		if (pattern.test(expression) && eval(expression) != Infinity) {
+			this.result=(eval(expression));
+		} else {
+			throw new Error("invalid expression");
+		}
+	}
 }
 
 module.exports = Calculator;
