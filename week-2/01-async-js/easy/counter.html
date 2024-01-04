@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter</title>
+
+</head>
+<body>
+  <p id="Counter">0</p> 
+  <script>
+    var counterElement = document.getElementById("Counter");
+    var count = 0;
+    setInterval(()=>{
+        count++;
+        counterElement.innerText = count ;
+    },1000)
+  </script> 
+</body>
+</html>
