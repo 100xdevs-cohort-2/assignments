@@ -18,6 +18,10 @@ function App(){
       //console.log(todoList);
   }
 
+  const onRemove = (e)=>{
+    setTodoList(todoList.filter((task, index) => e !== index)); //implicit return
+  }
+
   return (
     <>
       <input type="text" placeholder="title" ref={titleRef}></input>
@@ -32,6 +36,7 @@ function App(){
             <h4>Task {index + 1}</h4>
             <p>Title: {ele.title}</p>
             <p>Description: {ele.description}</p>
+            <button onClick={()=>onRemove(index)}>Remove task</button>
           </div>
           )
           )
