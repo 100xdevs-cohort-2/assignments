@@ -17,10 +17,10 @@
 */
 
 class Calculator {
- constructor(){
-     this.result = 0;
-  }
-  add(a) {
+        constructor(){
+           this.result = 0;
+        }
+        add(a) {
 		this.result += a;
 	}
 
@@ -38,7 +38,7 @@ class Calculator {
 		}
 		this.result /= a;
 	}
-  clear() {
+        clear() {
 		this.result = 0;
 	}
 
@@ -46,7 +46,7 @@ class Calculator {
 		return this.result;
 	}
 
-  calculate(expression) {
+        calculate(expression) {
 		const pattern = /^[0-9+\-*/().\s]+$/;
 		if (pattern.test(expression) && eval(expression) != Infinity) {
 			this.result=(eval(expression));
