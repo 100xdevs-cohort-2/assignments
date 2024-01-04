@@ -16,6 +16,39 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+app.use((req,res,next) => {
+  const userId = req.headers['user-id'];
+
+  if(userId){
+    const currentTime = Date.now();
+    const userRequests = numberOfRequestsForUser[userId];
+
+
+    if(!userRequests){
+      numberOfRequestsForUser[userId] = [{
+        timestamp: currentTime,
+        count: 1,
+      }]
+    }else {
+      numberOfRequestsForUser[userId] = userRequests.filter((request) => currentTime - request.timestamp < 1000);
+
+      if(numberOfRequestsForUser[userId].length >= 5){
+        return res.sendStatus(404);
+      }
+
+      numberOfRequestsForUser[userId].push({
+        timestamp: currentTime,
+        count: userRequests.length + 1 
+      });
+
+    
+
+    }
+  }
+
+  next();
+})
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
