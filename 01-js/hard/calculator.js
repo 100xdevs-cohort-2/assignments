@@ -16,6 +16,44 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(){
+    this.todos = new Array();
+  }
+  InvalidIndex(index){
+    if(index<0 || index >= this.todos.length) return true;
+
+    return false;
+  }
+
+  add(todo){
+    this.todos.push(todo);
+  }
+
+  remove(indexOfTodo){
+    if(this.InvalidIndex(indexOfTodo)){
+      return;
+    }
+    this.todos.splice(indexOfTodo,1);
+  }
+  update(index, updatedTodo){
+    if(this.InvalidIndex(index)){
+      return;
+    }
+    this.todos[index] = updatedTodo;
+  }
+  getAll(){
+    return this.todos;
+  }
+  get(indexOfTodo){
+    if(this.InvalidIndex(indexOfTodo)){
+      return null;
+    }
+    return this.todos[indexOfTodo];
+  }
+  clear(){
+    this.todos = [];
+  }
+}
 
 module.exports = Calculator;
