@@ -16,3 +16,10 @@ Feel free to start doing these in any order you like.
 #### Development Setup
 1. If you have Node.js locally, you should run these on your machine 
 2. If you don't, you can copy these over to repl.it and run it there. Tests wont be automated there so you will have to make use judgement to ensure if your code is correct
+
+
+
+<!-- After sync fork update local repository as well -->
+
+<!-- git remote add upstream <upstream_repository_url>
+     git merge upstream/master -->

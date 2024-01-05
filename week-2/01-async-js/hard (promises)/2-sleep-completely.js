@@ -4,7 +4,23 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+
+function sleep(milliseconds){
+    return new Promise((resolve)=>{
+        const endTime = Date.now() + milliseconds;
+        while (Date.now() < endTime) {
+        }
+        resolve();
+    })
 }
+
+
+// function sleep(milliseconds) {
+//     return new Promise((resolve)=>{
+//         setTimeout(()=>{
+//             resolve();
+//         }, milliseconds)
+//     })
+// }
 
 module.exports = sleep;
