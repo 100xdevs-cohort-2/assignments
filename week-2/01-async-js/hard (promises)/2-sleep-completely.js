@@ -5,6 +5,17 @@
  */
 
 function sleep(milliseconds) {
+    const d = new Promise((resolve, reject)=> {
+        var st = Date.now();
+
+        while(Date.now()-st < milliseconds){
+            //Js thread is just busy
+            //Loop will exit after the specified milisecond pass
+        }
+
+        resolve();
+    })
+    return d;
 }
 
 module.exports = sleep;
