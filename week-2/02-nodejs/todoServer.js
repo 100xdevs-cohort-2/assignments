@@ -1,5 +1,5 @@
 /**
-  You need to create an express HTTP server in Node.js which will handle the logic of a todo list app.
+ *   You need to create an express HTTP server in Node.js which will handle the logic of a todo list app.
   - Don't use any database, just store all the data in an array to store the todo list data (in-memory)
   - Hard todo: Try to save responses in files, so that even if u exit the app and run it again, the data remains (similar to databases)
 
@@ -38,12 +38,143 @@
     - For any other route not defined in the server return 404
 
   Testing the server - run `npm run test-todoServer` command in terminal
+
  */
+  const fs = require('fs');
   const express = require('express');
   const bodyParser = require('body-parser');
+  const { platform } = require('os');
+  const port = 3000;
   
   const app = express();
   
   app.use(bodyParser.json());
   
-  module.exports = app;
+  const getTodos = (path) => {
+    const p = new Promise((resolve, reject) => {
+      fs.readFile(path, 'utf-8', (err, data) => {
+        if (err) {
+          console.error('Error while parsing the data:' + err);
+          reject(err);
+          return;
+        }
+        const jsonData = JSON.parse(data);
+        resolve(jsonData);
+      });
+    });
+  
+    return p;
+  };
+  
+  const postTodo = (path, data) => {
+    const p = new Promise((resolve, reject) => {
+      fs.writeFile(path, data, (err) => {
+        if (err) {
+          console.error('Error while posting the data into the file:' + err);
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  
+    return p;
+  };
+  
+  // const postTodos = async (path,data) => {
+  //   fs.writeFile(path,data,(err)=>{
+  //     if(err){
+  //       console.error('Error while posting the data into the file' + err);
+  //     }
+  //   })
+  //   console.log('added the data');
+  // }
+  
+  
+  app.get('/todos', async (req, res) => {
+    try {
+      const jsonData = await getTodos('files/a.txt');
+      console.log(jsonData);
+      res.json(jsonData); // Send the JSON data in the response
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  app.get('/todos/:id', async (req, res) => {
+    try {
+      const jsonData = await getTodos('files/a.txt');
+      const id = req.params.id;
+      const todoItem = jsonData.find(item => item.id == id);
+      console.log(todoItem);
+      if (todoItem) {
+        res.json(todoItem);
+      } else {
+        res.status(404).json({ error: 'Todo not found' });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  app.post('/todos', async (req, res) => {
+    try {
+      const jsonData = await getTodos('files/a.txt');
+      const newTodo = { id: jsonData.length + 1, title: req.body.title, description: req.body.description };
+      jsonData.push(newTodo);
+      await postTodo('files/a.txt', JSON.stringify(jsonData));
+      res.json({ message: 'Todo added successfully' });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+  
+  app.put('/todos/:id', async (req, res) => {
+    try {
+      const jsonData = await getTodos('files/a.txt');
+      const todoId = req.params.id;
+  
+      // Find the index of the todo with the given id
+      const todoIndex = jsonData.findIndex(item => item.id == todoId);
+  
+      if (todoIndex !== -1) {
+        // Update the todo with the new data
+        jsonData[todoIndex].title = req.body.title;
+        jsonData[todoIndex].description = req.body.description;
+  
+        // Save the updated data back to the file
+        await postTodo('files/a.txt', JSON.stringify(jsonData));
+  
+        res.json(jsonData[todoIndex]); // Respond with the updated todo
+      } else {
+        res.status(404).json({ error: 'Todo not found' });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+  
+  app.delete('/todos/:id', async(req,res)=>{
+    try{
+      const jsonData = await getTodos('files/a.txt');
+      const newData = jsonData.filter(item => item.id != req.params.id);
+      await postTodo('files/a.txt',JSON.stringify(newData));
+      res.json(newData);
+    }
+    catch(error){
+      console.error("Error: "+ error);
+    }
+  })
+  
+  
+  
+  
+  app.listen(3000,()=>{
+    console.log('listening to port number ${port}')
+  });
+  // module.exports = app;

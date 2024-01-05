@@ -17,5 +17,59 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+const getFileNames = (path)=>{
+  const p = new Promise((resolve,reject)=>{
+    fs.readdir(path,(err,data)=>{
+      if(err){
+        console.error("Error :" + err);
+        reject(err);
+        return;
+      }
+      console.log(data);
+      resolve(data);
+    })
+  })
+  return p;
+}
 
-module.exports = app;
+const returnData = (path)=>{
+  const p = new Promise((resolve, reject)=>{
+    fs.readFile(path, 'utf-8' , (err, data)=>{
+      if (err){
+        console.error("Error :"+ err);
+        reject(err);
+        return;
+      }
+      resolve(data);
+    })
+  })
+  return p;
+}
+
+
+app.get('/files',async (req,res)=>{
+  try{
+  const filesArray = await getFileNames('files');
+  console.log(filesArray);
+  res.send(filesArray);
+  }catch(err){
+    res.status(500).send("No files found");
+  }
+});
+
+app.get('/files/:filename', async (req,res)=>{
+  try{
+  const Data = await returnData('files/'+req.params.filename);
+  console.log(Data);
+  res.json(Data);
+}catch (err){
+  res.status(500).send("File doesn't exist");
+}
+});
+
+app.get('/',(req,res)=>{
+  res.senf(404).send("pagrenot found");
+})
+
+// module.exports = app;
+app.listen(3000);

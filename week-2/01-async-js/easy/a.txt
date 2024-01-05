@@ -1,0 +1,1 @@
+Hi this is new text from the js file.

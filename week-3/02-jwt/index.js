@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 const jwtPassword = 'secret';
+const z = require('zod');
 
+const userManager  = {
+    username : z.string().email(),
+    password : z.string().min(6)
+}
 
 /**
  * Generates a JWT for a given username and password.
@@ -14,8 +19,28 @@ const jwtPassword = 'secret';
  *                        the password does not meet the length requirement.
  */
 function signJwt(username, password) {
-    // Your code here
-}
+    try {
+      // Validate input against the Zod schema
+      const inputData = { username, password };
+      userManager.username.parse(inputData.username);
+      userManager.password.parse(inputData.password);
+  
+      // Define the payload for the JWT
+      const payload = {
+        username: username,
+        password: password,
+        // Add any other claims or data you want in the payload
+      };
+  
+      // Sign the JWT with a secret key
+      const token = jwt.sign(payload, jwtPassword);
+  
+      return token;
+    } catch (error) {
+      // Input validation failed
+      return null;
+    }
+  }
 
 /**
  * Verifies a JWT using a secret key.
@@ -26,8 +51,13 @@ function signJwt(username, password) {
  *                    using the secret key.
  */
 function verifyJwt(token) {
-    // Your code here
-}
+    try {
+      jwt.verify(token, jwtPassword);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -37,9 +67,17 @@ function verifyJwt(token) {
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
-    // Your code here
+  try {
+    const decoded = jwt.decode(token);
+    if (decoded){
+        return true;
+    }
+    return false; // Return decoded payload or false
+  } catch (error) {
+    // If decoding fails (e.g., invalid format), return false
+    return false;
+  }
 }
-
 
 module.exports = {
   signJwt,

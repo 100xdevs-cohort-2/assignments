@@ -12,6 +12,17 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
+app.use((req, res, next) => {
+  const userId = req.headers['user-id'];
+  if (numberOfRequestsForUser[userId] && numberOfRequestsForUser[userId] >= 5) {
+    return res.status(404).json({ error: 'Rate limit exceeded' });
+  }
+  numberOfRequestsForUser[userId] = (numberOfRequestsForUser[userId] || 0) + 1;
+  next();
+});
+
+
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
