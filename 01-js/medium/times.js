@@ -9,5 +9,15 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let start = performance.now();
+    let sum = 0;
+    for (let index = 1; index <= n; index++) {
+        sum += index;
+    }
+    let end = performance.now();
+    return end - start;
 }
+
+console.log("computation time for 100 is : " + calculateTime(100));
+console.log("computation time for 100000 is : " + calculateTime(100000));
+console.log("computation time for 1000000000 is : " + calculateTime(1000000000));
