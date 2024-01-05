@@ -14,6 +14,14 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
+  let totalprice=0;
+  let to
+  for(const key in transactions){
+    if(key=='price'){
+      totalprice=totalprice+transactions[key];
+    }
+
+  }
   return [];
 }
 
