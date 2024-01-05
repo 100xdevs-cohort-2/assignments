@@ -5,7 +5,7 @@
  */
 
 function wait1(t) {
-
+   return new Promise()
 }
 
 function wait2(t) {
