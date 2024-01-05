@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 const jwtPassword = 'secret';
+const zod = require('zod')
+
+const emailSchema = zod.string().email()
+const passwordSchema = zod.string().min(6)
 
 
 /**
@@ -13,9 +17,21 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+
+function isValidEmail(email) {
+    const usernameResponse = emailSchema.safeParse(email);
+    return usernameResponse.success;
+}
+
 function signJwt(username, password) {
     // Your code here
+    if(!isValidEmail(username) || password.length < 6 ){
+        return null
+    } else {
+        return jwt.sign({username: username}, jwtPassword);
+    }
 }
+// console.log(signJwt('kisrat@gmail.com', 123456));
 
 /**
  * Verifies a JWT using a secret key.
@@ -27,7 +43,20 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    try {
+        const decoded = jwt.verify(token, jwtPassword);
+        console.log(decoded);
+        if(decoded){
+            return true;
+        } else {
+            return false;
+        }
+    } catch(err) {
+        return false;
+    }
+
 }
+verifyJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtpc3JhdEBnbWFpbC5jb20iLCJpYXQiOjE3MDM3OTI4ODJ9.I55Zw11yIyOCxzwBhn2lVTriiKOtLrreomYjusFZJVI");
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -38,7 +67,24 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+    try {
+        const decoded = jwt.decode(token);
+        console.log(decoded);
+        if (decoded) {
+            return true;
+        } else {
+            return false;
+        }
+        // return decoded ? decoded : false;
+    } catch(err){
+        return false;
+    }
+
 }
+decodeJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imtpc3JhdEBnbWFpbC5jb20iLCJpYXQiOjE3MDM3OTI4ODJ9.I55Zw11yIyOCxzwBhn2lVTriiKOtLrreomYjusFZJVI");
+
+
+// console.log(decodeJwt(jwt.sign({ username: 'kirat@gmail.com', password: '123456' }, "randomPassword")))
 
 
 module.exports = {

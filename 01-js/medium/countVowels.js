@@ -6,7 +6,17 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let word = str.toLowerCase().split('');
+  let count = 0;
+  for( let letter of word){
+    if(letter=='a' || letter=='e' || letter=='i' || letter=='o' || letter=='u'){
+      count++;
+    }
+  }
+  return count;
 }
 
 module.exports = countVowels;
+
+// in gives index
+// of gives value

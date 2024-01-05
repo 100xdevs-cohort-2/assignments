@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<script>
+    let timeout;
+    function debouncePopulateDiv() {
+        // delay a call to populate div until ive not been called for 100ms
+        // and i have beed called atleat once
+        clearTimeout(timeout);
+        timeout = setTimeout(()=>{
+            populateDiv()
+        }, 300);
+    }
+    function populateDiv(){
+        const a = document.getElementById("firstNumber").value;
+        const b = document.getElementById("secondNumber").value;
+        const element = document.getElementById("finalSum");
+        element.innerHTML = parseInt(a) + parseInt(b);
+        console.log(element);
+    }
+    async function populateDiv2(){
+        const a = document.getElementById("firstNumber").value;
+        const b = document.getElementById("secondNumber").value;
+        const response = await fetch("https://sum-server.100xdevs.com/sum?a="+a+"&b="+b);
+        const ans = await response.text();
+        document.getElementById("finalSum").innerHTML = ans;    
+    }
+</script>
+<body>
+    <input type="text" oninput="debouncePopulateDiv()" id="firstNumber" placeholder="First Number"></input>
+    <br><br>
+    <input type="text" oninput="debouncePopulateDiv()" id="secondNumber" placeholder="Second Number"></input>
+    <br><br>
+    <!-- <button onclick="populateDiv()">Calculate Sum</button>
+    <br><br> -->
+    <div id="finalSum"></div>
+</body>
+</html>

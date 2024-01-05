@@ -1,0 +1,13 @@
+Their are basically 4 things in the high level which makes it possible to make javascript async:
+1 : Call Stack
+2 : Web Apis
+3 : Callback Queue
+4 : event loop
+
+Call Stack: Where JavaScript executes functions. It's a stack structure, adding (push) and removing (pop) from the top. Manages JavaScript's single-threaded execution.
+
+Web APIs: Browser-provided functions that allow JavaScript to perform asynchronous operations like fetching data or setting timers. for example setTimeout in js is not actually an js function it is provided by the browser and is executed using webapi upon execution it now go and stays in callback queue and when callback ques gets empty event loop rums which pushes the function present in callback into call stack then it is executed.
+
+Callback Queue: A queue of callback functions waiting to be executed. When the Call Stack is empty, functions from the Callback Queue are moved to it.
+
+Event Loop: Constantly checks if the Call Stack is empty. If it is, it moves the first function from the Callback Queue to the Call Stack. Enables JavaScript's asynchronous, non-blocking behavior.

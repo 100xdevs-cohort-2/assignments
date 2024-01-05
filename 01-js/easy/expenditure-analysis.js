@@ -13,8 +13,33 @@
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
+// visualization of totalsByCategory object
+// {
+//   "category" : price
+//   'Food': 50,
+//   'Transport': 25,
+//   'Entertainment': 50
+// }
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let totalsByCategory = {};
+
+  transactions.forEach(function(item){
+    if(totalsByCategory[item.category]){
+      totalsByCategory[item.category] += item.price;
+    } else{
+      totalsByCategory[item.category] = item.price;
+    }
+  });
+
+  let output = [];
+  for( let category in totalsByCategory){
+    output.push({
+      category : category,
+      totalSpent: totalsByCategory[category]
+    });
+  }
+  
+  return output;
 }
 
 module.exports = calculateTotalSpentByCategory;

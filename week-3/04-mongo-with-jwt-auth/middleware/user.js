@@ -1,6 +1,16 @@
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
+const jwtPassword = process.env.jwtPassword;
+
 function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+    const token = req.headers.authorization;
+    try{
+        const payload = jwt.verify(token, jwtPassword);
+        req.user = payload;
+        next();
+    } catch(err) {
+        res.status(401).json({message: "Ivalid token"});
+    }
 }
 
 module.exports = userMiddleware;
