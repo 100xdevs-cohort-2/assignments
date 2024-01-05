@@ -14,7 +14,7 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  return [{category : transactions.category,totalspent : transactions.price}];
 }
 
 module.exports = calculateTotalSpentByCategory;
