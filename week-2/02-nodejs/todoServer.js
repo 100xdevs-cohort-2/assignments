@@ -46,4 +46,83 @@
   
   app.use(bodyParser.json());
   
+  const port = 3000;
+
+  let idNo = 1
+
+  const list = [];
+
+  app.get('/todos', (req, res)=>{
+    res.json(list).status(200);
+  })
+
+  app.get('/todos/:id', (req, res)=>{
+    const todo = list.find(t => t.id === parseInt(req.params.id));
+    if(!todo){
+      res.status(404).send();
+    } else {
+      res.json(todo);
+    }
+  })
+
+  // app.get('/todos/:id', (req, res)=>{
+  //   list.forEach((element)=> {
+  //     if(element.id == req.params.id){
+  //       res.json(element).status(200);
+  //     }
+  //   })
+  //   res.send("Not found").status(404);
+  // })
+  
+
+  app.post('/todos', (req, res)=>{
+    idNo++;
+    const newItem = {
+      id: idNo,
+      title: req.body.title,
+      description: req.body.description
+    }
+    list.push(newItem);
+    res.status(201).json(newItem);
+  })
+
+  app.put('/todos/:id', (req, res) => {
+    const todoIndex = list.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      list[todoIndex].title = req.body.title;
+      list[todoIndex].description = req.body.description;
+      res.json(list[todoIndex]);
+    }
+  });
+
+  // app.put('/todos/:id', (req, res)=>{
+  //   list.forEach((element)=> {
+  //     if(element.id == req.params.id){
+  //       element.title = req.body.title;
+  //       element.description = req.body.description
+
+  //       res.json(element).status(200);
+  //     }
+  //   })
+  //   res.send("Not found").status(404);
+  // })
+
+  app.delete('/todos/:id', (req, res) => {
+    const todoIndex = list.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      list.splice(todoIndex, 1);
+      res.status(200).send();
+    }
+  });
+
+  app.use((req, res, next) => {
+    res.status(404).send();
+  });
+  
+
+
   module.exports = app;
