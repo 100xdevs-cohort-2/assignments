@@ -4,7 +4,10 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+const wait = require("./1-promisify-setTimeout");
+
+async function sleep(milliseconds) {
+  await wait(milliseconds / 1000); //since wait() takes arguments in seconds and  not milliseconds
 }
 
 module.exports = sleep;
