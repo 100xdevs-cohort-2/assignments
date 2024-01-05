@@ -16,55 +16,51 @@
   Once you've implemented the logic, test your code by running
 */
 
-
 class Calculator {
   constructor() {
-    this.result = 0
+    this.result = 0;
   }
 
   add(a) {
-    this.result += a
+    this.result += a;
   }
 
   subtract(a) {
-    this.result -= a
+    this.result -= a;
   }
 
   multiply(a) {
-    this.result *= a
+    this.result *= a;
   }
 
   divide(a) {
-    if (a != 0)
-      this.result /= a
-    else
-      throw new Error();
+    if (a != 0) this.result /= a;
+    else throw new Error();
   }
 
   clear() {
-    this.result = 0
+    this.result = 0;
   }
 
   getResult() {
-    return this.result
+    return this.result;
   }
 
   calculate(str) {
     try {
-      if (/[a-zA-Z]/.test(str)) throw new Error
-    }
-    catch (e) {
-      console.log(e)
+      if (/[a-zA-Z]/.test(str)) throw new Error();
+    } catch (e) {
+      console.log(e);
     }
 
-    str = str.trim().split(" ").join("")
+    str = str.trim().split(" ").join("");
 
     if (str.indexOf("/0") != -1) {
       throw new Error("Division by zero");
     }
-    
-    this.result = eval(str)
-    return this.result
+
+    this.result = eval(str);
+    return this.result;
   }
 }
 

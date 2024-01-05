@@ -4,20 +4,19 @@
 */
 
 function isPalindrome(str) {
-  let isPal = true
+  let isPal = true;
 
-  str = str.replace(/[^a-zA-Z0-9]/g, '')
-  str = str.toLowerCase()
-  let n = str.length
+  str = str.replace(/[^a-zA-Z0-9]/g, "");
+  str = str.toLowerCase();
+  let n = str.length;
 
   for (let i = 0; i < n / 2; i++) {
-
     if (str[i] != str[n - 1 - i]) {
-      isPal = false
+      isPal = false;
       break;
     }
   }
-  return isPal 
+  return isPal;
 }
 
 module.exports = isPalindrome;
