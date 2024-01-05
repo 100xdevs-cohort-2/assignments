@@ -7,16 +7,20 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodo() {
+      // big function we wrote in the beginning
     }
 
-    function removeTodoFromDom(todo) {
-      
+    function removeTodo(todo) {
+      const element = document.getElementById(todo.id);
+      element.parent.removeChild(element);
     }
 
-    function updateTodoInDom(oldTodo, newTodo) {
-        
+    function updateTodo(oldTodo, newTodo) {
+      const element = document.getElementById(oldTodo.id);
+      element.children[0].innerHTML = newTodo.title;
+      element.children[1].innerHTML = newTodo.description;
+      element.children[0].innerHTML = newTodo.completed ? "Mark as done" : "Done";
     }
 
     function updateState(newTodos) {
