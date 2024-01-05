@@ -6,7 +6,20 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let vowels = {
+    a: "a",
+    e: "e",
+    i: "i",
+    o: "o",
+    u: "u",
+  };
+  let count = 0;
+  str
+    .replace(/ /g, "")
+    .toLowerCase()
+    .split("")
+    .forEach((letter) => vowels.hasOwnProperty(letter) && ++count);
+  return count;
 }
 
 module.exports = countVowels;
