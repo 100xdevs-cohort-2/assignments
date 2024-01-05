@@ -1,5 +1,3 @@
-const request = require('supertest');
-const assert = require('assert');
 const express = require('express');
 const app = express();
 // You have been given an express server which has a few endpoints.
@@ -15,6 +13,24 @@ let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+
+app.use((req, res, next)=>{
+  const userID = req.headers["user-id"];
+  
+  if(numberOfRequestsForUser[userID]){
+    numberOfRequestsForUser[userID] += 1;
+    if(numberOfRequestsForUser[userID]>5){
+      res.status(404).send("You are blocked!")
+    }
+    else{
+      next();
+    }
+  }
+  else{
+    numberOfRequestsForUser[userID] = 1;
+    next();
+  }
+})
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
