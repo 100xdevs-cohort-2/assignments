@@ -23,7 +23,10 @@ function signJwt(username, password) {
     if(!cUsername.success || !cPassword.success) {
         return(null);
     }
-    const sequence = jwt.sign(cUsername, jwtPassword);
+    const sequence = jwt.sign(
+        { username: cUsername.data,
+            password: cPassword.data 
+        }, jwtPassword);
     return(sequence);
 }
 
