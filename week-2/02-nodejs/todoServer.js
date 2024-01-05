@@ -45,5 +45,62 @@
   const app = express();
   
   app.use(bodyParser.json());
-  
-  module.exports = app;
+
+  let todo = [];
+
+  app.get("/todos",(req,res)=> {
+
+    res.status(200).json(todo);
+  })
+
+  app.get("/todos/:id", (req,res) => {
+    const item = (todo.find(t => t.id = parseInt(req.params.id)));
+    if (!item){
+      res.status(404).send();
+    }
+    else{
+      res.json(item);
+    }
+  })
+
+  app.post("/todos",(req,res) => {
+    const object = {
+      id : Math.floor(Math.random()*1000000),
+      title : req.body.title,
+      completed : req.body.completed,
+      description : req.body.description
+    }
+    todo.push(object);
+    res.status(201).json(object);
+  })
+
+  app.put("/todos/:id",(req,res) => {
+    const todoIndex = todo.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1){
+      res.status(404).send();
+    }
+    else{
+      todo[todoIndex].title = req.body.title;
+      todo[todoIndex].description = req.body.description;
+      // todo[todoIndex].completed = true;
+      res.status(200).json(todo[todoIndex]);
+    }
+  })
+
+  app.delete("/todos/:id",(req,res)=> {
+    const index = todo.findIndex(t => t.id === parseInt(req.params.id));
+    if (index === -1){
+      res.status(404).send();
+    }
+    else{
+      todo.splice(index,1);
+      res.status(200).send();
+    }
+  })
+
+  app.use("*",(req,res) => {
+    res.status(404).send("Not Found");
+  })
+
+
+  module.exports = app;    
