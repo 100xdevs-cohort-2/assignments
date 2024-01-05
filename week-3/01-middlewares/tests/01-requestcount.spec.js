@@ -12,7 +12,11 @@ describe('GET /user', function() {
       })
   });
 
+<<<<<<< HEAD
+  it('10 more requests log 12', function() {
+=======
   it('10 more requests log 12', function(done) {
+>>>>>>> origin/master
           for (let i = 0; i<10; i++) {
             request(app)
                   .get('/user')

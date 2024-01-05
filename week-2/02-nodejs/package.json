@@ -5,14 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
+    "test-fileServer": "npx jest tests/fileServer.test.js",
+    "test-todoServer": "npx jest tests/todoServer.test.js"
+=======
     "test-fileServer": "./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
     "test-todoServer": "./node_modules/jest/bin/jest.js ./tests/todoServer.test.js"
+>>>>>>> origin/master
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
+    "jest": "^29.7.0",
+=======
     "jest": "^29.5.0",
+>>>>>>> origin/master
     "supertest": "^6.3.3"
   },
   "jest": {

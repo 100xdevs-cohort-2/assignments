@@ -37,6 +37,10 @@ app.get('/file/:filename', function (req, res) {
     });
 });
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/master
 app.all('*', (req, res) => {
     res.status(404).send('Route not found');
 });
