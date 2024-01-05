@@ -33,7 +33,7 @@ function verifyJwt(token) {
  * Decodes a JWT to reveal its payload without verifying its authenticity.
  *
  * @param {string} token - The JWT string to decode.
- * @returns {object|false} The decoded payload of the JWT if the token is a valid JWT format.
+ * @returns {true|false} Returns true if the token is a valid JWT format.
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
