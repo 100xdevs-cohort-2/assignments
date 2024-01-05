@@ -26,6 +26,20 @@ function findLastIndexOf(str, target) {
 }
 findLastIndexOf("Hello World World", "World");
 
+// //cutit
+// function cutIt(str, startIndex, endIndex){
+//   let newStr = "";
+//   for(let i=0;i<str.length;i++){
+//     if(i >= startIndex && i < endIndex){
+//       newStr = newStr + str[i];
+//     }
+//   }
+//   return newStr;
+// }
+// const value = "manish kumanr nirmalkar";
+// // slice  is also work same like cutit but slice is short and sweet
+// console.log(cutIt(value,2,5));
+
 // slice
 function getSlice(str, start, end) {
   console.log("Original String:", str);
@@ -47,6 +61,9 @@ function replaceString(str, target, replacement) {
 }
 replaceString("Hello World", "World", "JavaScript");
 
+// const str = "hello world";
+// console.log(str.replace("world","javascript"));
+
 // split
 function splitString(str, separator) {
   console.log("Original String:", str);
@@ -54,12 +71,19 @@ function splitString(str, separator) {
 }
 splitString("Hello World", " ");
 
+// const name  = "hi my name is manish kumar nirmalkar"
+// const words = name.split//("m")//("")//("n")//(",") //split your string based on delimeiter
+// console.log(words)
+
 // trim
 function trimString(str) {
   console.log("Original String:", str);
   console.log("After trim:", str.trim());
 }
 trimString(" Hello World ");
+
+// const strim = "       manish    nirmalkar   ";
+// console.log(strim.trim()); /// its a trim out extra space beginning and end 
 
 // toUpperCase
 function toUpper(str) {

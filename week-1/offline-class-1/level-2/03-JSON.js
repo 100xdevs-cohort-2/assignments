@@ -15,3 +15,21 @@ const sampleJSONString =
   '{"key": "value", "number": 42, "nested": {"nestedKey": "nestedValue"}}';
 
 jsonMethods(sampleJSONString);
+
+
+// //JSON.parse
+// const usere= '{"name": "manish", "age": 23,"gender": "male"}'
+// console.log(user["gender"]);
+
+
+
+// JSON.stringify
+
+const user = {
+  name: "manish",
+  gender: "male"
+}
+user["name"] //we can do this 
+const finalString = JSON.stringify(user)
+console.log(finalString)
+console.log(finalString["name"]) // i can't print it's give me undifiend
