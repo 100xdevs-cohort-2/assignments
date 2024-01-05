@@ -14,7 +14,80 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+    
+  totalSpend = {};
+  for(let i=0; i<transactions.length; i++)
+  {
+      transaction = transactions[i];
+      category = transaction["category"];
+      if(totalSpend[category] === undefined)
+      {
+        totalSpend[category] = transaction["price"];
+      }
+      else
+      {
+        totalSpend[category] += transaction["price"];
+      }      
+
+  }
+
+  //Appraoch 1 : Using Object.keys
+  let results = []
+  Object.keys(totalSpend).forEach((key) => {        
+        cat_obj = {};
+        cat_obj["category"] = key;
+        cat_obj["totalSpent"] = totalSpend[key];
+        results.push(cat_obj);         
+  });
+  
+  //Approach 2 : Using Object.entries
+  //let results = Object.entries(totalSpend).map(([category, totalSpent]) => ({"category":category, "totalSpent":totalSpent}));
+  
+
+  return results;
 }
 
 module.exports = calculateTotalSpentByCategory;
+
+// Testing code
+//
+// const transactions = [
+//   {
+//     id: 1,
+//     timestamp: 1656076800000,
+//     price: 10,
+//     category: 'Food',
+//     itemName: 'Pizza',
+//   },
+//   {
+//     id: 2,
+//     timestamp: 1656259600000,
+//     price: 20,
+//     category: 'Food',
+//     itemName: 'Burger',
+//   },
+//   {
+//     id: 3,
+//     timestamp: 1656019200000,
+//     price: 15,
+//     category: 'Clothing',
+//     itemName: 'T-Shirt',
+//   },
+//   {
+//     id: 4,
+//     timestamp: 1656364800000,
+//     price: 30,
+//     category: 'Electronics',
+//     itemName: 'Headphones',
+//   },
+//   {
+//     id: 5,
+//     timestamp: 1656105600000,
+//     price: 25,
+//     category: 'Clothing',
+//     itemName: 'Jeans',
+//   },
+// ];
+
+// calculateTotalSpentByCategory(transactions);
+
