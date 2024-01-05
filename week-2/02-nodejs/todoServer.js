@@ -39,11 +39,118 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+const fs = require('fs');
+
+app.use(bodyParser.json());
+
+
+app.get('/todos', (req, res) => {
+  fs.readFile('todos.json', (err, data) => {
+    if (err) {
+      res.status(404).json({ error: 'Not Found' });
+    } else {
+      res.status(200).json(JSON.parse(data));
+    }
+  });
+}
+);
+
+app.get('/todos/:id', (req, res) => {
+  fs.readFile('todos.json', (err, data) => {
+    if (err) {
+      res.status(404).json({ error: 'Not Found' });
+    } else {
+      const todos = JSON.parse(data);
+      const todo = todos.find(todo => todo.id === parseInt(req.params.id));
+      if (todo) {
+        res.status(200).json(todo);
+      } else {
+        res.status(404).json({ error: 'Not Found' });
+      }
+    }
+  });
+}
+);
+
+app.post('/todos', (req, res) => {
+  fs.readFile('todos.json', (err, data) => {
+    if (err) {
+      res.status(404).json({ error: 'Not Found' });
+    } else {
+      const todos = JSON.parse(data);
+      const todo = req.body;
+      todo.id = todos.length + 1;
+      todos.push(todo);
+      fs.writeFile('todos.json', JSON.stringify(todos), (err) => {
+        if (err) {
+          res.status(404).json({ error: 'Not Found' });
+        } else {
+          res.status(201).json({ id: todo.id });
+        }
+      });
+    }
+  });
+}
+);
+
+app.put('/todos/:id', (req, res) => {
+  fs.readFile('todos.json', (err, data) => {
+    if (err) {
+      res.status(404).json({ error: 'Not Found' });
+    } else {
+      const todos = JSON.parse(data);
+      const todo = todos.find(todo => todo.id === parseInt(req.params.id));
+      if (todo) {
+        todo.title = req.body.title;
+        todo.completed = req.body.completed;
+        fs.writeFile('todos.json', JSON.stringify(todos), (err) => {
+          if (err) {
+            res.status(404).json({ error: 'Not Found' });
+          } else {
+            res.status(200).json({ id: todo.id });
+          }
+        });
+      } else {
+        res.status(404).json({ error: 'Not Found' });
+      }
+    }
+  });
+}
+);
+
+app.delete('/todos/:id', (req, res) => {
+  fs.readFile('todos.json', (err, data) => {
+    if (err) {
+      res.status(404).json({ error: 'Not Found' });
+    } else {
+      const todos = JSON.parse(data);
+      const todo = todos.find(todo => todo.id === parseInt(req.params.id));
+      if (todo) {
+        const index = todos.indexOf(todo);
+        todos.splice(index, 1);
+        fs.writeFile('todos.json', JSON.stringify(todos), (err) => {
+          if (err) {
+            res.status(404).json({ error: 'Not Found' });
+          } else {
+            res.status(200).json({ id: todo.id });
+          }
+        });
+      } else {
+        res.status(404).json({ error: 'Not Found' });
+      }
+    }
+  });
+}
+);
+
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not Found' });
+});
+
+
+module.exports = app;
