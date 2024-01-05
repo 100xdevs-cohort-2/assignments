@@ -16,10 +16,17 @@ const app = express();
 //   });
 connectDb();
 
+<<<<<<< HEAD
 app.use(bodyParser.json());
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+=======
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+>>>>>>> 0613fda64c4a2f848957dda51d6502d20d903c7c
 });

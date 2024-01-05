@@ -7,10 +7,6 @@ router.post('/signup', (req, res) => {
     // Implement user signup logic
 });
 
-router.post('/signin', (req, res) => {
-    // Implement admin signup logic
-});
-
 router.get('/courses', (req, res) => {
     // Implement listing all courses logic
 });

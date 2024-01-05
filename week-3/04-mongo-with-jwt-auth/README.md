@@ -16,7 +16,7 @@ You need to use mongodb to store all the data persistently.
   Input Body: { username: 'admin', password: 'pass' }
   Output: { message: 'Admin created successfully' }
 - POST /admin/signin
-  Description: Creates a new admin account.
+  Description: Logs in an admin account.
   Input Body: { username: 'admin', password: 'pass' }
   Output: { token: 'your-token' }
 - POST /admin/courses
@@ -35,7 +35,7 @@ You need to use mongodb to store all the data persistently.
   Input: { username: 'user', password: 'pass' }
   Output: { message: 'User created successfully' }
 - POST /users/signin
-  Description: Creates a new user account.
+  Description: Logs in a user account.
   Input: { username: 'user', password: 'pass' }
   Output: { token: 'your-token' }
 - GET /users/courses
