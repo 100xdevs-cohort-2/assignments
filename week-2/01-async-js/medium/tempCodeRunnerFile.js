@@ -1,0 +1,2 @@
+
+const filePath = "fule.txt"
