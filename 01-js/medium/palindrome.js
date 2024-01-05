@@ -4,7 +4,31 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  var reformedStr = reform(str.toLowerCase());
+  var revStr = "";
+  for(var i=reformedStr.length - 1; i>=0; i--){
+    revStr = revStr + reformedStr[i];
+  }
+ 
+  if(reformedStr===revStr){
+    return true
+  }else{
+    return false
+  }
+ 
+}
+
+function reform(str){
+  var split = str.split("")
+  var ref = "";
+  for(var i=0; i<split.length; i++){
+    if(split[i] === " " || split[i] === "." || split[i] === "!" || split[i] === "?" || split[i] === ","){
+
+    }else{
+      ref = ref + split[i];
+    }
+  }
+  return ref;
 }
 
 module.exports = isPalindrome;
