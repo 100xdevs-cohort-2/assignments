@@ -14,7 +14,36 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let categoryFound;   // boolean variable to keep track by checking values
+  let output=[]; // This will be the final output
+
+  let indexes = transactions.length;
+
+  for(let i=0;i<indexes;i++){
+    categoryFound = false;
+    let indexes2 = output.length;
+
+    for(let j=0;j<indexes2;j++){
+      if(transactions[i]["category"]==output[j]["category"]){
+        // "category already exist in output"
+        // so now only update the price by adding 
+
+        output[j]["totalSpent"] = output[j]["totalSpent"] + transactions[i]["price"];
+        categoryFound=true;
+        break;
+      }
+    }
+
+    if(categoryFound==false){
+      // "category not exist in Output"
+      // Push this new object for new category found
+      output.push({
+        category: transactions[i]["category"],
+        totalSpent: transactions[i]["price"]
+      })
+    }
+  }
+  return output;
 }
 
 module.exports = calculateTotalSpentByCategory;
