@@ -1,0 +1,1 @@
+Hi there this is the test file used for read-from-file.js 

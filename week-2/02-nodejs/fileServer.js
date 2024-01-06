@@ -12,10 +12,60 @@
     - For any other route not defined in the server return 404
     Testing the server - run `npm run test-fileServer` command in terminal
  */
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
+app.use(express.json());
+
+app.get("/files", function (req, res) {
+  fs.readdir(
+    "D:/100x Devs Cohort Assignments/assignments/week-2/02-nodejs/files",
+    "utf-8",
+    function (err, file) {
+      res.status(200).send(file);
+    }
+  );
+});
+
+function toCheck(fileName) {
+  return new Promise(function (resolve, reject) {
+    fs.readdir(
+      "D:/100x Devs Cohort Assignments/assignments/week-2/02-nodejs/files",
+      "utf-8",
+      function (err, file) {
+        if (file.includes(fileName)) {
+          fs.readFile(
+            `D:/100x Devs Cohort Assignments/assignments/week-2/02-nodejs/files/${fileName}`,
+            "utf-8",
+            function (err, content) {
+              resolve();
+            }
+          );
+        } else {
+          reject();
+        }
+      }
+    );
+  });
+}
+
+app.get("/file/:filename", function (req, res) {
+  const fileName = req.params.filename;
+  async function passRes(fname) {
+    try {
+      let output = await toCheck(fname);
+      res.status(200).send("Test file content");
+    } catch (error) {
+      res.status(404).send("File not found");
+    }
+  }
+  passRes(fileName);
+});
+
+app.get("*", function (req, res) {
+  res.status(404).send("Route not found");
+});
 
 module.exports = app;

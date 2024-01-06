@@ -4,7 +4,36 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+  let strLow = str.toLowerCase();
+  if (strLow == strLow.split("").reverse().join("")) {
+    return true;
+  } else if (
+    strLow.split(" ").join("") ==
+    strLow.split(" ").join("").split("").reverse().join("")
+  ) {
+    return true;
+  } else if (strLow.match(regex)) {
+    let punch = strLow
+      .replace(/[^a-zA-Z ]/g, "")
+      .split(" ")
+      .join("");
+    if (
+      punch ==
+      strLow
+        .replace(/[^a-zA-Z ]/g, "")
+        .split(" ")
+        .join("")
+        .split("")
+        .reverse()
+        .join("")
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return false;
 }
 
 module.exports = isPalindrome;
