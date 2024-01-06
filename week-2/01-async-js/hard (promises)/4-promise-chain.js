@@ -5,20 +5,44 @@
  * Compare it with the results from 3-promise-all.js
  */
 
-function wait1(t) {
-
+function wait1(seconds) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
 }
 
-function wait2(t) {
-
+function wait2(seconds) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
 }
 
-function wait3(t) {
-
+function wait3(seconds) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, seconds * 1000);
+  });
 }
 
 function calculateTime(t1, t2, t3) {
-
+  let start = Date.now();
+  return new Promise((resolve, reject) => {
+    wait1(t1)
+      .then(() => {
+        return wait2(t2);
+      })
+      .then(() => {
+        return wait3(t3);
+      })
+      .then(() => {
+        resolve(Date.now() - start);
+      });
+  });
 }
 
 module.exports = calculateTime;
