@@ -6,6 +6,7 @@ mongoose.connect('your-mongodb-url');
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here
+ 
 });
 
 const UserSchema = new mongoose.Schema({
