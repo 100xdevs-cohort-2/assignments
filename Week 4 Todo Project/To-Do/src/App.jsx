@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([]);
+
+  // Function to add a new todo
+  const addToDo = (newTask) => {
+    setTodos([...todos, { name: newTask, done: false }]);
+  };
+
+  // Function to remove a todo
+  const removeToDo = (index) => {
+    const updatedTodos = [...todos];
+    updatedTodos.splice(index, 1);
+    setTodos(updatedTodos);
+  };
+
+  // Function to edit a todo (not implemented in this example)
+  const editToDo = (index,newName) => {
+    // Implement edit functionality here
+    setTodos(todos.map((todo,i) => i===index ? {...todo, name:newName} : {...todo}))
+  };
+
+  // Function to delete a todo
+  const deleteToDo = (index) => {
+    removeToDo(index); // For now, just use the removeToDo function
+  };
+
+  return (
+    <Test
+      todos={todos}
+      addToDo={addToDo}
+      removeToDo={removeToDo}
+      editToDo={editToDo}
+      deleteToDo={deleteToDo}
+    />
+  );
+}
+
+function Test({ todos, addToDo, removeToDo, editToDo, deleteToDo }) {
+  const [task, setTask] = useState('');
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="task-list">
+        {todos.map((todo, index) => (
+          <div key={index} className="task">
+            <input type="checkbox" checked={todo.done} />
+            <div className="task-name">{todo.name}</div>
+            <div className="task-actions">
+              <button onClick={() => editToDo(index)}>Edit</button>
+              <button onClick={() => deleteToDo(index)}>Delete</button>
+            </div>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      <div className="addTask">
+        <input
+          type="text"
+          placeholder="Add task"
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+        />
+        <button onClick={() => addToDo(task)}>Add Todo</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
