@@ -42,7 +42,7 @@ function calculateTime(t1, t2, t3) {
         )
 }
 
-console.log(calculateTime(1000, 2000, 4000)); 
+// console.log(calculateTime(1000, 2000, 4000)); 
 
 
 module.exports = calculateTime;
