@@ -22,4 +22,12 @@ app.get('/requestCount', function(req, res) {
   res.status(200).json({ requestCount });
 });
 
+app.use((req,res,next)=>{
+  requestCount++;
+  console.log(`number of request ${requestCount}`);
+  next();
+});
+
+app.listen(3000);
+
 module.exports = app;
