@@ -16,12 +16,30 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+function ratelimitter(req,res,next){
+    const userId= req.headers.userid;
+    let numberOfRequests= numberOfRequestsForUser[userId];
+    
+    if(!numberOfRequests)numberOfRequests=0;
+    if(numberOfRequests<5){
+      numberOfRequestsForUser[userId]=numberOfRequests+1;
+      next();
+    }
+    else{
+         res.sendStatus(404);
+    }
+}
+
+app.use(ratelimitter);
+
 app.get('/user', function(req, res) {
+  
   res.status(200).json({ name: 'john' });
 });
 
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
 
 module.exports = app;
