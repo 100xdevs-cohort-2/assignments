@@ -14,7 +14,24 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const list = [];
+  const dict = {};
+  transactions.forEach((element) => {
+    if (dict.hasOwnProperty(element.category)) {
+      dict[element.category] += element.price;
+    } else {
+      dict[element.category] = element.price;
+    }
+  });
+
+  for (const key in dict) {
+    if (dict.hasOwnProperty(key)) {
+      const value = dict[key];
+      list.push({ category: key, totalSpent: value });
+    }
+  }
+
+  return list;
 }
 
 module.exports = calculateTotalSpentByCategory;
