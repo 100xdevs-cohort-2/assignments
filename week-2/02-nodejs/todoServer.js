@@ -41,9 +41,64 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
   const app = express();
-  
+
   app.use(bodyParser.json());
+  let todoArray= [];
+
+  app.get('/todos',(req,res)=>{
+    res.status(200).json(todoArray)
+  })
+
+
+  app.get('/todos/:id',(req,res)=>{
+    const id = parseInt(req.params.id);
+    const todo = todoArray.find(t=>t.id===id)
+    if(todo)
+      res.status(200).json(todo)
+    else
+      res.status(404).send()
+  })
+
+
+  app.post('/todos',(req,res)=>{
+
+    const todo = {
+      id : Math.floor(Math.random()*100000),
+      title:req.body.title,
+      description: req.body.description
+    }
+
+    todoArray.push(todo);
+    res.status(201).json(todo)
+  })
+
+  app.put('/todos/:id',(req,res)=>{
+    const id = parseInt(req.params.id);
+
+    const ifExists = todoArray.findIndex(t=>t.id===id)
+
+    if(ifExists ===-1) res.status(404).send()
+
+    else{
+      todoArray[ifExists].title = req.body.title;
+      todoArray[ifExists].description = req.body.description;
+      res.status(200).json(todoArray[ifExists])
+    }
+  })
+
+  app.delete('/todos/:id',(req,res)=>{
+    const todoIndex = todoArray.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      todoArray.splice(todoIndex, 1);
+      res.status(200).send();
+    }
+  })
+
+  app.use((req,res)=>{
+    res.status(404).send();
+  })
   
   module.exports = app;
