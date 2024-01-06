@@ -39,11 +39,124 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require("fs")
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+//route for getting all todos
+app.get("/todos", async (req, res) => {
+  try {
+    const fileContent = fs.readFileSync("todo.txt", 'utf8');
+    const todo = fileContent.split('\n')
+    res.status(200).json(todo);
+  }
+  catch (err) {
+    res.status(404).send("Server Error");
+  }
+})
+
+//route for getting only specific id
+app.get("/todos/:id", (req, res) => {
+  try {
+    const fileContent = fs.readFileSync("todo.txt", 'utf8');
+    const todo = fileContent.split('\n');
+    if (req.params.id - 1 >= 0 && req.params.id - 1 < todo.length) {
+      res.status(200).send(todo[req.params.id - 1]);
+    }
+    else {
+      res.status(404).send("Not Found");
+    }
+
+  }
+  catch (err) {
+    res.status(404).send("Not Found");
+  }
+})
+
+//route to post todo to the server
+app.post("/todos", (req, res) => {
+  try {
+    const data = JSON.stringify(req.body);
+    const fileContent = fs.readFileSync("todo.txt", 'utf8');
+    const todo = fileContent.split('\n').filter(line => line.trim());
+    todo.push(data);
+    const id = todo.length
+    console.log(todo);
+    fs.writeFileSync("todo.txt", "");
+    for (let i = 0; i < todo.length; i++) {
+      const d = todo[i];
+      fs.appendFileSync("todo.txt", d);
+      fs.appendFileSync("todo.txt", '\n');
+    }
+    res.status(201).send({ id: id })
+  } catch (err) {
+    console.error('Error appending to file:', err);
+    res.status(404).send("Error Posting Data")
+  }
+
+})
+
+app.put("/todos/:id", (req, res) => {
+  try {
+    const data = JSON.stringify(req.body);
+    const fileContent = fs.readFileSync("todo.txt", 'utf8');
+    const todo = fileContent.split('\n');
+    if (req.params.id - 1 >= 0 && req.params.id - 1 < todo.length) {
+      todo[req.params.id - 1] = data;
+    }
+    else {
+      res.status(404).send("Not Found");
+    }
+    fs.writeFileSync("todo.txt", "");
+    for (let i = 0; i < todo.length; i++) {
+      const d = todo[i];
+      fs.appendFileSync("todo.txt", d);
+      fs.appendFileSync("todo.txt", '\n');
+    }
+    res.status(200).send("data updated successfully");
+  }
+  catch {
+    console.error('Error Updatig todo:', err);
+    res.status(404).send("Not Found");
+  }
+})
+
+
+app.delete("/todos/:id", (req, res) => {
+  try {
+    const fileContent = fs.readFileSync("todo.txt", 'utf8');
+    const todo = fileContent.split('\n');
+    indexToRemove = req.params.id - 1;
+    if (indexToRemove >= 0 && indexToRemove < todo.length) {
+      todo.splice(indexToRemove, 1);
+    }
+    else {
+      res.status(404).send("Not Found");
+    }
+    fs.writeFileSync("todo.txt", "");
+    fs.appendFileSync("todo.txt", "");
+    console.log("todo-len", todo.length);
+    console.log("todo-len", todo);
+    for (let i = 0; i < todo.length; i++) {
+      const d = todo[i];
+      console.log(d)
+      fs.appendFileSync("todo.txt", d);
+      fs.appendFileSync("todo.txt", '\n');
+    }
+    res.status(200).send("data deleted successfully");
+  }
+  catch {
+    console.error('Error deleting todo:', err);
+    res.status(404).send("Not Found");
+  }
+})
+
+
+app.listen("3001", () => {
+  console.log("Server is listening at port 3001")
+})
+module.exports = app;

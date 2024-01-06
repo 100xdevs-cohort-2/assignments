@@ -3,6 +3,13 @@
 */
 
 function wait(n) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, n * 1000);
+    });
 }
+
+// wait(10).then(() => {
+//     console.log("10 Second Khatam Ho Gaya");
+// })
 
 module.exports = wait;
