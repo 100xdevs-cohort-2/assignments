@@ -39,11 +39,85 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require("express");
+const { v4: uuid } = require("uuid");
+const fs = require("fs");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.use(bodyParser.json());
+
+const todosDB = {
+  todos: require("./todos.json"),
+  setTodos: function (data) {
+    this.todos = data;
+  },
+};
+
+app.get("/todos", (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err;
+    res.status(200).json(JSON.parse(data));
+  });
+});
+
+app.get("/todos/:id", (req, res) => {
+  const todoID = req.params.id;
+  const todoItem = todosDB.todos.find((item) => item.id === todoID);
+  if (!todoItem) res.status(404).send("404 Not Found");
+
+  res.status(200).json(todoItem);
+});
+
+app.post("/todos", async (req, res) => {
+  const todoToAdd = req.body;
+  todoToAdd.id = uuid();
+  todosDB.setTodos([...todosDB.todos, todoToAdd]);
+  fs.writeFileSync("todos.json", JSON.stringify(todosDB.todos));
+
+  res.status(201).json({ id: todoToAdd.id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const { id } = req.params;
+  const todoToUpdate = todosDB.todos.find((todo) => todo.id === id);
+  if (!todoToUpdate) return res.status(404).json({ msg: "item not found" });
+  if (todoToUpdate) Object.assign(todoToUpdate, req.body);
+
+  const restTodos = todosDB.todos.filter((todo) => todo.id !== id);
+  todosDB.setTodos([...restTodos, todoToUpdate]);
+
+  fs.writeFileSync("todos.json", JSON.stringify(todosDB.todos));
+
+  res.status(200).json({ msg: "item updated successfully" });
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  const { id } = req.params;
+  const todoToDelete = todosDB.todos.find((todo) => todo.id === id);
+  if (!todoToDelete)
+    return res.status(404).json({ msg: "item does not exist" });
+
+  const restTodos = todosDB.todos.filter((todo) => todo.id !== id);
+  todosDB.setTodos([...restTodos]);
+  fs.writeFileSync("todos.json", JSON.stringify(todosDB.todos));
+
+  res.status(200).json({ msg: "item deleted successfully" });
+});
+
+// for all other routes, return 404
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
+// app.listen(3001, () => {
+//   console.log('server listening on port 3001')
+// })
+
+module.exports = app;
