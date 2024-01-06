@@ -4,7 +4,19 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  const checkAlpha = char => {
+    return char >= 'a' && char <= 'z';
+  }
+
+  str = str.toLowerCase();
+
+  let str2 = str.split("").filter(checkAlpha);
+  let candidate = str2.join("");
+  let reversed = str2.reverse().join("");
+
+  return candidate === reversed;
+
 }
 
 module.exports = isPalindrome;

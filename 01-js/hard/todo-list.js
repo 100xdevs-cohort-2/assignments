@@ -10,7 +10,45 @@
   Once you've implemented the logic, test your code by running
 */
 
+
 class Todo {
+  constructor(){
+    this.todos = [];
+  }
+
+  add(todo){
+    this.todos.push(todo);
+    
+  }
+
+  remove(index){
+    if(index < this.todos.length){
+      this.todos.splice(index, 1);
+    }
+  }
+
+  update(index, todo){
+
+    if(index < this.todos.length){
+      this.todos[index] = todo;
+    }
+  }
+
+  getAll(){
+    return this.todos;
+  }
+
+  get(index){
+    if(index < this.todos.length){
+      return this.todos[index];
+    }else{
+      return null;
+    }
+  }
+
+  clear(){
+    this.todos = [];
+  }
 
 }
 
