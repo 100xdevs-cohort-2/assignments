@@ -19,7 +19,9 @@
     "testTimeout": 10000
   },
   "dependencies": {
+    "expres": "^0.0.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^9.0.0"
   }
 }
