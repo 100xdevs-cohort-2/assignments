@@ -4,7 +4,17 @@
  * the function should return a promise just like before
  */
 
-function sleep(milliseconds) {
+function sleep (seconds) {
+    let date = Date.now();
+    while(Date.now() - date < seconds);
+    return Promise.resolve();
 }
+
+// async function sleep (milliseconds) {
+//     let p = new Promise(resolve=>setTimeout(resolve, milliseconds));
+//     await p;
+//     return Promise.resolve();
+// }
+
 
 module.exports = sleep;
