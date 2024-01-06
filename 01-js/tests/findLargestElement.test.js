@@ -15,7 +15,7 @@ describe('findLargestElement', () => {
 
     test('works with arrays containing decimals', () => {
         expect(findLargestElement([3.5, 7.2, 2.1, 9.8, 1.9])).toBe(9.8);
-        expect(findLargestElement([-3.5, -7.2, -2.1, -9.8, -1.9])).toBe(-1.9);
+        expect(findLargestElement([-3.5, -7.2, -2.1, -9.8, -1.9])).toBe(-1.9);  
     });
 
     test('returns undefined for an empty array', () => {

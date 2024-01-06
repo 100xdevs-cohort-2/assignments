@@ -14,7 +14,14 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+
+  const listOfObject = [];
+
+  transactions.array.forEach(element => {
+    
+  });
+
+ 
 }
 
 module.exports = calculateTotalSpentByCategory;
