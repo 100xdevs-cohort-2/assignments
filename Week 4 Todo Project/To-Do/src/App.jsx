@@ -17,10 +17,19 @@ function App() {
   };
 
   // Function to edit a todo (not implemented in this example)
-  const editToDo = (index,newName) => {
-    // Implement edit functionality here
-    setTodos(todos.map((todo,i) => i===index ? {...todo, name:newName} : {...todo}))
+  const editToDo = (index, newName) => {
+    console.log("Editing todo at index:", index);
+    console.log("New name:", newName);
+    
+    setTodos(todos.map((todo, i) => (i === index ? { ...todo, name: newName } : todo)));
+    console.log("Updated todos:", todos);
   };
+
+  const preEditToDo = (index) => {  
+    const newName = prompt("Enter new name");
+    editToDo (index, newName);
+  }
+  
 
   // Function to delete a todo
   const deleteToDo = (index) => {
@@ -28,17 +37,28 @@ function App() {
   };
 
   return (
-    <Test
+    <><Heading /><Test
       todos={todos}
       addToDo={addToDo}
       removeToDo={removeToDo}
       editToDo={editToDo}
       deleteToDo={deleteToDo}
-    />
+      preEditToDo={preEditToDo} /></>
   );
 }
 
-function Test({ todos, addToDo, removeToDo, editToDo, deleteToDo }) {
+function Heading(){
+
+  return (<>
+  <div className="heading">
+    <span>Improvise your Productivity</span>
+  
+  </div>
+  
+  </>)
+}
+
+function Test({ todos, addToDo, removeToDo, editToDo, deleteToDo,preEditToDo }) {
   const [task, setTask] = useState('');
 
   return (
@@ -46,11 +66,14 @@ function Test({ todos, addToDo, removeToDo, editToDo, deleteToDo }) {
       <div className="task-list">
         {todos.map((todo, index) => (
           <div key={index} className="task">
+            <div>
             <input type="checkbox" checked={todo.done} />
-            <div className="task-name">{todo.name}</div>
+            </div>
+            <div className="task-name">{todo.name}
             <div className="task-actions">
-              <button onClick={() => editToDo(index)}>Edit</button>
+              <button onClick={() => preEditToDo(index)}>Edit</button>
               <button onClick={() => deleteToDo(index)}>Delete</button>
+            </div>
             </div>
           </div>
         ))}
