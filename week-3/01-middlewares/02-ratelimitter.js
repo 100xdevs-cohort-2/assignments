@@ -1,6 +1,7 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+const e = require('express');
 const app = express();
 // You have been given an express server which has a few endpoints.
 // Your task is to create a global middleware (app.use) which will
@@ -10,7 +11,17 @@ const app = express();
 // User will be sending in their user id in the header as 'user-id'
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
-
+app.use((req, res, next) => {
+  const userId = req.headers['user-id'];
+  if (!userId) {
+    return res.status(404).json({ msg: 'User not found' });
+  } 
+  numberOfRequestsForUser[userId] = (numberOfRequestsForUser[userId] || 0) + 1;
+  if (numberOfRequestsForUser[userId] > 5) {
+    return res.status(404).json({ msg: 'Too many requests' });
+  }
+  next();
+});
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
