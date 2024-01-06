@@ -1,34 +1,41 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  // const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div id='outer-div' 
+    style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', backgroundColor: 'lightblue',borderRadius:20 }}>
+        <div id='heading' style={{fontSize:50,paddingTop:40,paddingLeft:20}}>
+         SOURAV  MOHANTA
+        </div>
+        
+        <div id='about' 
+        style={{fontSize:20,paddingLeft:20,paddingBottom:10}}>
+         A,3rd year student at NIT Durgapur,Coder, Developer
+        </div>
+
+        {/* Interests */}
+        <div id='heading-2' 
+        style={{fontSize:35,paddingLeft:20}}>
+         Interests-
+        </div>
+         {/* list of Interests */}
+        <div id='list' style={{display:'flex',flexDirection:'column',paddingLeft:20}}>
+            <div>Coding</div>
+            <div>Web Devlopment</div>
+            <div>Open Sourse</div>
+            <div>Android</div>
+        </div>
+
+        {/* socialmedia link */}
+        <div id='button' 
+        style={{fontSize:20,paddingLeft:20,paddingBottom:10,paddingTop:20,display:'flex',gap:20}}>
+          <a style={{padding:10,background:'blue',color:'white',fontSize:15,cursor:'pointer'}} href={"https://www.linkedin.com/in/sourav-mohanta-756815223/"} target="_blank" >Linkdln</a>
+          <a style={{padding:10,background:'blue',color:'white',fontSize:15,cursor:'pointer'}} href={'https://twitter.com/Sourav44281219'} target="_blank">Twitter</a>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
   )
 }
 
