@@ -5,19 +5,46 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            resolve();
+        }, t*1000);
+    });
 }
 
 function wait2(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            resolve();
+        }, t*1000);
+    });
 }
 
 function wait3(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            resolve();
+        }, t*1000);
+    });
 }
+
+/*
+ Promise.all is a method in JavaScript that allows you to handle multiple promises concurrently and wait for all of them to either fulfill or reject. It takes an iterable (usually an array) of promises and returns a new promise.
+*/
 
 function calculateTime(t1, t2, t3) {
 
+    const startime = Date.now();
+
+    const p1 = wait1(t1);
+    const p2 = wait2(t2);
+    const p3 = wait3(t3);
+
+    return Promise.all([p1,p2,p3]).then(()=>{
+        const end = Date.now();
+        const duration = end - startime;
+        return duration;
+    });
 }
 
 module.exports = calculateTime;
