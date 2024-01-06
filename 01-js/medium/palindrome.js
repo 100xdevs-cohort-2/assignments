@@ -4,7 +4,26 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  if(str.trim() === "" || str.length === 1 || str.includes(" ")){
+    return true
+  }
+
+  str = str.toLowerCase();
+  let reverseString = "";
+
+  let temp = [];
+  for(let i=str.length; i>=0; i--){
+    temp.push(str[i]);
+  }
+
+  reverseString = temp.join("");
+
+  if(str === reverseString){
+    return true
+  }
+
+  return false
 }
 
 module.exports = isPalindrome;

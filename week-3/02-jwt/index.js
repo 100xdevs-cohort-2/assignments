@@ -15,6 +15,12 @@ const jwtPassword = 'secret';
  */
 function signJwt(username, password) {
     // Your code here
+    let regrex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(!username.match(regrex) || password.length !== 6){
+        return null
+    }
+
+    return jwt.sign({username, password}, jwtPassword);
 }
 
 /**
@@ -27,6 +33,15 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    try {
+        if(jwt.verify(token, jwtPassword)){
+            return true 
+        };
+        return false
+    } catch (error) {
+        return false
+    }
+    
 }
 
 /**
@@ -38,6 +53,15 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+    try {
+        if(jwt.decode(token, jwtPassword)){
+            return true
+        }
+        return false
+            
+    } catch (error) {
+        return false
+    }
 }
 
 

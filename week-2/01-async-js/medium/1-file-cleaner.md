@@ -11,3 +11,26 @@ After the program runs, the output should be
 ```
 hello world my name is raman
 ```
+
+### Solution
+
+```
+const fs = require("fs");
+
+fs.readFile("a.txt", "utf-8", (err, data) => {
+    if(err) return;
+
+    let result = [];
+    data.split(" ").forEach((val) => {
+        if(val !== ""){
+            result.push(val);
+        }
+    });
+
+    fs.writeFile("a.txt", result.join(" "), (err) => {
+        if(err) return;
+        console.log("done");
+    });
+})
+
+```
