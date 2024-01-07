@@ -24,7 +24,8 @@ function wait3(t) {
 
 function calculateTime(t1, t2, t3) {
     const start = new Date().getTime();
-    return Promise.all([wait1(t1),wait2(t2),wait3(t3)]).then(()=>{ // if we dont apply return here it will internall return the undefined , so we nee dto explictlly return the promise every time we use promise.
+    return Promise.all([wait1(t1),wait2(t2),wait3(t3)])
+    .then(()=>{ // if we dont apply return here it will internally return the undefined , so we nee dto explictlly return the promise every time we use promise.
         const end = new Date().getTime();
         return end - start; //this return statement is for the arrow funtion
     })
