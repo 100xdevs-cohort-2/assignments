@@ -16,6 +16,44 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor(){
+    this.result = 0    
+  }
+  add(num){
+    this.result += num
+  }
+  subtract(num){
+    this.result -= num
+  }
+  multiply(num){
+    this.result *= num
+  }
+  divide(num){
+    if(num === 0){
+      throw new Error("Canot divide by 0")
+    }
+    else{
+      this.result /= num
+    }
+  }
+  clear(){
+    this.result = 0
+  }
+  getResult(){
+    return this.result;
+  }
+  calculate(str){
+    try {
+      if (eval(str) == Infinity) {
+          throw new Error("Error");
+      } else {
+          this.result = eval(str);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+}
 
 module.exports = Calculator;
