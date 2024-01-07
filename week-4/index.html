@@ -7,41 +7,81 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const todosContainer = document.getElementById("todos");
+      const todoDiv = document.createElement("div");
+      todoDiv.innerHTML = `<strong>${todo.title}</strong><p>${todo.description}</p>`;
+      todoDiv.dataset.id = todo.id;
+
+      // Add a remove button
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.onclick = () => removeTodoFromDom(todo.id);
+      todoDiv.appendChild(removeButton);
+
+      todosContainer.appendChild(todoDiv);
     }
 
-    function removeTodoFromDom(todo) {
-      
+    function removeTodoFromDom(todoId) {
+      const todoDivToRemove = document.querySelector(`[data-id='${todoId}']`);
+      if (todoDivToRemove) {
+        todoDivToRemove.remove();
+        // Remove the todo from the state as well
+        todoState = todoState.filter(todo => todo.id !== todoId);
+        updateState(todoState);
+      }
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const todoDivToUpdate = document.querySelector(`[data-id='${oldTodo.id}']`);
+      if (todoDivToUpdate) {
+        todoDivToUpdate.innerHTML = `<strong>${newTodo.title}</strong><p>${newTodo.description}</p>`;
+      }
     }
 
     function updateState(newTodos) {
-      // calculate the diff b/w newTodos and oldTodos.
-      // More specifically, find out what todos are - 
-      // 1. added
-      // 2. deleted
-      // 3. updated
       const added = [];
       const deleted = [];
       const updated = [];
-      // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
-      oldTodoState = newTodos;
+
+      // Calculate added, deleted, and updated todos
+      for (const newTodo of newTodos) {
+        const oldTodoIndex = oldTodoState.findIndex(oldTodo => oldTodo.id === newTodo.id);
+
+        if (oldTodoIndex === -1) {
+          added.push(newTodo);
+        } else {
+          const oldTodo = oldTodoState[oldTodoIndex];
+          if (oldTodo.title !== newTodo.title || oldTodo.description !== newTodo.description) {
+            updated.push({ oldTodo, newTodo });
+          }
+        }
+      }
+
+      for (const oldTodo of oldTodoState) {
+        const existsInNewState = newTodos.some(newTodo => newTodo.id === oldTodo.id);
+        if (!existsInNewState) {
+          deleted.push(oldTodo.id); // Pushing the ID to be removed
+        }
+      }
+
+      // Call the corresponding functions
+      added.forEach(addTodoToDom);
+      deleted.forEach(removeTodoFromDom); // Pass the ID to removeTodoFromDom
+      updated.forEach(({ oldTodo, newTodo }) => updateTodoInDom(oldTodo, newTodo));
+
+      oldTodoState = [...newTodos];
     }
 
     function addTodo() {
       const title = document.getElementById("title").value;
       const description = document.getElementById("description").value;
-      todoState.push({
+      const newTodo = {
         title: title,
         description: description,
         id: globalId++,
-      })
+      };
+      todoState.push(newTodo);
       updateState(todoState);
     }
   </script>
@@ -59,3 +99,4 @@
 </body>
 
 </html>
+
