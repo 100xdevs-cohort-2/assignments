@@ -5,6 +5,16 @@
  */
 
 function sleep(milliseconds) {
-}
+
+        return new Promise((resolve) => {
+            const startTime = Date.now();
+            while (Date.now() - startTime < milliseconds) {
+                // Busy wait: This loop delays the execution for the specified milliseconds
+                // Please note that this approach is not recommended and blocks the thread
+                // It's used here just to demonstrate the concept of a busy wait in a Promise
+            }
+            resolve(); // Resolve the Promise after the delay
+        });
+    }
 
 module.exports = sleep;
