@@ -16,6 +16,60 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  add(number) {
+    this.result += number;
+  }
+  subtract(number) {
+    this.result -= number;
+  }
+  multiply(number) {
+    this.result *= number;
+  }
+  divide(number) {
+    if (number <= 0) {
+      throw new Error("Number should be more than 0");
+    }
+    this.result /= number;
+  }
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+
+
+  // below piece of code needs my understanding
+  calculate(expression) {
+    try {
+      // Check if the expression contains division by zero
+      if (/\/\s*0/.test(expression)) {
+        throw new Error("Division by zero");
+      }
+
+      // Remove extra whitespaces from the expression
+      expression = expression.replace(/\s+/g, " ");
+
+      // Split the expression into tokens using space as a delimiter, and filter out any empty tokens
+      let tokens = expression.split(" ").filter(Boolean);
+
+      // Evaluate the expression using the 'eval' function and store the result in the 'value' variable
+      let value = eval(tokens.join(" "));
+
+      // Assign the calculated value to the 'result' property of the object (assuming 'this' refers to an object)
+      this.result = value;
+
+      // Return the calculated value
+      return value;
+    } catch (error) {
+      // If an error occurs during the execution (e.g., division by zero or invalid expression), throw a new error
+      throw new Error("Invalid Expression");
+    }
+  }
+}
 
 module.exports = Calculator;
