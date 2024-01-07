@@ -22,6 +22,7 @@ router.post('/signin', async (req, res) => {
     if (!userExsists || userExsists.password != password) {
         return res.status(401).json({ message: "wrong username/password" });
     }
+    console.log(process.env.secretkey);
     const token = jwt.sign({ data: { id: userExsists._id } }, process.env.secretkey);
 
     return res.status(200).json({ token });

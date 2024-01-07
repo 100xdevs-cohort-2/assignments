@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/courseApp');
+mongoose.connect('mongodb://127.0.0.1:27017/courseAppJwt');
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
