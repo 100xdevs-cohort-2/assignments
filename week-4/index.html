@@ -8,7 +8,27 @@
     let oldTodoState = [];
 
     function addTodoToDom() {
-      
+
+      console.log('todoState: ', todoState);
+
+      const l = todoState.length;
+      const newItem = document.createElement('li');
+      const newTitle = document.createElement('div');
+      const newDesc = document.createElement('div');
+      const newId = document.createElement('div');
+
+      // Set the text content of the div elements
+      newTitle.textContent = todoState[l - 1].title;
+      newDesc.textContent = todoState[l - 1].description;
+      newId.textContent = todoState[l - 1].id;
+
+      // Append the div elements to the list item
+      newItem.appendChild(newTitle);
+      newItem.appendChild(newDesc);
+      newItem.appendChild(newId);
+
+      // Append the list item to the todos container
+      document.getElementById('todos').appendChild(newItem);
     }
 
     function removeTodoFromDom(todo) {
@@ -16,7 +36,6 @@
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
     }
 
     function updateState(newTodos) {
@@ -25,9 +44,25 @@
       // 1. added
       // 2. deleted
       // 3. updated
+
       const added = [];
       const deleted = [];
       const updated = [];
+
+      if(oldTodoState.length < newTodos.length){
+        let item = newTodos[newTodos.length-1];
+        added.push(item);
+        addTodoToDom();
+      }
+
+      if(oldTodoState.length == newTodos.length){
+        //update todoToDom
+      }
+
+      if(oldTodoState.length > newTodos.length){
+        //remove todoFromDom
+      }
+
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
