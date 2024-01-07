@@ -4,7 +4,20 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let oldStr = str.toLowerCase();
+  let reverseStr = str.toLowerCase().split("").reverse().join("");
+
+  if (oldStr === reverseStr) {
+    return true;
+  } else {
+    return false;
+  }
 }
+
+let result = isPalindrome("Naman");
+console.log(result);
+
+let ans = isPalindrome("Suman");
+console.log(ans);
 
 module.exports = isPalindrome;
