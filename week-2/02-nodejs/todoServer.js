@@ -43,7 +43,105 @@
   const bodyParser = require('body-parser');
   
   const app = express();
+  let  todos = []
   
   app.use(bodyParser.json());
+
+  let idnumber = 0
+
+  app.post("/todos", (req, res)=>{
+    try{
+        let todo = {
+        title: req.body.title,
+        description: req.body.description,
+        id: idnumber,
+        completed: req.body.completed
+      }
+      idnumber++
+      todos.push(todo)
+
+      res.status(200).json({
+        id: idnumber-1,
+      })
+  }
+  catch(err){
+    res.status(404).json({
+      msg: "something error would happenend"
+    })
+  }
+  })
+
+  app.get("/todos", (req, res)=>{
+      res.status(200).json({
+        todos
+      })
+  })
+
+  app.get("/todos/:id", (req, res)=>{
+    app.get("/todos/:id", (req,res) => {
+      const todo = todos.find( el => el.id === parseInt(req.params.id) )
+      if(!todo){
+        res.status(404).json({});
+      }
+      else{
+        res.status(200).json(todo);
+      }
+    })
+  })
+
+  app.put("/todos/:id", (req, res)=>{
+    
+    try{
+      const Id = req.params.id
+
+      let todo = todos.filter(function(todo){
+        if(todo.id === Id){
+          return true
+        }
+      })
+
+      todo = {
+        title: req.body.title,
+        description: req.body.description,
+        completed: req.body.completed,
+        id: Id
+      }
+
+      todos.push(todo)
+      res.status(200).json({
+        msg: "you're updated"
+      })
+
+    }
+    catch(err){
+      res.status(404).json({
+        msg: new Error("you've done mistake")
+      })
+    }
+
+  })
+
+  app.delete("/todos/:id", (req,res)=>{
+
+    try{
+      todos.splice(req.params.id, 1);
+
+      res.status(200).json({
+        msg: "succesfully deleted"
+      })
+    }
+    catch(err){
+      res.status(404).json({
+        msg: new Error("you are wrong")
+      })
+    }
+    
+    
+
+  })
+
+  app.use((req, res) => {
+    res.status(404).send('Not Found');
+  });
   
   module.exports = app;
