@@ -6,12 +6,13 @@ const router = Router();
 
 // Admin Routes
 router.post('/signup', async (req, res) => {
+    // Creating Admin Account
     const { username, password } = req.body;
     const userExsists = await Admin.findOne({ username });
     if (userExsists) {
         return res.status(409).json({ message: "username already used" });
     }
-    await Admin.create({ username, password });
+    await Admin.create({ username: username, password: password });
     return res.status(200).json({ message: "Admin Created Sucessfully" });
 });
 
