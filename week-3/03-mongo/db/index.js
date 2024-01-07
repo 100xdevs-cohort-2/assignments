@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // Connect to MongoDB
 
-mongoose.connect('mongodb+srv://abhinandansinghbaghel2001:cYfhJfMRLe23S7Ln@cluster0.3fjqkhz.mongodb.net/new_db');
+mongoose.connect('mongodb+srv://abhinandansinghbaghel2001:**************@cluster0.3fjqkhz.mongodb.net/new_db');
 
 // mongodb+srv://abhinandansinghbaghel2001:cYfhJfMRLe23S7Ln@cluster0.3fjqkhz.mongodb.net/ 
 // this is the default connection string
