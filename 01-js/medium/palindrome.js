@@ -4,6 +4,18 @@
 */
 
 function isPalindrome(str) {
+  newstr = str.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, "").toLowerCase();
+  console.log(newstr);
+  
+  const n = newstr.length;
+  let i=0, j=n-1;
+  while(i<=j){
+    if(newstr[i]!=newstr[j]){
+      return false;
+    }
+    i++;
+    j--;
+  }
   return true;
 }
 
