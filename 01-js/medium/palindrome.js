@@ -4,7 +4,26 @@
 */
 
 function isPalindrome(str) {
-  return true;
+
+  let oldStr = str.toLowerCase();
+  let reverseStr = str.toLowerCase().split("").reverse().join("");
+
+  if(oldStr === reverseStr)
+  {
+      return true;
+  }
+  else
+  {
+    return false;
+  }
 }
+
+  let input = "civic";
+  let result = isPalindrome(input);
+  console.log(result);
+
+  let input2 = "sad";
+  let result2 = isPalindrome(input2);
+  console.log(result2);
 
 module.exports = isPalindrome;
