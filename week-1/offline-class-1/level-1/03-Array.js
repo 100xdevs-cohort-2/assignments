@@ -14,7 +14,7 @@ function pushExample(arr, element) {
 }
 pushExample([1, 2, 3], 4);
 
-// pop()
+//pop()
 function popExample(arr) {
   console.log("Original Array:", arr);
 
@@ -53,7 +53,7 @@ concatExample([1, 2, 3], [4, 5, 6]);
 // forEach()
 function forEachExample(arr) {
   console.log("Original Array:", arr);
-
+  console.log("After for Each:");
   arr.forEach(function(item, index) {
     console.log(item, index);
   });
