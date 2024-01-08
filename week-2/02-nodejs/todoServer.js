@@ -40,10 +40,127 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const path = require('path');
+  const fs = require('fs');
   const bodyParser = require('body-parser');
-  
+  const port = 3000;
   const app = express();
-  
+  const filesDir = path.join(__dirname, "todos.json");
+ 
+  // This line enables Express to parse incoming JSON data from request bodies.
   app.use(bodyParser.json());
+
+
+
+const loadTodoData = () => {
+      const data = fs.readFileSync(filesDir, 'utf-8')
+      return data ? JSON.parse(data) : [];
+}  
+
+let todoData = loadTodoData();
+
+const findId = () => {
+  const id = todoData.map(item => item.id);
+  let newId = 1;
+  while(id.includes(newId))
+  {
+    newId++;
+  }
+  return newId;
+}
+
+// Function to save todo data to file
+function saveTodo(data) {
+  fs.writeFileSync(filesDir, JSON.stringify(data, null, 2), "utf8");
+}
+
+
+
+
+
+
+
+  app.get("/todos", (req,res) => {
+     res.status(200).json(todoData)
+  })
+
+  app.get("/todos/:id", (req,res) => {
+    const todoId = parseInt(req.params.id, 10);
+    let todoEl;
+    for (const item of todoData) {
+       if(item.id === todoId)
+       {
+           todoEl = item;
+           break;
+       }
+    }
+    if(todoEl)
+    {
+      res.status(200).json(todoEl)
+    }
+    else
+    {
+      res.status(404).send("Not found");
+    }
+ })
+
+
+ 
+
+ app.post('/todos', (req, res) => {
+  let newTodo = req.body;
+  newTodo.id = findId();
+  todoData.push(newTodo);
+  saveTodo(todoData);
+  res.status(200).json({id : newTodo.id})
+ })
+
+
+
+
+
+ app.put('/todos/:id', (req,res) => {
+  const todoId = parseInt(req.params.id, 10);
+  let updatedTodo = req.body;
+  let todoIndex = todoData.findIndex(item => item.id === todoId);
+
+   // If the todo item is found
+   if (todoIndex !== -1) {
+    // Update the todo item
+    todoData[todoIndex] = { ...todoData[todoIndex], ...updatedTodo };
+    res.status(200).json({ message: 'Todo item updated successfully' });
+  } else {
+    // Todo item not found, return 404 Not Found
+    res.status(404).json({ message: 'Todo item not found' });
+  }
+ })
+
+ app.delete('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id, 10);
+  let todoIndex = todoData.findIndex(item => item.id === todoId);
+
+  if(todoIndex !== -1)
+  {
+    todoData.splice(todoIndex, 1);
+    saveTodo(todoData);
+    res.status(200).send("Ok");
+  }
+  else
+  {
+    res.status(404).send("Not Found")
+  }
+
+ })
+
+ app.use((req, res) => {
+  res.status(404).send("Not found");
+})
+  
+
+
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
+  
   
   module.exports = app;

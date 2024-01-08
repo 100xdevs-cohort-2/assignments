@@ -5,8 +5,22 @@
   Once you've implemented the logic, test your code by running
 */
 
+var vowels = "aeiouAEIOU"
+
 function countVowels(str) {
-    // Your code here
+  let count = 0;
+  for(let i = 0; i<str.length; i++)
+  {
+      if(vowels.includes(str[i]))
+      {
+        count++;
+      }
+  }
+  return count;
 }
+
+let input = "Mango";
+let result = countVowels(input);
+console.log(result);
 
 module.exports = countVowels;

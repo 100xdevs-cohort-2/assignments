@@ -5,6 +5,20 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("Completed");
+        }, milliseconds);    
+      });
 }
+console.log("wait");
+sleep(2000)
+.then((message) => {
+ console.log(message);
+})
+.catch((error) => {
+    console.error(error);
+})
+console.log('End');
 
 module.exports = sleep;
