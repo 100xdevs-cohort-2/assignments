@@ -28,5 +28,8 @@ function mathMethods(value) {
 
 // Example Usage for Math Methods
 mathMethods(4.56);
+console.log("logged  4.56")
 mathMethods(9);
+console.log("logged 9")
 mathMethods(25);
+console.log("logged 25")

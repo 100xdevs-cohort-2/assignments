@@ -15,7 +15,7 @@ function explainParseFloat(value) {
   console.log("After parseFloat:", result);
 }
 
-// Example Usage for parseFloat
+//Example Usage for parseFloat
 explainParseFloat("3.14");
 explainParseFloat("42");
 explainParseFloat("42px");

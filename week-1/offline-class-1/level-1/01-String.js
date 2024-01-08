@@ -12,7 +12,7 @@ function getLength(str) {
 }
 getLength("Hello World");
 
-// indexOf
+indexOf
 function findIndexOf(str, target) {
   console.log("Original String:", str);
   console.log("Index:", str.indexOf(target));
