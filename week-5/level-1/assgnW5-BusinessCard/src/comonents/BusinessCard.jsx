@@ -1,44 +1,26 @@
-export function BusinessCard(props) {
+/* eslint-disable react/prop-types */
+import { SocialButton } from "./SocialBUtton";
+
+export function BusinessCard({ user }) {
   return (
     <div style={styles.card}>
-      <h2 style={styles.name}>{props.user.name}</h2>
-      <p style={styles.description}>{props.user.description}</p>
+      <h2 style={styles.name}>{user.name}</h2>
+      <p style={styles.description}>{user.description}</p>
       <h3 style={styles.interestsHeader}>Interests</h3>
-      <ul style={styles.interestsList}>
-        {props.user.interests.map((interest) => (
-          <p key={interest} style={styles.interestItem}>
-            {interest}
-          </p>
-        ))}
-      </ul>
-      <div style={styles.socialLinks}>
-        <a
-          href={props.user.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ ...styles.link, marginLeft: "0px" }}
-        >
-          LinkedIn
-        </a>
-        <br />
-        <a
-          href={props.user.twitter}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={styles.link}
-        >
-          Twitter
-        </a>
-        {props.user.otherSocialMedia && (
-          <a
-            href={props.user.otherSocialMedia}
-            target="_blank"
-            rel="noopener noreferrer"
+      {user.interests.map((interest) => (
+        <p key={interest} style={styles.interestItem}>
+          {interest}
+        </p>
+      ))}
+      <div>
+        {Object.entries(user.socials).map(([platform, link]) => (
+          <SocialButton
             style={styles.link}
-          >
-            {props.user.otherSocialMedia.label}
-          </a>
-        )}
+            key={platform}
+            socialLink={link}
+            buttonText={`${platform}`}
+          />
+        ))}
       </div>
     </div>
   );
