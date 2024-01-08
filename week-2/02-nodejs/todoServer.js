@@ -102,6 +102,23 @@ app.put("/todos/:id", function (req, res) {
   }
 });
 
+//endpoint to delete task
+app.delete("/todos/:id", function (req, res) {
+  const todoIndex = todoList.findIndex((t) => t.id === parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send("Invalid Task id");
+  } else {
+    todoList.splice(todoIndex, 1);
+    res.status(200).send("Deleted");
+  }
+});
+
+//handling invalid route
+app.use(function (req, res, next) {
+  res.status(404).send("Invalid Route");
+  next();
+});
+
 app.listen(3000, function () {
   console.log("Listening at Port 3000");
 });
