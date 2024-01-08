@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "title": "Run",
+    "description": "Run for 3 hours.",
+    "id": 1
+  },
+  {
+    "title": "Coding",
+    "description": "Code for 3 hours.",
+    "id": 2
+  },
+  {
+    "title": "Swimming",
+    "description": "Swimming for 3 hours.",
+    "id": 3
+  }
+]

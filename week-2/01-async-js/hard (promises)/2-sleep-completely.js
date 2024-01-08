@@ -5,6 +5,15 @@
  */
 
 function sleep(milliseconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 }
+
+console.log("Start");
+sleep(3000).then(() => {
+  console.log("End after 3 seconds");
+});
+
 
 module.exports = sleep;
