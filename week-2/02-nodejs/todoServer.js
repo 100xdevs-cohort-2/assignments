@@ -39,11 +39,70 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const todoList = [];
+
+//Middleware to generate unique ids
+app.use(function (req, res, next) {
+  req.todoId = todoList.length + 1;
+  next();
+});
+
+// endpoint to get
+
+app.get("/todos", function (req, res) {
+  res.status(200).json(todoList);
+});
+
+app.get("/todos/:id", function (req, res) {
+  const id = todoList.find((t) => t.id === parseInt(req.params.id)); //replaces ex. :1 to 1
+  let found = false;
+  for (let i = 0; i < todoList.length; i++) {
+    if (todoList[i].id == id) {
+      found = true;
+      return res.status(200).json(todoList[i]);
+    }
+  }
+  if (!found) {
+    return res.status(404).send("Not Found");
+  }
+});
+
+//endpoint to create new to do
+app.post("/todos", function (req, res) {
+  const { title, description, completed = false } = req.body; //if completed is not provided it will take it as default false
+  if (!title || !description) {
+    return res.status(400).send("Title and Description are required");
+  }
+  const newTodo = {
+    id: req.todoId,
+    title,
+    description,
+    completed,
+  };
+  todoList.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+//endpoint to update using id
+app.put("/todos/:id", function (req, res) {
+  const todoIndex = todoList.findIndex((t) => t.id === parseInt(req.params.id));
+  if (todoIndex === -1) {
+    res.status(404).send("Invalid Task id");
+  } else {
+    todoList[todoIndex].title = req.body.title;
+    todoList[todoIndex].description = req.body.description;
+    res.status(200).json(todoList[todoIndex]);
+  }
+});
+
+app.listen(3000, function () {
+  console.log("Listening at Port 3000");
+});
+module.exports = app;
