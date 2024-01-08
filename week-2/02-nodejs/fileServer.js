@@ -17,5 +17,41 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+const filesDirector = path.join(__dirname,'files');
+
+///TO get a list of files
+app.get("/files",function(req,res){
+  fs.readdir(filesDirector, function(err,data){
+    if(err){
+      res.status(500).json({
+        error: 'Internal Server Error'
+      })
+    }else{
+      res.status(200).json(data);
+    }
+  })
+})
+
+
+///To get the content of a specific file
+app.get('/file/:filename',function(req,res){
+  const filename = req.params.filename;
+  const filePath = path.join(filesDirector,filename);
+
+  fs.readFile(filePath, 'utf-8', function(err,data){
+    if(err){
+      res.status(404).send('File not found');
+    }else{
+      res.status(200).send(data);
+    }
+  })
+})
+
+///To handling undefined routes
+app.use(function(req,res){
+  res.status(404).send('Route not found');
+})
+
+// app.listen(3001);
 
 module.exports = app;
