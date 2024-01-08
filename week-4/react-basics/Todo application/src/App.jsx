@@ -1,10 +1,15 @@
-import { useRef, useState } from "react";
+import axios from "axios";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuid4 } from "uuid";
 
 function App() {
   const [todo, setTodo] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  useEffect(() => {
+    axios.get("https://");
+  }, []);
 
   const handleAddTodo = () => {
     if (title !== "" && description !== "") {
