@@ -7,6 +7,24 @@
 
 function countVowels(str) {
     // Your code here
+    let splittedString = str.split("");
+
+    const comp = ["a","e","i","o","u","A","E","I","O","U"]
+    let count=0;
+    
+     for (let i = 0; i < comp.length; i++) {
+      
+        for (let j = 0; j < splittedString.length; j++) {
+        
+        if (comp[i] === splittedString[j]){
+          count++;
+         }
+        
+      }
+      
+     }
+   
+   return count;
 }
 
 module.exports = countVowels;
