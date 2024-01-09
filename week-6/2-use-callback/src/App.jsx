@@ -5,7 +5,9 @@ import { Assignment2 } from './components/Assignment2'
 function App() {
   return (
     <>
-      {/* <Assignment1 /> */}
+      Assigment 1
+      <Assignment1 /><hr />
+      Assigment 2
       <Assignment2 />
     </>
   )
