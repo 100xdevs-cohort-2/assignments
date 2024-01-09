@@ -4,6 +4,21 @@
 */
 
 function isPalindrome(str) {
+  if (str.length === 0 || str.length === 1) {
+    return true;
+  }
+
+  const newStr = str
+    .replace(/[^\w\s\']|_/g, "")
+    .replace(/\s/g, "")
+    .toLowerCase();
+  const len = newStr.length;
+
+  for (let i = 0; i < Math.floor(len / 2); i++) {
+    if (newStr[i] !== newStr[len - i - 1]) {
+      return false;
+    }
+  }
   return true;
 }
 

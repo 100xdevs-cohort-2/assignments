@@ -11,16 +11,34 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
+app.use(rateLimitter)
+
 let numberOfRequestsForUser = {};
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
 
-app.get('/user', function(req, res) {
+function rateLimitter(req, res, next) {
+  const userId = req.headers.userId
+
+  if (numberOfRequestsForUser.userId > 5) {
+    res.status(404).json({ 'msg': 'too many attempts' })
+  }
+
+  if (numberOfRequestsForUser.userId >= 1) {
+    numberOfRequestsForUser.userId += 1
+  } else {
+    numberOfRequestsForUser.userId = 1
+  }
+
+  next()
+}
+
+app.get('/user', function (req, res) {
   res.status(200).json({ name: 'john' });
 });
 
-app.post('/user', function(req, res) {
+app.post('/user', function (req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 

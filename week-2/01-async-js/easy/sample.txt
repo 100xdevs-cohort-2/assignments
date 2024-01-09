@@ -1,0 +1,1 @@
+This text is typed through write operation in 4-write-to-file
