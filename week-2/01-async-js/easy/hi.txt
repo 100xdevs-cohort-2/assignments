@@ -1,0 +1,1 @@
+so i learned to write to a file using fs lib.

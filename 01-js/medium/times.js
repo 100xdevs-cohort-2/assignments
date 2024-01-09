@@ -9,5 +9,18 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    console.time("Start");
+    let sum = (n*(n+1))/2;
+    /*let sum = 0;
+    while(n){
+        sum += n;
+        n--;
+    }*/
+    console.timeEnd("Start");
+    return sum;
 }
+
+let a = calculateTime(100);
+let b = calculateTime(100000);
+let c = calculateTime(10000000000000000);
+console.log(a,b,c);

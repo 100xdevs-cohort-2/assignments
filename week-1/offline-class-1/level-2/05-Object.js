@@ -11,7 +11,7 @@ function objectMethods(obj) {
   let entries = Object.entries(obj);
   console.log("After Object.entries():", entries);
 
-  let hasProp = obj.hasOwnProperty("property");
+  let hasProp = obj.hasOwnProperty("key1");
   console.log("After hasOwnProperty():", hasProp);
 
   let newObj = Object.assign({}, obj, { newProperty: "newValue" });
