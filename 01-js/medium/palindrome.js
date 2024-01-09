@@ -4,7 +4,37 @@
 */
 
 function isPalindrome(str) {
+
+  str = str.toLowerCase();
+  let start = 0;
+  let end = str.length - 1;
+
+  while (start < end) {
+    let sc = str.charAt(start); //sc = startChar ec = endChar
+    let ec = str.charAt(end);
+    if (!isLetterOrDigit(sc)) {
+      start++;
+    }
+    else if (!isLetterOrDigit(ec)) {
+      end--;
+    }
+    else {
+      if (sc == ec) {
+        start++;
+        end--;
+      } else {
+        return false;
+      }
+    }
+
+  }
   return true;
 }
+function isLetterOrDigit(char) {
+  return /[a-zA-Z0-9]/.test(char);
+}
+
 
 module.exports = isPalindrome;
+let n = "naya";
+console.log(isPalindrome(n));

@@ -6,7 +6,18 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // Your code here
+  let vowelCount = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i).toLowerCase() == 'a' || str.charAt(i).toLowerCase() == 'e' || str.charAt(i).toLowerCase() == 'i' || str.charAt(i).toLowerCase() == 'o' || str.charAt(i).toLowerCase() == 'u') {
+      vowelCount++;
+    }
+  }
+  return vowelCount;
 }
+
+let a = "ashrafeiou";
+
+console.log(countVowels(a));
 
 module.exports = countVowels;
