@@ -47,6 +47,20 @@
   app.use(bodyParser.json());
 
   const todos = new Map();
+
+  todos.set('98', {
+    "title": "Homework CSE",
+    "completed": true,
+    "description": "CSE115 works"
+  })
+  todos.set('99', {
+    "title": "Homework MAT",
+    "completed": false,
+    "description": "MAT116 works"
+  })
+
+
+
   let noteId = 100; 
 
   function isTodoListEmpty() {
@@ -67,15 +81,7 @@
 
   // 1.GET /todos - Retrieve all todo items
   app.get('/todos', (req, res) => {
-    if (isTodoListEmpty()) {
-      res.sendStatus(200).json(
-        todos
-      );
-    } else {
-      res.sendStatus(404).send(
-        "You haven't added any todos yet."
-      );
-    }
+    res.sendStatus(200).json(todos);
   })
 
   // 2.GET /todos/:id - Retrieve a specific todo item by ID
