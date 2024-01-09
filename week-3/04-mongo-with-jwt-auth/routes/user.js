@@ -1,26 +1,48 @@
 const { Router } = require("express");
-const router = Router();
 const userMiddleware = require("../middleware/user");
+const { User, Course } = require("../db/index");
 
-// User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
+const router = Router();
+
+router.post('/users/signup', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
+
+        await User.create({ username, password });
+        res.json({
+            message: 'User created successfully'
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.post('/signin', (req, res) => {
-    // Implement admin signup logic
+router.get('/users/courses', userMiddleware, async (req, res) => {
+    try {
+        const allCourses = await Course.find();
+        res.json({ courses: allCourses });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+    const username = req.username;
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
+router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate('purchasedCourses');
+        res.json({ purchasedCourses: user.purchasedCourses });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
-});
-
-module.exports = router
+module.exports = router;

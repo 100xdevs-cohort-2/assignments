@@ -1,1 +1,7 @@
 node_modules
+.history
+package-lock.json
+package.json
+tsconfig.json
+jest.config.js
+```
