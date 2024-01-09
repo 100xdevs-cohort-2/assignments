@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const zod = require("zod");
 const jwtPassword = 'secret';
 
 
@@ -13,9 +14,23 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
-function signJwt(username, password) {
-    // Your code here
-}
+
+const emailSchema = zod.string().email();
+const passwordSchema = zod.string().min(6);
+
+// function signJwt(username, password) {
+//     const usernameResponse = emailSchema.safeParse(username);
+//     const passwordResponse = passwordSchema.safeParse(password);
+
+//     if(!usernameResponse.success || !passwordResponse.success){
+//         return null;
+//     }
+
+//     else{ const signature = jwt.sign({username}, jwtPassword);
+
+//     return signature;
+// }
+// }
 
 /**
  * Verifies a JWT using a secret key.
@@ -25,9 +40,19 @@ function signJwt(username, password) {
  *                    Returns false if the token is invalid, expired, or not verified
  *                    using the secret key.
  */
+
 function verifyJwt(token) {
-    // Your code here
+    try{
+        const verified = jwt.verify(token, jwtPassword);
+        return true;
+    }
+    catch(error){
+        return false;
+    }
 }
+
+console.log(verifyJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hanNka3dlQGdtYWlsLmNvbSIsImlhdCI6MTcwMzc3NjAwOH0.uxbPart7fz6fQyOlNeQyawqo2Ct3IrQfTSA1"));
+
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
@@ -36,14 +61,22 @@ function verifyJwt(token) {
  * @returns {object|false} The decoded payload of the JWT if the token is a valid JWT format.
  *                         Returns false if the token is not a valid JWT format.
  */
-function decodeJwt(token) {
-    // Your code here
-}
+
+// function decodeJwt(token) {
+//     const decoded = jwt.decode(token);
+//     if(decoded){
+//         return true;
+//     }
+//     else{
+//         return false;
+//     }
+// }
 
 
-module.exports = {
-  signJwt,
-  verifyJwt,
-  decodeJwt,
-  jwtPassword,
-};
+
+// module.exports = {
+//   signJwt,
+//   verifyJwt,
+//   decodeJwt,
+//   jwtPassword,
+// };
