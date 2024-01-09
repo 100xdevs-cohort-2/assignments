@@ -1,0 +1,9 @@
+.pannel{
+    background-color: black;
+    color: white;
+}
+h1,li
+{
+    border: 10px;
+    border-color: white;
+}
