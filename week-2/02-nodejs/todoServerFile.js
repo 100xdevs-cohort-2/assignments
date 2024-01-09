@@ -42,56 +42,107 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
+const fs = require("fs");
 
 const app = express();
 
 app.use(bodyParser.json());
 
-let todos = [];
+const filePath = "./todos.json"
 
 app.get("/todos", (req, res) => {
-  res.status(200).json(todos)
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error reading todos")
+    } else {
+      let todos = JSON.parse(data);
+      res.status(200).json(todos)
+    }
+  })
 })
 
 app.get("/todos/:id", (req, res) => {
-  let id = req.params.id;
-  let todo = todos.find((val) => val.id === id);
-  if (!todo) {
-    res.status(404).send("Todo Not Found")
-  } else {
-    res.status(200).json(todo)
-  }
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error reading todos")
+    } else {
+      let id = req.params.id;
+      let todos = JSON.parse(data)
+      let todo = todos.find((val) => val.id === id);
+      if (!todo) {
+        res.status(404).send("Todo Not Found")
+      } else {
+        res.status(200).json(todo)
+      }
+    }
+  })
 })
 
 app.post("/todos", (req, res) => {
   let id = uuidv4();
   let todo = { ...req.body, id: id };
-  todos.push(todo);
-  res.status(201).json({ "id": id });
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error reading todos")
+    } else {
+      let todos = JSON.parse(data)
+      todos.push(todo);
+      fs.writeFile(filePath, JSON.stringify(todos), (err) => {
+        if (err) {
+          res.status(500).send("Error reading todos")
+        }
+        res.status(201).json({ "id": id });
+      })
+    }
+  })
 })
 
 app.put("/todos/:id", (req, res) => {
-  let id = req.params.id;
-  let index = todos.findIndex(val => val.id === id);
-  if (index == -1) {
-    res.status(404).send()
-  } else {
-    todos[index].title = req.body.title ? req.body.title : todos[index].title;
-    todos[index].description = req.body.description ? req.body.description : todos[index].description;
-    todos[index].completed = req.body.completed ? req.body.completed : todos[index].completed;
-    res.status(200).json(todos[index]);
-  }
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error reading todos")
+    } else {
+      let todos = JSON.parse(data)
+      let id = req.params.id;
+      let index = todos.findIndex(val => val.id === id);
+      if (index == -1) {
+        res.status(404).send()
+      } else {
+        todos[index].title = req.body.title ? req.body.title : todos[index].title;
+        todos[index].description = req.body.description ? req.body.description : todos[index].description;
+        todos[index].completed = req.body.completed ? req.body.completed : todos[index].completed;
+        fs.writeFile(filePath, JSON.stringify(todos), (err) => {
+          if (err) {
+            res.status(500).send("Error reading todos")
+          }
+          res.status(200).json(todos[index]);
+        })
+      }
+    }
+  })
 })
 
 app.delete("/todos/:id", (req, res) => {
-  let id = req.params.id;
-  let index = todos.findIndex(val => val.id === id)
-  if (index == -1) {
-    res.status(404).send();
-  } else {
-    todos.splice(index, 1);
-    res.status(200).send();
-  }
+  fs.readFile(filePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error reading todos")
+    } else {
+      let id = req.params.id;
+      let todos = JSON.parse(data)
+      let index = todos.findIndex(val => val.id === id)
+      if (index == -1) {
+        res.status(404).send();
+      } else {
+        todos.splice(index, 1);
+        fs.writeFile(filePath, JSON.stringify(todos), (err) => {
+          if (err) {
+            res.status(500).send("Error reading todos")
+          }
+          res.status(200).send();
+        })
+      }
+    }
+  })
 })
 
 app.all("*", (req, res) => {
