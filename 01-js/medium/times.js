@@ -9,5 +9,23 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const start = new Date().getTime()
+
+    Runloop(n)
+
+    const end = new Date().getTime()
+
+    const Totime = end - start
+
+    console.log(Totime)
+
+    return Totime;
+}
+
+function Runloop(n){
+
+    let sum = 0;
+    for(let i = 0; i < n; i++){
+        sum = sum + i;
+    }
 }
