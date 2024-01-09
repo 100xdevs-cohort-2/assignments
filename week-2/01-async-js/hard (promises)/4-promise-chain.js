@@ -6,19 +6,33 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve) => {
+        setTimeout((resolve), t*1000);
+    })
 }
 
 function wait2(t) {
-
+    return new Promise((resolve) => {
+        setTimeout((resolve), t*1000)
+    })
 }
 
 function wait3(t) {
-
+    return new Promise((resolve) => {
+        setTimeout((resolve), t*1000)
+    })
 }
 
 function calculateTime(t1, t2, t3) {
-
+    const startTime = new Date();
+    return new Promise((resolve) => {
+        wait1(t1)   // called 1st fn
+        .then(() => wait2(t2)) // 1st fn resolve then called 2nd fn
+        .then(() => wait3(t3)) // 2nd fn resolve then called 3rd fn
+        .then(() => { // 3rd fn resolve then resolve main promise
+            resolve(new Date - startTime); // calculate time... :)
+        });
+    });
 }
 
 module.exports = calculateTime;

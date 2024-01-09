@@ -36,14 +36,74 @@
     Example: DELETE http://localhost:3000/todos/123
 
     - For any other route not defined in the server return 404
+    
+    Testing the server - run `npm run test-todoServer` command in terminal
+    */
+    const express = require('express');
+    const bodyParser = require('body-parser');
+    
+    const app = express();
+    app.use(bodyParser.json());
+    
+    let todoList = [];
+    let todoCount = 1;
+    
+    app.get('/todos', (req, res) => {
+      res.status(200).json(todoList);
+    })
+    
+    app.get('/todos/:id', (req, res) => {
+      const id = req.params.id;
+      for(let i=0; i<todoList.length; i++){
+        if(todoList[i].id == id){
+          res.status(200).json(todoList[i]);
+          return;
+        }
+      }
+      res.status(404).send();
+    })
+    
+    app.post('/todos', (req, res) => {
+      const userTodo = req.body;
+      const newTodo = {
+        id: todoCount,
+        completed: false,
+        title: userTodo.title,
+        description: userTodo.description
+      }
+      todoList.push(newTodo);
+      todoCount += 1;
+      res.status(201).send();
+    })
+    
+    app.put('/todos/:id', (req, res) => {
+      const id = req.params.id;
+      for(let i=0; i<todoList.length; i++){
+        if(todoList[i].id == id){
+          todoList[i].title = req.body.title;
+          todoList[i].completed = req.body.completed;
+          res.status(200).send();
+          return;
+        }
+      }
+      res.status(404).send("Not found");
+    })
+    
+    app.delete('/todos/:id', (req, res) => {
+      const id = req.params.id;
+      for(let i=0; i<todoList.length; i++){
+        if(todoList[i].id == id){
+          todoList.splice(i, 1);
+          res.status(200).send();
+          return;
+        }
+      }
+      res.status(404).send("Not found");
+    })
+    
+    app.use((req, res, next) => {
+      res.status(404).send();
+    });
+    
 
-  Testing the server - run `npm run test-todoServer` command in terminal
- */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
   module.exports = app;

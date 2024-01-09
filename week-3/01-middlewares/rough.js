@@ -16,36 +16,23 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
-// app.use((req, res, next) => {
-//   const userId = req.headers["user-id"];
-//   numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
-//   numberOfRequestsForUser[userId]++;
-//     if(numberOfRequestsForUser[userId] > 5){
-//       return res.status(404).send();
-//     }
-//     if(numberOfRequestsForUser[userId] <= 5){
-//       next();
-//     }
-    
-// })
-
 app.use((req, res, next) => {
   const userId = req.headers["user-id"];
-  if(numberOfRequestsForUser.hasOwnProperty(userId)){  // can be done using this method too https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwn
-    numberOfRequestsForUser[userId]++;
-  }else{
     numberOfRequestsForUser[userId] = 0;
-  }
-
     if(numberOfRequestsForUser[userId] > 5){
-      return res.status(404).send();
+      res.status(404).send();
+      return;
     }
+    numberOfRequestsForUser[userId]++;
     if(numberOfRequestsForUser[userId] <= 5){
       next();
     }
     
 })
+
 app.get('/user', function(req, res) {
+  const userId = req.headers["user-id"];
+  console.log(numberOfRequestsForUser[userId]);
   res.status(200).json({ name: 'john' });
 });
 
@@ -53,4 +40,4 @@ app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 
-module.exports = app;
+app.listen(3000)
