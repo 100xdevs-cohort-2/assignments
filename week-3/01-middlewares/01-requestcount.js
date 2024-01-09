@@ -5,6 +5,13 @@ const express = require('express');
 const app = express();
 let requestCount = 0;
 
+function requestCounter(req,res,next){
+  requestCount = requestCount+1;
+  next();
+}
+
+app.use(requestCounter);
+
 // You have been given an express server which has a few endpoints.
 // Your task is to create a global middleware (app.use) which will
 // maintain a count of the number of requests made to the server in the global
@@ -18,7 +25,7 @@ app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
 
-app.get('/requestCount', function(req, res) {
+app.get('/requestCount', function(req, res) {    // so when you hit this end poin this will also increment the value of the requestCount
   res.status(200).json({ requestCount });
 });
 
