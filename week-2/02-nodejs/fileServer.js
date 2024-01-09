@@ -17,5 +17,33 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+// 1) GET /files
+app.get('/files',(req,res)=>{
+  fs.readdir('./files', (err,files)=>{
+    if(err) throw new Error("Error occurred");
+    else{
+      res.status(200).json(files);
+    }
+  })
+})
+
+// 2) GET /file/:filename
+app.get('/file/:filename',(req,res)=>{
+  const filename = req.params.filename
+
+  fs.readFile(`./files/${filename}`,(err,data)=>{
+    if(err) {
+      res.status(404).send("File not found");
+    }
+    else{
+      res.status(200).send(data);
+    }
+  })
+})
+
+// 3) Give error for inexistent routes
+app.use((req,res,next)=>{
+  res.status(404).send("Route not found");
+})
 
 module.exports = app;
