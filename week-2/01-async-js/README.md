@@ -5,6 +5,7 @@ This folder contains assignments related to asynchronous JavaScript.
 ### Assignments
 
 Recommended order below but feel free to make a mess in any order you like.
+
 1. Easy
    1. Counter
    2. Counter (no setInterval)
@@ -20,13 +21,15 @@ Recommended order below but feel free to make a mess in any order you like.
    4. Promise chain
 
 #### Development Setup
+
 1. If you have Node.js locally, you should run these on your machine
 2. If you don't, you can copy these over to repl.it and run it there.
 
 #### How to Run Tests
-1. Your working directory must be /assignments/week-2/01-async-js 
+
+1. Your working directory must be /assignments/week-2/01-async-js
 2. Do npm install
-3. To run tests run `npx jest ./tests/<filename-of-test>` 
+3. To run tests run `npx jest ./tests/<filename-of-test>`
    for example, `npx jest ./tests/1-promisify-setTimeout.test.js`
 4. If the above does not work for you, to run tests run `npm run <name-of-test>`
    for example, `npm run 1-promisify-setTimeout`
