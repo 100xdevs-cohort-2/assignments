@@ -9,5 +9,31 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    var time = new Date();
+    var sum=0;
+    console.log("Time Before 1-100 ", time.getTime());
+    for(var i=1;i<=100;i++){
+        sum+=i;
+    }
+    console.log("Sum 1-100 ", sum);
+    sum=0;
+    console.log("Time After 1-100 ", time.getTime());
+
+    console.log("Time Before 1-100000 ", time.getTime());
+    for(var i=1;i<=100000;i++){
+        sum+=i;
+    }
+    console.log("Sum 1-100000 ", sum);
+    sum=0;
+    console.log("Time After 1-100000 ", time.getTime());
+
+    console.log("Time Before 1-1000000000 ", time.getTime());
+    for(var i=1;i<=1000000000;i++){
+        sum+=i;
+    }
+    console.log("Sum 1-1000000000 ", sum);
+    sum=0;
+    console.log("Time After 1-1000000000 ", time.getTime());
 }
+
+calculateTime(0);
