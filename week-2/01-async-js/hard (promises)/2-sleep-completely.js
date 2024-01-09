@@ -5,6 +5,20 @@
  */
 
 function sleep(milliseconds) {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
+// function sleep(seconds) {
+//   const start = new Date().getTime();
+//   while (new Date().getTime() - start < (seconds * 1000)) {
+
+//   }
+//   console.log(`waited ${seconds} seconds`)
+// }
+
+function work() {
+  sleep(5000)
+  console.log("hello");
+}
+work()
 module.exports = sleep;
