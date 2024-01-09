@@ -1,0 +1,93 @@
+
+
+input{
+    border: 2px solid skyblue;
+    height: 20px;
+    padding:3px;
+    padding-left: 10px;
+    border-radius: 7px;
+}
+
+.box {
+    border: 2px solid black;
+    height: 484px;
+    width: 1000px;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+.box1{
+display: flex;
+flex-direction: column;
+align-items: start;
+justify-content: center;
+padding: 40px;
+
+}
+.box1 h3{
+    margin-bottom: 10px;
+}
+
+.box2{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 40px;
+    
+    }
+    .box2 h3{
+        margin-bottom: 10px;
+    }
+
+    .box3{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        padding: 40px;
+        
+        }
+        .box3 h3{
+            margin-bottom: 10px;
+        }
+        .box4{
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            justify-content: center;
+            padding: 40px;
+            
+            }
+            .box4 h3{
+                margin-bottom: 10px;
+            }
+
+            .box5{
+
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: center;
+                padding: 40px;
+                
+                }
+                .box5 h3{
+                    margin-bottom: 10px;
+                }
+
+
+            .box6{
+
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                justify-content: center;
+                padding: 40px;
+                
+                }
+
+                button{
+                    cursor: pointer;
+                }
