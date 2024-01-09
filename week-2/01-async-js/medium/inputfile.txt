@@ -1,0 +1,46 @@
+Requires: Phone number, credit card identity verification, Microsoft/GitHub account.
+Subscription
+Used to create and use Azure services
+Created for you when you sign up
+📝 Logical container used to provision resources in Azure such as virtual machines, databases and more.
+📝 When you create an Azure resource like a VM, you identify the subscription it belongs to
+As you use the VM, the usage of the VM is aggregated and billed monthly.
+📝 Each subscription is a separate entity that can't be merged.
+Multiple Azure Subscriptions
+You can create new subscriptions to separate e.g.
+Environments
+E.g. for testing, security, or to isolate data for compliance reasons.
+💡Useful because resource access control occurs at the subscription level.
+Organizational structures
+E.g. limit a team to lower-cost resources & allow IT department a full range
+💡Allows you to manage and control access to the resources that users provision within each subscription
+Billing
+Costs are first aggregated at the subscription level
+Manage and track costs based on your needs
+E.g. for production, development, testing
+Or due to subscription limits:
+Subscriptions are bound to some hard limitations
+E.g. the maximum number of Express Route circuits per subscription is 10
+Billing
+You'll receive a monthly invoice with payment instructions provided
+You also can get set up for multiple invoices.
+Customize billing
+Allows you to e.g. have single invoice for organization but organize charges by department, team, or project.
+Billing structure:
+Azure billing structure
+Each billing account has billing profile
+Each billing profile has different invoice sections
+Each invoice section can be coupled to different subscriptions.
+Each invoice section is a line item on the invoice that shows the charges incurred that month
+Support
+Free
+24/7 access to the online documentation, community support, and new Azure capabilities demo videos on YouTube
+Demo videos by Azure engineers are available on Azure Friday, Microsoft Mechanics, Azure portal how-to videos playlists
+Azure Quickstart Center: Guided experience in the portal.
+Azure Service Health: Insights on issues related to your Azure services
+Azure Advisor: Personalized recommendations on how to optimize your cost and performance.
+Basic support
+Included free for everyone.
+Billing and subscription management support
+Ability to submit as many support tickets as you need
+Either through • Help + support on top right menu or on resource level (Resource blade -> Support + troubleshooting -> New support request)
