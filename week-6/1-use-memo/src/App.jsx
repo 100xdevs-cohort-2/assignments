@@ -1,14 +1,17 @@
 import './App.css'
-import { Assignment1 } from './components/Assignment2'
-import { Assignment2 } from './components/Assignment1'
+import { Assignment1 } from './components/Assignment1'
+import { Assignment2 } from './components/Assignment2'
 import Assignment3 from './components/Assignment3'
 
 function App() {
   return (
     <>
-      <Assignment1 />
-      {/* <Assignment2 /> */}
-      {/* <Assignment3 /> */}
+      Assignment 1
+      <Assignment1 /><hr />
+      Assignment 2
+      <Assignment2 /><hr /> 
+      Assignment 3
+      <Assignment3 />
     </>
   )
 }
