@@ -16,7 +16,7 @@ for (let i = 0; i < TOTAL_LINES; i++) {
     ALL_WORDS.push(sentence);
 }
 
-export function Assignment2() {
+export default function Assignment2() {
     const [sentences, setSentences] = useState(ALL_WORDS);
     const [filter, setFilter] = useState("");
 
