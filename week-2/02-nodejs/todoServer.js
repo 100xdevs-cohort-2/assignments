@@ -39,11 +39,86 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const app = express();
+const port = 3005;
+app.use(express.json());
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+let todos = [];
+
+// Function to generate a unique ID
+function generateId() {
+  return Math.floor(Math.random() * 1000);
+}
+
+// GET all todos
+app.get('/todos', function(req, res) {
+  res.status(200).json(todos);
+});
+
+// GET a specific todo by ID
+app.get('/todos/:id', function(req, res) {
+  const id = parseInt(req.params.id);
+  const todoIndex = todos.findIndex(function(item) {
+    return item.id === id;
+  });
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found');
+  } else {
+    res.json(todos[todoIndex]);
+  }
+});
+
+//POST create a new todo
+app.post('/todos', function(req, res) {
+  const newTodo = {
+    id: generateId(),
+    title: req.body.title,
+    description: req.body.description
+  };
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+// PUT update a todo by ID
+app.put('/todos/:id', function(req, res) {
+  const id = parseInt(req.params.id);
+  const todoIndex = todos.findIndex(function(item) {
+    return item.id === id;
+  });
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found');
+    
+  } else {
+    todos[todoIndex].title = req.body.title;
+    todos[todoIndex].description = req.body.description;
+    res.status(200).json(todos[todoIndex]);
+  }
+});
+
+// DELETE a todo by ID
+app.delete('/todos/:id', function(req, res) {
+  const id = parseInt(req.params.id);
+  const todoIndex = todos.findIndex(function(item) {
+    return item.id === id;
+  });
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found');
+  } else {
+    todos.splice(todoIndex, 1);
+    res.send('OK');
+  }
+});
+
+// Handle undefined routes with a 404 response
+app.use(function(req, res) {
+  res.status(404).send('Not Found');
+});
+
+app.listen(port, function() {
+  console.log(`Todo app listening on port ${port}`);
+});
+
+module.exports = app;
