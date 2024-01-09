@@ -6,6 +6,7 @@ const userRouter = require("./routes/user");
 
 // Middleware for parsing request bodies
 app.use(bodyParser.json());
+// Now below whenever a request comes to /admin/(anything), it would be headed to adminRouter, similarly for userRouter
 app.use("/admin", adminRouter)
 app.use("/user", userRouter)
 
