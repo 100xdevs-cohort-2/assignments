@@ -13,9 +13,28 @@ const app = express();
 
 let numberOfRequestsForUser = {};
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
 
+app.use((req, res, next) => {
+
+  if (numberOfRequestsForUser.user_id) {
+    numberOfRequestsForUser.user_id++;
+    if (numberOfRequestsForUser.user_id > 5) {
+      res.status(404).json({
+        msg: 'Sorry, but you have crossed your limit'
+      })
+    }
+    else {
+      next();
+    }
+  }
+  else {
+    numberOfRequestsForUser.user_id = 1;
+    next();
+  }
+
+});
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
