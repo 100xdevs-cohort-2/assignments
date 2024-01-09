@@ -64,30 +64,28 @@ app.get('/', (req, res) => {
 })
 
 app.get('/files', function (req, res) {
-  fs.readdir(path.join(__dirname, './files/'), 'utf-8', function (err, data) {
+  fs.readdir(path.join(__dirname, './files/'), 'utf-8', function (err, files) {
     if (err) {
-      return res.status(500).send("cannot read the file")
+      return res.status(500).json({
+        msg : "Cannot fetch files"
+      })
     }
-    res.json(data)
+    res.json(files)
   })
 })
 
-app.get('/files/:filename', (req, res) => {
+app.get('/file/:filename', (req, res) => {
   const check = req.params.filename;
   fs.readFile(path.join(__dirname, './files/', check), 'utf-8', (err, data) => {
     if (err) {
-      return res.status(404).send("File Not Found")
+      return res.status(404).send("File not found")
     }
     res.status(200).send(data)
   })
 })
 
-
 app.all('*', (req, res) => {
   res.status(404).send("Route not found")
 })
 
-
-app.listen(3000,function(){
-  console.log("Express server listening at port 3000");
-});
+module.exports=app
