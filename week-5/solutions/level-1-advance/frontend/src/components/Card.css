@@ -1,0 +1,27 @@
+.card {
+  border-radius: 8px;
+	padding: 20px;
+	margin: 20px auto;
+	width: 300px;
+	background-color: #1a1a1a;
+}
+
+
+
+.card:hover {
+  filter: drop-shadow(0 0 10px #646cff);
+}
+
+
+.social-media img {
+	width: 30px;
+	margin: 5px 8px;
+}
+
+.interests {
+	margin-top: 20px;
+}
+
+.interests h3 {
+	margin-bottom: 10px;
+}
