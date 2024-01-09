@@ -14,7 +14,20 @@ const app = express();
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
+}, 1000);
+
+const rateLimiter = (req,res,next) => {
+  const userId = req.headers['user-id'];
+  numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
+
+  if(numberOfRequestsForUser[userId] >= 5) return res.status(404).json({});
+  else{
+    numberOfRequestsForUser[userId]++;  // always use [] notation while accessing object attributes .(dot) notation only works if attr name is valid identifier
+    next();
+  } 
+}
+
+app.use(rateLimiter)
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
