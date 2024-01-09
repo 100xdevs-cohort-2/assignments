@@ -5,7 +5,12 @@
 */
 
 function isAnagram(str1, str2) {
+  const Str1 = str1.toLowerCase().split(''); //spliting words separately
+  const join1 = Str1.sort().join(''); //arranging all alphabetes in A-Z order and then joining all letters together
 
+  const Str2 = str2.split('');
+  const join2 = Str2.sort().join('');
+
+  return join1 === join2; //comparing both the parameters
 }
-
 module.exports = isAnagram;
