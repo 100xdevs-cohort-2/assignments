@@ -9,7 +9,7 @@ export function Assignment2() {
 
     // Your code starts here
     function showAlert() {
-
+        alert({ inputText });
     }
     // Your code ends here
 
