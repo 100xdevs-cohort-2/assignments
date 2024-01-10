@@ -35,6 +35,21 @@ app.get(
   }
 );
 
+//Post endpoint
+app.use(express.json());
+app.post("/health-checkup", function (req, res) {
+  const kidneys = req.body.kidneys;
+  const kidneyLength = kidneys.length;
+  res.send("You have " + kidneyLength + " Kidneys");
+});
+
+//global catches
+app.use(function (err, req, res, next) {
+  res.json({
+    msg: "Sorry something went wrong-server error",
+  });
+});
+
 app.listen(3000, function () {
   console.log("Example app listening on port 3000!");
 });
