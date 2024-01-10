@@ -24,7 +24,7 @@ export function Assignment1() {
         value={input}
         onChange={(e) => setInput(Number(e.target.value))}
       />
-      <p>Calculated Value: {findFactorial()}</p>
+      <p>Calculated Value: {findFactorial}</p>
     </div>
   );
 }
