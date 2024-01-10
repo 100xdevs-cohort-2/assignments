@@ -39,124 +39,133 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
 
-  const app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
 
-  app.use(bodyParser.json());
+const app = express();
+app.use(bodyParser.json());
 
-  const todos = new Map();
+// [Store Todos] ----------------------------------------------------------
 
-  todos.set('98', {
-    "title": "Homework CSE",
-    "completed": true,
-    "description": "CSE115 works"
-  })
-  todos.set('99', {
-    "title": "Homework MAT",
-    "completed": false,
-    "description": "MAT116 works"
-  })
+// Functions
+const filePath = './todos.json';
 
-
-
-  let noteId = 100; 
-
-  function isTodoListEmpty() {
-    return (todos.length != 0);
+function loadData(params) {
+  try {
+    const data = fs.readFileSync(filePath);
+    todos = JSON.parse(data);
+  } catch (error) {
+    console.log('Error reading todos file: ', error);
   }
+}
 
-  function isTodoPresent(id) {
-    return todos.has(id);
-  }
-
-  function generateId() {
-    return noteId++;
-  }
-
-  function isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-
-  // 1.GET /todos - Retrieve all todo items
-  app.get('/todos', (req, res) => {
-    res.sendStatus(200).json(todos);
-  })
-
-  // 2.GET /todos/:id - Retrieve a specific todo item by ID
-  app.get('/todos/:id', (req, res) => {
-    if (isTodoPresent(id)) {
-      res.sendStatus(200).json(
-        todos[id]
-      );
-    } else {
-      res.sendStatus(404).json(
-        "There doesn't exist such note."
-      )
+function saveDataInFile(params) {
+  fs.writeFile(filePath, JSON.stringify(todos, null, 2), (err) => {
+    if (err) {
+      console.log('Error reading todos file: ', err);
     }
   })
+}
 
-  // 3. POST /todos - Create a new todo item
-  app.post('/todos', (req, res) => {
-    const id = generateId();
-    const title = req.body.title;
-    const completed = req.body.completed;
-    const description = req.body.description;
+// Storing variables
+let todos = [];
+let noteId = 100;
 
-    const noteBody = {
-      "title": title,
-      "completed": completed,
-      "description": description
-    };
+loadData();
 
-    todos.set(id, noteBody);
+// -------------------------------------------------------------------------
 
-    res.sendStatus(201).json({
-      id: id
-    })
-  })
-  
-  // 4. PUT /todos/:id - Update an existing todo item by ID
-  app.put('/todos/:id', (req, res) => {
-    if (isTodoPresent(id)) {
-      if (!isUndefined(req.body.title)){
-        todos[id].title = req.body.title;
-      }
+function getAllTodos() {
+  return todos;
+}
 
-      if (!isUndefined(req.body.completed)){
-        todos[id].completed = req.body.completed;
-      }
+function getTodoById(id) {
+  return todos.find((val) => val.id === id);
+}
 
-      if (!isUndefined(req.body.description)){
-        todos[id].description = req.body.description;
-      }
+function deleteTodoById(id) {
+  todos = todos.filter((val) => val.id !== id);
+}
 
-      res.sendStatus(200)
-    } else {
-      res.sendStatus(404).send(
-        "Note with this id is not present"
-      )
-    }
-  })
+function isTodoPresent(id) {
+  return todos.some((val) => val.id === id);
+}
 
-  // DELETE /todos/:id - Delete a todo item by ID
-  // 5. DELETE /todos/:id - Delete a todo item by ID
-  // Description: Deletes a todo item identified by its ID.
-  // Response: 200 OK if the todo item was found and deleted, or 404 Not Found if not found.
-  // Example: DELETE http://localhost:3000/todos/123
-  app.delete('todos/:id', (req, res) => {
-    if (isTodoPresent(id)) {
-      todos.delete(id);
+function generateId() {
+  return noteId++;
+}
 
-      res.sendStatus(200).send(
-        "Note has been deleted"
-      )
-    } else {
-      res.sendStatus(404).send(
-        "Note with this id is not present"
-      )
-    }
-  })
+// -------------------------------------------------------------------------
 
-  module.exports = app;
+
+// 1.GET /todos - Retrieve all todo items
+app.get('/todos', (req, res) => {
+  res.status(200).json(getAllTodos());
+});
+
+// 2.GET /todos/:id - Retrieve a specific todo item by ID
+app.get('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todo = getTodoById(id);
+
+  if (todo) {
+    res.status(200).json(todo);
+  } else {
+    res.status(404).json({ error: "Todo not found."});
+  }
+});
+
+// 3. POST /todos - Create a new todo item
+app.post('/todos', (req, res) => {
+  const newTodo = {
+    "id": generateId(),
+    "title": req.body.title,
+    "completed": req.body.completed,
+    "description": req.body.description
+  };
+
+  todos.push(newTodo);
+
+  saveDataInFile();
+
+  res.status(201).json({ id: newTodo.id });
+});
+
+// 4. PUT /todos/:id - Update an existing todo item by ID
+app.put('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todo = getTodoById(id);
+
+  if (todo) {
+    if (req.body.title) todo.title = req.body.title;
+    if (req.body.completed !== undefined) todo.completed = req.body.completed;
+    if (req.body.description) todo.description = req.body.description;
+
+    saveDataInFile();
+
+    res.status(200).json(todo);
+  } else {
+    res.status(404).json({ error: "Note with this id is not present"})
+  }
+});
+
+// DELETE /todos/:id - Delete a todo item by ID
+app.delete('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (isTodoPresent(id)) {
+    deleteTodoById(id);
+    saveDataInFile();
+    res.status(200).json({ msg: "Note has been deleted"});
+  } else {
+    res.status(404).send({ error: "Note with this id is not present"});
+  }
+});
+
+app.listen(3000);
+
+module.exports = app;
