@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const adminMiddleware = require("../middleware/admin");
+const adminMiddleware = require("../middleware/admin");   //admin import
 const router = Router();
 
 // Admin Routes
