@@ -235,7 +235,7 @@ console.log(typeof myLeads)
 
  localStorage.clear(); //to clear localStorage
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));  //write value here
-console.log(leadsFromLocalStorage);   
+console.log(leadsFromLocalStorage);    bdf
 
 //Truthy and Falsy value
 // const credits = 0
