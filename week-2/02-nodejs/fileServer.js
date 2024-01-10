@@ -15,7 +15,50 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const app = express();
+const bodyParser = require('body-parser');
 
+const app = express();
+app.use(bodyParser.json());
+
+function getFileList(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(filePath, (err, files) => {
+      err? reject(err) : resolve(files);
+    });
+  });
+}
+
+function getFileContent(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      return err? reject(err) : resolve(data);
+    })
+  })
+}
+
+app.get('/files', async (req, res) => {
+  try {
+    const fileList = await getFileList('./files')
+    res.status(200).json(fileList);
+  } catch (error) {
+    res.sendStatus(500);
+  }
+  
+})
+
+app.get('/file/:filename', async (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const filePath = './files/' + filename;
+    const data = await getFileContent(filePath);
+    res.status(200).send(data);
+  } catch (error) {
+    res.status(404).send("File not found");
+  }
+})
+
+app.use((req, res) => {
+  res.status(404).send("Route not found");
+});
 
 module.exports = app;
