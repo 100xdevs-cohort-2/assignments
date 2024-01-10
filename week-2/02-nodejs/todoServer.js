@@ -45,5 +45,65 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  let todos = []
+
+  app.get("/todos", function(req, res) {
+    res.json(todos);
+  })
+  
+  app.get('/todos/:id', (req, res) => {
+    const todo = todos.find(t => t.id === parseInt(req.params.id));
+    if (!todo) {
+      res.sendStatus(404);
+    } else {
+      res.json(todo);
+    }
+  }); 
+  /* -> req.params.id: retrieves the value of the id parameter from the URL. In Express, when you define a route like /todos/:id, the id parameter is accessible through req.params.id.
+     -> parseInt(req.params.id): As the id parameter from the URL is typically a string, parseInt() is used to convert it into an integer. This ensures that the comparison is done with consistent data types.
+     -> t => t.id === parseInt(req.params.id): This is an arrow function used as the callback for the Array.prototype.find() method. The find method is used to search for the first element in the todos array that satisfies the provided testing function.
+     -> t represents each element (todo) in the array during the iteration.
+     -> t.id === parseInt(req.params.id) is the condition for finding the desired todo. It checks if the id property of the current todo (t) is equal to the parsed integer value of the id parameter from the request.
+     -> const todo = todos.find(...): The find method returns the first element in the array that satisfies the provided testing function. If a matching todo is found, it is assigned to the variable todo. If no matching todo is found, todo will be undefined. */
+  
+  app.post("/todos", function(req, res) {
+    const newTodo = {
+      id: Math.floor(Math.random() * 1000000),
+      title: req.body.title,
+      description: req.body.description
+    };
+    todos.push(newTodo)
+    res.status(201).json(newTodo)
+  })
+
+  app.put("/todos/:id", (req, res) => {
+    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if(todoIndex === -1) {
+      res.sendStatus(404);
+    }
+    else{
+      todos[todoIndex].title = req.body.title;
+      todos[todoIndex].description = req.body.description;
+      res.json(todos)
+    }
+  })
+
+  app.delete("/todos/:id", (req, res) => {
+    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if(todoIndex === -1) {
+      res.sendStatus(404);
+    }
+    else{
+      todos.splice(todoIndex, 1);        //splice(start, deleteCount)
+      res.sendStatus(200);
+    }
+  })
+
+  // for all other routes, return 404
+  app.use((req, res, next) => {
+    res.status(404).send();
+  });
+
   
   module.exports = app;
