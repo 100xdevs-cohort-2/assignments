@@ -18,4 +18,22 @@ const path = require('path');
 const app = express();
 
 
+app.get("/files/:filename", (req, res) => {
+  let params = req.params;
+  console.log(params)
+  let fileContent = fs.readFileSync(path.resolve(__dirname, "./files/" + params.filename), "utf-8")
+  res.status(200).send(fileContent);
+})
+
+
+app.get("/files", (req, res) => {
+  let resFiles = fs.readdirSync(path.resolve(__dirname, "./files"))
+  console.log(resFiles)
+  res.status(200).send(resFiles);
+})
+
+app.listen(3005, ()=> {
+  console.log("Server is running on port 3005");
+})
+
 module.exports = app;

@@ -41,9 +41,204 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs');
+  const path = require('path');
+  const { v4: uuidv4 } = require('uuid');
+
   const app = express();
   
   app.use(bodyParser.json());
+
+  // 1.GET /todos - Retrieve all todo items
+  // Description: Returns a list of all todo items.
+  // Response: 200 OK with an array of todo items in JSON format.
+  // Example: GET http://localhost:3000/todos
+
+  function checkExist(id, todos)      {
+    for(let i=0; i< todos.length; i++){
+      if(todos[i].id == id){
+        return i;
+      }
+    }
+    return -1;
+  }
+  
+  var fileReader = (id = "") => {
+    return new Promise(function(resolve){
+        fs.readFile(path.resolve(__dirname, "todos.json"), "utf8", (err, data) => {
+        if(err){
+          console.log(err)
+          resolve(err);
+        }else{
+          data = JSON.parse(data);
+          if(id === "")
+            resolve(data);
+          else{
+            let todo = data.filter(item => {
+              return id == item.id;
+            })
+            resolve(todo)
+          }
+        }
+      })
+    })
+  }
+
+  var fileWriter = (todos) => {
+    todos = JSON.stringify(todos);
+    return new Promise(function(resolve){
+      fs.writeFile(path.resolve(__dirname, "todos.json"), todos, err => {
+        if(err){
+          resolve(err)
+        }else{
+          resolve(todos)
+        }
+      })
+    })
+  }
+
+
+  // 2.GET /todos/:id - Retrieve a specific todo item by ID
+  //   Description: Returns a specific todo item identified by its ID.
+  //   Response: 200 OK with the todo item in JSON format if found, or 404 Not Found if not found.
+  //   Example: GET http://localhost:3000/todos/123
+
+  app.get("/todos/:id", async (req, res) => {
+    try
+    {
+      let params = req.params;
+      let todo = await fileReader(params.id);
+      
+      if(todo.length == 0 ){
+        res.status(404).send("not found")
+      }else{
+        res.status(200).send(params);
+      }
+    }
+    catch(err)
+    {
+      console.log(err)
+    }
+    
+  })
+
+
+  app.get("/todos", async (req, res) => {
+    try
+    {
+      let todos = await fileReader();
+      if(todos.length != 0){
+        res.status(200).send(todos);
+      }else{
+        res.status(404).send([]);
+      }
+    }catch(err)
+    {
+      console.log(err)
+    }
+    
+  })
+
+
+    // 4. PUT /todos/:id - Update an existing todo item by ID
+  // Description: Updates an existing todo item identified by its ID.
+  // Request Body: JSON object representing the updated todo item.
+  // Response: 200 OK if the todo item was found and updated, or 404 Not Found if not found.
+  // Example: PUT http://localhost:3000/todos/123
+  // Request Body: { "title": "Buy groceries", "completed": true }
+
+  app.put("/todos/:id", async(req, res) => {
+    try
+    {
+      let params = req.params;
+      let todo = req.body;
+      let todos = await fileReader();
+      let index = checkExist(params.id, todos);
+      if(index !== -1){
+        let existingId = todos[index].id;
+        todo.id = existingId;
+        todos.splice(index, 1, todo);
+        // todos[index].title = todo.title;
+        // todos[index].description = todo.description;
+        let response = await fileWriter(todos);
+        res.status(200).send(response);
+      }else{
+        res.status(404).send("doesnt exist");
+      }
+
+
+    }
+    catch(err)
+    {
+      console.log(err)
+      res.status(500).send("Internal server error")
+    }
+  })
+
+  // 3. POST /todos - Create a new todo item
+  //   Description: Creates a new todo item.
+  //   Request Body: JSON object representing the todo item.
+  //   Response: 201 Created with the ID of the created todo item in JSON format. eg: {id: 1}
+  //   Example: POST http://localhost:3000/todos
+  //   Request Body: { "title": "Buy groceries", "completed": false, description: "I should buy groceries" }
+
+  app.post("/todos", async (req, res) => {
+    try
+    {
+      
+      let todo = req.body;
+      todo.id = uuidv4();
+      // console.log("req.body---->", todo.id);
+      let todos = await fileReader();
+      let index = checkExist(todo.id, todos);
+      if(index !== -1){
+        res.status(201).send(todos[index]);
+      }else{
+        todos.push(todo);
+        let response = await fileWriter(todos);
+        res.status(201).send(todo); 
+      } 
+           
+    }
+    catch(err)
+    {
+      console.log(err);
+      res.send(500).send("internal server error");
+    }
+  })
+
+  // 5. DELETE /todos/:id - Delete a todo item by ID
+  //   Description: Deletes a todo item identified by its ID.
+  //   Response: 200 OK if the todo item was found and deleted, or 404 Not Found if not found.
+  //   Example: DELETE http://localhost:3000/todos/123
+
+  app.delete("/todos/:id", async (req, res) => {
+    try
+    {
+      let params = req.params;
+      let todos = await fileReader();
+      let index = checkExist(params.id, todos);
+      if( index !== -1){
+        // console.log("indexxx ->>>>", index)
+        todos.splice(index, 1);
+        let response = await fileWriter(todos);
+        res.status(200).send(params.id);
+      }else{
+        res.send("doesnt exist");
+      }
+    }
+    catch(err)
+    {
+      console.log(err)
+      res.status(500).send("Internal server error")
+    }
+
+  })
+
+
+
+  app.listen(3005, ()=> {
+    console.log("Server is running on port 3005")
+  })
   
   module.exports = app;
