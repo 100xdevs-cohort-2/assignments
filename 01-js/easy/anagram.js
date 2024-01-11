@@ -5,13 +5,15 @@
 */
 
 function isAnagram(str1, str2) {
-  if(str1.length != str2.length) return false;
-  let txt1 = str1.toLowerCase().split("").sort().join("");
-  let txt2 = str2.toLowerCase().split("").sort().join("");
-
-
-  return txt1 == txt2;
+  return str1.toLowerCase().split("").sort().join("") == str2.toLowerCase().split("").sort().join("");
+  ;
 }
+console.log(isAnagram("listen", "silent")); // true
+console.log(isAnagram("Racecar", "racecar")); // true
+console.log(isAnagram("abcd", "abc")); // false
+console.log(isAnagram("", "")); // true
+console.log(isAnagram("heart", "earth")); // true
+console.log(isAnagram("abcdefghijklmnopqrstuvwxyz", "zyxwvutsrqponmlkjihgfedcba")); // true
 
 
 module.exports = isAnagram;
