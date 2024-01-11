@@ -4,7 +4,17 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let result = true;
+  let lowerCaseStr = str.toLowerCase(); // convert the given string to lowercase string
+  let newStringWithoutExtraCharacters = lowerCaseStr.replace(/[ ,!@#$%^&*~?><./]/g, "");
+  const len = newStringWithoutExtraCharacters.length;
+  for(let i = 0; i < len / 2; ++i) {
+    if(newStringWithoutExtraCharacters[i] != newStringWithoutExtraCharacters[len - i - 1]) {
+      result = false;
+      break;
+    }
+  }
+  return result;
 }
 
 module.exports = isPalindrome;
