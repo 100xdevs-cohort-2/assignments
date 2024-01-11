@@ -1,29 +1,32 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose.connect("your-mongodb-url");
+mongoose.connect("mongodb://127.0.0.1:27017/course_selling_app");
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
   // Schema definition here
-  name: { type: String, default: "Annonymous" },
-  email: { type: String, match: /[/\S+@\S+\.\S+/]/ },
-  password: { type: String },
+  username: String,
+  password: String,
 });
 
 const UserSchema = new mongoose.Schema({
   // Schema definition here
-  name: { type: String, default: "Annonymous" },
-  age: { type: Number, min: 18, index: true },
-  bio: { type: String, match: /[a-zA-Z ]/ },
-  date: { type: Date, default: Date.now },
+  username: String,
+  password: String,
+  purchasedCourses: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Course",
+    },
+  ],
 });
 
 const CourseSchema = new mongoose.Schema({
-  // Schema definition here
-  department: { type: String },
-  category: { type: String },
-  subject: { type: String },
+  title: String,
+  description: String,
+  imageLink: String,
+  price: Number,
 });
 
 const Admin = mongoose.model("Admin", AdminSchema);

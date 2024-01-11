@@ -1,3 +1,5 @@
+const { Admin } = require("../db");
+
 // Middleware for handling auth
 function adminMiddleware(req, res, next) {
   // Implement admin auth logic
@@ -8,11 +10,16 @@ function adminMiddleware(req, res, next) {
   const username = req.headers.username;
   const password = req.headers.password;
 
-  //check mongoDB admin username/pwd
-  if (username === "admin" && password === "password") {
-    res.status(200).send("admin authenticated");
-    next();
-  }
+  Admin.findOne({
+    username: username,
+    password: password,
+  }).then(function (value) {
+    if (value) {
+      next();
+    } else {
+      res.status(403).json({ message: "user doesnt exist" });
+    }
+  });
 }
 
 module.exports = adminMiddleware;
