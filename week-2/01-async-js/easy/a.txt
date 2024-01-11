@@ -1,1 +1,1 @@
-hii there its me jainam 
+In this file we are write data to file a.txt
