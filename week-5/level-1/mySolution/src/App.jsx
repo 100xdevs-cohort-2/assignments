@@ -6,14 +6,17 @@ function Card({ card }) {
   const { Name, Description, Handles, Interests } = card;
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px'}}>
+    <div className="card">
       Name: {Name}
       <br />
       Description: {Description}
       <br />
-      {Handles.map((handle, index) => (
-        <ButtonRedirect key={index} url={handle.url} name={handle.name} />
-      ))}
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap : "wrap", gap: '1px', justifyContent : "center" }}>
+        {Handles.map((handle, index) => (
+          <ButtonRedirect key={index} url={handle.url} name={handle.name} />
+        ))}
+      </div>
+      
       <br />
       Interests: {Interests}
       <br />
@@ -22,11 +25,10 @@ function Card({ card }) {
 }
 
 function Cards({ props }) {
-  
   const { cards } = props;
 
   return (
-    <div>
+    <div className="card-container">
       {cards.map((card, index) => (
         <Card key={index} card={card} />
       ))}
@@ -34,11 +36,12 @@ function Cards({ props }) {
   );
 }
 
+
 function ButtonRedirect({ url, name }) {
   return (
     <div>
       <a href={url}>
-        <button>{name}</button>
+        <button style={{width:"80px", fontSize:"inherit"}}>{name}</button>
       </a>
     </div>
   );
@@ -66,7 +69,7 @@ function AddSocialHandles({ setSocialHandles }) {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
       <AddSocialHandle name="GitHub" onChange={(e) => handleSocialHandleChange(0, e.target.value)} />
       <AddSocialHandle name="Instagram" onChange={(e) => handleSocialHandleChange(1, e.target.value)} />
       <AddSocialHandle name="LinkedIn" onChange={(e) => handleSocialHandleChange(2, e.target.value)} />
@@ -86,7 +89,7 @@ function AddCard({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ border: '1px solid #ccc', padding: '10px'}}>
+    <form onSubmit={handleSubmit} className="add-card-form">
       <h2>Add a Card</h2>
       Name:
       <input name='Name' value={name} onChange={(e) => setName(e.target.value)} />
@@ -122,6 +125,7 @@ function App() {
     <div>
       <h1>Business Cards</h1>
       <AddCard onSubmit={handleAddCard} />
+      <br />
       <Cards props={props} />
     </div>
   );

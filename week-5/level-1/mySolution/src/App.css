@@ -33,12 +33,70 @@
   }
 }
 
-.card {
+/* .card {
   padding: 2em;
-}
+} */
 
 .read-the-docs {
   color: #888;
 }
 
 
+/* App.css */
+
+/* Center the entire content */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Style for the business card container */
+.card-container {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap; /* Enable wrapping */
+  gap: 10px;
+}
+
+.card {
+  flex: 0 0 calc(30%); /* Limit each card to one-third of the container width minus gap */
+  box-sizing: border-box; /* Include padding and border in the calculation */
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 0; /* Reset margin to eliminate extra spacing */
+}
+
+/* Style for the button container within each card */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Style for the button in the add card form */
+.button-container button {
+  margin-right: 5px;
+}
+
+/* Style for the add card form */
+.add-card-form {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+/* Style for the button in the add card form */
+.add-card-button {
+  margin-top: 10px;
+}
+
+/* Style for the business card header */
+h1 {
+  text-align: center;
+}
