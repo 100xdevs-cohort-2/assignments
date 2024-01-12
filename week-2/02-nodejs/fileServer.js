@@ -16,6 +16,13 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+const dir = './files';
 
+app.get('/files', (req, res) => {
+  fs.readdir(dir , (err, data) => {
+    res.send(data);
+  })
+})
 
+app.listen(3000);
 module.exports = app;
