@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "jsonwebtoken": "^9.0.2",
+    "jest": "^29.7.0",
     "zod": "^3.22.4"
   }
 }
