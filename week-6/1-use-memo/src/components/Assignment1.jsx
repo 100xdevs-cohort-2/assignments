@@ -4,19 +4,30 @@ import { useState } from "react";
 // Use useMemo to ensure that the calculation is only recomputed when the input changes, not on every render.
 
 export function Assignment1() {
-    const [input, setInput] = useState(0);
-    // Your solution starts here
-    const expensiveValue = 0; 
-    // Your solution ends here
+   const [input, setInput] = useState(0);
 
-    return (
-        <div>
-            <input 
-                type="number" 
-                value={input} 
-                onChange={(e) => setInput(Number(e.target.value))} 
-            />
-            <p>Calculated Value: {expensiveValue}</p>
-        </div>
-    );
+  // Your solution starts here
+
+  const expensiveValue = useMemo(() => {
+    console.log('Calculating Factorial !')
+    let factorial = 1;
+    for (let i = 1; i < input, i++; ) {
+      factorial *= input;
+    }
+
+    return factorial;
+  }, [input]);
+
+  // Your solution ends here
+
+  return (
+    <div>
+      <input
+        type="number"
+        value={input}
+        onChange={(e) => setInput(Number(e.target.value))}
+      />
+      <p>Calculated Value: {expensiveValue}</p>
+    </div>
+  );
 }
