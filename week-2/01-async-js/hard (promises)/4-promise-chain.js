@@ -6,19 +6,47 @@
  */
 
 function wait1(t) {
-
+  return new Promise((resolve) => {
+    resolve(
+      setTimeout(() => {
+        console.log("wait1");
+      }, t * 1000)
+    );
+  });
 }
 
 function wait2(t) {
-
+  return new Promise((resolve) => {
+    resolve(
+      setTimeout(() => {
+        console.log("wait2");
+      }, t * 1000)
+    );
+  });
 }
 
 function wait3(t) {
-
+  return new Promise((resolve) => {
+    resolve(
+      setTimeout(() => {
+        console.log("wait3");
+      }, t * 1000)
+    );
+  });
 }
 
 function calculateTime(t1, t2, t3) {
-
+  const start = Date.now();
+  return wait1
+    .then(() => wait2())
+    .then(() => wait3())
+    .then(() => {
+      const end = Date.now();
+      const total = start - end;
+      console.log(`Total Time from Promise Chain is: ${total}`);
+      return total;
+    })
+    .then((res) => console.log(res));
 }
 
 module.exports = calculateTime;
