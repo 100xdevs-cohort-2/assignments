@@ -17,6 +17,17 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+const port = 3000;
+
+
+app.get('/files', (req, res) => {
+
+   res.send("working fine ").status(400);
+   
+});
+
+app.listen(port);
+console.log("App is running on Port", port);
 
 const port = 3000;
 
