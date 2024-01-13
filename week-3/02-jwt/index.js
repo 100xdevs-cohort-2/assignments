@@ -1,6 +1,9 @@
+const z=require('zod')
 const jwt = require('jsonwebtoken');
-const jwtPassword = 'secret';
 
+const jwtPassword = 'secret';
+const emailSchema = z.string().email();
+const passSchema = z.string().min(6);
 
 /**
  * Generates a JWT for a given username and password.
@@ -14,8 +17,17 @@ const jwtPassword = 'secret';
  *                        the password does not meet the length requirement.
  */
 function signJwt(username, password) {
-    // Your code here
+    if(!emailSchema.safeParse(username).success || !passSchema.safeParse(password).success){
+        return null;
+    }
+    const token=jwt.sign({
+        username: username
+    },jwtPassword);
+    return token;
 }
+
+// const token = signJwt("raghavgmail.com", "323");
+// console.log(token);
 
 /**
  * Verifies a JWT using a secret key.
@@ -26,19 +38,33 @@ function signJwt(username, password) {
  *                    using the secret key.
  */
 function verifyJwt(token) {
-    // Your code here
+    return jwt.verify(token,jwtPassword,(err,decoded)=>{
+        if (err) {
+            return false;
+        } else {
+            return true;
+        }
+    })
 }
+
+
+// const ans = verifyJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2hhdkBnbWFpbC5jb20iLCJpYXQiOjE3MDMwODA3NTZ9.sbnFhdZItaVYbbrunmN89cnWr-2TJofGI6g41mkQ5-M");
+// console.log(ans);
 
 /**
  * Decodes a JWT to reveal its payload without verifying its authenticity.
  *
  * @param {string} token - The JWT string to decode.
- * @returns {object|false} The decoded payload of the JWT if the token is a valid JWT format.
- *                         Returns false if the token is not a valid JWT format.
+ * @returns {boolean} 
  */
 function decodeJwt(token) {
-    // Your code here
+    const decoded = jwt.decode(token);
+    if(decoded==null) return false;
+    return true;
 }
+
+// const ans = decodeJwt("kpXVCJ9.eyJ1c2VybmFtZSI6InJhZ2hhdkBnbWFpbC5jb20iLCJpYXQiOjE3MDMwODA3NTZ9.sbnFhdZItaVYbbrunmN89cnWr-2TJofGI6g41mkQ5-M");
+// console.log(ans);
 
 
 module.exports = {

@@ -7,30 +7,42 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const newTodo = document.createElement("div");
+      newTodo.classList.add("todo");  // Add a class for better selection
+      newTodo.innerHTML=
+      `
+        <div id="title"> title: ${todo.title}</div>
+        <div id="description"> description: ${todo.description}</div>
+      `;
+      document.getElementById("todos").appendChild(newTodo);
     }
 
     function removeTodoFromDom(todo) {
-      
+      document.getElementById(`div(${todo.id})`).remove();
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const updatedTodo = document.querySelector(`.todo[data-id="${oldTodo.id}"]`);
+      updatedTodo.querySelector('.title').innerText = 'title: ' + newTodo.title;
     }
 
     function updateState(newTodos) {
-      // calculate the diff b/w newTodos and oldTodos.
-      // More specifically, find out what todos are - 
-      // 1. added
-      // 2. deleted
-      // 3. updated
-      const added = [];
-      const deleted = [];
-      const updated = [];
-      // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
+      const added = newTodos.filter(newTodo=>{
+        return !oldTodoState.some(oldTodo=>{oldTodo.id===newTodo.id})
+      });
+      const deleted = oldTodoState.filter(oldTodo=>{
+        return !newTodos.some(newTodo=>{oldTodo.id===newTodo.id})
+      });
+      const updated = newTodos.filter(newTodo=>{
+        return oldTodoState.some(oldTodo=>{oldTodo.id===newTodo.id && oldTodo.title!==newTodo.title})
+      });
+      added.forEach(todo=>addTodoToDom(todo));
+      deleted.forEach(todo=>removeTodoFromDom(todo));
+      updated.forEach(newTodo=>{
+          const oldTodo=oldTodoState.find(oldTodo=>{oldTodo.id===newTodo.id});
+          updateTodoInDom(oldTodo,newTodo);
+      });
       oldTodoState = newTodos;
     }
 
@@ -42,6 +54,7 @@
         description: description,
         id: globalId++,
       })
+
       updateState(todoState);
     }
   </script>

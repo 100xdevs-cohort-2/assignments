@@ -43,7 +43,70 @@
   const bodyParser = require('body-parser');
   
   const app = express();
-  
+  const port=3000;
+
+  let arr=[];
+  let len=0; 
   app.use(bodyParser.json());
   
+  app.post('/todos',(req,res)=>{
+    len++;
+    req.body.id=len;
+    arr.push(req.body);
+    res.send(req.body);
+    res.status(201).send();
+  })
+  app.get('/todos',(req,res)=>{
+    const data=arr;
+    res.send(data);
+    res.status(200).send();
+  })
+  app.get('/todos/:id',(req,res)=>{
+    const id=req.params.id;
+    let i=0;
+    for(i=0;i<arr.length;i++){
+      if(arr[i].id==id){
+        res.send(arr[i]);
+        res.status(200).send();
+        break;
+      }
+    }
+    if(i==arr.length)
+    res.status(404).send('Not Found');
+  })
+  app.put('/todos/:id',(req,res)=>{
+    const id=req.params.id;
+    let i=0;
+    for(i=0;i<arr.length;i++){
+      if(arr[i].id==id){
+        arr[i].title=req.body.title;
+        arr[i].description=req.body.description;
+        res.status(200).send('OK');
+        break;
+      }
+    }
+    if(i==arr.length)
+    res.status(404).send('Not Found');
+  })
+  app.delete('/todos/:id',(req,res)=>{
+    const id=req.params.id;
+    let i=0;
+    for(i=0;i<arr.length;i++){
+      if(arr[i].id==id){
+        arr.splice(i,1);
+        res.status(200).send('OK');
+        break;
+      }
+    }
+    if(i==arr.length)
+    res.status(404).send('Not Found');
+  })
+
+  app.use((req, res, next) => {
+    res.status(404).send('Not Found');
+  });
+
+  app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
   module.exports = app;
