@@ -41,18 +41,56 @@
  */
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
+const filePath = path.join(`${__dirname}/todos.json`);
 
 app.use(bodyParser.json());
 
-const TODOS = [];
+/**
+ * @summary Returns the index of `TODO` in the array
+ * @param {{ title: string; description: string; }[]} arr
+ * @param {number} id
+ * @returns {number}
+ */
+const findIndex = (arr, id) => {
+  for (let i = 0; i < arr.length; i++) if (arr[i].id === id) return i;
+  return -1;
+};
 
-app.get('/todos', (_, res) => res.json(TODOS));
+/**
+ * @summary Removes the `TODO` from the array
+ * @param {{ title: string; description: string; }[]} arr
+ * @param {number} index
+ * @returns {{ title: string; description: string; }[]}
+ */
+const removeAtIndex = (arr, index) => {
+  const newArray = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i !== index) newArray.push(arr[i]);
+  }
+  return newArray;
+};
+
+app.get('/todos', (_, res) => {
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    res.json(JSON.parse(data));
+  });
+});
 
 app.get('/todos/:id', (req, res) => {
-  const todo = TODOS.find((t) => t.id === parseInt(req.params.id));
-  !todo ? res.status(404).send('Not Found') : res.json(todo);
+  const todoId = parseInt(req.params.id);
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    const TODOS = JSON.parse(data);
+    const todoIndex = findIndex(TODOS, todoId);
+    todoIndex === -1
+      ? res.status(404).send('Not Found')
+      : res.json(TODOS[todoIndex]);
+  });
 });
 
 app.post('/todos', (req, res) => {
@@ -61,29 +99,67 @@ app.post('/todos', (req, res) => {
     title: req.body.title,
     description: req.body.description,
   };
-  TODOS.push(newTodo);
-  res.status(201).json(newTodo);
+
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    const TODOS = JSON.parse(data);
+    TODOS.push(newTodo);
+    fs.writeFile(
+      filePath,
+      JSON.stringify(TODOS, null, 2),
+      { encoding: 'utf8' },
+      (err) => {
+        if (err) throw err;
+        res.status(201).json(newTodo);
+      }
+    );
+  });
 });
 
 app.put('/todos/:id', (req, res) => {
-  const todoIndex = TODOS.findIndex((t) => t.id === parseInt(req.params.id));
-  if (todoIndex === -1) {
-    res.status(404).send('Not Found');
-  } else {
-    TODOS[todoIndex].title = req.body?.title;
-    TODOS[todoIndex].description = req.body?.description;
-    res.json(TODOS[todoIndex]);
-  }
+  const todoId = parseInt(req.params.id);
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    const TODOS = JSON.parse(data);
+    const todoIndex = findIndex(TODOS, todoId);
+    if (todoIndex === -1) {
+      res.status(404).send('Not Found');
+    } else {
+      TODOS[todoIndex].title = req.body.title;
+      TODOS[todoIndex].description = req.body.description;
+      fs.writeFile(
+        filePath,
+        JSON.stringify(TODOS, null, 2),
+        { encoding: 'utf8' },
+        (err) => {
+          if (err) throw err;
+          res.json(TODOS[todoIndex]);
+        }
+      );
+    }
+  });
 });
 
 app.delete('/todos/:id', (req, res) => {
-  const todoIndex = TODOS.findIndex((t) => t.id === parseInt(req.params.id));
-  if (todoIndex === -1) {
-    res.status(404).send('Not Found');
-  } else {
-    TODOS.splice(todoIndex, 1);
-    res.status(200).send('Todo was deleted');
-  }
+  const todoId = parseInt(req.params.id);
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) throw err;
+    const TODOS = JSON.parse(data);
+    const todoIndex = findIndex(TODOS, todoId);
+    if (todoIndex === -1) {
+      res.status(404).send('Not Found');
+    } else {
+      fs.writeFile(
+        filePath,
+        JSON.stringify(removeAtIndex(TODOS, todoIndex), null, 2),
+        { encoding: 'utf8' },
+        (err) => {
+          if (err) throw err;
+          res.status(200).send('Todo was deleted');
+        }
+      );
+    }
+  });
 });
 
 // for all other routes, return 404
