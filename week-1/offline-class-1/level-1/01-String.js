@@ -36,7 +36,7 @@ getSlice("Hello World", 0, 5);
 // substring
 function getSubstring(str, start, end) {
   console.log("Original String:", str);
-  console.log("After substring:", str.substring(start, end));
+  console.log("After substring:\n\n", str.substring(start, end));
 }
 getSubstring("Hello World", 0, 5);
 
