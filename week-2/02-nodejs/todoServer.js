@@ -45,6 +45,7 @@ const app = express();
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const path = require("path");
+app.use(bodyParser.json());
 
 const pathFile = path.join(__dirname, "todos.json");
 async function getFileData() {
@@ -63,6 +64,7 @@ app.get("/todos", async (req, res) => {
 app.post("/todos", async (req, res) => {
 	const todos = await getFileData();
 	const todo = { ...req.body, id: uuidv4() };
+	console.log(todo, req.body);
 	todos.push(todo);
 	await writeToFile(todos);
 	return res.status(201).json({ id: todo.id });
@@ -78,7 +80,7 @@ app.put("/todos/:id", async (req, res) => {
 	const id = req.params.id;
 	const todos = await getFileData();
 	const todoIndex = todos.findIndex((todo) => todo.id === id);
-	if (!todoIndex) return res.status(404).send("Not found");
+	if (isNaN(todoIndex)) return res.status(404).send("Not found");
 	todos[todoIndex] = { ...todos[todoIndex], ...req.body };
 	await writeToFile(todos);
 	return res.status(200).send("Updated");
@@ -87,11 +89,15 @@ app.delete("/todos/:id", async (req, res) => {
 	const id = req.params.id;
 	const todos = await getFileData();
 	const todoIndex = todos.findIndex((todo) => todo.id === id);
-	if (!todoIndex) return res.status(404).send("Not found");
+	console.log(id, todoIndex);
+	if (isNaN(todoIndex)) return res.status(404).send("Not found");
 	todos.splice(todoIndex, 1);
 	await writeToFile(todos);
 	return res.status(200).send("Deleted");
 });
 
-app.use(bodyParser.json());
+app.use((req, res, next) => {
+	res.status(404).send();
+});
 module.exports = app;
+// app.listen(3000, () => console.log("Server started on port 3000"));
