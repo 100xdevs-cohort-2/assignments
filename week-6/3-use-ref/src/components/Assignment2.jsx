@@ -4,15 +4,18 @@ import React, { useState, useCallback } from 'react';
 
 export function Assignment2() {
     const [, forceRender] = useState(0);
+    let [count, setCount] = useState(0);
 
     const handleReRender = () => {
         // Update state to force re-render
+        // useState automatically causes rerender
         forceRender(Math.random());
+        setCount(count + 1);
     };
 
     return (
         <div>
-            <p>This component has rendered {0} times.</p>
+            <p>This component has rendered {count} times.</p>
             <button onClick={handleReRender}>Force Re-render</button>
         </div>
     );
