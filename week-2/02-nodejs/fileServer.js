@@ -18,4 +18,46 @@ const path = require('path');
 const app = express();
 
 
+const port = 3000;
+
+const readFolderFiles = (folderName, cb) => {
+   let filesNames = null;
+   fs.readdir(path.join(__dirname, `./${folderName}/`), cb);
+   return cb;
+}
+
+app.get('/files', (req, res) => {
+   const resolve = (err, files) => {
+      if (err) return err;
+      console.log("Files===========>", files);
+   }
+   const getFilesPromise = new Promise(resolve)
+
+
+   const callBack = (err, files) => {
+      if (err) return err;
+      console.log("Files===========>", files);
+   }
+   let fileNames = readFolderFiles('files', resolve);
+   //callBack();
+   getFilesPromise.then(data => console.log("DATA", data));
+
+
+
+
+   // console.log("======================",fileNames);
+   // if (fileNames && fileNames.length) {
+   //    res.send(fileNames);
+   // }
+   res.send('Error has occured');
+});
+app.get('file/:filename', (req, res) => {
+
+})
+
+app.listen(port);
+console.log("App is running on Port", port);
+
+module.exports = app;
+
 module.exports = app;
