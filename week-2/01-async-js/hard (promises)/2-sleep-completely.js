@@ -5,6 +5,17 @@
  */
 
 function sleep(milliseconds) {
+    let p = new Promise(function(resolve){
+        setTimeout(busyWait,milliseconds);
+        function busyWait(){
+            let i = 0;
+            while(i<milliseconds){
+                i++;
+            }
+            resolve();
+        }
+    })
+    return p;
 }
 
 module.exports = sleep;
