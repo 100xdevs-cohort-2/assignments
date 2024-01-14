@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM to React</title>
+    <script>
+      // Sample state variable
+      let todos = [];
+
+      // Function to add a todo to the DOM
+      function addTodoToDom(todo) {
+        const todoList = document.getElementById("todo-list");
+        const todoItem = document.createElement("li");
+        todoItem.textContent = `${todo.title}: ${todo.description}`;
+        todoItem.dataset.id = todo.id;
+        todoList.appendChild(todoItem);
+      }
+
+      // Function to remove a todo from the DOM
+      function removeTodoFromDom(todoId) {
+        const todoItem = document.querySelector(`[data-id="${todoId}"]`);
+        if (todoItem) {
+          todoItem.remove();
+        }
+      }
+
+      // Function to update a todo in the DOM
+      function updateTodoInDom(updatedTodo) {
+        const todoItem = document.querySelector(
+          `[data-id="${updatedTodo.id}"]`
+        );
+        if (todoItem) {
+          todoItem.textContent = `${updatedTodo.title}: ${updatedTodo.description}`;
+        }
+      }
+
+      // Function to update the state and the DOM based on the diff
+      function updateState(newTodos) {
+        const addedTodos = newTodos.filter(
+          (newTodo) => !todos.some((todo) => todo.id === newTodo.id)
+        );
+        const removedTodos = todos.filter(
+          (todo) => !newTodos.some((newTodo) => newTodo.id === todo.id)
+        );
+        const updatedTodos = newTodos.filter((newTodo) =>
+          todos.some((todo) => todo.id === newTodo.id)
+        );
+
+        // Add new todos to the DOM
+        addedTodos.forEach((newTodo) => addTodoToDom(newTodo));
+
+        // Remove todos from the DOM
+        removedTodos.forEach((removedTodo) =>
+          removeTodoFromDom(removedTodo.id)
+        );
+
+        // Update todos in the DOM
+        updatedTodos.forEach((updatedTodo) => updateTodoInDom(updatedTodo));
+
+        // Update the internal state
+        todos = newTodos;
+      }
+
+      // Example usage:
+      const initialTodos = [
+        {
+          title: "Go to gym",
+          description: "Go to gym from 7-8PM",
+          id: 1,
+        },
+      ];
+
+      // Initial rendering
+      updateState(initialTodos);
+
+      // Simulate a state update
+      setTimeout(() => {
+        const updatedTodos = [
+          ...initialTodos,
+          {
+            title: "Go to gym",
+            description: "Go to gym from 7-9PM",
+            id: 1,
+          },
+          {
+            title: "Read a book",
+            description: "Read a book for 30 minutes",
+            id: 2,
+          },
+        ];
+
+        // Update state and DOM
+        updateState(updatedTodos);
+      }, 2000);
+    </script>
+  </head>
+  <body>
+    <input type="text" id="titel" placeholder="" />
+    <div id="todo-list"></div>
+  </body>
+</html>

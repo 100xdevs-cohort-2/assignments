@@ -16,23 +16,42 @@ setInterval(() => {
   numberOfRequestsForUser = {};
 }, 1000);
 
-function rateLimitter(req, res, next) {
-  //extract the user id from the request
-  const userID = req.header("user-id");
+// function rateLimitter(req, res, next) {
+//   //extract the user id from the request
+//   const userID = req.header["user-id"];
 
-  //three possibilities
-  if (!numberOfRequestsForUser[userID]) {
-    numberOfRequestsForUser[userID] = { requests: 0 };
-  } else if (numberOfRequestsForUser[userID].requests < 5) {
-    numberOfRequestsForUser[userID].requests++;
+//   //three possibilities
+//   if (!numberOfRequestsForUser[userID]) {
+//     numberOfRequestsForUser[userID] = 1;
+//     next();
+//   } else if (numberOfRequestsForUser[userID] < 5) {
+//     numberOfRequestsForUser[userID]++;
+//     next();
+//   } else {
+//     res.status(404).json({ msg: "too many requests!!!" });
+//   }
+// }
+
+function ratelimmiter(req, res, next) {
+  const userID = req.header["user-id"];
+
+  numberOfRequestsForUser[userID] = numberOfRequestsForUser[userID] || 0;
+
+  if (numberOfRequestsForUser[userID]) {
+    numberOfRequestsForUser[userID] = numberOfRequestsForUser[userID];
   } else {
-    res.status(404).json({ msg: "too many requests!!!" });
+    numberOfRequestsForUser[userID] = 0;
   }
 
-  next();
+  if (numberOfRequestsForUser[userID] < 5) {
+    numberOfRequestsForUser[userID]++;
+    next();
+  }
+
+  res.send(404).json({ msg: "Error" });
 }
 
-app.use(rateLimitter);
+app.use(ratelimmiter);
 
 app.get("/user", function (req, res) {
   res.status(200).json({ name: "john" });
