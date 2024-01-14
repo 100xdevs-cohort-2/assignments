@@ -16,6 +16,7 @@ function App() {
       id: id
     }])
   }
+  
   function removeTodo(id){
     const remove = todos.filter((todo) => todo.id != id);
     setTodos(remove);
@@ -37,15 +38,12 @@ function App() {
 function Todo(props) {
   const {title, description, id} = props;
   console.log(props);
+  
   return <div>
     <h1>{title}</h1>
     <h2>{description}</h2>
     <button onClick={()=> removeTodo(id)}>Remove</button>
   </div>
-    function removeTodo(id){
-      const remove = todos.filter((todo) => todo.id != id);
-      setTodos(remove);
-    }
 }
 
 export default App
