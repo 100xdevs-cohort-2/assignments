@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {mongoURL} = require("../config");
 // Connect to MongoDB
-mongoose.connect();
+mongoose.connect(mongoURL);
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
