@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1705228997367" clover="3.2.0">
-  <project timestamp="1705228997368" name="All files">
-    <metrics statements="27" coveredstatements="26" conditionals="3" coveredconditionals="3" methods="0" coveredmethods="0" elements="30" coveredelements="29" complexity="0" loc="27" ncloc="27" packages="1" files="1" classes="1"/>
-    <file name="01-requestcount.js" path="D:\Cohort\assignments\assignments\week-3\01-middlewares\01-requestcount.js">
-      <metrics statements="27" coveredstatements="26" conditionals="3" coveredconditionals="3" methods="0" coveredmethods="0"/>
+<coverage generated="1705231582757" clover="3.2.0">
+  <project timestamp="1705231582757" name="All files">
+    <metrics statements="32" coveredstatements="30" conditionals="4" coveredconditionals="3" methods="0" coveredmethods="0" elements="36" coveredelements="33" complexity="0" loc="32" ncloc="32" packages="1" files="1" classes="1"/>
+    <file name="03-errorcount.js" path="D:\Cohort\assignments\assignments\week-3\01-middlewares\03-errorcount.js">
+      <metrics statements="32" coveredstatements="30" conditionals="4" coveredconditionals="3" methods="0" coveredmethods="0"/>
       <line num="1" count="1" type="stmt"/>
       <line num="2" count="1" type="stmt"/>
       <line num="3" count="1" type="stmt"/>
@@ -13,24 +13,29 @@
       <line num="7" count="1" type="stmt"/>
       <line num="8" count="1" type="stmt"/>
       <line num="9" count="1" type="stmt"/>
-      <line num="10" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="11" count="12" type="stmt"/>
-      <line num="12" count="12" type="stmt"/>
-      <line num="13" count="1" type="stmt"/>
-      <line num="14" count="1" type="stmt"/>
-      <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="16" count="10" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="11" count="1" type="stmt"/>
+      <line num="12" count="1" type="stmt"/>
+      <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="14" count="11" type="cond" truecount="0" falsecount="1"/>
+      <line num="15" count="0" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
       <line num="17" count="1" type="stmt"/>
       <line num="18" count="1" type="stmt"/>
-      <line num="19" count="1" type="stmt"/>
-      <line num="20" count="0" type="stmt"/>
+      <line num="19" count="0" type="stmt"/>
+      <line num="20" count="1" type="stmt"/>
       <line num="21" count="1" type="stmt"/>
-      <line num="22" count="1" type="stmt"/>
-      <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
-      <line num="24" count="2" type="stmt"/>
+      <line num="22" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="23" count="2" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
       <line num="25" count="1" type="stmt"/>
       <line num="26" count="1" type="stmt"/>
-      <line num="27" count="1" type="stmt"/>
+      <line num="27" count="1" type="cond" truecount="1" falsecount="0"/>
+      <line num="28" count="11" type="stmt"/>
+      <line num="29" count="11" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="32" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>
