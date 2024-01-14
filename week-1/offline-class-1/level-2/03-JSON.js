@@ -1,3 +1,5 @@
+// JSON stands for "JavaScript Object Notation"
+
 function jsonMethods(jsonString) {
   console.log("Original JSON String:", jsonString);
 
