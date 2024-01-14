@@ -6,9 +6,11 @@
 */
 
 function countVowels(str) {
-  const vowelMatch = str.match(/[aeiou]/gi);
-
-  return vowelMatch ? vowelMatch.length : 0;
+  const vowels = new Set("aeiou");
+  return str
+    .toLowerCase()
+    .split("")
+    .filter((char) => vowels.has(char)).length;
 }
 
 module.exports = countVowels;
