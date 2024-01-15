@@ -11,6 +11,7 @@
       const todoList = document.getElementById("todos");
       const todoElement = document.createElement("div");
       todoElement.innerHTML = `<strong> Title :${todo.title}</strong>  <br /> Description: ${todo.description}`;
+      todoElement.setAttribute("data-id", todo.id);
       todoList.appendChild(todoElement);
     }
 
