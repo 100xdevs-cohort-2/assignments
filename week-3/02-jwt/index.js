@@ -25,7 +25,7 @@ function signJwt(username, password) {
     return null;
   }
 
-  return jwt.sign({ username, password }, jwtPassword);
+  return jwt.sign({ username }, jwtPassword);
 }
 
 /**
