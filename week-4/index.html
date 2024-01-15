@@ -29,7 +29,7 @@
         selectedTodoElement.innerHTML = `<strong>${newTodo.title}</strong>  <br />  ${newTodo.description}`;
       }
     }
-    
+
 
     function updateState(newTodos) {
       const added = newTodos.filter(todo => !oldTodoState.some(oldTodo => oldTodo.id === todo.id));
@@ -60,6 +60,13 @@
       });
       updateState(todoState);
     }
+    function fetchDataAndUpdate() {
+      fetch("backend that send random no of todos")
+        .then(response => response.json())
+        .then(todos => updateState(todos))
+        .catch(error => console.error('Error fetching data:', error));
+    }
+    setInterval(fetchDataAndUpdate, 2000);
   </script>
 </head>
 
