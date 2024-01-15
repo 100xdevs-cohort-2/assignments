@@ -1,0 +1,45 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+#add-todo {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.input {
+  margin-bottom: 10px;
+  height: 30px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid wheat;
+  padding: 5px;
+}
+
+#todo-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.button {
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: lightslategray;
+}
