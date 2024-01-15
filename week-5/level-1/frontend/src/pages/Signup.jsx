@@ -13,13 +13,13 @@ function Signup() {
       alert("Email and Password required");
     } else {
       try {
-        let userLogin = await axios.post("http://localhost:3000/user/signup", {
+        let userLogin = await axios.post("http://localhost:3000/admin/signup", {
           username: email,
           password: password,
         });
         if (userLogin.status === 200) {
           localStorage.setItem("token", userLogin.data.token);
-          navigate("/get-all-cards");
+          navigate("/cards");
         }
       } catch (error) {
         console.error("Login failed", error.message);

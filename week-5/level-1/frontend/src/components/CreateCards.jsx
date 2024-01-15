@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 
 function CreateCards() {
   const [name, setName] = useState("Full Name");
@@ -12,16 +13,46 @@ function CreateCards() {
   const [LinkedIn, setLinkedIn] = useState("");
   const [Twitter, setTwitter] = useState("");
 
-  const create = () => {};
+  const postData = async () => {
+    console.log("post data called!");
+    const token = localStorage.getItem("token");
+
+    try {
+      const created = await axios.post(
+        "http://localhost:3000/admin/create-card",
+        {
+          name: name,
+          description: description,
+          social: {
+            linkedin: LinkedIn,
+            twitter: Twitter,
+          },
+          interest: [interestOne, interestTwo, interestThree],
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      if (created.status == 200) {
+        console.log(created);
+        alert("Card created");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <div className="container h-screen mx-auto flex flex-col justify-between border border-gray-400 py-20">
+    <div className="container h-screen mx-auto flex flex-col justify-between  py-20">
       <div id="headings" className="flex justify-between mx-[190px]">
         <h1 className="text-4xl">Create</h1>
         <h1 className="text-4xl">Preview</h1>
       </div>
       <div
         id="card-container"
-        className="w-[100%] h-[60%] border flex justify-between p-5"
+        className="w-full h-[60%] flex justify-between p-5"
       >
         <div className="card w-[40%] h-min bg-base-100 shadow-xl image-full">
           <figure>
@@ -135,8 +166,16 @@ function CreateCards() {
           </div>
         </div>
       </div>
-      <div className="border border-red-700 flex justify-center">
-        <button className="btn btn-success px-10"> CREATE </button>
+      <div className=" flex justify-center">
+        <button
+          onClick={() => {
+            postData();
+          }}
+          className="btn btn-success px-10"
+        >
+          {" "}
+          CREATE{" "}
+        </button>
       </div>
     </div>
   );

@@ -85,7 +85,9 @@ router.post(
             .status(404)
             .json({ error: "Failed to add card to Admin's collection" });
         } else {
-          res.status(200).json({ message: "Card added to Admin's collection" });
+          res
+            .status(200)
+            .json({ message: "Card added to DB and Admin's collection" });
         }
       } else {
         res.status(404).json({ error: "Cannot create Card in DB" });
@@ -97,31 +99,31 @@ router.post(
 );
 
 //ADMIN UPDATE A CARD
-router.put("/update-card", adminTokenVerification, async (req, res) => {
-  const { cardId, updateData } = req.body;
+// router.put("/update-card", adminTokenVerification, async (req, res) => {
+//   const { cardId, updateData } = req.body;
 
-  try {
-    const adminUsername = req.adminData.username;
+//   try {
+//     const adminUsername = req.adminData.username;
 
-    // Check if the card exists and was created by the admin
-    const card = await Card.findOne({ cardId, createdBy: adminUsername });
-    if (!card) {
-      return res
-        .status(404)
-        .json({ error: "Card not found or not created by the admin" });
-    }
+//     // Check if the card exists and was created by the admin
+//     const card = await Card.findOne({ cardId, createdBy: adminUsername });
+//     if (!card) {
+//       return res
+//         .status(404)
+//         .json({ error: "Card not found or not created by the admin" });
+//     }
 
-    // Update the card
-    const updatedCard = await Card.findOneAndUpdate(
-      { cardId: cardId, createdBy: adminUsername }, //Two filter search
-      { $set: updateData }
-    );
+//     // Update the card
+//     const updatedCard = await Card.findOneAndUpdate(
+//       { cardId: cardId, createdBy: adminUsername }, //Two filter search
+//       { $set: updateData }
+//     );
 
-    return res.status(200).json({ updatedCard });
-  } catch (error) {
-    console.error("Error updating card:", error);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+//     return res.status(200).json({ updatedCard });
+//   } catch (error) {
+//     console.error("Error updating card:", error);
+//     return res.status(500).json({ error: "Internal server error" });
+//   }
+// });
 
 module.exports = router;

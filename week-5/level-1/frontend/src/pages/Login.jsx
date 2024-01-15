@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/userContext";
 
 function Login() {
+  //Brings in the context
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Role");
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
@@ -13,14 +17,19 @@ function Login() {
       alert("Email and Password required");
     } else {
       try {
-        let userLogin = await axios.post("http://localhost:3000/user/login", {
-          username: email,
-          password: password,
-        });
-        if (userLogin.status === 200) {
-          localStorage.setItem("token", userLogin.data.token);
-          navigate("/get-all-cards");
-        } else if (userLogin.status === 409) {
+        let loginRequest = await axios.post(
+          `http://localhost:3000/${role}/login`,
+          {
+            username: email,
+            password: password,
+          }
+        );
+        if (loginRequest.status === 200) {
+          const token = loginRequest.data.token;
+          localStorage.setItem("token", token);
+          login({ token, role }); //sets user context
+          navigate("/cards");
+        } else if (loginRequest.status === 409) {
           alert("please register first");
           navigate("/signup");
         }
@@ -63,6 +72,38 @@ function Login() {
                   required
                   onChange={(e) => setPassword(e.target.value)}
                 />
+              </div>
+              <div className="dropdown">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn w-[100%] justify-start mt-3"
+                >
+                  {role}
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <a
+                      onClick={() => {
+                        setRole("user");
+                      }}
+                    >
+                      user
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      onClick={() => {
+                        setRole("admin");
+                      }}
+                    >
+                      admin
+                    </a>
+                  </li>
+                </ul>
               </div>
               <label className="label">
                 <a
