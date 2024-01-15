@@ -17,7 +17,7 @@ setInterval(() => {
 }, 1000)
 
 app.use(function (req, res, next) {
-  const id = req.headers.user - id
+  const id = req.headers.user-id
   if (numberOfRequestsForUser.id) {
     numberOfRequestsForUser.id += 1
     if (numberOfRequestsForUser.id > 5) {
