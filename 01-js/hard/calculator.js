@@ -16,6 +16,110 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  result;
+
+  add(num){
+    this.result += num;
+  }
+
+  subtract(num){
+    this.result -= num;
+  }
+  multiply(num){
+    this.result *= num;
+  }
+
+  divide(num){
+    if (num === 0) {
+      throw new Error('Cannot divide by zero');
+    }
+    this.result /= num;
+  }
+  clear(){
+    this.result = 0;
+  }
+
+  getResult(){
+    return this.result;
+  }
+
+  calculate(expression) {
+    // Validate expression
+    if (!/^[\d\s\+\-\*\/\(\)]+$/.test(expression)) {
+      throw new Error('Invalid expression');
+    }
+
+    // Tokenize the expression
+    const tokens = expression.match(/\d+|\S/g);
+
+    // Initialize
+    this.clear();
+    let index = 0;
+
+    // Helper functions
+    const getNextToken = () => tokens[index++];
+    const peekNextToken = () => tokens[index];
+    const parseNumber = () => parseFloat(getNextToken());
+
+    // Parse the expression
+    const parseExpression = () => {
+      let term = parseTerm();
+      while (peekNextToken() === '+' || peekNextToken() === '-') {
+        const operator = getNextToken();
+        const nextTerm = parseTerm();
+        if (operator === '+') {
+          this.add(nextTerm);
+        } else {
+          this.subtract(nextTerm);
+        }
+      }
+      return term;
+    };
+
+    const parseTerm = () => {
+      let factor = parseFactor();
+      while (peekNextToken() === '*' || peekNextToken() === '/') {
+        const operator = getNextToken();
+        const nextFactor = parseFactor();
+        if (operator === '*') {
+          this.multiply(nextFactor);
+        } else {
+          this.divide(nextFactor);
+        }
+      }
+      return factor;
+    };
+
+    const parseFactor = () => {
+      const token = getNextToken();
+      if (token === '(') {
+        const expressionValue = parseExpression();
+        if (getNextToken() !== ')') {
+          throw new Error('Mismatched parentheses');
+        }
+        return expressionValue;
+      } else if (!isNaN(token)) {
+        return parseFloat(token);
+      } else {
+        throw new Error('Invalid token');
+      }
+    };
+
+    // Start parsing
+    this.result = parseExpression();
+
+    // Check for division by zero
+    if (!isFinite(this.result)) {
+      throw new Error('Invalid result');
+    }
+
+    return this.result;
+  }
+
+  constructor(){
+    this.result = 0;
+  }
+}
 
 module.exports = Calculator;

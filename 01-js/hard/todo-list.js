@@ -11,7 +11,38 @@
 */
 
 class Todo {
+  todos = [];
 
+  add(todo){
+    this.todos = [...this.todos, todo];
+  }
+
+  remove(indexOfTodo){
+    if(indexOfTodo < this.todos.length){
+      this.todos.splice(indexOfTodo, 1);
+    }
+  }
+
+  update(index, updatedTodo){
+    if(index < this.todos.length){
+      this.todos[index] = updatedTodo;
+    }
+  }
+
+  get(indexOfTodo){
+    if(indexOfTodo >= this.todos.length){
+      return null;
+    }
+    return this.todos[indexOfTodo];
+  }
+
+  getAll(){
+    return this.todos;
+  }
+
+  clear(){
+    this.todos = [];
+  }
 }
 
 module.exports = Todo;
