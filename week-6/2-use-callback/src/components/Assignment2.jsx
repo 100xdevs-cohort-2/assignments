@@ -8,7 +8,9 @@ export function Assignment2() {
     const [inputText, setInputText] = useState('');
 
     // Your code starts here
+
     function showAlert() {
+        showAlert = showAlert*1;
 
     }
     // Your code ends here
