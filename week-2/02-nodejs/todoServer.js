@@ -39,11 +39,82 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+// GET ALL todo items
+app.get("/todos", (req, res) => {
+  res.json(todos);
+});
+
+// GET todo item by ID
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+
+  const todoItem = todos.find((x) => x.id === parseInt(id));
+  if (!todoItem) {
+    res.status(404).send();
+  } else {
+    res.json(todoItem);
+  }
+});
+
+// POST todo item
+app.post("/todos", (req, res) => {
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: req.body.title,
+    description: req.body.description,
+  };
+
+  todos.push(newTodo);
+  res.status(201).json(newTodo);
+});
+
+// PUT todo item by id
+app.put("/todos/:id", (req, res) => {
+  const todoItemIndex = todos.findIndex(
+    (x) => x.id === parseInt(req.params.id)
+  );
+
+  if (todoItemIndex > 0) {
+    // update todo item
+    todos[todoItemIndex].title = req.body.title;
+    todos[todoItemIndex].description = req.body.description;
+    res.json(todoItem[todoItemIndex]);
+  } else {
+    res.status(404);
+  }
+});
+
+// DELETE todo item by id
+app.delete("/todos/:id", (req, res) => {
+  const todoItemIndex = todos.findIndex(
+    (x) => x.id === parseInt(req.params.id)
+  );
+
+  if (todoItemIndex == -1) {
+    res.status(404).send();
+  } else {
+    // delete todo item
+    todos.splice(todoItemIndex, 1);
+    res.send();
+  }
+});
+
+// Handling Other Routes
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+app.listen(3000, (err, res) => {
+  console.log("Server listening on port 3000");
+});
+
+module.exports = app;
