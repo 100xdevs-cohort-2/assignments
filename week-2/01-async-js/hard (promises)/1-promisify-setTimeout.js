@@ -3,6 +3,11 @@
 */
 
 function wait(n) {
+    return promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('foo');
+        }, n);
+      });
 }
 
 module.exports = wait;
