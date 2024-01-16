@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 
@@ -12,6 +12,7 @@ function CreateCards() {
   const [interestThree, setInterestThree] = useState("interest 3");
   const [LinkedIn, setLinkedIn] = useState("");
   const [Twitter, setTwitter] = useState("");
+  const [created, setCreated] = useState(false);
 
   const postData = async () => {
     console.log("post data called!");
@@ -43,6 +44,12 @@ function CreateCards() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (created) {
+      postData();
+    }
+  }, [created]);
 
   return (
     <div className="container h-screen mx-auto flex flex-col justify-between  py-20">
@@ -169,7 +176,7 @@ function CreateCards() {
       <div className=" flex justify-center">
         <button
           onClick={() => {
-            postData();
+            setCreated(true);
           }}
           className="btn btn-success px-10"
         >
