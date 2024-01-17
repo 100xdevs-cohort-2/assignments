@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    function getData() {
+      fetch("https://fakerapi.it/api/v1/persons")
+        .then((res) => res.json())
+        .then((data) => console.log("data:", data));
+    }
+  </script>
+  <body>
+    <button onclick="getData()">GET Data</button>
+  </body>
+</html>
