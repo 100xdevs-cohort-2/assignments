@@ -12,16 +12,33 @@ export const Assignment3 = () => {
     ]);
 
     // Your code starts here
-    const totalValue = 0;
+    const totalValue = useMemo(() => {
+        let totalValue = 0;
+        items.map((item) => {
+            totalValue += item.value;
+        })
+        console.log(totalValue);
+        return totalValue;
+    }, [items]);
     // Your code ends here
     return (
-        <div>
+        <div>   
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>{item.name} - Price: ${item.value}</li>
                 ))}
             </ul>
             <p>Total Value: {totalValue}</p>
+            <button onClick={() => 
+                setItems([...items, {name: Math.random(), value: Math.random()}])
+            }>Add item</button>
+            <TextComponent/>
         </div>
     );
 };
+
+function TextComponent() {
+    return <div>
+        hi there
+    </div>
+}
