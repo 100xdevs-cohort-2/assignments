@@ -1,0 +1,35 @@
+#detail{
+    border: 1px solid black;
+    padding: 2rem;
+    border-radius: 2rem;
+    width: 18rem;
+    margin-bottom: 2rem;
+}
+
+#buttonRight{
+    margin-left: 2rem;
+}
+button{
+    padding: 5px;
+    border-radius: 5px;
+    background-color: blue;
+    color: white;
+    border-color: white;
+}
+
+.inputBox{
+    margin-bottom: 2rem;
+}
+#labelName{
+    margin-right: 35px;
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+#interest{
+    margin-left: 26px;
+}
+#twitter{
+    margin-left: 12px;
+}

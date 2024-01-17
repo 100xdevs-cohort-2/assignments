@@ -7,8 +7,18 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const child = document.createElement("div");
+      const firstGrandParent = document.createElement("div");
+      firstGrandParent.innerHTML = todo[0].title;
+      const secondGrandParent = document.createElement("div");
+      secondGrandParent.innerHTML = todo[0].description;
+      const thirdGrandParent = document.createElement("div");
+      thirdGrandParent.innerHTML = todo[0].id;
+      child.appendChild(firstGrandParent);
+      child.appendChild(secondGrandParent);
+      child.appendChild(thirdGrandParent)
+      return child;
     }
 
     function removeTodoFromDom(todo) {
@@ -28,6 +38,45 @@
       const added = [];
       const deleted = [];
       const updated = [];
+
+      //for added
+      for(let i=0; i<todoState.length; i++){
+        for(let j=0; j<oldTodoState.length; j++){
+          if(todoState[i].id == oldTodoState[j].id){
+            break;
+          }
+        }
+        added.push(todoState[i]);
+      }
+
+      //for deleted
+      for(let i=0; i<oldTodoState.length; i++){
+        for(let j=0; j<todoState.length; j++){
+          if(todoState[i].id == oldTodoState[j].id){
+            break;
+          }
+        }
+        deleted.push(todoState[i]);
+      }
+
+      //for updated
+      for(let i=0; i<todoState.length; i++){
+        for(let j=0; j<oldTodoState.length; j++){
+          if(todoState[i].id == oldTodoState[j].id && todoState[i].title != oldTodoState[j].title){
+            updated.push(todoState[i]);
+          }
+        }
+      }
+
+      if(added.length != 0){
+        addTodoToDom(added);
+      }
+      if(deleted.length != 0){
+        removeTodoFromDom(deleted);
+      }
+      if(updated.length != 0){
+        updateTodoInDom(updated);
+      }
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
