@@ -14,7 +14,26 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let Totalspend = []
+  let dict = {}
+  for(let transaction of transactions) {
+    // console.log(transaction)
+    if (transaction.category in dict) {
+      dict[transaction.category] += transaction.price;
+    }
+    else {
+      dict[transaction.category] = transaction.price;
+    }
+  }
+  // console.log(dict)
+
+  for(let key in dict) {
+    // console.log("Category " + cat);
+    Totalspend.push({category: key, totalSpent: dict[key]})
+  }
+
+  // console.log(Totalspend)
+  return Totalspend;
 }
 
 module.exports = calculateTotalSpentByCategory;

@@ -4,6 +4,21 @@
 */
 
 function isPalindrome(str) {
+
+  //For removing spaces and punctuation marks
+  const Newstr = str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+  const len = Newstr.length;
+  let st=0;
+  let end= len-1;
+
+  while(st<=end){
+    if(Newstr[st].toLowerCase() != Newstr[end].toLowerCase()){
+      return false;
+    }
+    st++;
+    end--;
+  }
   return true;
 }
 
