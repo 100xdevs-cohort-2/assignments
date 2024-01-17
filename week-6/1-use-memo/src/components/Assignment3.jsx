@@ -8,15 +8,19 @@ export const Assignment3 = () => {
         { name: 'Chips', value: 20 },
         { name: 'Onion', value: 30 },
         { name: 'Tomato', value: 30 },
+        {name:"Potato",value:50}
         // Add more items as needed
     ]);
 
     // Your code starts here
-    const totalValue = 0;
-    // Your code ends here
+ const totalValue = items.reduce((acc, item) => acc + item.value, 0);
+
+    ;
+    console.log(totalValue)
     return (
         <div>
             <ul>
+
                 {items.map((item, index) => (
                     <li key={index}>{item.name} - Price: ${item.value}</li>
                 ))}

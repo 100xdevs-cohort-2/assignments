@@ -13,7 +13,6 @@ This in the real world would translate to an app like udemy.
 This one doesn't use authentication the right way. We will learn how to do that in the next assignment. 
 For this one, in every authenticated requests, you need to send the username and password in the headers (and not the jwt).
 This is the reason why this assignment doesn't have a sign in route.
-
 You need to use mongodb to store all the data persistently.
 
 ## Routes
@@ -24,7 +23,7 @@ You need to use mongodb to store all the data persistently.
   Output: { message: 'Admin created successfully' }
 - POST /admin/courses
   Description: Creates a new course.
-  Input: Headers: { 'username': 'username', 'password': 'password' }, Body: { title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com' }
+  Input: Headers: { 'username': 'username', 'password': 'password' }, Body: { title: 'course title', descriptio n: 'course description', price: 100, imageLink: 'https://linktoimage.com' }
   Output: { message: 'Course created successfully', courseId: "new course id" }
 - GET /admin/courses
   Description: Returns all the courses.
@@ -40,6 +39,7 @@ You need to use mongodb to store all the data persistently.
   Description: Lists all the courses.
   Input: Headers: { 'username': 'username', 'password': 'password' }
   Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+  
 - POST /users/courses/:courseId
   Description: Purchases a course. courseId in the URL path should be replaced with the ID of the course to be purchased.
   Input: Headers: { 'username': 'username', 'password': 'password' }
