@@ -17,6 +17,8 @@ router.get('/courses', (req, res) => {
 
 router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
+   
+
 });
 
 router.get('/purchasedCourses', userMiddleware, (req, res) => {
