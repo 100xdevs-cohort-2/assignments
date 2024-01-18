@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import "./App.css";
-import { ProfileCard } from "./components/ProfileCard";
+import { ProfileCard } from "./components/01-profile-card/ProfileCard";
 import profilePhoto from "./assets/profile-photo.png";
-import { BgChanger } from "./components/BgChanger";
+import { BgChanger } from "./components/02-bg-changer/BgChanger";
+import { ParaGenerator } from "./components/04-para-generator/ParaGenerator";
 
 const user = {
   username: "Rita Correia",
@@ -19,6 +20,7 @@ function App() {
     <>
       {/* <ProfileCard {...user} /> */}
       {/* <BgChanger /> */}
+      <ParaGenerator />
     </>
   );
 }
