@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg' */
 import './App.css'
 /* import { Button } from './components/Button' */
 import  {Task1 } from './components/Task1'
+import { LoremIpsum } from 'react-lorem-ipsum';
 
 function App() {
   const [bgcolor, setbgcolor] = useState("orange");
@@ -14,6 +15,18 @@ function App() {
   useEffect(() => {
     document.body.style.backgroundColor = bgcolor;
   },[bgcolor])
+
+  const [numberOfPara, setnumberOfPara] = useState(0);
+   const [generatedText, setGeneratedText] = useState('');
+
+  
+  const generateLoremIpsum = () => {
+    // Use the setGeneratedText function to update the generated text
+    // based on the specified number of paragraphs (numberOfPara)
+    setGeneratedText(<LoremIpsum p={numberOfPara} />);
+  };
+
+
 
   return (
     <>
@@ -50,6 +63,27 @@ function App() {
         click("orange");
       }}> default</button>
 
+      <br>
+      </br>
+      <br>
+      </br>
+      <h>
+        <b>
+        Paragraph Generator
+        </b>
+
+        <br>
+        </br>
+
+        
+        <input  value = {numberOfPara} placeholder='enter number of words' onChange={e=> setnumberOfPara(e.target.value)} >
+        </input>
+        <button onClick={generateLoremIpsum}>Generate</button>
+      </h>
+      <div >
+            <div>{generatedText}</div>
+      </div>
+      
       {/* <Button /> */}
     </>
   )
