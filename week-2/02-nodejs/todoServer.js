@@ -39,11 +39,69 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+app.use(bodyParser.json());
+
+let todo = [];
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todo);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const todoId = parseInt(req.params.id);
+  const foundTodo = todo.find(todo => todo.id === todoId);
+  foundTodo ? res.status(200).json(foundTodo) : res.sendStatus(404);
+});
+
+app.post("/todos", (req, res) => {
+  const data = req.body;
+  if (!data.title) {
+    return res.status(400).json({ error: "Title is required" });
+  }
+
+  const newTodo = {
+    id: todo.length + 1,
+    title: data.title,
+    description: data.description || "",
+    completed: data.completed || false
+  };
+
+  todo.push(newTodo);
+  res.status(201).json({ id: newTodo.id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const reqBody = req.body;
+  const index = todo.findIndex(todo => todo.id === parseInt(req.params.id));
+
+  if (index !== -1) {
+    todo[index]["title"] = reqBody.title;
+    todo[index]["completed"] = reqBody.completed;
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const index = todo.findIndex(todo => todo.id === parseInt(req.params.id));
+
+  if (index !== -1) {
+    todo.splice(index, 1);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+app.all("*", (req, res) => {
+  res.sendStatus(404);
+});
+
+app.listen(3000);
+
+module.exports = app;
