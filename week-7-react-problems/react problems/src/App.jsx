@@ -21,7 +21,15 @@ function App() {
     setGeneratedText(<LoremIpsum p={numberOfPara} />);
   };
 
+  const [username, setUsername] = useState('');
 
+  const fetchUserData = () => {
+    fetch(`https://api.github.com/users/${username}`)
+      .then(response => response.json())
+      .then(data => SetUserData(data))
+  }
+
+  const [userData,SetUserData]= useState([]);
 
   return (
     <>
@@ -84,6 +92,37 @@ function App() {
       </br>
       <br>
       </br>
+
+
+      {/* task 5 */}
+      <input placeholder='whats your username' onChange={e => setUsername(e.target.value)} />
+
+      <br>
+      
+      </br>
+
+      <button onClick={fetchUserData}>
+        click
+      </button>
+
+      <div>
+         <div>
+        <img src={userData.avatar_url} alt="User Avatar" />
+        <div>Username: {userData.login}</div>
+        <div>Name: {userData.name}</div>
+        <div>Bio: {userData.bio}</div>
+        <div>Location: {userData.location}</div>
+        <div>Company: {userData.company}</div>
+        <div>Blog: <a href={userData.blog} target="_blank" rel="noopener noreferrer">{userData.blog}</a></div>
+        <div>Followers: {userData.followers}</div>
+        <div>Following: {userData.following}</div>
+        <div>Public Repos: {userData.public_repos}</div>
+        <div>Public Gists: {userData.public_gists}</div>
+        <div>Member since: {new Date(userData.created_at).toLocaleDateString()}</div>
+        <div>Last updated: {new Date(userData.updated_at).toLocaleString()}</div>
+      </div>
+      </div>
+
     </>
   )
 }
