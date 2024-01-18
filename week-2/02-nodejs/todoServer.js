@@ -40,10 +40,57 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const fs = require('fs')
   const bodyParser = require('body-parser');
   
   const app = express();
   
   app.use(bodyParser.json());
   
+  
+  
+  app.get("/todos",(req,res)=>{
+    fs.readFile("todos.json",'utf-8',(err,data)=>{
+      console.log(typeof(data))
+
+      res.status(200).json(JSON.parse(data))
+    })
+  })
+
+  app.get("/todos/:id",(req,res)=>{
+    fs.readFile("todos.json",'utf-8',(err,data)=>{
+      const jsonData=JSON.parse(data)
+      const todo=jsonData.filter(item=>item.id==req.params['id'])
+
+      if(todo.length>0){
+        res.status(200).json(todo[0])
+      }else{
+        
+        res.status(404).send("ERR NOT FOUND")
+      }
+    })
+
+  })
+
+  app.post("/todos",(req,res)=>{
+    const todo=req.body;
+    console.log(todo)
+
+    fs.writeFile('todos.json','ejrf',(err)=>{
+      if(err)
+      console.log(err)
+    })
+  })
+
+  app.listen(3000,()=>{
+    console.log("SERVER RUNNING ON 3000")
+  })
+
+  
   module.exports = app;
+
+
+  /* POA:
+     1. CREATING A TODO CONST, USING FS MODULE TO WRITE FILE
+     2. 
+  */

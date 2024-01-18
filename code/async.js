@@ -1,5 +1,5 @@
 // // fs ---> File system
-// const fs = require('fs')
+const fs = require('fs')
 
 // // err first fn, utf encoding 8 
 // fs.readFile("a.txt","utf-8",function(err,data){
@@ -54,20 +54,20 @@
 
 
 // // CLEANER WAY (PROMISES)
-// function anviReadFile(){
-//   return new Promise((resolve)=>{
-//     fs.readFile("a.txt","utf-8",(err,data)=>{
-//         resolve(data)
-//     })
-//   })
-// }
+function anviReadFile(){
+  return new Promise((resolve)=>{
+    fs.readFile("a.txt","utf-8",(err,data)=>{
+        resolve(data)
+    })
+  })
+}
 
-// //cb fn to call
-// function onDone(data){
-//     console.log(data)
-// }
+//cb fn to call
+function onDone(data){
+    console.log(data)
+}
 
-// anviReadFile().then(onDone);
+anviReadFile().then(onDone);
 
 
 var p =new Promise(function(resolve){
@@ -81,3 +81,19 @@ function callback(data){
 console.log(p)
 p.then(callback)
 // when you don't return anything it shows undefined
+
+
+function ankitAsyncFunction(){
+    let v=new Promise(function(resolve){
+        setTimeout(function(){
+             resolve("hi there")
+        })
+    })
+    return v
+}
+// other way no need of .then
+async function print(){
+    let value=await ankitAsyncFunction()
+    console.log(value)
+}
+print()

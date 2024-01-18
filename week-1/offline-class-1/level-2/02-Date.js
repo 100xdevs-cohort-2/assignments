@@ -26,3 +26,15 @@ function dateMethods() {
 
 // Example Usage for Date Methods
 dateMethods();
+
+
+function sum(a){
+  for(let i=a;i<1000;i++){
+    a++;
+  }
+  setTimeout(()=>console.log(a),a*1000)
+}
+const timer=new Date()
+console.log("beforeTime: ",timer.getMilliseconds())
+
+console.log("After Time: ",timer.getMilliseconds())
