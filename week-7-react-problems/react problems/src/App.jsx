@@ -2,6 +2,8 @@
 import './App.css'
 import  {Task1 } from './components/Task1'
 import { LoremIpsum } from 'react-lorem-ipsum';
+import OtpInput from 'react-otp-input';
+
 
 function App() {
   const [bgcolor, setbgcolor] = useState("orange");
@@ -29,7 +31,9 @@ function App() {
       .then(data => SetUserData(data))
   }
 
-  const [userData,SetUserData]= useState([]);
+  const [userData, SetUserData] = useState([]);
+  
+    const [otp, setOtp] = useState('');
 
   return (
     <>
@@ -123,6 +127,25 @@ function App() {
       </div>
       </div>
 
+      {/* task 6 */}
+
+      
+      <br>
+      </br>
+
+      <div>
+        <h1>Login via OTP</h1>
+       <OtpInput
+      value={otp}
+      onChange={setOtp}
+      numInputs={4}
+      renderSeparator={<span>-</span>}
+      renderInput={(props) => <input {...props} />}
+      />
+        
+      </div>
+      
+      <button>Login</button>
     </>
   )
 }
