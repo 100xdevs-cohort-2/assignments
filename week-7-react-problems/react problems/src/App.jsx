@@ -1,8 +1,5 @@
  import { useEffect, useState } from 'react'
-/* import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg' */ 
 import './App.css'
-/* import { Button } from './components/Button' */
 import  {Task1 } from './components/Task1'
 import { LoremIpsum } from 'react-lorem-ipsum';
 
@@ -21,8 +18,6 @@ function App() {
 
   
   const generateLoremIpsum = () => {
-    // Use the setGeneratedText function to update the generated text
-    // based on the specified number of paragraphs (numberOfPara)
     setGeneratedText(<LoremIpsum p={numberOfPara} />);
   };
 
@@ -84,7 +79,11 @@ function App() {
             <div>{generatedText}</div>
       </div>
       
-      {/* <Button /> */}
+
+      <br>
+      </br>
+      <br>
+      </br>
     </>
   )
 }
