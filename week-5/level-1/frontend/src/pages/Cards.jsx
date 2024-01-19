@@ -11,7 +11,6 @@ function Cards() {
   const { userData } = useAuth();
 
   const fetchData = async () => {
-    console.log("userData", userData);
     const token = userData.token;
     try {
       const response = await axios.get(
@@ -22,7 +21,6 @@ function Cards() {
           },
         }
       );
-      console.log("allcards: ", response.data);
       if (response.status == 200) {
         setAllCards(response.data);
       }
@@ -36,14 +34,15 @@ function Cards() {
     if (userData) {
       fetchData();
     }
-  }, []);
+  }, [userData]);
+  //userData in the Dependency array solves the 'Data lost on refresh' issue in AllCards component
 
   return (
     <>
       {userData && userData.role === "admin" ? (
         <CreateCards />
       ) : (
-        <div className="container h-screen mx-auto flex flex-col border border-gray-400">
+        <div className="container h-content mx-auto flex flex-col border border-gray-400 rounded-xl">
           <AllCards allCards={allCards} />
         </div>
       )}
