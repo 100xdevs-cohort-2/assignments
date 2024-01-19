@@ -39,11 +39,50 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const TodoService = require('./todoService');
+
+const app = express();
+
+app.use(bodyParser.json());
+
+const todoService = new TodoService();
+
+
+app.get('/todos', (req, res) => {
+  return res.status(200).json(todoService.getAll());
+})
+
+app.get('/todos/:id', (req, res) => {
+  const todo = todoService.get(req.params.id);
+  if (!todo) {
+    return res.status(404).send();
+  }
+  return res.status(200).json(todo);
+})
+
+app.post('/todos', (req, res) => {
+  const todo = req.body;
+  const newTodo = todoService.add(todo);
+  return res.status(201).json({ id: newTodo.id });
+})
+
+app.put('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  const todo = req.body;
+  console.log(todo);
+  if (todoService.update(todo, id)) {
+    return res.status(200).send();
+  }
+  return res.status(404).send();
+})
+
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  if (todoService.remove(id))
+    return res.status(200).send();
+  return res.status(404).send();
+})
+
+module.exports = app;
