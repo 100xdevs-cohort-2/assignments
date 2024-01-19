@@ -9,6 +9,7 @@ export function Assignment2() {
         // Update state to force re-render
         forceRender(Math.random());
     };
+    console.log("ji")
 
     return (
         <div>
