@@ -18,9 +18,10 @@ const UserSchema = new mongoose.Schema({
 
 const CourseSchema = new mongoose.Schema({
     // Schema definition here
-    username: String,
-    passwrod: String,
-    phoneNo: Number
+    title: String,
+    description: String,
+    price: Number,
+    imagelink: String
 });
 
 const Admin = mongoose.model('Admin', AdminSchema);
