@@ -4,16 +4,16 @@ import React, { useState, useCallback,useRef } from 'react';
 
 export function Assignment2() {
     const [render, forceRender] = useState(0);
-     const renderRef = useRef(1);
+     const renderRef = useRef(0);
     const handleReRender =useCallback( () => {
      
         
-        forceRender(renderRef.current++);
+        forceRender(render++);
     },[render]);
-
+renderRef.current++
     return (
         <div>
-            <p>This component has rendered {render} times.</p>
+            <p>This component has rendered {renderRef.current} times.</p>
             <button onClick={handleReRender}>Force Re-render</button>
         </div>
     );

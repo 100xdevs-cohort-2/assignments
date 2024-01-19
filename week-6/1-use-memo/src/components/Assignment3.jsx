@@ -11,13 +11,16 @@ export const Assignment3 = () => {
         // Add more items as needed
     ]);
     
-    let x =0;
+  
+    // Your code starts here
+    const totalValue = useMemo(()=>{ 
+        let x =0;
     for(i =0;i<items.length;i++){
         x = x+items[i].value;
       
-    }
-    // Your code starts here
-    const totalValue = useMemo(()=>x,[items]);
+    }  
+        
+        return x},[items]);
     // Your code ends here
     return (
         <div>

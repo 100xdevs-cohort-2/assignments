@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 export function Assignment1() {
 
-  const inputRef = useRef(null);
+  const inputRef = useRef();
+  useEffect(()=>{
+    inputRef.current.focus()
+  },[inputRef]);
 
   const handleButtonClick = () => {
   
-    inputRef.current && inputRef.current.focus();
+    inputRef.current.focus();
   };
 
   return (

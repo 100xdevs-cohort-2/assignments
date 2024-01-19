@@ -8,19 +8,22 @@ export function Assignment1() {
     // Your code starts here
     const handleIncrement= useCallback(
       () => {
-        let x =count +1;
-        setCount(x);
+     
+        setCount((current)=>{
+          return current +1
+        });
       },
-      [count],
+      [],
     )
    
 
     const handleDecrement= useCallback(
         () => {
-            let x = count -1;
-          setCount(x);
+          setCount((current)=>{
+            return current - 1
+          });
         },
-        [count],
+        [],
       )
     // Your code ends here
 
