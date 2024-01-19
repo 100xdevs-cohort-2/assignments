@@ -16,6 +16,46 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+		this.result = 0;
+	}
+
+	add(a) {
+		this.result += a;
+	}
+
+	subtract(a) {
+		this.result -= a;
+	}
+
+	multiply(a) {
+		this.result *= a;
+	}
+
+	divide(a) {
+		if (a == 0) {
+			throw new Error("invalid input 0");
+		}
+		this.result /= a;
+	}
+
+	clear() {
+		this.result = 0;
+	}
+
+	getResult() {
+		return this.result;
+	}
+
+	calculate(expression) {
+		const pattern = /^[0-9+\-*/().\s]+$/;
+		if (pattern.test(expression) && eval(expression) != Infinity) {
+			this.result=(eval(expression));
+		} else {
+			throw new Error("invalid expression");
+		}
+	}
+}
 
 module.exports = Calculator;

@@ -45,4 +45,6 @@ p.then(fs.readFile('temp.txt','utf-8',(err,data)=>{
 //     })
 
 // }
+
 // writing();
+
