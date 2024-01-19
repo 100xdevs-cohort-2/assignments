@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        text-align: center;
+        margin: 100px;
+        font-size: 3em;
+        background-color: rgba(0, 0, 0, 0.866);
+        box-sizing: border-box;
+      }
+      .conatiner {
+        margin-top: 100px;
+        display: flex;
+        justify-content: space-around;
+        color: #ffffff;
+        text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+        box-shadow: 0 8px 8px -4px lightblue;
+        padding-top: 10px;
+      }
+      #date{
+        color: #ffffff;
+        text-shadow: 0 0 20px rgba(10, 175, 230, 1),  0 0 20px rgba(10, 175, 230, 0);
+        box-shadow: 0 3px 10px rgb(206, 218, 222);
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <span id="date"></span>
+    <span class="conatiner">
+      <span id="digital-clockAMPM"></span>
+      <span id="digital-clock"></span>
+    </span>
+    <script src="2-clock.js"></script>
+  </body>
+</html>
