@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 function AllCards({ allCards }) {
-  useEffect(() => {
-    console.log("allCards in useEffect:", allCards);
-  }, [allCards]);
-
-  console.log("All cards in the component", allCards);
-
   return (
     <>
+      <h1 className="text-3xl underline flex justify-center items-center">
+        All Cards
+      </h1>
       {allCards.map((card) => (
-        <div className="flex flex-col p-5" key={card.id}>
+        <div
+          className="flex flex-col justify-center items-center my-10"
+          key={card.cardId}
+        >
           <div>
             <h1>{card.name}</h1>
           </div>
