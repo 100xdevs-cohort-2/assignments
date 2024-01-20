@@ -4,6 +4,7 @@ import './App.css'
 // import { Assignment3 } from './components/Assignment3'
 import Solution1 from './solution/Solution1.jsx'
 import Solution2 from './solution/Solution2.jsx'
+import Solution3 from './solution/Solution3.jsx'
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       {/* <Assignment3 /> */}
 
       {/* <Solution1 /> */}
-      <Solution2 />
+      {/* <Solution2 /> */}
+      <Solution3 />
     </>
   )
 }
