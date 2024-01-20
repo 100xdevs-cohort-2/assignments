@@ -21,7 +21,7 @@ function Solution2() {
     const filteredSentences = useMemo(() => {
         console.log("inside usememo")
         return sentences.filter(x => x.includes(filter))
-    }, [filter])
+    }, [filter, sentences])
 
 
     return <div>
