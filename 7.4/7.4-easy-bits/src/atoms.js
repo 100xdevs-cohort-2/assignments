@@ -1,32 +1,49 @@
-import { atom, selector } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import axios from "axios";
+import {
+  networkAtom,
+  jobsAtom,
+  notificationsAtom,
+  messagingAtom,
+  totalNotificationSelector,
+} from "./atoms";
 
-export const networkAtom = atom({
-    key: "networkAtom",
-    default: 102
-});
+function App() {
+  const [networkCount, setNetworkCount] = useRecoilState(networkAtom);
+  const [jobsCount, setJobsCount] = useRecoilState(jobsAtom);
+  const [notificationsCount, setNotificationsCount] = useRecoilState(notificationsAtom);
+  const [messagingCount, setMessagingCount] = useRecoilState(messagingAtom);
+  const [totalNotification, setTotalNotification] = useRecoilState(totalNotificationSelector);
 
-export const jobsAtom = atom({
-    key: "jobsAtom",
-    default: 0
-});
+  useEffect(() => {
+    axios.get("https://sum-server.100xdevs.com/notifications")
+      .then(response => {
+        const { network, jobs, notifications, messaging } = response.data;
 
-export const notificationsAtom = atom({
-    key: "notificationsAtom",
-    default: 12
-});
+        setNetworkCount(network);
+        setJobsCount(jobs);
+        setNotificationsCount(notifications); 
+        setMessagingCount(messaging);
 
-export const messagingAtom = atom({
-    key: "messagingAtom",
-    default: 0
-});
+        setTotalNotification(network + jobs + notifications + messaging);
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  }, []); 
 
-export const totalNotificationSelector = selector({
-    key: "totalNotificationSelector",
-    get: ({get}) => {
-        const networkAtomCount = get(networkAtom);
-        const jobsAtomCount = get(jobsAtom);
-        const notificationsAtomCount = get(notificationsAtom);
-        const messagingAtomCount = get(messagingAtom);
-        return networkAtomCount + jobsAtomCount + notificationsAtomCount + messagingAtomCount
-    }
-})
+  return (
+    <>
+      <button> Home </button>
+      <button> My Network ({networkCount}) </button>
+      <button> Jobs ({jobsCount}) </button>
+      <button> Messaging ({messagingCount}) </button>
+      <button> Notifications ({notificationsCount}) </button>
+      <button> Me </button>
+      <p>Total Notifications: {totalNotification}</p>
+    </>
+  );
+}
+
+export default App;
