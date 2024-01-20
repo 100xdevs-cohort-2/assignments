@@ -7,31 +7,60 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const todoList = document.getElementById('todos');
+      const todoElement = document.createElement('div');
+      todoElement.setAttribute("data-id",todo.id)
+      todoElement.innerHTML = `<strong> Title: ${todo.title} </strong> <br /> Description: ${todo.description}`;
+      todoList.appendChild(todoElement)
     }
 
     function removeTodoFromDom(todo) {
-      
+      const todoList = document.getElementById('todos');
+      const selectedTodoElement = document.querySelector(`[data-id="${todo.id}"]`);
+      if(selectedTodoElement){
+        todoList.removeChild(selectedTodoElement)
+      }
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const todoList = document.getElementById('todos');
+      const selectedTodoElement = document.querySelector(`[data-id="${newTodo.id}"]`);
+      if(selectedTodoElement){
+        selectedTodoElement.innerHTML = `<strong> Title: ${newTodo.title} </strong> <br /> Description: ${newTodo.description}`;
+      }
     }
 
     function updateState(newTodos) {
       // calculate the diff b/w newTodos and oldTodos.
       // More specifically, find out what todos are - 
       // 1. added
+      const added = newTodos.filter(todo => !oldTodoState.some(oldTodo => oldTodo.id === todo.id));
+      added.forEach(newTodo=> addTodoToDom(newTodo))
       // 2. deleted
+
+      const deleted  = oldTodoState.filter(oldTodo => !newTodos.some(newTodo => newTodo.id === oldTodo.id) )
+      deleted.forEach(deletedTodo => removeTodoFromDom(deletedTodo))
       // 3. updated
-      const added = [];
-      const deleted = [];
-      const updated = [];
+
+      if(newTodos.length > 2){
+        newTodos[0]['title'] = 'ADFSSDDFSSSSSSSSS'
+      }
+      const updated = newTodos.filter((newTodo)=>{
+        const oldTodo = oldTodoState.find(todo => todo.id === newTodo.id);
+        console.log(oldTodo)
+        return oldTodo && (oldTodo.title !== newTodo.title || oldTodo.description !== newTodo.description)
+      })
+
+      console.log("Updated",updated)
+      updated.forEach(updatedTodo=>{
+        const oldTodo = oldTodoState.find(oldTodo=> oldTodo.id === updatedTodo.id);
+        updateTodoInDom(oldTodo,updatedTodo)
+      });
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
-      oldTodoState = newTodos;
+      oldTodoState = newTodos.map(obj => ({...obj}))
     }
 
     function addTodo() {
