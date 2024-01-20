@@ -45,5 +45,70 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  const todos = [];
+
+  const generateId = () => {
+    return Math.floor(Math.random() * 1000);
+  }
+
+  // 1.Retrieve all todos
+  app.get('/todos', (req, res) => {
+    res.status(200).json(todos);
+  })
+
+  // Retrieve a specific todo item by ID
+  app.get('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const todoIndex = todos.findIndex((item)=>{
+       return item.id === id;
+    })
+
+    if(todoIndex === -1){
+      return res.status(404).send('Not found');
+    }
+    res.json(todos[todoIndex]);
+  });
+
+  // Create a new todo item
+  app.post('/todos',(req, res) => {
+     const newTodo = {
+       id : generateId(),
+       title : req.body.title,
+       description : req.body.description,
+     };
+     todos.push(newTodo);
+     res.status(201).json(newTodo);
+  });
+
+  // Update an existing todo item by ID
+  app.put('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const todoIndex = todos.findIndex((item)=>{
+       return item.id === id;
+    })
+
+    if(todoIndex === -1){
+      return res.status(404).send('Not found');
+    }
+    todos[todoIndex].title = req.body.title;
+    todos[todoIndex].description = req.body.description;
+    res.status(200).json(todos[todoIndex]);
+
+  })
+
+  // Delete a todo item by ID
+  app.delete('/todos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const todoIndex = todos.findIndex((item) => {
+      return item.id === id;
+    });
+    if (todoIndex == -1) {
+      return res.status(404).send('Not Found');
+    }
+    todos.splice(todoIndex, 1);
+    res.status(200).send('OK');
+
+  });
   
   module.exports = app;

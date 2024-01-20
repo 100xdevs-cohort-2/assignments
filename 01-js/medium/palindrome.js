@@ -4,6 +4,19 @@
 */
 
 function isPalindrome(str) {
+   function isAlphabet(character) {
+    return /^[a-zA-Z]$/.test(character);
+  }
+  let newString = '';
+  for(const char of str){
+    if(isAlphabet(char)){
+      newString += char;
+    }
+  }
+  newString = newString.toLowerCase();
+  for(let i = 0; i < Math.ceil(newString.length / 2); i++){
+    if(newString[i] !== newString[newString.length-i-1]) return false;
+  }
   return true;
 }
 
