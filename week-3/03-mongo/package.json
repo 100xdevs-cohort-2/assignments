@@ -16,5 +16,8 @@
     "mongoose": "^8.0.3",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
   }
 }
