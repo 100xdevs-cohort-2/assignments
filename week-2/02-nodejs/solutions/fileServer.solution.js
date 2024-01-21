@@ -38,7 +38,7 @@ app.get('/file/:filename', function (req, res) {
 });
 
 app.all('*', (req, res) => {
-    res.status(404).send('Route not found');
+    res.status(404).send('File not found');
 });
 
 module.exports = app;
