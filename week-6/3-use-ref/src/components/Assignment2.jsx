@@ -1,4 +1,4 @@
-import React, { useState, useCallback,useRef } from 'react';
+import { useState, useCallback,useRef } from 'react';
 
 // Create a component that tracks and displays the number of times it has been rendered. Use useRef to create a variable that persists across renders without causing additional renders when it changes.
 
@@ -8,7 +8,7 @@ export function Assignment2() {
     const handleReRender =useCallback( () => {
      
         
-        forceRender(render++);
+        forceRender(render+1);
     },[render]);
 renderRef.current++
     return (
@@ -17,4 +17,4 @@ renderRef.current++
             <button onClick={handleReRender}>Force Re-render</button>
         </div>
     );
-};
+}
