@@ -95,7 +95,7 @@ app.delete('/todos/:id', (request, response) => {
     response.status(200).send(todos);
 });
 
-app.use((req,res, next)=> {
+app.use((req, res, next)=> {
   res.status(404).send();
 })
 
