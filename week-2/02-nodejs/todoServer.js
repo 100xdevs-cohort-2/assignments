@@ -41,6 +41,7 @@
  */
 const express = require("express");
 const bodyParser = require("body-parser");
+const { all } = require("./todoServer");
 
 const app = express();
 
@@ -51,12 +52,12 @@ function generateTodoId() {
 const allTodos = [
   {
     id: 123,
-    title: "Workout",
+    title: "Workout1",
     description: "Go to gym at 6am ",
   },
   {
     id: 122,
-    title: "Workout",
+    title: "Workout2",
     description: "Go to gym at 6am ",
   },
 ];
@@ -66,7 +67,17 @@ app.get("/todos",function(req,res){
    res.json({allTodos})
 })
 app.get("/todos/:id",function(req,res){
-    
+    const  id =parseInt(req.params.id);
+    for(let i=0;i<allTodos.length;i++){
+      if(allTodos[i].id===id){
+        res.json({
+          title:allTodos[i].title,
+          description:allTodos[i].description,
+
+        })
+      }
+    }
+     
 })
  
 
