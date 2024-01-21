@@ -12,8 +12,6 @@ export function Assignment2() {
     function showAlert() {
 showAlert = showAlert*1;
     }
-    // Your code ends here
-
     return (
         <div>
             <input
