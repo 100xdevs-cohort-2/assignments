@@ -1,0 +1,56 @@
+button{
+  padding: 20px;
+  margin: 10px;
+  background-color: #007bff;
+  border-radius: 8%;
+  /* width: 100px; */
+  color: white;
+  font-size: larger;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+#card {
+  border: 2px solid black;
+  border-radius: 5%;
+  width: fit-content;
+  margin: auto;
+  padding: 20px;
+
+  animation-duration: 1.25s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
+#descp{
+  color: #595555;
+  font-weight: normal;
+  margin-top: 0px;
+}
+
+.heading{
+  margin-bottom: 10px;
+}
+
+#card{
+  border: 2px solid black;
+  border-radius: 5%;
+  width: fit-content;
+  margin: auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  
+}

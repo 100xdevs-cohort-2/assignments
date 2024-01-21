@@ -16,6 +16,53 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+
+  constructor(){
+    this.result=0;
+    this.operators = ['-','+','*', '/']
+  }
+
+  add(x){
+    this.result+=x;
+  }
+
+  subtract(x){
+    this.result-=x;
+  }
+
+  divide(x){
+
+    if(x===0){
+      throw new Error("Divide by zero error");
+    }
+      
+    this.result/=x;
+  }
+  multiply(x){
+    this.result*=x;
+  }
+
+  clear(){
+    this.result=0;
+  }
+
+  getResult(){
+    return this.result;  
+  }
+
+  calculate(str){
+    this.result = eval(str)
+
+    if (isNaN(this.result) || !isFinite(this.result)) {
+      throw new Error("Something bad happened")
+    }
+    return this.result;
+
+  }
+
+}
+let calci = new Calculator()
+console.log(calci.calculate('10 +   2 *    (   6 - (4 + 1) / 2) + 7'))
 
 module.exports = Calculator;

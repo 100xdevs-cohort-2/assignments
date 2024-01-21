@@ -7,6 +7,10 @@
 
 function wait1(t) {
 
+function waitOneSecond() {
+    return new Promise((resolve)=> {
+        setTimeout(resolve, 1*1000);
+    });
 }
 
 function wait2(t) {

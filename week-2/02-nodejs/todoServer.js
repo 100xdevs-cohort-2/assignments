@@ -39,11 +39,145 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
+
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs');
   const app = express();
-  
+  const path = require('path');
+  const { stringify } = require('querystring');
   app.use(bodyParser.json());
+
+  class Todo{
+    // generate random id
+   
+    // constructor for creating a todo object
+    constructor(title,description){
+
+      this.description = description;
+      this.title = title;
+    }
+
+  }
+
+
+  class Todos{
+    
+    //creates todo object with this.todos containing all todos and this.ids containing all the ids
+
+    constructor(){
+      let data = fs.readFileSync(path.join(__dirname,"todos.json"));
+      this.todos = JSON.parse(data);
+      this.ids = Object.keys(this.todos);
+    }
+
+
+    randomId(length = 6) {
+      return Math.random().toString(36).substring(2, length+2);
+    };
+
+    // generate random id and check if duplicate 
+    generateId(){
+      let id = this.randomId();
+      while (this.ids.includes(id)) {
+        id = this.randomId();
+      }
+      this.ids.push(id);
+      return id;
+    }
+
+    
+    // to add a todo
+
+    add(title, description){
+      let todo = new Todo(title, description);
+      let id = this.generateId();
+      this.todos[id] = todo;
+      fs.writeFileSync(path.join(__dirname,"todos.json"), JSON.stringify(this.todos));
+      return id;
+    }
+
+    // to return todos
+
+    getTodos(){
+      return this.todos;
+    }
+
+    //to return a todo with specific id
+
+    getTodo(id){
+      return this.todos[id];
+    }
   
+    isPresent(id){
+    return this.todos.hasOwnProperty(id);
+  }
+    //delete a todo by id
+    deleteTodo(id){
+      delete this.todos[id];
+      fs.writeFileSync(path.join(__dirname,"todos.json"), JSON.stringify(this.todos));
+
+    }
+
+    //to update a todo
+    updateTodo(id, todo){     
+        this.todos[id] = todo;
+        fs.writeFileSync(path.join(__dirname,"todos.json"), JSON.stringify(this.todos));
+       
+    }
+  }
+
+
+  let todos = new Todos();
+
+
+  app.get("/todos", (req,res)=>{
+    let data = todos.getTodos();
+  res.status(200).send(JSON.stringify(data));
+  })
+
+
+  app.get("/todos/:id", (req,res)=>{
+    let id = req.params.id;
+   if(todos.isPresent(id)){
+    let data = todos.getTodo(id);
+    res.status(200).send(JSON.stringify(data));
+    }
+    res.status(404).send();
+    
+  }) 
+
+  app.post("/todos", (req, res)=> {
+    let title = req.body.title;
+    let description = req.body.description;
+    let data = {id: todos.add(title,description)}
+    res.status(201).send(data);    
+
+  })
+
+  app.delete("/todos/:id", (req,res)=> {
+    let id = req.params.id;
+    if(todos.isPresent(id)){
+      todos.deleteTodo(id);
+      res.status(200).send();
+    }
+    else{
+      res.status(404).send();
+    }
+  })
+
+  app.put("/todos/:id", (req,res)=>{
+    let id = req.params.id;
+    let todo = req.body;
+    if(todos.isPresent(id)){
+      todos.updateTodo(id,todo);
+      res.status(200).send();
+    }
+    else{
+      res.status(404).send();
+    }
+  })
+  
+  // app.listen(3000)
   module.exports = app;
