@@ -19,56 +19,37 @@ const app = express();
 
 const port = 3000;
 
-
-app.get('/files', (req, res) => {
-
-   res.send("working fine ").status(400);
-   
-});
-
-app.listen(port);
-console.log("App is running on Port", port);
-
-const port = 3000;
-
 const readFolderFiles = (folderName, cb) => {
-   let filesNames = null;
    fs.readdir(path.join(__dirname, `./${folderName}/`), cb);
    return cb;
 }
 
 app.get('/files', (req, res) => {
-   const resolve = (err, files) => {
-      if (err) return err;
-      console.log("Files===========>", files);
-   }
-   const getFilesPromise = new Promise(resolve)
-
-
    const callBack = (err, files) => {
-      if (err) return err;
-      console.log("Files===========>", files);
+      if (err) return res.status(500).json({ error: 'Failed to retrieve files' });
+      if (files && files.length) res.status(200).send(files);
+      else res.status(500).send('Error has occured');
    }
-   let fileNames = readFolderFiles('files', resolve);
-   //callBack();
-   getFilesPromise.then(data => console.log("DATA", data));
-
-
-
-
-   // console.log("======================",fileNames);
-   // if (fileNames && fileNames.length) {
-   //    res.send(fileNames);
-   // }
-   res.send('Error has occured');
+   readFolderFiles('files', callBack);
 });
-app.get('file/:filename', (req, res) => {
 
+app.get('/file/:filename', function (req, res) {
+   console.log("=========",req.params.filename)
+   const filepath = path.join(__dirname, './files/', req.params.filename);
+   fs.readFile(filepath, 'utf8', (err, data) => {
+      if (err) {
+         return res.status(404).send('File not found');
+      }
+      res.send(data);
+   });
 })
+
+app.all('*', (req, res) => {
+   res.status(404).send('Route not found');
+});
 
 app.listen(port);
 console.log("App is running on Port", port);
 
 module.exports = app;
 
-module.exports = app;
