@@ -10,8 +10,7 @@ export function Assignment2() {
     // Your code starts here
 
     function showAlert() {
-        showAlert = showAlert*1;
-
+showAlert = showAlert*1;
     }
     // Your code ends here
 
