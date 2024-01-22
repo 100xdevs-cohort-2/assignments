@@ -28,9 +28,9 @@ let multiLineRegex = /pattern/m;
 
 ```
 ## Metacharacters
-.: Matches any character except for a newline.
-^: Anchors the regex at the beginning of the string.
-"$": Anchors the regex at the end of the string.
+- .: Matches any character except for a newline.
+- ^: Anchors the regex at the beginning of the string.
+- "$": Anchors the regex at the end of the string.
 
 ### Example:
 ```javascript
@@ -41,9 +41,9 @@ let endsWithRegex = /end$/; // Matches if the string ends with "end"
 ```
 
 ## Character Classes
-[]: Matches any one of the characters inside the brackets.
-[^]: Matches any character not listed inside the brackets.
--: Represents a range of characters.
+- []: Matches any one of the characters inside the brackets.
+- [^]: Matches any character not listed inside the brackets.
+- -: Represents a range of characters.
 ### Example:
 
 ```javascript
@@ -54,12 +54,12 @@ let notDigitRegex = /[^0-9]/; // Matches any non-digit character
 
 ## Quantifiers
 
-*: Matches 0 or more occurrences of the preceding character.
-+: Matches 1 or more occurrences of the preceding character.
-?: Matches 0 or 1 occurrence of the preceding character.
-{n}: Matches exactly n occurrences.
-{n,}: Matches n or more occurrences.
-{n,m}: Matches between n and m occurrences.
+- *: Matches 0 or more occurrences of the preceding character.
+- +: Matches 1 or more occurrences of the preceding character.
+- ?: Matches 0 or 1 occurrence of the preceding character.
+- {n}: Matches exactly n occurrences.
+- {n,}: Matches n or more occurrences.
+- {n,m}: Matches between n and m occurrences.
 
 ### Example:
 
