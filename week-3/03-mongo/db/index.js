@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://anubhavbaranwal02:******@cluster0.6e8d182.mongodb.net/"
+  "mongodb+srv://anubhavbaranwal02:Anubhav08@cluster0.6e8d182.mongodb.net/"
 );
 
 // Define schemas
@@ -19,12 +19,8 @@ const AdminSchema = new mongoose.Schema({
       ref: "Course",
     },
   ],
-  email: {
-    type: String,
-    unique: true,
-    // required: true,
-  },
-  password: String,
+  
+  password: { type: String },
 });
 
 const UserSchema = new mongoose.Schema({

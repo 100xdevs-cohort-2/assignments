@@ -5,22 +5,15 @@ const router = Router();
 
 // Admin Routes
 router.post("/signup", async (req, res) => {
-  // Implement admin signup logic
-  //   const { username, password, email } = req.body;
-  console.log(req.body);
   const username = req.body.username;
   const password = req.body.password;
-  const email = req.body.email;
+
   console.log(username);
-  //   if (username) {
-  //     return res.status(400).json({ msg: "username is reuired" });
-  //   }
-  const admin = new Admin({
+  const admin = await Admin.create({
     username: username,
     password: password,
-    email,
   });
-  return res.status(200).json({ admin });
+  return res.status(200).json({ msg: "admin created successfully" });
 });
 
 router.post("/courses", adminMiddleware, async (req, res) => {
