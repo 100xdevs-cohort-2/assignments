@@ -41,10 +41,10 @@
  */
 const express = require("express");
 const bodyParser = require("body-parser");
-const { all } = require("./todoServer");
+ 
 
 const app = express();
-
+app.use(express.json());
 app.use(bodyParser.json());
 function generateTodoId() {
   return "id" + Math.floor(100 + Math.random() * 900);
@@ -60,27 +60,60 @@ const allTodos = [
     title: "Workout2",
     description: "Go to gym at 6am ",
   },
+  {
+    id: 121,
+    title: "Meal",
+    description: "Eat a healthy diet",
+  },
 ];
 
 // Retrieve all the items in todo
-app.get("/todos",function(req,res){
-   res.json({allTodos})
-})
-app.get("/todos/:id",function(req,res){
-    const  id =parseInt(req.params.id);
-    for(let i=0;i<allTodos.length;i++){
-      if(allTodos[i].id===id){
-        res.json({
-          title:allTodos[i].title,
-          description:allTodos[i].description,
-
-        })
-      }
+app.get("/todos", function (req, res) {
+  res.json({ allTodos });
+});
+app.get("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  let found = false;
+  for (let i = 0; i < allTodos.length; i++) {
+    if (allTodos[i].id === id) {
+      found = true;
+      res.json({
+        title: allTodos[i].title,
+        description: allTodos[i].description,
+      });
     }
-     
-})
- 
+  }
+  if (!found) {
+    res.status(404).json({
+      msg: "Id not found",
+    });
+  }
+});
 
-// console.log(allTodos[0].id);
-app.listen(3000);
+app.post("/todos",function(req,res){
+  const newTodo = {
+    id: generateTodoId(),   
+    title: req.body.title,
+    description: req.body.description
+  };
+  console.log(newTodo);
+  allTodos.push(newTodo);
+  res.status(201).json(newTodo);
+})
+
+app.put('/todos/:id', function(req, res){
+  const todoIndex = allTodos.findIndex(t => t.id === parseInt(req.params.id));
+  if(!todoIndex){
+    res.status(404).json({
+      msg:"invalid todo id "
+    })
+  }else{
+    allTodos[todoIndex].title=req.body.title,
+    allTodos[todoIndex].description=req.body.description
+    res.json(allTodos[todoIndex]);
+  }
+})
+
+ 
+app.listen(4000);
 module.exports = app;
