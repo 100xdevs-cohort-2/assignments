@@ -1,7 +1,7 @@
 const app = require("../02-ratelimitter");
-
 const request = require('supertest');
 const assert = require('assert');
+
 describe('GET /user', function () {
   const userId = 'testId'
   it('One request responds back correctly', function(done) {
