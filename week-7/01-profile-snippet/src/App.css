@@ -1,0 +1,33 @@
+@layer utilities {
+  .w-104 {
+    width: 28rem;
+  }
+
+  .w-112 {
+    width: 32rem;
+  }
+
+  .w-116 {
+    width: 36rem;
+  }
+
+  .w-36 {
+    width: 9rem;
+  }
+
+  .h-104 {
+    height: 28rem;
+  }
+
+  .h-112 {
+    height: 32rem;
+  }
+
+  .h-116 {
+    height: 36rem;
+  }
+
+  .h-36 {
+    height: 9rem;
+  }
+}

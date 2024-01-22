@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="root"
+      style="width: 16rem; height: 16rem; background-color: aquamarine"
+    ></div>
+
+    <script>
+      const reactElement = {
+        type: "a",
+        props: {
+          href: "www.google.com",
+          target: "_blank",
+          rel: "Nothing",
+          children: "Click me !",
+        },
+      };
+
+      const generateHTML = function (reactElement) {
+        const { type, props } = reactElement;
+        let content;
+
+        typeof props.children === "string"
+          ? (content = props.children)
+          : (content = "");
+
+        const attributes = Object.keys(props)
+          .filter((prop) => prop !== "children")
+          .map((prop) => `${prop}="${props[prop]}"`)
+          .join(" ");
+
+        const html = `<${type} ${attributes}>${content}<${type}>`;
+
+        return html;
+      };
+
+      const customRender = function (reactElement, renderPath) {
+        const html = generateHTML(reactElement);
+
+        const parentElement = document.querySelector(renderPath);
+
+        if (parentElement) {
+          parentElement.innerHTML = html;
+        } else {
+          console.log(
+            "Couldn't find the target element ! Make sure you've included the right query."
+          );
+        }
+      };
+
+      customRender(reactElement, "#root");
+    </script>
+  </body>
+</html>
