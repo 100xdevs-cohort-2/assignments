@@ -12,10 +12,54 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
+// function rateLimit(req,res,next){
+//   let userID=req.headers["user-id"];
+
+//   if(!numberOfRequestsForUser[userID]){
+//     numberOfRequestsForUser[userID]=1;
+//     console.log(userID,numberOfRequestsForUser[userID]);
+//   }
+//   else if(numberOfRequestsForUser[userID]<5){
+//     console.log(userID,numberOfRequestsForUser[userID]);
+//     numberOfRequestsForUser[userID]++;
+
+//   }
+//   else{
+//     console.log(userID,numberOfRequestsForUser[userID]);
+//     return res.status(404).send("too many req");
+//   }
+
+//   setInterval(() => {
+//     numberOfRequestsForUser[userID] =0;
+//   }, 1000);
+//   next();
+// }
+
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
 
+function rateLimit(req,res,next){
+  let userId=req.headers["user-id"];
+
+  if(numberOfRequestsForUser[userId]){
+    numberOfRequestsForUser[userId]+=1;
+    if(numberOfRequestsForUser[userId]>5){
+      return res.status(404).send("too many req");
+    }
+    else{
+      next();
+    }
+  }
+  else {
+    numberOfRequestsForUser[userId]=1;
+    next();
+  }
+}
+
+
+app.use(rateLimit);
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
@@ -23,5 +67,5 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
-
+//app.listen(3000);
 module.exports = app;
