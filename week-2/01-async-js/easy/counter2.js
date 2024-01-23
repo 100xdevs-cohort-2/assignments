@@ -1,13 +1,3 @@
-let counter = 0;
-const promisifiedCounter = (counter) => {
-    return new Promise((resolve, reject) => {
-        setTimeout(resolve(++counter, 1000));
-    })
+for (let i = 0; i <= 10; i++) {
+    setTimeout(() => console.log(i), i*1000);
 }
-
-promisifiedCounter(counter).then((value) => {
-    console.log(value);
-    promisifiedCounter(value).then((value) => {
-        console.log(value);
-    })
-})
