@@ -45,5 +45,62 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  const td = []
+
+  app.get("/todos",function(req,res){
+    res.status(200).json(td);
+  })
+  app.get("/todos/:id",function(req,res){
+    const id = req.params.id;
+    const todo = td.find(t => t.id === parseInt(id));
+    if(!todo){
+      res.status(404).send();
+    }
+    else{
+      res.json(todo);
+    }
+  })
+  
+  app.post("/todos", function(req,res){
+    const newTD = {
+      title: req.body.title,
+      description : req.body.description,
+      id: Math.floor(Math.random() * 10000)
+    }
+    td.push(newTD);
+    res.status(201).send(newTD);
+  })
+
+  app.put("/todos/:id", function(req, res) {
+    const taskId = parseInt(req.params.id);
+    const index = td.findIndex(t => t.id === taskId);
+
+    if (index == -1) {
+        console.log(`Task with ID ${taskId} not found.`);
+        res.status(404).send();
+    } else {
+        console.log(`Updating task with ID ${taskId}`);
+        td[index].title = req.body.title;
+        td[index].description = req.body.description;
+        res.json(td[index]);
+    }
+});
+
+app.delete("/todos/:id", function(req,res){
+  const id = parseInt(req.params.id);
+  const index = td.findIndex(t => t.id === id);
+  if(index == -1){
+    res.status(404).send({});
+  }else{
+    td.splice(td[index], 1)
+    res.status(200).send({});
+  }
+})
+
+ app.use((req, res,next) => {
+  res.status(404).send('404 Not Found');
+});
   
   module.exports = app;
+
