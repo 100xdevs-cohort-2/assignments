@@ -1,0 +1,31 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+input {
+  width: 40vw;
+  height: 4vh;
+  margin-top: 5px;
+  display: block;
+}
+button {
+  margin-top: 5px;
+  width: 8vw;
+}
+.items {
+  border: 1px solid white;
+  text-align: left;
+  gap: 0;
+  padding: 15px;
+  margin-top: 10px;
+  padding-top: 25px;
+  height: fit-content;
+}
+.items > h1 {
+  line-height: 0.5;
+
+  margin: 0;
+}
