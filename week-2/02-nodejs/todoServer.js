@@ -45,5 +45,17 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  app.get("/todos",(req,res)=>{
+    res.status(200).send(req.body.json);
+  })
+  
+  app.post("/todos",(req,res)=>{
+    let msgData = req.body;
+    id = req.headers;
+    res.status(201).send(id)
+  })
+
+  app.listen(3000);
   
   module.exports = app;

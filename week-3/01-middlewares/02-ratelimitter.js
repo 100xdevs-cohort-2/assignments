@@ -10,7 +10,10 @@ const app = express();
 // User will be sending in their user id in the header as 'user-id'
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
-
+app.use((req, res, next)=>{
+  
+  next();
+})
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
