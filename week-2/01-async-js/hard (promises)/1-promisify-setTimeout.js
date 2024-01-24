@@ -3,6 +3,9 @@
 */
 
 function wait(n) {
+    setTimeout(() => {
+        console.log(n+" time has passed.")
+    },n);
 }
-
+// wait(5000);
 module.exports = wait;
