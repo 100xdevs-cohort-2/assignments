@@ -23,7 +23,7 @@ router.post("/signin", async (req, res) => {
   const password = req.body.password;
   //find the desired username and password in db
   //if i use just find,its showing token for users that doesnt even exist
-  const user = await User.find({ username, password });
+  let user = await Admin.findOne({ username, password });
   //If i use findOne, its showing wrong inputs even if a user exists
   // const user = await User.findOne({ username, password });
   //   if (user) {
@@ -54,9 +54,11 @@ router.post("/signin", async (req, res) => {
   //       msg: "Internal Server Error",
   //     });
   //   }
+  console.log(user);
+
   if (user) {
     console.log(`User ${username} is logged in`);
-    const token = jwt.sign(
+    let token = jwt.sign(
       {
         username,
       },
