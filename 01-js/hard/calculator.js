@@ -70,7 +70,7 @@ class Calculator {
       .replace(/\s+/g, '')
       .match(/(\d+(\.\d+)?|\+|\-|\*|\/|\(|\))/g);
   
-    if (!tokens || tokens.join('') !== expression.replace(/\s+/g, '')) {
+    if (!tokens || tokens.length === 0) {
       throw new Error('Invalid input');
     }
   
@@ -85,27 +85,31 @@ class Calculator {
       const operator = operators.pop();
       const rightOperand = operands.pop();
       const leftOperand = operands.pop();
-  
+    
+      let result;
       switch (operator) {
         case '+':
-          operands.push(leftOperand + rightOperand);
+          result = leftOperand + rightOperand;
           break;
         case '-':
-          operands.push(leftOperand - rightOperand);
+          result = leftOperand - rightOperand;
           break;
         case '*':
-          operands.push(leftOperand * rightOperand);
+          result = leftOperand * rightOperand;
           break;
         case '/':
           if (rightOperand === 0) {
             throw new Error('Division by zero error');
           }
-          operands.push(leftOperand / rightOperand);
+          result = leftOperand / rightOperand;
           break;
         default:
           throw new Error('Invalid operator');
       }
+      
+      operands.push(result); // Push the calculated result back to the operands array
     };
+    
   
     const operators = [];
     const operands = [];
