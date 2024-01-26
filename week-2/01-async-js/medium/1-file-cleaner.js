@@ -23,5 +23,5 @@ function fileclean(file){
 fileclean('1-file-cleaner.txt').then((data)=>{
     console.log('written succefully')
 }).catch((err)=>{
-    console.log('file not found'+errr)
+    console.log('file not found')
 })
