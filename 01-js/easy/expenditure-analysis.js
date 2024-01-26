@@ -14,7 +14,19 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  // this is the dict we return we just make it into a array later
+  let dict = {};
+  // for loop to iterate over the given list of transactions (objects)
+  for (let i = 0; i < transactions.length; i++) {
+    // if the key already exists than add, otherwise initialise
+    if (transactions[i]["category"] in dict) {
+      dict[transactions[i]["category"]] += transactions[i]["price"];
+    } else {
+      dict[transactions[i]["category"]] = transactions[i]["price"];
+    }
+  }
+  // return the array version of the dict
+  return [dict];
 }
 
 module.exports = calculateTotalSpentByCategory;
