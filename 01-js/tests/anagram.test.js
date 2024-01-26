@@ -1,37 +1,37 @@
-const isAnagram = require('../easy/anagram');
+const isAnagramOptimized = require('../easy/anagram');
 
-describe('isAnagram', () => {
+describe('isAnagramOptimized', () => {
 	test('returns true for anagrams', () => {
-		expect(isAnagram('listen', 'silent')).toBe(true);
-		expect(isAnagram('rail safety', 'fairy tales')).toBe(
+		expect(isAnagramOptimized('listen', 'silent')).toBe(true);
+		expect(isAnagramOptimized('rail safety', 'fairy tales')).toBe(
 			true
 		);
-		expect(isAnagram('openai', 'aiopen')).toBe(true);
-		expect(isAnagram('', '')).toBe(true);
+		expect(isAnagramOptimized('openai', 'aiopen')).toBe(true);
+		expect(isAnagramOptimized('', '')).toBe(true);
 	});
 
 	test('returns false for non-anagrams', () => {
-		expect(isAnagram('hello', 'world')).toBe(false);
-		expect(isAnagram('openai', 'open')).toBe(false);
-		expect(isAnagram('hello', 'lhel')).toBe(false);
-		expect(isAnagram('working', 'non')).toBe(false);
+		expect(isAnagramOptimized('hello', 'world')).toBe(false);
+		expect(isAnagramOptimized('openai', 'open')).toBe(false);
+		expect(isAnagramOptimized('hello', 'lhel')).toBe(false);
+		expect(isAnagramOptimized('working', 'non')).toBe(false);
 	});
 
 	test('returns true for anagrams with different casing', () => {
-		expect(isAnagram('Debit Card', 'Bad Credit')).toBe(
+		expect(isAnagramOptimized('Debit Card', 'Bad Credit')).toBe(
 			true
 		);
 		expect(
-			isAnagram('School MASTER', 'The ClassROOM')
+			isAnagramOptimized('School MASTER', 'The ClassROOM')
 		).toBe(true);
 	});
 
 	test('returns true for anagrams with special characters', () => {
-		expect(isAnagram('abc!', '!bac')).toBe(true);
+		expect(isAnagramOptimized('abc!', '!bac')).toBe(true);
 	});
 
 	test('returns false for non-anagrams with special characters', () => {
-		expect(isAnagram('hello', 'hello!')).toBe(false);
-		expect(isAnagram('openai!', 'open')).toBe(false);
+		expect(isAnagramOptimized('hello', 'hello!')).toBe(false);
+		expect(isAnagramOptimized('openai!', 'open')).toBe(false);
 	});
 });

@@ -1,6 +1,6 @@
-const calculateTotalSpentByCategory = require('../easy/expenditure-analysis');
+const calculateTotalSpentByCategory2 = require('../easy/expenditure-analysis');
 
-describe('calculateTotalSpentByCategory', () => {
+describe('calculateTotalSpentByCategory2', () => {
 	test('returns the correct total spent for a single transaction', () => {
 		const transactions = [
 			{
@@ -13,7 +13,7 @@ describe('calculateTotalSpentByCategory', () => {
 		];
 
 		const result =
-			calculateTotalSpentByCategory(transactions);
+			calculateTotalSpentByCategory2(transactions);
 
 		expect(result).toEqual([
 			{ category: 'Food', totalSpent: 10 },
@@ -60,7 +60,7 @@ describe('calculateTotalSpentByCategory', () => {
 		];
 
 		const result =
-			calculateTotalSpentByCategory(transactions);
+			calculateTotalSpentByCategory2(transactions);
 
 		expect(result).toEqual([
 			{ category: 'Food', totalSpent: 30 },
@@ -72,7 +72,7 @@ describe('calculateTotalSpentByCategory', () => {
 	test('returns an empty array when given an empty input', () => {
 		const transactions = [];
 		const result =
-			calculateTotalSpentByCategory(transactions);
+			calculateTotalSpentByCategory2(transactions);
 		expect(result).toEqual([]);
 	});
 
@@ -102,7 +102,7 @@ describe('calculateTotalSpentByCategory', () => {
 		];
 
 		const result =
-			calculateTotalSpentByCategory(transactions);
+			calculateTotalSpentByCategory2(transactions);
 
 		expect(result).toEqual([
 			{ category: 'Food', totalSpent: 60 },
