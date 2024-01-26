@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Connect to MongoDB
 mongoose.connect(
-  "mongodb+srv://manishkt65:Mk%40408576@cluster0.0c6jnot.mongodb.net/course_selling"
+  ""
 );
 // should be avoidable
 
