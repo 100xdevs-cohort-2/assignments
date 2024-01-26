@@ -7,9 +7,9 @@ export function Assignment1() {
   const [input, setInput] = useState(0);
   // Your solution starts here
   const expensiveValue = useMemo(() => {
-    let factorial = 0;
+    let factorial = 1;
     for (let i = 1; i <= input; i++) {
-      factorial += i;
+      factorial *= i;
     }
     return factorial;
   }, [input]);
