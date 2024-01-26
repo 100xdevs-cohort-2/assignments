@@ -5,7 +5,8 @@
 */
 
 function isAnagram(str1, str2) {
-
+  // sol: we can arrange them by ascii value and they should become the same strting
+  return str1.split("").sort().join("") == str2.split("").sort().join("");
 }
 
 module.exports = isAnagram;
