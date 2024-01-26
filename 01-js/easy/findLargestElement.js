@@ -22,4 +22,18 @@ function findLargestElement(numbers) {
     
 }
 
+function findLargestElementOptimized(numbers) {
+    if (numbers.length === 0) {
+        return undefined; // Return undefined for an empty array
+    }
+
+    let largest = numbers[0];
+    for (let i = 1; i < numbers.length; i++) { // Start from index 1
+        if (numbers[i] > largest) {
+            largest = numbers[i];
+        }
+    }
+    return largest;
+}
+
 module.exports = findLargestElement;
