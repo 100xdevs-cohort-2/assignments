@@ -11,7 +11,7 @@ function countVowels(str) {
   // the vowels list, if it does inrease count by 1.
   let res = 0;
   for (let i = 0; i < str.length; i++) {
-    if (["a", "e", "i", "o", "u"].indexOf(str[i]) !== -1) {
+    if (["a", "e", "i", "o", "u"].indexOf(str[i].toLowerCase()) !== -1) {
       res += 1;
     }
   }
