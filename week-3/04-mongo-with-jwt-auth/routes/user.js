@@ -24,6 +24,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin', async(req, res) => {
+router.post('/signin', (req, res) => {
     // Implement admin signup logic
     const username=req.body.username;
     const password=req.body.password;
@@ -45,6 +46,7 @@ router.post('/signin', async(req, res) => {
 });
 
 router.get('/courses',async (req, res) => {
+router.get('/courses', (req, res) => {
     // Implement listing all courses logic
 
     try{
@@ -71,6 +73,7 @@ router.get('/courses',async (req, res) => {
 });
 
 router.post('/courses/:courseId', userMiddleware,async (req, res) => {
+router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
     const courseid= req.params.courseId;
     try{
@@ -94,6 +97,7 @@ router.post('/courses/:courseId', userMiddleware,async (req, res) => {
 });
 
 router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+router.get('/purchasedCourses', userMiddleware, (req, res) => {
     // Implement fetching purchased courses logic
     const username=req.username;
 
@@ -108,3 +112,4 @@ router.get('/purchasedCourses', userMiddleware, async (req, res) => {
 });
 
 module.exports = router;
+module.exports = router

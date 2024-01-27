@@ -6,6 +6,7 @@ const {User,Course} = require('../db/index');
 
 
 router.post('/signup',async (req, res) => {
+router.post('/signup', (req, res) => {
     // Implement user signup logic
     try{
         const username=req.body.username;
@@ -36,6 +37,7 @@ router.post('/signup',async (req, res) => {
 });
 
 router.get('/courses', async(req, res) => {
+router.get('/courses', (req, res) => {
     // Implement listing all courses logic
 
     try{
@@ -60,6 +62,7 @@ router.get('/courses', async(req, res) => {
 });
 
 router.post('/courses/:courseId', userMiddleware, async (req, res) => {
+router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
     const courseid= req.params.courseId;
     try{
@@ -83,6 +86,7 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
 });
 
 router.get('/purchasedCourses', userMiddleware,async (req, res) => {
+router.get('/purchasedCourses', userMiddleware, (req, res) => {
     // Implement fetching purchased courses logic
     const username=req.headers.username;
     const password=req.headers.password;
@@ -98,3 +102,4 @@ router.get('/purchasedCourses', userMiddleware,async (req, res) => {
 });
 
 module.exports = router;
+module.exports = router

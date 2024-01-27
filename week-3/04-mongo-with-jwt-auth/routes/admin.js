@@ -26,6 +26,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.post('/signin',async (req, res) => {
+router.post('/signin', (req, res) => {
     // Implement admin signup logic
     const username=req.body.username;
     const password=req.body.password;
@@ -47,6 +48,7 @@ router.post('/signin',async (req, res) => {
 });
 
 router.post('/courses', adminMiddleware, async (req, res) => {
+router.post('/courses', adminMiddleware, (req, res) => {
     // Implement course creation logic
     
     const username=req.username;
@@ -70,6 +72,7 @@ router.post('/courses', adminMiddleware, async (req, res) => {
 });
 
 router.get('/courses', adminMiddleware, async (req, res) => {
+router.get('/courses', adminMiddleware, (req, res) => {
     // Implement fetching all courses logic
 
     try{

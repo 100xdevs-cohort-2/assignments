@@ -18,7 +18,9 @@ router.post('/signup', (req, res) => {
     res.status(200).json({message: 'Admin created successfully'});
 });
 
+
 router.post('/courses', adminMiddleware, async(req, res) => {
+router.post('/courses', adminMiddleware, (req, res) => {
     // Implement course creation logic
 
     try{
@@ -40,6 +42,7 @@ router.post('/courses', adminMiddleware, async(req, res) => {
 });
 
 router.get('/courses', adminMiddleware, async (req, res) => {
+router.get('/courses', adminMiddleware, (req, res) => {
     // Implement fetching all courses logic
     try{
         const courses=await Course.find();
