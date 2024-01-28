@@ -6,10 +6,9 @@ const { User, Course } = require("../db");
 const performChecks = require("../middleware/validator");
 
 // User Routes
-router.post('/signup', (req, res) => {
-    // Implement user signup logic
 
-router.post('/signin', (req, res) => {
+
+    router.post('/signup', async(req, res) => {
     // Implement admin signup logic
 
     let username= req.body.username;
@@ -42,7 +41,7 @@ router.post('/signin', async (req, res) => {
     res.json({ token: token });
 });
 
-router.get('/courses', (req, res) => {
+router.get('/courses', async(req, res) => {
     // Implement listing all courses logic
 
     
@@ -58,7 +57,7 @@ router.get('/courses', (req, res) => {
     res.json({courses:data});
 });
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
+router.post('/courses/:courseId', userMiddleware, async(req, res) => {
     // Implement course purchase logic
 
     console.log("user/courses/:courseId - purchase a course");
@@ -70,7 +69,7 @@ router.post('/courses/:courseId', userMiddleware, (req, res) => {
     res.json({ message: 'Course purchased successfully' });
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware, async(req, res) => {
     // Implement fetching purchased courses logic
 
     console.log("user/courses - view all purchased courses");
@@ -87,4 +86,4 @@ router.get('/purchasedCourses', userMiddleware, (req, res) => {
     res.json({purchasedCourses: data.courses});
 });
 
-module.exports = router
+module.exports = router;

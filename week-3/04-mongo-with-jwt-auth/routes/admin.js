@@ -7,7 +7,7 @@ const performChecks = require("../middleware/validator");
 const router = Router();
 
 // Admin Routes
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement admin signup logic
     console.log("admin/signup");
 
@@ -25,7 +25,7 @@ router.post('/signup', (req, res) => {
 
 });
 
-router.post('/signin', (req, res) => {
+router.post('/signin', async (req, res) => {
     // Implement admin signup logic
     console.log("admin/signin");
 
@@ -42,7 +42,7 @@ router.post('/signin', (req, res) => {
     res.json({ token: token });
 });
 
-router.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses', adminMiddleware, async (req, res) => {
     // Implement course creation logic
 
     console.log("admin/courses - create course");
@@ -60,7 +60,7 @@ router.post('/courses', adminMiddleware, (req, res) => {
 
 });
 
-router.get('/courses', adminMiddleware, (req, res) => {
+router.get('/courses', adminMiddleware, async(req, res) => {
     // Implement fetching all courses logic
 
     console.log("admin/courses - view all courses");
