@@ -1,0 +1,6 @@
+# ensure no package-lock.json or bun.lockb files are added to git down the line in any folder
+
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+**/bun.lockb
