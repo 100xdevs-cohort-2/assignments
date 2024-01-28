@@ -7,23 +7,25 @@
 </head>
 <body>
     <script>
-        // one way PROMISES
-        function getAnimalData(){
-        fetch("https://fakerapi.it/api/v1/persons")
-         .then(res=>{
-            res.json()
-            .then(data=>console.log(data))
-         })
-        }
+    // PROMISES
+    //    function getAnimalData(){
+    //     fetch("https://fakerapi.it/api/v1/persons")
+    //     .then(res => 
+    //      res
+    //       .json()
+    //       .then(data=> console.log(data))
+    //     )
+    //    }
 
-        // second way ASYNC
-        async function fetchAnimalData(){
-            const res= await fetch("https://fakerapi.it/api/v1/persons")
-            const data= await res.json()
-
-            console.log(data)
-        }
+    // ASYNC/AWAIT (CLEANER WAY)
+       async function fetchAnimalData(){
+        const response=await fetch('https://fakerapi.it/api/v1/persons')
+        const finalData=await response.json()
+        console.log(finalData)
+       }
     </script>
     <button onclick="fetchAnimalData()">getAnimalData</button>
 </body>
 </html>
+
+<!-- "https://fakerapi.it/api/v1/persons" -->

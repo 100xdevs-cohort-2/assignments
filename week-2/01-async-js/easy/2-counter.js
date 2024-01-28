@@ -5,60 +5,18 @@
 let counter=0;
 
 function count(val){
-   for(let i=0;i<val;i++){
-    setTimeout(async()=>{
-        counter++;
-        await console.log(counter)
-    },1000)
-   }
+  //  WHENEVER YOU WANT TO DO SOMETHING RELATED TO CALLBACK QUEUE TRY TO THINK IN TERMS OF RECURSION: RECURSIVE APPROACH
+  // TRY TO DO IT WITHIN ASYNC FUNCTION
+  setTimeout(()=>{
+    console.log(val)
+    val-=1
+    count(val)
+  },1000)
+  
 }
 
 
 count(100)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
