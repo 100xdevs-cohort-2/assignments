@@ -5,6 +5,15 @@
  */
 
 function sleep(milliseconds) {
+  let currentTime = new Date().getTime();
+  let start = 0;
+  // console.log(currentTime);
+  while (start < seconds) {
+    start = new Date().getTime() - currentTime;
+  }
 }
+console.log("Started busy waiting");
+sleep(2000);
+console.log("Busy wait ended");
 
 module.exports = sleep;
