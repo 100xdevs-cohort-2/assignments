@@ -32,13 +32,13 @@ function wait3(t) {
 }
 
 function calculateTime(t1, t2, t3) {
-    const currentTime = new Date().getSeconds()
-    const promisses = [wait1(t1), wait2(t2), wait3(t3)]
-    Promise.all(promisses).then(() => {
-        console.log(promisses);
-        console.log(new Date().getSeconds() - currentTime);
-    })
+  const currentTime = new Date().getSeconds();
+  const promisses = [wait1(t1), wait2(t2), wait3(t3)];
+  Promise.all(promisses).then(() => {
+    console.log(promisses);
+    console.log(new Date().getSeconds() - currentTime);
+  });
 }
 
-calculateTime(7,2,3)
+calculateTime(7, 2, 3);
 module.exports = calculateTime;

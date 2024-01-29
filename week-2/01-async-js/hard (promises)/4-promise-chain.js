@@ -33,23 +33,20 @@ function wait3(t) {
 }
 
 function calculateTime(t1, t2, t3) {
-  const currentTime = new Date().getSeconds();
-  let time = null;
-  wait1(t1)
+  const startTime = new Date().getTime(); // Get current timestamp in milliseconds
+
+  return wait1(t1)
+    .then(() => wait2(t2))
+    .then(() => wait3(t3))
     .then(() => {
-      return wait2(t2);
-    })
-    .then(() => {
-      return wait3(t3);
-    })
-    .then(() => {
-      console.log(new Date().getSeconds - currentTime);
-      time = new Date().getSeconds - currentTime;
+      const endTime = new Date().getTime();
+      const totalTime = endTime - startTime;
+      console.log('Total time (ms):', totalTime);
+      return totalTime;
     })
     .catch((err) => {
       console.error(err);
     });
-  return time;
 }
 
 console.log(calculateTime(1, 2, 3));
