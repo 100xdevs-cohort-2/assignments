@@ -113,6 +113,18 @@ app.put('/todos/:id', function(req, res){
     res.json(allTodos[todoIndex]);
   }
 })
+app.delete("/todos/:id",function(req,res){
+  const todoIndex=allTodos.findIndex(t=>t.id===parseInt(req.params.id));
+  if(todoIndex==-1){
+    res.status(400).send("Id cannot be negative!")
+  }else{
+    allTodos.splice(todoIndex,1);
+    res.status(200).json({
+      "msg":"Deleted Successfully"
+    })
+  }
+
+})
 
  
 app.listen(4000);
