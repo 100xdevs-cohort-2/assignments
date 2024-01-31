@@ -1,0 +1,45 @@
+.card{
+    border: 1px solid rgb(183, 172, 172);
+    border-radius: 10px;
+    background-color: rgb(201, 221, 228);
+    padding: 20px;
+    width: 27rem;
+    height: 23rem;
+    margin: 10px;
+}
+
+.card > p{
+    font-size: 25px;
+    color: rgb(99, 99, 99);
+}
+
+.desc{
+    line-height: 70px;
+}
+
+h2{
+    margin-bottom: 15px;
+}
+
+
+.interest{
+    margin-bottom: 10px;
+}
+
+.linksDiv{
+    display: flex;
+}
+
+.buttonDiv{
+    background-color: rgb(10, 130, 205);
+    padding: 15px;
+    margin: 10px;
+    width: 70px;
+    border-radius: 10px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+    font-size: 23px;
+}
