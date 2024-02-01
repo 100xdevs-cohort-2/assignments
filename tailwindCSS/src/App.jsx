@@ -8,11 +8,9 @@ function App() {
 
   return (
     <>
-     <div className='grid gird-cols-5'>
-      <div className=' b-red-500 col-span-4'>hi</div>
-      <div className=' b-cyan-500 col-span-4'>hi</div>
-      <div className=' b-orange-500 col-span-4'>hi</div>
-
+     <div className='bg-red-500 md:bg-blue-500'>
+      hii there
+      
      </div>
     </>
   )
