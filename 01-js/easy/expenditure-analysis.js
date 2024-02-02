@@ -14,7 +14,29 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  // Step 1: Create an empty array to store the results.
+  const result = [];
+
+  // Step 2: Go through each transaction in the provided array.
+  transactions.forEach(transaction => {
+    // Step 3: Check if there's already an object with the same category in the result array.
+    const existingCategory = result.find(item => item.category === transaction.category);
+
+    // Step 4 & 5: If it exists, add the price of the current transaction to the totalSpent.
+    if (existingCategory) {
+      existingCategory.totalSpent += transaction.price;
+    } else {
+      // If it doesn't exist, create a new object for that category.
+      result.push({
+        category: transaction.category,
+        totalSpent: transaction.price
+      });
+    }
+  });
+
+  // Step 6: Return the array containing the total spent for each category.
+  return result;
 }
 
+// This line exports the function so it can be used in other parts of the program.
 module.exports = calculateTotalSpentByCategory;
