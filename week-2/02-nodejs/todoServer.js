@@ -105,7 +105,6 @@
 
       let todos = JSON.parse(jsonFile)
 
-      // const particularTodo = todos.filter( todo => req.params.id == todo.id);
 
       const updatedTodo = {
         id:req.params.id,
