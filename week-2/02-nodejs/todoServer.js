@@ -39,11 +39,138 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const app = express();
+// const PORT = process.env.PORT || 3000;
+const PORT = 3000;
+
+app.use(bodyParser.json());
+
+// -- find at index --
+const findIndex = (todosArray, id) =>
+  todosArray.findIndex((todo) => todo.id === id);
+
+// -- remove at index --
+const removeAtIndex = (todosArray, index) =>
+  todosArray.filter((currentElem, i) => i !== index);
+
+// -- read JSON file --
+const readJSONfile = (file, callback) => {
+  fs.readFile(file, "utf-8", (err, data) => {
+    if (err) return callback(err);
+    try {
+      const jsonData = JSON.parse(data);
+      callback(null, jsonData);
+    } catch (err) {
+      callback(err);
+    }
+  });
+};
+
+// -- write JSON file --
+const writeJsonFile = (file, data, callback) => {
+  fs.writeFile(file, JSON.stringify(data), "utf-8", callback);
+};
+
+app.get("/todos", (req, res) => {
+  readJSONfile("todos.json", (err, data) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.json(data);
+    }
+  });
+});
+
+app.get("/todos/:id", (req, res) => {
+  readJSONfile("todos.json", (err, todos) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      const todoIndex = findIndex(todos, parseInt(req.params.id));
+      if (todoIndex === -1) res.status(404).send();
+      else res.json(todos[todoIndex]);
+    }
+  });
+});
+
+app.post("/todos", (req, res) => {
+  const { title, description } = req.body;
+  if (!title || !description) {
+    return res
+      .status(400)
+      .send({ error: "Title and description are required." });
+  }
+
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000000),
+    title: title,
+    description: description,
+  };
+
+  readJSONfile("todos.json", (err, todos) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      todos.push(newTodo);
+      writeJsonFile("todos.json", todos, (err) => {
+        if (err) res.status(500).send();
+        else res.status(201).json(newTodo);
+      });
+    }
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const { title, description } = req.body;
+  if (!title || !description) {
+    return res
+      .status(400)
+      .send({ error: "Title and description are required." });
+  }
+
+  readJSONfile("todos.json", (err, todos) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      const todoIndex = findIndex(todos, parseInt(req.params.id));
+      if (todoIndex === -1) return res.status(404).send();
+      const updatedTodo = { ...todos[todoIndex], ...req.body };
+
+      todos[todoIndex] = updatedTodo;
+
+      writeJsonFile("todos.json", todos, (err) => {
+        if (err) res.status(500).send();
+        else res.status(200).json(updatedTodo);
+      });
+    }
+  });
+});
+
+app.delete("/todos/:id", (req, res) => {
+  readJSONfile("todos.json", (err, todos) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      const todoIndex = findIndex(todos, parseInt(req.params.id));
+      if (todoIndex === -1) res.status(404).send();
+
+      const newTodos = removeAtIndex(todos, todoIndex);
+      writeJsonFile("todos.json", newTodos, (err) => {
+        if (err) res.status(500).send();
+        else res.status(200).send();
+      });
+    }
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server listening on http://localhost:${PORT}`);
+});
+
+// for all other routes, return 404
+app.use((req, res) => res.status(404).send());
+
+module.exports = app;
