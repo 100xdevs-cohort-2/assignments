@@ -1,0 +1,16 @@
+{
+  "name": "10.2-sql-injection",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "pg": "^8.5.1",
+    "dotenv": "^8.2.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

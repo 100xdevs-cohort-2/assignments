@@ -1,0 +1,119 @@
+# Survey Poll App
+
+Create a basic Survey/Poll application built with Node.js and Prisma.
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- You have installed Node.js and npm.
+- You have installed Prisma CLI.
+- You have a PostgreSQL database setup.
+ 
+
+## API Endpoints
+
+The application provides the following endpoints:
+
+- `GET /surveys`: Fetch all surveys.
+- `POST /surveys`: Create a new survey.
+- `GET /surveys/:id`: Fetch a specific survey.
+- `PUT /surveys/:id`: Update a specific survey.
+- `DELETE /surveys/:id`: Delete a specific survey.
+  
+
+
+## Overview
+
+The application allows users to create and participate in surveys. Each survey consists of one or more questions, and each question can have multiple options. Users can select an option to vote in a survey.
+
+## Features
+
+- Create a new survey
+- Get a list of all surveys
+- Get details of a specific survey
+- Vote in a survey
+- Get the results of a survey
+
+## Tech Stack
+
+- Node.js: JavaScript runtime
+- Express.js: Web application framework
+- Prisma: Next-generation Node.js and TypeScript ORM
+- Jest: JavaScript testing framework
+
+## Directory Structure
+
+**NOTE:Please adhere to the below directory structure, follow the same naming convention for files and directories in your app(Inorder to run tests w/o any trouble)**
+
+- Clone the repo and write your code inside `survey-poll-app`
+
+**Ignore tests and Readme which are already present in `survey-poll-app` **
+
+```
+survey-poll-app/
+|-- node_modules/
+|-- prisma/
+|   |-- schema.prisma
+|-- src/
+|   |-- controllers/
+|   |   |-- surveyController.js
+|   |
+|   |-- models/
+|   |   |-- surveyModel.js
+|   |
+|   |-- routes/
+|   |   |-- surveyRoutes.js
+|   |
+|   |-- config.js
+|   |-- server.js
+|-- package.json
+|-- .env
+```
+
+## Prisma Schema for your Reference
+
+```
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Survey {
+  id        Int      @id @default(autoincrement())
+  title     String
+  questions Question[]
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  text     String
+  options  Option[]
+  surveyId Int
+  Survey   Survey   @relation(fields: [surveyId], references: [id])
+}
+
+model Option {
+  id          Int      @id @default(autoincrement())
+  text        String
+  votes       Int      @default(0)
+  questionId  Int
+  Question    Question @relation(fields: [questionId], references: [id])
+}
+
+```
+
+## Getting Started
+
+Please refer to the `instructions.md` file for instructions on how to set up and run the project.
+
+## Testing
+
+To run the tests, use the `npm test` command.
+
+
+
