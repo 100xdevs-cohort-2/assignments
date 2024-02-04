@@ -6,19 +6,48 @@
  */
 
 function wait1(t) {
-
+  const p = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Promise 1 resolved");
+    }, t * 1000);
+  });
+  return p;
 }
 
 function wait2(t) {
-
+  const p = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Promise 2 resolved");
+    }, t * 1000);
+  });
+  return p;
 }
 
 function wait3(t) {
-
+  const p = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Promise 3 resolved");
+    }, t * 1000);
+  });
+  return p;
 }
 
 function calculateTime(t1, t2, t3) {
+  const startTime = new Date().getTime(); // Get current timestamp in milliseconds
 
+  return wait1(t1)
+    .then(() => wait2(t2))
+    .then(() => wait3(t3))
+    .then(() => {
+      const endTime = new Date().getTime();
+      const totalTime = endTime - startTime;
+      console.log('Total time (ms):', totalTime);
+      return totalTime;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
+console.log(calculateTime(1, 2, 3));
 module.exports = calculateTime;
