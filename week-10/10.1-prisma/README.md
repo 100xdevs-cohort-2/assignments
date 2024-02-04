@@ -42,6 +42,46 @@ The application allows users to create and participate in surveys. Each survey c
 - Prisma: Next-generation Node.js and TypeScript ORM
 - Jest: JavaScript testing framework
 
+## Getting Started
+
+Please follow the standard instructions to initiate a node app
+
+
+- Clone the repo
+  
+
+1.change your directory
+```
+cd survey-poll-app
+```
+2.initiate a node app
+
+```
+npm init -y
+```
+```
+npm install express prisma @prisma/client
+```
+3. Create Prisma schema file
+   
+Create a schema.prisma file in the root of your project and paste the provided schema into it.
+
+4. Configure Database Connection
+   
+In the schema.prisma file, update env("DATABASE_URL") with your actual PostgreSQL database connection URL.
+
+5. Generate Prisma Client
+   
+```
+npx prisma generate
+```
+6. Create an Express App
+   
+7. Implement CRUD Operations 
+   
+Start Coding!!!
+
+
 ## Directory Structure
 
 **NOTE:Please adhere to the below directory structure, follow the same naming convention for files and directories in your app(Inorder to run tests w/o any trouble)**
@@ -72,6 +112,13 @@ survey-poll-app/
 ```
 
 ## Prisma Schema for your Reference
+
+**Note : Not mandatory to follow this. this is just for your reference**
+
+Just try to follow this basic structure for creating a survey
+
+![img](./basic-survey.png)
+
 
 ```
 datasource db {
@@ -107,9 +154,7 @@ model Option {
 
 ```
 
-## Getting Started
 
-Please follow the standard instructions to initiate a node app
 
 ## Testing
 
