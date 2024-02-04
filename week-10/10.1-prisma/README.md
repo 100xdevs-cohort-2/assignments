@@ -109,7 +109,7 @@ model Option {
 
 ## Getting Started
 
-Please refer to the `instructions.md` file for instructions on how to set up and run the project.
+Please follow the standard instructions to initiate a node app
 
 ## Testing
 
