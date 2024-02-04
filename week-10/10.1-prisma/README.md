@@ -2,6 +2,20 @@
 
 Create a basic Survey/Poll application built with Node.js and Prisma.
 
+## Overview
+
+The application allows users to create and participate in surveys. Each survey consists of one or more questions, and each question can have multiple options. Users can select an option to vote in a survey.
+
+
+## Features
+
+- Create a new survey
+- Get a list of all surveys
+- Get details of a specific survey
+- Vote in a survey
+- Get the results of a survey
+
+  
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
@@ -20,20 +34,7 @@ The application provides the following endpoints:
 - `GET /surveys/:id`: Fetch a specific survey.
 - `PUT /surveys/:id`: Update a specific survey.
 - `DELETE /surveys/:id`: Delete a specific survey.
-  
 
-
-## Overview
-
-The application allows users to create and participate in surveys. Each survey consists of one or more questions, and each question can have multiple options. Users can select an option to vote in a survey.
-
-## Features
-
-- Create a new survey
-- Get a list of all surveys
-- Get details of a specific survey
-- Vote in a survey
-- Get the results of a survey
 
 ## Tech Stack
 
@@ -50,41 +51,50 @@ Please follow the standard instructions to initiate a node app
 - Clone the repo
   
 
-1.change your directory
+1.Change your directory
 ```
 cd survey-poll-app
 ```
-2.initiate a node app
 
+2.Initiate a node app
 ```
 npm init -y
 ```
-```
-npm install express prisma @prisma/client
-```
-3. Create Prisma schema file
-   
-Create a schema.prisma file in the root of your project and paste the provided schema into it.
 
-4. Configure Database Connection
-   
+3.Install dependencies
+```
+npm install express prisma 
+```
+
+4. Create Prisma schema file(you can directly paste the provided schema into it.make sure to provide db url)
+```
+npx prisma init
+```
+
+5. Configure Database Connection
 In the schema.prisma file, update env("DATABASE_URL") with your actual PostgreSQL database connection URL.
 
-5. Generate Prisma Client
-   
+6. Generate Prisma Client  
 ```
 npx prisma generate
 ```
-6. Create an Express App
+Now you can use prisma client in your code
+
+7. Apply migrations
+```
+npx prisma migrate dev --name  <name for you migration>
+```
+
+8. Create an Express App
    
-7. Implement CRUD Operations 
+9. Implement CRUD Operations 
    
 Start Coding!!!
 
 
 ## Directory Structure
 
-**NOTE:Please adhere to the below directory structure, follow the same naming convention for files and directories in your app(Inorder to run tests w/o any trouble)**
+**NOTE:Please try to adhere to the below directory structure, follow the same naming convention for files and directories in your app, this is a good practice to create applications(Again that's optional)**
 
 - Clone the repo and write your code inside `survey-poll-app`
 
@@ -153,7 +163,6 @@ model Option {
 }
 
 ```
-
 
 
 ## Testing
