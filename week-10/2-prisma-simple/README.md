@@ -12,3 +12,6 @@ Same as the last assignment, but you need to use `prisma` as the ORM.
 
 ## Assignment
 You need to fill the db/user.ts and db/todos.ts using the `prisma` client to put in the data
+
+## Testing
+Run `npm run test` to run all the tests
