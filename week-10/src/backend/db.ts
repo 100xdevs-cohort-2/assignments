@@ -36,8 +36,11 @@ async function updateUser(name: string, {
     console.log(res);
 }
 
-async function getUser() {
-    
+async function getUser(name: string) {
+    const res = await prisma.user.findFirst({
+        where:{name: name}
+    })
+    console.log(res)
 }
 
 async function insertTodo() {
