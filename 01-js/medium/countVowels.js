@@ -22,5 +22,6 @@ console.log(countVowels('programming')); //3
 console.log(countVowels('OpenAI')); //4
 console.log(countVowels('Keep smiling, boo.'));//6
 console.log(countVowels('EaSiEr '));//4
+console.log(countVowels('aeiouAE rrr,,'));//7
 
 module.exports = countVowels;
