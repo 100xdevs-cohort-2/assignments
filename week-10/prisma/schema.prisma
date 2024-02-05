@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
+  name     String @unique
+  email    String
   password String
   todos    Todo[]
 }
