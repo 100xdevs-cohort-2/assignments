@@ -12,8 +12,10 @@ async function insertUser(name: string, email: string, password: string) {
     console.log(res);   
 }
 
-async function deleteUser() {
-    
+async function deleteUser(name: string) {
+    const res = await prisma.user.delete({
+        where: {name: name}
+    })
 }
 
 interface updateUserParams{
