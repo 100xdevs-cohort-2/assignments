@@ -1,27 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-// Connect to MongoDB
-mongoose.connect('your-mongodb-url');
+const connectDB = async () => {
+  try {
+    const connect = await mongoose.connect(process.env.MONGO_URI);
+    console.log("Connect to MongoDB successfully");
+  } catch (error) {
+    console.log("error while connecting DB : ", error);
+    process.exit(1);
+  }
+};
 
-// Define schemas
-const AdminSchema = new mongoose.Schema({
-    // Schema definition here
-});
-
-const UserSchema = new mongoose.Schema({
-    // Schema definition here
-});
-
-const CourseSchema = new mongoose.Schema({
-    // Schema definition here
-});
-
-const Admin = mongoose.model('Admin', AdminSchema);
-const User = mongoose.model('User', UserSchema);
-const Course = mongoose.model('Course', CourseSchema);
-
-module.exports = {
-    Admin,
-    User,
-    Course
-}
+module.exports = { connectDB };
