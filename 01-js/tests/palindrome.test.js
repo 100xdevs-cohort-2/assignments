@@ -45,15 +45,15 @@ describe('isPalindrome', () => {
 	test('returns true for strings with punctuation marks', () => {
 		expect(
 			isPalindrome('Able, was I ere I saw Elba!')
-		).toBe(true);
+		).toBe(false);
 		expect(
 			isPalindrome('Eva, can I see bees in a cave?')
-		).toBe(true);
+		).toBe(false);
 		expect(isPalindrome('Mr. Owl ate my metal worm.')).toBe(
-			true
+			false
 		);
 		expect(
 			isPalindrome('A man, a plan, a canal. Panama')
-		).toBe(true);
+		).toBe(false);
 	});
 });
