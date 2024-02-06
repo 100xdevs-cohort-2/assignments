@@ -6,6 +6,19 @@
 
 function isAnagram(str1, str2) {
 
+
+str1 = str1.replace(/\s/g,"");
+
+str2 = str2.replace(/\s/g,"");
+
+str1 = str1.toUpperCase();
+str2 = str2.toUpperCase();
+
+return str1.split('').sort().join('') == str2.split('').sort().join('');
+
+  
+return str1.split('').sort().join('') == str2.split('').sort().join('')
+
 }
 
 module.exports = isAnagram;
