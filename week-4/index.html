@@ -7,8 +7,13 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const node = document.createElement("li");
+      const titlenode = document.createTextNode(todo.title);
+      node.appendChild(titlenode);
+      const descriptionnode = document.createTextNode(JSON.stringify(todo.description));
+      node.appendChild(descriptionnode);
+      document.getElementById("todos").appendChild(node);
     }
 
     function removeTodoFromDom(todo) {
@@ -28,6 +33,36 @@
       const added = [];
       const deleted = [];
       const updated = [];
+
+      if (oldTodoState.length < newTodos.length){
+        for(i =0 ; i<newTodos.length ; i+=1){
+          if(oldTodoState.indexOf(newTodos[i]) == -1){
+            added.push(newTodos[i]);
+          }
+        }
+      }
+      else if (oldTodoState.length > newTodos.length){
+        for(i =0 ; i<oldTodoState.length ; i+=1){
+          if(newTodos.indexOf(oldTodoState[i]) == -1){
+            deleted.push(oldTodoState[i]);
+          }
+        }
+      }
+      else{
+        oldTodoState.sort(() => {a.id - b.id});
+        newTodos.sort(() => {a.id - b.id});
+        for (i=0; i<newTodos.length ; i+=1){
+          if (oldTodoState[i].title != newTodos[i].title || oldTodoState[i].description != newTodos[i].description){
+            updated.push(newTodos[i]);
+          }
+        }
+      }
+
+      for(i=0; i<added.length; i+=1){
+        addTodoToDom(added[i]);
+      }
+
+
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
@@ -50,7 +85,7 @@
 <body>
   <input type="text" id="title" placeholder="Todo title"></input> <br /><br />
   <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
-  <button onclick="addTodo()">Add todo</button>
+  <button onclick={addTodo()}>Add todo</button>
   <br /> <br />
 
   <div id="todos">
