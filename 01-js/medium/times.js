@@ -9,5 +9,21 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
+    const startTime = new Date();
+    setTimeout(function(){
+        const endTime = new Date();
+        const elaspedTime = (endTime-startTime)/1000  // coversion of millisecs to secs
+        console.log("Time taken to calculate sum is : " +elaspedTime);
+    }, 0);
+    funSum(n);
     return 0.01;
 }
+function funSum(n){
+    let sum=0;
+    for(let i=1;i<=n;i++){
+        sum+=i;
+    }
+    return sum;
+}
+
+calculateTime(1000);
