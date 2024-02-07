@@ -16,56 +16,6 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {
-  constructor(){
-    this.result = 0;
-  }
-
-  add(value) {
-    this.result+=value;
-  }
-
-  subtract(value){
-    this.result-=value;
-  }
-
-  multiply(value){
-    this.result*=value;
-  }
-
-  divide(value){
-    if (value==0){
-      throw new Error ("Can't divide by zero");
-    }
-    this.result/=value;
-  }
-
-  clear(){
-    this.result=0;
-  }
-
-  getResult(){
-    return this.result;
-  }
-
-  calculate(exp){
-    const temp = exp;
-    const space_removed = temp.replaceAll(' ', '');
-    const valid = /^[0-9+\-*/().]+$/.test(space_removed);
-
-    if (!valid){
-      throw new Error("Not a valid expression!!");
-    }
-
-    this.result = eval(space_removed)
-    if (!isFinite(this.result)){
-      throw new Error ("Not a valid expression!!");
-    }
-
-    return this.result;
-
-  }
-
-}
+class Calculator {}
 
 module.exports = Calculator;

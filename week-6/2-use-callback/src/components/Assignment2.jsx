@@ -8,9 +8,9 @@ export function Assignment2() {
     const [inputText, setInputText] = useState('');
 
     // Your code starts here
-    const showAlert = useCallback(() => {
-        alert("The alert message is : "+ {inputText});
-    }, [inputText]);
+    function showAlert() {
+
+    }
     // Your code ends here
 
     return (
@@ -26,7 +26,7 @@ export function Assignment2() {
     );
 };
 
-const  Alert = memo(({showAlert}) => {
+function Alert({showAlert}) {
     return <button onClick={showAlert}>Show Alert</button>
-});
+}
 

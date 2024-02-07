@@ -7,31 +7,16 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom(todo) {
-      const parent_div = document.getElementById("todos");
-      const todo_div = document.createElement("div");
-      todo_div.setAttribute("id", `${todo.id}`);
-      const child_title = document.createElement("h1");
-      child_title.innerHTML=todo.title;
-      const child_description = document.createElement("h2");
-      child_description.innerHTML = todo.description;
-      todo_div.appendChild(child_title);
-      todo_div.appendChild(child_description);
-      parent_div.appendChild(todo_div);
+    function addTodoToDom() {
+      
     }
 
     function removeTodoFromDom(todo) {
-      const parent_div = document.getElementById("todos");
-      const todo_div = document.getElementById(`${todo.id}`);
-      parent_div.removeChild(todo_div);
       
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-      const todo_div = document.getElementById(`${oldTodo.id}`);
-      todo_div.setAttribute("id", `${newTodo.id}`);
-      todo_div.children[0].innerHTML = newTodo.title;
-      todo_div.children[1].innerHTML = newTodo.description;
+        
     }
 
     function updateState(newTodos) {
@@ -43,41 +28,6 @@
       const added = [];
       const deleted = [];
       const updated = [];
-
-      if (oldTodoState.length < newTodos.length){
-        for(i =0 ; i<newTodos.length ; i+=1){
-          if(oldTodoState.indexOf(newTodos[i]) === -1){
-            added.push(newTodos[i]);
-          }
-        }
-      }
-      else if (oldTodoState.length > newTodos.length){
-        for(i =0 ; i<oldTodoState.length ; i+=1){
-          if(newTodos.indexOf(oldTodoState[i]) === -1){
-            deleted.push(oldTodoState[i]);
-          }
-        }
-      }
-      else{
-        oldTodoState.sort((a,b) => a.id - b.id);
-        newTodos.sort((a,b) => a.id - b.id);
-        for (i=0; i<newTodos.length ; i+=1){
-          if (oldTodoState[i].title != newTodos[i].title || oldTodoState[i].description != newTodos[i].description){
-            updated.push(newTodos[i]);
-          }
-        }
-      }
-
-      for(i=0; i<deleted.length; i+=1){
-        removeTodoFromDom(deleted[i]);
-      }
-
-      for (const updateTodo of updated) {
-        const index = oldTodoState.findIndex((oldTodo) => oldTodo.id === updateTodo.id);
-        updateTodoInDom(oldTodoState[index], updateTodo);
-      }
-
-
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
@@ -94,19 +44,13 @@
       })
       updateState(todoState);
     }
-    function renderAllAddedTodos() {
-        document.getElementById("todos").innerHTML="";
-        for (const todo of todoState) {
-          addTodoToDom(todo);
-    }}
   </script>
 </head>
 
 <body>
   <input type="text" id="title" placeholder="Todo title"></input> <br /><br />
   <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
-  <button onclick={addTodo()}>Add todo</button>
-  <button onclick={renderAllAddedTodos()}>Render All Added Todos</button>
+  <button onclick="addTodo()">Add todo</button>
   <br /> <br />
 
   <div id="todos">
