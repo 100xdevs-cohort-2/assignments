@@ -45,8 +45,15 @@ async function getUser(name: string) {
     console.log(res)
 }
 
-async function insertTodo() {
-    
+async function insertTodo(title:string,done:boolean ,userId:number) {
+    const todo = await prisma.todo.create({
+        data: {
+            title,
+            userId,
+            done
+        }
+    })
+    console.log(todo);
 }
 
 async function deleteTodo() {
