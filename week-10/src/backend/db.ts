@@ -64,7 +64,21 @@ async function deleteTodo(id : number) {
     })
 }
 
-async function updateTodo() {
+interface updateUserPamas{
+    title: string,
+    done: boolean
+}
+async function updateTodo(id:number,{title,done}:updateUserPamas) {
+   
+    const res = await prisma.todo.update({
+        where: {
+            id
+        },
+        data: {
+            title,
+            done
+        }
+   })
     
 }
 
