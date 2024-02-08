@@ -91,7 +91,6 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
 router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   // Implement fetching purchased courses logic
   try {
-    console.log(req.username);
     const username = req.username;
 
     const findCourse = await User.findOne({ username });
