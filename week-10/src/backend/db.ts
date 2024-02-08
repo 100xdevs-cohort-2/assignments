@@ -56,8 +56,12 @@ async function insertTodo(title:string,done:boolean ,userId:number) {
     console.log(todo);
 }
 
-async function deleteTodo() {
-    
+async function deleteTodo(id : number) {
+    const todo = await prisma.todo.delete({
+        where: {
+            id: id
+        }
+    })
 }
 
 async function updateTodo() {
