@@ -82,8 +82,12 @@ async function updateTodo(id:number,{title,done}:updateUserPamas) {
     
 }
 
-async function getTodo() {
-    
+async function getTodo(id:number) {
+    const res = await prisma.todo.findFirst({
+        where: {
+            id
+        }
+    })
 }
 
 
