@@ -15,6 +15,22 @@ let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+function rateLimiter(req,res,next){
+
+  // const userId=req.headers.user-Id;
+  if(Object.keys(numberOfRequestsForUser).length===0){
+    numberOfRequestsForUser.count=1;
+    next();
+  }
+  else if(numberOfRequestsForUser.count>=5){
+    res.status(404).send("Request limit reached in a second wait for some time");
+    return;
+  }
+  numberOfRequestsForUser.count++;
+  next();
+}
+
+app.use(rateLimiter);
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

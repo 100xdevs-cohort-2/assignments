@@ -5,6 +5,18 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise(function(resolve){
+        setTimeout(function(){
+            resolve();
+        },milliseconds)
+        console.log("hello");
+
+    })
 }
 
-module.exports = sleep;
+function onDone(){
+    console.log("now completed");
+}
+sleep(3000).then(onDone);
+
+// module.exports = sleep;

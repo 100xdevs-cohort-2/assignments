@@ -1,19 +1,30 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('your-mongodb-url');
+mongoose.connect('mongodb+srv://divakarchouhan251:eKzMpYVh3XWZgJQE@cluster0.smipf3w.mongodb.net/');
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here
+    username:String,
+    password:String,
+    Courses_avl: Array
 });
 
 const UserSchema = new mongoose.Schema({
     // Schema definition here
+    username:String,
+    password:String,
+    purchasedCourses: Array
 });
 
 const CourseSchema = new mongoose.Schema({
     // Schema definition here
+    title:String,
+    description:String,
+    price:Number,
+    imageLink: String,
+    published: Boolean
 });
 
 const Admin = mongoose.model('Admin', AdminSchema);
