@@ -15,6 +15,7 @@ const zod =  require("zod");
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+
 function signJwt(username, password) {
     // Your code here
     // Validation Schema for JWT Token
@@ -39,6 +40,7 @@ function signJwt(username, password) {
  *                    Returns false if the token is invalid, expired, or not verified
  *                    using the secret key.
  */
+
 function verifyJwt(token) {
     // Your code here
     try {
