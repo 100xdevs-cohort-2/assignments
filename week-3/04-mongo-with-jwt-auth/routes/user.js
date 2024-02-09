@@ -1,5 +1,7 @@
 const { Router } = require("express");
 const router = Router();
+const {JWT_SECRET}=require("../config")
+
 const userMiddleware = require("../middleware/user");
 
 // User Routes
