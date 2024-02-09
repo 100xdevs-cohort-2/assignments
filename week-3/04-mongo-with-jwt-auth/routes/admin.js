@@ -58,7 +58,7 @@ router.post("/courses", adminMiddleware, async(req, res) => {
     })
 });
 
-router.get("/courses", adminMiddleware, (req, res) => {
+router.get("/courses", adminMiddleware,async (req, res) => {
     const response=await Course.find({});
     res.json({
        couses:response
