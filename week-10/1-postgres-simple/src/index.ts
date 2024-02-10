@@ -1,6 +1,9 @@
-import { Client } from 'pg'
-import { DB_URL } from './config';
+import { Client } from "pg";
 
 export const client = new Client({
-    connectionString: DB_URL
+  user: "postgres",
+  host: "localhost",
+  database: "postgres",
+  password: "pass123",
+  port: 5432,
 });
