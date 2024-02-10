@@ -8,10 +8,10 @@ export function Assignment2() {
     const renderedCount = useRef(0)
 
     const handleReRender = () => {
-        // Update state to force re-render
         forceRender(Math.random());
-        renderedCount.current += 1;
     };
+
+    renderedCount.current += 1;
 
     return (
         <div>
