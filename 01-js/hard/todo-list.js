@@ -11,7 +11,59 @@
 */
 
 class Todo {
+  constructor() {
+    this.todos = [];
+  }
 
+  add(todo) {
+    this.todos.push(todo);
+  }
+
+  remove(indexOfTodo) {
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
+      this.todos.splice(indexOfTodo, 1);
+    }
+  }
+
+  update(index, updatedTodo) {
+    if (index >= 0 && index < this.todos.length) {
+      this.todos[index] = updatedTodo;
+    }
+  }
+
+  getAll() {
+    return this.todos;
+  }
+
+  get(indexOfTodo) {
+    if (indexOfTodo >= 0 && indexOfTodo < this.todos.length) {
+      return this.todos[indexOfTodo];
+    }
+    return null; 
+  }
+
+  clear() {
+    this.todos = [];
+  }
 }
+
+const todoList = new Todo();
+
+todoList.add("Buy groceries");
+todoList.add("Coding");
+todoList.add("Gym");
+
+console.log("All todos:", todoList.getAll());
+
+todoList.update(1, "Read two books");
+console.log("Updated todo at index 1:", todoList.get(1));
+console.log("New todos:", todoList.getAll());
+
+todoList.remove(0);
+console.log("After removing todo at index 0:", todoList.getAll());
+
+todoList.clear();
+console.log("After clearing all todos:", todoList.getAll());
+
 
 module.exports = Todo;
