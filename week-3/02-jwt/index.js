@@ -20,7 +20,7 @@ function signJwt(username, password) {
     // Your code here
     const usernameRes = emailSchema.safeParse(username);
     const passwordRes = passwordSchema.safeParse(password);
-    if (!usernameRes || !passwordRes || !username || !password) {
+    if (!usernameRes.success || !passwordRes.success) {
         return null;
     }
     const sign = jwt.sign({
