@@ -45,5 +45,73 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  let numberofItems = 0;
+  let todos = [];
+
+  app.get("/todos", (req, res) => {
+    res.status(200).json(todos);
+  })
+
+  app.get("/todos/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const todo = todos.find(todo => todo.id === id);
+
+    if(!todo){
+      res.status(404).send("Not found");
+      return;
+    }
+    res.status(200).json(todo);
+  })
+
+  app.post("/todos", (req, res) => {
+    const title = req.body.title;
+    const completed = req.body.completed;
+    const description = req.body.description;
+    const id = ++numberofItems;
+    todos.push({
+      id,
+      title,
+      completed,
+      description
+    })
+    res.status(201).json({id});
+  })
+
+  app.put("/todos/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const title = req.body.title;
+    const completed = req.body.completed;
+    const index = todos.findIndex(todo => todo.id === id);
+
+    if(index === -1){
+      res.status(404).send("Not found");
+      return;
+    }
+    todos[index].title = title;
+    todos[index].completed = completed;
+    res.status(200).send("todo item was found and updated");
+  })
+
+  app.delete("/todos/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+    const removeTodo = todos.find(todo => todo.id === id);
+
+    if(!removeTodo){
+      res.status(404).send("Not found");
+      return;
+    }
+    todos = todos.filter(todo => todo !== removeTodo);
+    res.status(200).send("todo item was found and deleted");
+  })
+
+  app.use((req, res, next) => {
+    res.status(404).send("Route not found");
+  })
+
+  app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(500).send("Internal server error");
+  })
   
   module.exports = app;
