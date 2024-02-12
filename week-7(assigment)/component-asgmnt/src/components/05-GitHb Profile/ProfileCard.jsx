@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import "./profileCard.css";
+import "./ProfileCard.css";
 
 export function ProfileCard({
   username,
@@ -7,8 +7,8 @@ export function ProfileCard({
   location,
   imgUrl,
   followers,
-  likes,
-  photos,
+  following,
+  repositories,
 }) {
   return (
     <div className="card-container">
@@ -19,20 +19,28 @@ export function ProfileCard({
           <h2 className="profile-name">{username}</h2>
           <p className="profile-age">{age}</p>
         </div>
-        <p className="profile-location">{location}</p>
+        <p className="profile-location">
+          {location === null ? "Earth" : location}
+        </p>
         <hr />
         <div className="social-stats">
           <div>
-            <h2 className="stats-value">{followers}</h2>
+            <h2 className="stats-value">
+              {followers === null ? "0" : followers}
+            </h2>
             <p className="stats-text">Followers</p>
           </div>
           <div>
-            <h2 className="stats-value">{likes}</h2>
-            <p className="stats-text">Likes</p>
+            <h2 className="stats-value">
+              {following === null ? "0" : following}
+            </h2>
+            <p className="stats-text">Following</p>
           </div>
           <div>
-            <h2 className="stats-value">{photos}</h2>
-            <p className="stats-text">Photos</p>
+            <h2 className="stats-value">
+              {repositories === null ? "0" : repositories}
+            </h2>
+            <p className="stats-text">Repositories</p>
           </div>
         </div>
       </div>
