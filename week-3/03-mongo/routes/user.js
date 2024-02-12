@@ -54,13 +54,13 @@ router.get('/purchasedCourses', userMiddleware, async (req, res) => {
 
     console.log(user.purchasedCourses);
     const courses = await Course.find({
-        _id: {
+        _id: {  
             "$in": user.purchasedCourses
         }
     });
 
     res.json({
-        courses: courses
+       Course : courses
     })
 });
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://kirags123:8qPEa8KTKBEh2bss@cluster0.f3qlbuo.mongodb.net/course_selling_app');
+mongoose.connect('mongodb+srv://SagarUniyal16:Sagar%409758@cluster0.dyqhzyq.mongodb.net/Course_Selling_App');
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
@@ -15,9 +15,9 @@ const UserSchema = new mongoose.Schema({
     username: String,
     password: String,
     purchasedCourses: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course'
-    }]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Course'
+        }]
 });
 
 const CourseSchema = new mongoose.Schema({

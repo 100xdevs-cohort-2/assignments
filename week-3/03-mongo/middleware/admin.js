@@ -10,7 +10,8 @@ function adminMiddleware(req, res, next) {
     Admin.findOne({
         username: username,
         password: password
-    }).then((value)=>{
+    })
+    .then((value)=>{
         if(value){
             next();
         }
