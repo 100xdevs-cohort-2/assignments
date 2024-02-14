@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
             })
         })
     }
-
+    // testing
 });
 
 router.get('/courses', (req, res) => {
