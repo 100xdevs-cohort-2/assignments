@@ -9,9 +9,9 @@ async function adminMiddleware(req, res, next) {
         username: username,
         password: password
     })
-    if (admin){
+    if (admin) {
         next();
-    }else{
+    } else {
         res.status(403).json({
             msg: "Admin doesnt exist"
         })
