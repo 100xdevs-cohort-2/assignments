@@ -1,4 +1,59 @@
 const mongoose = require('mongoose');
+<<<<<<< HEAD
+require('dotenv').config();
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URL);
+// Define schemas
+const AdminSchema = new mongoose.Schema({
+    username:{type: String},
+    password:{type: String}
+   
+});
+
+const UserSchema = new mongoose.Schema({
+    username:{type: String,required: true},
+    password:{type: String,required:true}
+    
+});
+
+const CourseSchema = new mongoose.Schema({
+    id:{
+       type:Number,
+        
+    },
+     title: {
+        type:String,
+        required: true
+     },
+      description:{
+        type:String,
+        required: true
+      }
+       , 
+      price: {
+          type:Number,
+          required:true
+      }, 
+      imageLink:{ 
+        type:String, 
+        required:true },
+        
+        published: {
+            type: Boolean,
+            default: false,
+          }
+});
+const purchasedCourseSchema = new mongoose.Schema({
+    courseId: { type: mongoose.Schema.Types.ObjectId, ref: 'Course', required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    purchaseDate: { type: Date, default: Date.now },
+});
+
+const PurchasedCourse = mongoose.model('PurchasedCourse', purchasedCourseSchema);
+
+
+=======
 
 // Connect to MongoDB
 mongoose.connect('your-mongodb-url');
@@ -16,6 +71,7 @@ const CourseSchema = new mongoose.Schema({
     // Schema definition here
 });
 
+>>>>>>> origin/master
 const Admin = mongoose.model('Admin', AdminSchema);
 const User = mongoose.model('User', UserSchema);
 const Course = mongoose.model('Course', CourseSchema);
@@ -23,5 +79,10 @@ const Course = mongoose.model('Course', CourseSchema);
 module.exports = {
     Admin,
     User,
+<<<<<<< HEAD
+    Course,
+    PurchasedCourse
+=======
     Course
+>>>>>>> origin/master
 }
