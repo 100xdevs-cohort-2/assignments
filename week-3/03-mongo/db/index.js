@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/course/new');
+mongoose.connect('mongodb://localhost:27017/course');
 
 // Define schemas
 const AdminSchema = new mongoose.Schema({
     // Schema definition here
-    username:String,
-    password:String
+    username:{
+        type:String,
+        required:true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+   
 });
 
 const UserSchema = new mongoose.Schema({
