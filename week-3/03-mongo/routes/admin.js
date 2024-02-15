@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
-const { Admin }=require("../db");
+const { Admin, Course }=require("../db");
 const router = Router();
 
 // Admin Routes
@@ -31,10 +31,24 @@ catch(err){
 }
 });
 
-router.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses',  adminMiddleware, async (req, res) => {
     // Implement course creation logic
-    title:req.body.title
-   
+    //declare first 
+    const title=req.body.title
+    const description=req.body.description
+    const price=req.body.price
+   const  imageLink=req.body.imageLink
+
+   const adminCourse=await Course.create({
+title:title,
+description:description,
+price:price,
+imageLink:imageLink
+   })
+   res.json({
+    msg:"course created successfully",
+    courseId:adminCourse._id
+   })
 });
 
 router.get('/courses', adminMiddleware, (req, res) => {
