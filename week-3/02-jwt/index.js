@@ -58,7 +58,7 @@ function verifyJwt(token) {
  */
 
 function decodeJwt(token) {
-    return jwt.decode(token) || false;
+    return jwt.decode(token) ? true : false;
 }
 
 module.exports = {
