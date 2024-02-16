@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = require("../index");
+const secret = require("../config");
 
 function userMiddleware(req, res, next) {
     // Implement user auth logic

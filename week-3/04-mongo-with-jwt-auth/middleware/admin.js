@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = require("../index");
+const secret = require("../config");
 
 // Middleware for handling auth
 function adminMiddleware(req, res, next) {
