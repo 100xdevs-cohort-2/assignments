@@ -1,0 +1,1 @@
+Some random text to test read file from fs in node js

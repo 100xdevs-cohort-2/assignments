@@ -7,49 +7,80 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const todoContainer = document.getElementById("todos");
+      const todoElement = document.createElement("div");
+      todoElement.innerHTML = `<strong>${todo.title}</strong>: ${todo.description} <button onclick="removeTodo(${todo.id})">Remove</button>`;
+      todoContainer.appendChild(todoElement);
     }
 
     function removeTodoFromDom(todo) {
-      
+      const todoContainer = document.getElementById("todos");
+      const todoElement = document.getElementById(`todo-${todo.id}`);
+      todoContainer.removeChild(todoElement);
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const todoContainer = document.getElementById("todos");
+      const todoElement = document.getElementById(`todo-${oldTodo.id}`);
+      todoElement.innerHTML = `<strong>${newTodo.title}</strong>: ${newTodo.description} <button onclick="removeTodo(${newTodo.id})">Remove</button>`;
     }
 
     function updateState(newTodos) {
-      // calculate the diff b/w newTodos and oldTodos.
-      // More specifically, find out what todos are - 
-      // 1. added
-      // 2. deleted
-      // 3. updated
       const added = [];
       const deleted = [];
       const updated = [];
-      // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
-      oldTodoState = newTodos;
+
+      for (const newTodo of newTodos) {
+        const oldTodo = oldTodoState.find(todo => todo.id === newTodo.id);
+
+        if (!oldTodo) {
+          added.push(newTodo);
+        } else if (oldTodo.title !== newTodo.title || oldTodo.description !== newTodo.description) {
+          updated.push({ oldTodo, newTodo });
+        }
+      }
+
+      for (const oldTodo of oldTodoState) {
+        const newTodo = newTodos.find(todo => todo.id === oldTodo.id);
+
+        if (!newTodo) {
+          deleted.push(oldTodo);
+        }
+      }
+
+      added.forEach(addTodoToDom);
+      deleted.forEach(removeTodoFromDom);
+      updated.forEach(({ oldTodo, newTodo }) => updateTodoInDom(oldTodo, newTodo));
+
+      oldTodoState = newTodos.slice();
     }
 
     function addTodo() {
       const title = document.getElementById("title").value;
       const description = document.getElementById("description").value;
-      todoState.push({
+      const newTodo = {
         title: title,
         description: description,
         id: globalId++,
-      })
+      };
+      todoState.push(newTodo);
+      addTodoToDom(newTodo);
+      updateState(todoState);
+    }
+
+    function removeTodo(id) {
+      const index = todoState.findIndex(todo => todo.id === id);
+      const removedTodo = todoState.splice(index, 1)[0];
+      removeTodoFromDom(removedTodo);
       updateState(todoState);
     }
   </script>
 </head>
 
 <body>
-  <input type="text" id="title" placeholder="Todo title"></input> <br /><br />
-  <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
+  <input type="text" id="title" placeholder="Todo title"> <br /><br />
+  <input type="text" id="description" placeholder="Todo description"> <br /><br />
   <button onclick="addTodo()">Add todo</button>
   <br /> <br />
 

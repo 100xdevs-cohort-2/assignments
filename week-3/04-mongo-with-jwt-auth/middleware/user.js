@@ -1,6 +1,19 @@
+const { verify } = require("../utils/jwt");
+
 function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+    let authHeader = req.headers.authorization;
+    if (authHeader) {
+        authHeader = authHeader.split(" ");
+        if (authHeader[0] === 'Bearer') {
+            const payload = verify(authHeader[1]);
+            if (payload === null)
+                return res.status(403).json({ msg: "Invalid token" });
+            req.username = payload.username;
+            next();
+        }
+    }
+    else
+        res.sendStatus(403);
 }
 
 module.exports = userMiddleware;
