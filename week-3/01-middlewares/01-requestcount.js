@@ -1,6 +1,7 @@
 const request = require('supertest');
 const assert = require('assert');
 const express = require('express');
+const bodyParser = require('body-parser')
 
 const app = express();
 let requestCount = 0;
@@ -9,6 +10,15 @@ let requestCount = 0;
 // Your task is to create a global middleware (app.use) which will
 // maintain a count of the number of requests made to the server in the global
 // requestCount variable
+
+var requestCounter = function(req,res,next){
+  console.log(requestCount);
+  requestCount +=1;
+  next();
+}
+
+// app.use(bodyParser.json());
+app.use(requestCounter);
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
