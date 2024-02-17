@@ -26,12 +26,16 @@ try{
         })
     }
 }
-catch(err){
-    console.log(err)
+catch (err) {
+    console.log(err);
+    res.status(500).json({
+        msg: "Internal Server Error"
+    });
+    
 }
 });
 
-router.post('/courses',  adminMiddleware, async (req, res) => { 
+router.post('/course', adminMiddleware, async (req, res) => { 
 
     // adminMiddleware fn finds the admin using username and password
     //declare first 
@@ -39,7 +43,7 @@ router.post('/courses',  adminMiddleware, async (req, res) => {
     const description=req.body.description
     const price=req.body.price
    const  imageLink=req.body.imageLink
-
+try{
    const adminCourse=await Course.create({
 title:title,
 description:description,
@@ -51,9 +55,15 @@ imageLink:imageLink
     msg:"course created successfully",
     courseId:adminCourse._id
    })
+}catch(err){
+    console.log(err)
+    res.status(500).json({
+        msg: "Internal Server Error"
+    })
+}
 });
 
-router.get('/courses', adminMiddleware, (req, res) => {
+router.get('/course', adminMiddleware, (req, res) => {
     // Implement fetching all courses logic
 });
 
