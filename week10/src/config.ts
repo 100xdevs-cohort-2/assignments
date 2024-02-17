@@ -1,0 +1,1 @@
+export const DB_URL = "postgresql://vibhawraj494:dXlS3svWFHM4@ep-square-hat-a14329pf.ap-southeast-1.aws.neon.tech/neondb?sslmode=require";

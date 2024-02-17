@@ -5,19 +5,40 @@
  */
 
 function wait1(t) {
-
+    return new Promise(function(res,rej){
+        setTimeout(()=>{
+            res("checked for t1")
+        },t*1000)
+    })
 }
 
 function wait2(t) {
-
+    return new Promise(function(res,rej){
+        setTimeout(()=>{
+            res("checked for t2")
+        },t*1000)
+    })
 }
 
 function wait3(t) {
-
+    return new Promise(function(res,rej){
+        setTimeout(()=>{
+            res("checked for t3")
+        },t*1000)
+    })
 }
 
 function calculateTime(t1, t2, t3) {
-
+    const start=new Date()
+return  Promise.all([wait1(t1),wait2(t2),wait3(t3)]).then(() => {
+    return new Date()-start
+})
 }
-
+calculateTime(3, 4, 5)
+  .then(timeTaken => {
+    console.log(`Time taken: ${timeTaken}ms`);
+  })
+  .catch(error => {
+    console.error(error);
+  });
 module.exports = calculateTime;

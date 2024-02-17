@@ -5,6 +5,15 @@
  */
 
 function sleep(milliseconds) {
+    return new Promise(function(res,rej){
+       const cuurTime=new Date();
+       while(milliseconds>((new Date().getTime())-cuurTime.getTime())){
+        res("returned something")
+       }
+    })
 }
+sleep(100).then((res)=>{
+    console.log(res)
+})
 
 module.exports = sleep;
