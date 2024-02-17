@@ -113,8 +113,10 @@ describe('Todo API', () => {
       }
     );
 
+    let start = Date.now();
     req.write(JSON.stringify(updatedTodo));
     req.end();
+    console.log(Date.now() - start);
   });
 
   test('should delete a specific todo item', (done) => {

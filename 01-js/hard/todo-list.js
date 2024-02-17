@@ -11,6 +11,37 @@
 */
 
 class Todo {
+  constructor() {
+    this.todoArr = new Array();
+  }
+  
+  add (todo) {
+    return this.todoArr.push(todo);
+  }
+
+  remove (indexOfTodo) {
+    if(indexOfTodo >= this.todoArr.length) return;
+    this.todoArr = this.todoArr.slice(0,indexOfTodo).concat(this.todoArr.slice(indexOfTodo + 1));
+  }
+
+  update (index, updatedTodo) {
+    if(index >= this.todoArr.length) return;
+    this.todoArr[index] = updatedTodo;
+  }
+
+  getAll()
+  {
+    return this.todoArr;
+  }
+
+  get(indexOfTodo) {
+    if(indexOfTodo >= this.todoArr.length) return null;
+    return this.todoArr[indexOfTodo];
+  }
+
+  clear() {
+    this.todoArr = new Array();
+  }
 
 }
 

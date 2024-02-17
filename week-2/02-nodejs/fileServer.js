@@ -13,9 +13,42 @@
     Testing the server - run `npm run test-fileServer` command in terminal
  */
 const express = require('express');
-const fs = require('fs');
+const fs = require('fs/promises');
 const path = require('path');
 const app = express();
 
+const FILE_PATH = './files';
+
+app.get('/files', async (req, res) => {
+  try
+  {
+    const files = await fs.readdir(FILE_PATH);
+    console.log(files);
+    res.json(files);
+  }
+  catch(err){
+    res.status(500).send("Internal Server Error");
+  }
+  
+})
+
+app.get('/file/:filename', async (req, res) => {
+  const files = await fs.readdir(FILE_PATH);
+  const exists = files.find(f => f === req.params.filename);
+
+  if(exists)
+  {
+    const content = await fs.readFile(path.join(FILE_PATH, req.params.filename), {encoding: 'utf-8'});
+    res.send(content);
+  }
+  else
+  {
+    res.status(404).send("File Not found")
+  }
+});
+
+app.use((req, res, next) => res.status(404).send("Wrong API request"));
+
+app.listen(5000);
 
 module.exports = app;

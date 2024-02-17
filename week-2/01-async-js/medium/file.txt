@@ -1,0 +1,9 @@
+hello world my name is raman
+
+cons fs = r equire('fs/promises');
+ 
+const data = await fs.readFile('file.txt', {encoding: 'utf-8'});
+
+const dataArr = data.split(" ");
+
+fs.writeFile('filet.txt', dataArr.join(" "));

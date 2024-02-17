@@ -41,9 +41,115 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
+  const { v4: uuidv4 } = require('uuid');
+  const fs = require('fs/promises');
+
+  const PORT = process.env.PORT || 5000;
   
   const app = express();
-  
+
+  const FILE_NAME = './todos.json'
+
   app.use(bodyParser.json());
+
+  async function getToDos()
+  {
+    // read the file
+    let todosJson = '[]';
+    try
+    {
+      todosJson = await fs.readFile(FILE_NAME, {encoding: 'utf-8'});;
+    }
+    catch (err) {
+      console.error(`Error: ${err}`);
+      if(err.code === "ENOENT")
+      {
+        await fs.writeFile(FILE_NAME, '[]');
+      }      
+    }
+
+    const toDos = JSON.parse(todosJson);
+    return toDos;
+  }
+
+  async function writeToDos(toDos)
+  {
+    await fs.writeFile(FILE_NAME, JSON.stringify(toDos));
+  }
+
+  app.get('/todos', async (req, res) => {
+    const toDos = await getToDos();
+    res.json(toDos);
+  })
+
+  app.get('/todos/:id', async (req, res) => {
+
+    const toDos = await getToDos();
+
+    const todo = toDos.find(todo => req.params.id === todo.id);
+    
+    if(todo)
+    {
+      res.json(todo);
+    }
+    else
+    {
+      res.status(404).send();
+    }    
+  })
+
+  app.post('/todos', async (req, res) =>{
+    const toDo = {
+      id: uuidv4(),
+      ...req.body
+    };
+
+    const toDos = await getToDos();
+
+    toDos.push(toDo);
+
+    await writeToDos(toDos);
+
+    res.status(201).json(toDo);
+  })
+
+  app.put('/todos/:id', async (req, res) => {
+
+    const toDos = await getToDos();
+
+    const todoIndex = toDos.findIndex(t => t.id === req.params.id);
+    if (todoIndex === -1) {
+      res.status(404).send();
+    } else {
+      toDos[todoIndex].title = req.body.title;
+      toDos[todoIndex].completed = req.body.completed;
+      await writeToDos(toDos);
+      res.json(toDos[todoIndex]);
+    }
+
+   });
+
+  app.delete('/todos/:id', async (req, res) => {
+
+    const toDos = await getToDos();
+
+    const todoIndex = toDos.findIndex(todo => req.params.id === todo.id);
+
+    if(todoIndex !== -1)
+    {
+      toDos.splice(todoIndex, 1);
+      await writeToDos(toDos);
+      res.status(200).send();
+    }
+    else {
+      res.status(404).send();
+    }
+  });
+
+  app.use((req, res, next) => {
+    res.status(404).send();
+  });
+
+  app.listen(PORT);
   
   module.exports = app;

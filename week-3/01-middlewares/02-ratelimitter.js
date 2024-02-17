@@ -16,6 +16,28 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+app.use((req, res, next) => {
+  const userId = req.headers["user-id"];
+  // Add count to the list.
+  // Search the user.
+  // Store as {user-id: count};
+
+  if(numberOfRequestsForUser[userId] === undefined)
+  {
+    numberOfRequestsForUser[userId] = 1;
+    return next();
+  }
+
+  numberOfRequestsForUser[userId] += 1;
+
+  if(numberOfRequestsForUser[userId] > 5)
+  {
+    return res.status(404).json({msg: "Slow down buddy. Too many requests in a second"});
+  }
+
+  next();
+})
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
@@ -23,5 +45,7 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+app.listen(3000)
 
 module.exports = app;
