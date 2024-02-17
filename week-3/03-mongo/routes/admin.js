@@ -7,7 +7,7 @@ const router = Router();
 router.post('/signup', async (req, res) => {
     console.log(req.body)
     // Implement admin signup logic
-    const { username, password } = req.body;
+    const { username, password } = req.headers;
 try{
     const signUp=await Admin.create({
     username:username,    //identifies the parameters from db
@@ -31,8 +31,9 @@ catch(err){
 }
 });
 
-router.post('/courses',  adminMiddleware, async (req, res) => {
-    // Implement course creation logic
+router.post('/courses',  adminMiddleware, async (req, res) => { 
+
+    // adminMiddleware fn finds the admin using username and password
     //declare first 
     const title=req.body.title
     const description=req.body.description
@@ -45,6 +46,7 @@ description:description,
 price:price,
 imageLink:imageLink
    })
+   console.log(adminCourse)
    res.json({
     msg:"course created successfully",
     courseId:adminCourse._id
