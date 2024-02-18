@@ -1,0 +1,13 @@
+.todoCard{
+    display: block;
+    border: 5px solid black;
+}
+.todoCard:hover{
+    background-color: aquamarine;
+}
+.todoCard:active{
+    background-color: blue;
+}
+.todoCard:visited{
+    background-color: yellow;
+}
