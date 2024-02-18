@@ -53,7 +53,6 @@
     fifthChild.innerHTML = "Delete";
     fifthChild.onclick =  function() {
       todoState.pop(todo);
-      console.log(todoState)
       updateState(todoState);
     };  
     parentdiv.appendChild(firstchild);
@@ -83,21 +82,21 @@
     }
 
     function isEqual(obj1, obj2) {
-  const keys1 = Object.keys(obj1);
-  const keys2 = Object.keys(obj2);
+      const keys1 = Object.keys(obj1);
+      const keys2 = Object.keys(obj2);
 
-  if(keys1.length !== keys2.length ) {
-    return false;
-  }
+      if(keys1.length !== keys2.length ) {
+        return false;
+      }
 
-  for (const key of keys1) {
-    if(obj1[key] !== obj2[key]) {
-      return false;
+      for (const key of keys1) {
+        if(obj1[key] !== obj2[key]) {
+          return false;
+        }
+      }
+
+      return true;
     }
-  }
-
-  return true;
-}
 
     function updateState(newTodos) {
       const added = [];
@@ -110,24 +109,17 @@
             updated.push(matchingItem);
            }
          })
-         newTodos?.forEach((newItem) => {
-          console.log('hit')
-           if(!oldTodoState?.find(oldItem => {console.log(oldItem['id'] === newItem['id']); return oldItem['id'] === newItem['id']})){
-            console.log('hit2')
-             added.push(newItem);
-             console.log('added',added)
-           }
-         })
-         oldTodoState?.forEach((oldItem) => {
-          console.log('hit')
-           if(!newTodos?.find(newItem => newItem['id'] === oldItem['id'])){
-            console.log('hit21')
-             deleted.push(oldItem);
-             console.log(deleted)
-           }
-         })
+      newTodos?.forEach((newItem) => {
+        if(!oldTodoState?.find(oldItem => oldItem['id'] === newItem['id'])){
+          added.push(newItem);
+        }
+      })
+      oldTodoState?.forEach((oldItem) => {
+        if(!newTodos?.find(newItem => newItem['id'] === oldItem['id'])){
+          deleted.push(oldItem);
+        }
+      })
       // console.log(added, updated, deleted);
-
       for (const todo of added) {
         addTodoToDom(todo);
       }
