@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.dbUrl || "mongodb://localhost:27017/MongoJwt")
+  .connect("mongodb://localhost:27017/assignment3_4")
   .then(() => console.log("db connected successfully"));
 
 // Define schemas

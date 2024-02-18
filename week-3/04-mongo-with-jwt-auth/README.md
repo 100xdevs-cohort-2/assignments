@@ -10,6 +10,7 @@ You need to use mongodb to store all the data persistently.
 ## Routes
 
 ### Admin Routes:
+<!-- all admin routes done -->
 
 - POST /admin/signup
   Description: Creates a new admin account.
@@ -37,22 +38,33 @@ You need to use mongodb to store all the data persistently.
 
 ### User routes
 
-- POST /users/signup
+
+<!-- done -->
+- POST /users/signup   
   Description: Creates a new user account.
   Input: { username: 'user', password: 'pass' }
   Output: { message: 'User created successfully' }
+
+  <!-- done -->
 - POST /users/signin
   Description: Logs in a user account.
   Input: { username: 'user', password: 'pass' }
   Output: { token: 'your-token' }
+
+  <!-- done -->
 - GET /users/courses
   Description: Lists all the courses.
   Input: Headers: { 'Authorization': 'Bearer <your-token>' }
   Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+
+  <!-- done -->
 - POST /users/courses/:courseId
   Description: Purchases a course. courseId in the URL path should be replaced with the ID of the course to be purchased.
   Input: Headers: { 'Authorization': 'Bearer <your-token>' }
   Output: { message: 'Course purchased successfully' }
+
+  
+  <!-- done -->
 - GET /users/purchasedCourses
   Description: Lists all the courses purchased by the user.
   Input: Headers: { 'Authorization': 'Bearer <your-token>' }
