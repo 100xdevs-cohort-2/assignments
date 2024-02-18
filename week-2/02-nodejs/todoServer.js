@@ -39,11 +39,131 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+
+const app = express();
+app.use(bodyParser.json());
+
+// [Store Todos] ----------------------------------------------------------
+
+// Functions
+const filePath = './todos.json';
+
+function loadData(params) {
+  try {
+    const data = fs.readFileSync(filePath);
+    todos = JSON.parse(data);
+  } catch (error) {
+    console.log('Error reading todos file: ', error);
+  }
+}
+
+function saveDataInFile(params) {
+  fs.writeFile(filePath, JSON.stringify(todos, null, 2), (err) => {
+    if (err) {
+      console.log('Error reading todos file: ', err);
+    }
+  })
+}
+
+// Storing variables
+let todos = [];
+let noteId = 100;
+
+loadData();
+
+// -------------------------------------------------------------------------
+
+function getAllTodos() {
+  return todos;
+}
+
+function getTodoById(id) {
+  return todos.find((val) => val.id === id);
+}
+
+function deleteTodoById(id) {
+  todos = todos.filter((val) => val.id !== id);
+}
+
+function isTodoPresent(id) {
+  return todos.some((val) => val.id === id);
+}
+
+function generateId() {
+  return noteId++;
+}
+
+// -------------------------------------------------------------------------
+
+
+// 1.GET /todos - Retrieve all todo items
+app.get('/todos', (req, res) => {
+  res.status(200).json(getAllTodos());
+});
+
+// 2.GET /todos/:id - Retrieve a specific todo item by ID
+app.get('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todo = getTodoById(id);
+
+  if (todo) {
+    res.status(200).json(todo);
+  } else {
+    res.status(404).json({ error: "Todo not found."});
+  }
+});
+
+// 3. POST /todos - Create a new todo item
+app.post('/todos', (req, res) => {
+  const newTodo = {
+    "id": generateId(),
+    "title": req.body.title,
+    "completed": req.body.completed,
+    "description": req.body.description
+  };
+
+  todos.push(newTodo);
+
+  saveDataInFile();
+
+  res.status(201).json({ id: newTodo.id });
+});
+
+// 4. PUT /todos/:id - Update an existing todo item by ID
+app.put('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todo = getTodoById(id);
+
+  if (todo) {
+    if (req.body.title) todo.title = req.body.title;
+    if (req.body.completed !== undefined) todo.completed = req.body.completed;
+    if (req.body.description) todo.description = req.body.description;
+
+    saveDataInFile();
+
+    res.status(200).json(todo);
+  } else {
+    res.status(404).json({ error: "Note with this id is not present"})
+  }
+});
+
+// DELETE /todos/:id - Delete a todo item by ID
+app.delete('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (isTodoPresent(id)) {
+    deleteTodoById(id);
+    saveDataInFile();
+    res.status(200).json({ msg: "Note has been deleted"});
+  } else {
+    res.status(404).send({ error: "Note with this id is not present"});
+  }
+});
+
+module.exports = app;
