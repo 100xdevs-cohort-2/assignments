@@ -21,11 +21,11 @@ router.post('/signup', (req, res) => {
 router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
      // Implement fetching all courses logic
-     const response = await Course.find({});
+    const response = await Course.find({});
 
-     res.json({
-         courses: response
-     })
+    res.json({
+        courses: response
+    })
 });
 
 router.post('/courses/:courseId', userMiddleware, async(req, res) => {
