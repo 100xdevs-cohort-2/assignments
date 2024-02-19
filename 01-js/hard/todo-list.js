@@ -53,23 +53,3 @@ class Todo {
 }
 
 module.exports = Todo;
-
-// Testing the code
-const myTodoList = new Todo();
-
-myTodoList.add("Buy groceries");
-myTodoList.add("Finish coding assignment");
-myTodoList.add("Go for a run");
-
-console.log("Initial Todo List:", myTodoList.getAll());
-
-myTodoList.remove(1);
-console.log("Todo List after removing item at index 1:", myTodoList.getAll());
-
-myTodoList.update(0, "Buy snacks");
-console.log("Todo List after updating item at index 0:", myTodoList.getAll());
-
-console.log("Todo at index 1:", myTodoList.get(1));
-
-myTodoList.clear();
-console.log("Todo List after clearing all todos:", myTodoList.getAll());
