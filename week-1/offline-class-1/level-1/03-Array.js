@@ -13,6 +13,9 @@ function pushExample(arr, element) {
   console.log("After push:", arr);
 }
 pushExample([1, 2, 3], 4);
+pushExample([1, 2, 3], {1:1, 2:2});
+pushExample([1, 2, 3], "string");
+
 
 // pop()
 function popExample(arr) {
@@ -22,6 +25,10 @@ function popExample(arr) {
   console.log("After pop:", arr);
 }
 popExample([1, 2, 3]);
+// popExample("string");
+popExample([]);
+// popExample(1000);
+
 
 // shift()
 function shiftExample(arr) {
@@ -48,7 +55,7 @@ function concatExample(arr1, arr2) {
   let arr3 = arr1.concat(arr2);
   console.log("After concat:", arr3);
 }
-concatExample([1, 2, 3], [4, 5, 6]);
+concatExample([ 1, 2, 3], [4, 5, 6]);
 
 // forEach()
 function forEachExample(arr) {

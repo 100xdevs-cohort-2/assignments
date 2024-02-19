@@ -16,6 +16,23 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+var limitter = function(req, res, next){
+  let user = req.headers['user-id'];
+  let totalReq = numberOfRequestsForUser[user];
+  console.log(numberOfRequestsForUser)
+  totalReq? totalReq++ : totalReq=1;
+  console.log("total req", totalReq)
+  numberOfRequestsForUser[user] = totalReq;
+  if(totalReq >= 5){
+    res.status(404);
+    throw Error(404);
+  }else{
+    next();
+  }
+}
+
+app.use(limitter);
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });

@@ -1,0 +1,648 @@
+From 1d7777a689681d6ed4c2319c21ae2feecb2a3d53 Mon Sep 17 00:00:00 2001
+From: ravinder-01 <ravinder.01@samsung.com>
+Date: Thu, 11 Jan 2024 18:29:06 +0530
+Subject: [PATCH 2/2] Week-2
+
+---
+ week-2/01-async-js/easy/1-counter.js          | 25 ++++++
+ week-2/01-async-js/easy/1-counter.md          |  4 -
+ week-2/01-async-js/easy/2-counter.js          | 89 +++++++++++++++++++
+ week-2/01-async-js/easy/2-counter.md          | 76 ----------------
+ week-2/01-async-js/easy/3-read-from-file.js   | 24 +++++
+ week-2/01-async-js/easy/3-read-from-file.md   |  7 --
+ week-2/01-async-js/easy/4-write-to-file.js    | 24 +++++
+ week-2/01-async-js/easy/4-write-to-file.md    |  3 -
+ week-2/01-async-js/easy/a.txt                 |  1 +
+ .../hard (promises)/1-promisify-setTimeout.js | 19 +++-
+ .../hard (promises)/2-sleep-completely.js     |  7 ++
+ .../hard (promises)/3-promise-all.js          | 25 ++++--
+ .../hard (promises)/4-promise-chain.js        | 30 ++++++-
+ week-2/01-async-js/medium/1-file-cleaner.js   | 58 ++++++++++++
+ week-2/01-async-js/medium/1-file-cleaner.md   | 13 ---
+ week-2/01-async-js/medium/2-clock.js          | 37 ++++++++
+ week-2/01-async-js/medium/2-clock.md          |  8 --
+ week-2/01-async-js/medium/a.txt               |  1 +
+ 18 files changed, 330 insertions(+), 121 deletions(-)
+ create mode 100644 week-2/01-async-js/easy/1-counter.js
+ delete mode 100644 week-2/01-async-js/easy/1-counter.md
+ create mode 100644 week-2/01-async-js/easy/2-counter.js
+ delete mode 100644 week-2/01-async-js/easy/2-counter.md
+ create mode 100644 week-2/01-async-js/easy/3-read-from-file.js
+ delete mode 100644 week-2/01-async-js/easy/3-read-from-file.md
+ create mode 100644 week-2/01-async-js/easy/4-write-to-file.js
+ delete mode 100644 week-2/01-async-js/easy/4-write-to-file.md
+ create mode 100644 week-2/01-async-js/easy/a.txt
+ create mode 100644 week-2/01-async-js/medium/1-file-cleaner.js
+ delete mode 100644 week-2/01-async-js/medium/1-file-cleaner.md
+ create mode 100644 week-2/01-async-js/medium/2-clock.js
+ delete mode 100644 week-2/01-async-js/medium/2-clock.md
+ create mode 100644 week-2/01-async-js/medium/a.txt
+
+diff --git a/week-2/01-async-js/easy/1-counter.js b/week-2/01-async-js/easy/1-counter.js
+new file mode 100644
+index 0000000..a8d8ca8
+--- /dev/null
++++ b/week-2/01-async-js/easy/1-counter.js
+@@ -0,0 +1,25 @@
++// Create a counter in JavaScript
++
++// We have already covered this in the second lesson, but as an easy recap try to code a counter in Javascript
++// It should go up as time goes by in intervals of 1 second
++
++let counter = 0;
++
++// for(let i = 0; i< 10; i++){
++//     console.log(counter);
++//     setTimeout(() => {
++//         counter++;
++//     }, 1000);
++// }
++
++console.log("Start");
++
++let printCounter = setInterval(() => {
++    console.log(counter);
++    counter++;
++    if(counter >= 10){
++        console.log("End");
++        clearInterval(printCounter);
++    }
++},1000)
++
+diff --git a/week-2/01-async-js/easy/1-counter.md b/week-2/01-async-js/easy/1-counter.md
+deleted file mode 100644
+index 54483ea..0000000
+--- a/week-2/01-async-js/easy/1-counter.md
++++ /dev/null
+@@ -1,4 +0,0 @@
+-## Create a counter in JavaScript
+-
+-We have already covered this in the second lesson, but as an easy recap try to code a counter in Javascript
+-It should go up as time goes by in intervals of 1 second
+\ No newline at end of file
+diff --git a/week-2/01-async-js/easy/2-counter.js b/week-2/01-async-js/easy/2-counter.js
+new file mode 100644
+index 0000000..c8a2f68
+--- /dev/null
++++ b/week-2/01-async-js/easy/2-counter.js
+@@ -0,0 +1,89 @@
++// ## Counter without setInterval
++
++// Without using setInterval, try to code a counter in Javascript. There is a hint at the bottom of the file if you get stuck.
++
++
++console.log("Start");
++function printCounter(){
++    setTimeout(()=> {
++        console.log(counter);
++        if(counter >= 10){
++            console.log("End");
++            return;
++        }
++        counter++;
++        printCounter();
++    },1000)
++}
++
++printCounter();
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++
++// (Hint: setTimeout)
+\ No newline at end of file
+diff --git a/week-2/01-async-js/easy/2-counter.md b/week-2/01-async-js/easy/2-counter.md
+deleted file mode 100644
+index db5f2ff..0000000
+--- a/week-2/01-async-js/easy/2-counter.md
++++ /dev/null
+@@ -1,76 +0,0 @@
+-## Counter without setInterval
+-
+-Without using setInterval, try to code a counter in Javascript. There is a hint at the bottom of the file if you get stuck.
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-(Hint: setTimeout)
+\ No newline at end of file
+diff --git a/week-2/01-async-js/easy/3-read-from-file.js b/week-2/01-async-js/easy/3-read-from-file.js
+new file mode 100644
+index 0000000..9a4135d
+--- /dev/null
++++ b/week-2/01-async-js/easy/3-read-from-file.js
+@@ -0,0 +1,24 @@
++// ## Reading the contents of a file
++
++// Write code to read contents of a file and print it to the console. 
++// You can use the fs library to as a black box, the goal is to understand async tasks. 
++// Try to do an expensive operation below the file read and see how it affects the output. 
++// Make the expensive operation more and more expensive and see how it affects the output. 
++const fs = require('fs');
++const path = require("path");
++
++function readMyFile(){
++    return new Promise(function(resolve){
++        fs.readFile(path.resolve(__dirname, "a.txt"), "utf-8", function(err, data){
++            resolve(data);
++        });
++    });
++}
++
++
++function onDone(data) {
++    console.log(data);
++}
++
++var a = readMyFile()
++a.then(onDone);
+diff --git a/week-2/01-async-js/easy/3-read-from-file.md b/week-2/01-async-js/easy/3-read-from-file.md
+deleted file mode 100644
+index f619d71..0000000
+--- a/week-2/01-async-js/easy/3-read-from-file.md
++++ /dev/null
+@@ -1,7 +0,0 @@
+-## Reading the contents of a file
+-
+-Write code to read contents of a file and print it to the console. 
+-You can use the fs library to as a black box, the goal is to understand async tasks. 
+-Try to do an expensive operation below the file read and see how it affects the output. 
+-Make the expensive operation more and more expensive and see how it affects the output. 
+-
+diff --git a/week-2/01-async-js/easy/4-write-to-file.js b/week-2/01-async-js/easy/4-write-to-file.js
+new file mode 100644
+index 0000000..864088d
+--- /dev/null
++++ b/week-2/01-async-js/easy/4-write-to-file.js
+@@ -0,0 +1,24 @@
++// ## Write to a file
++// Using the fs library again, try to write to the contents of a file.
++// You can use the fs library to as a black box, the goal is to understand async tasks.
++
++
++
++const fs = require('fs');
++const path = require("path");
++
++function writeMyFile(){
++    return new Promise(function(resolve){
++        fs.writeFile(path.resolve(__dirname, "a.txt"), "yoyoyo", function(err){
++            resolve(err);
++        });
++    });
++}
++
++
++function onDone(err) {
++    console.log(err);
++}
++
++var a = writeMyFile()
++a.then(onDone);
+diff --git a/week-2/01-async-js/easy/4-write-to-file.md b/week-2/01-async-js/easy/4-write-to-file.md
+deleted file mode 100644
+index f1c151f..0000000
+--- a/week-2/01-async-js/easy/4-write-to-file.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-## Write to a file
+-Using the fs library again, try to write to the contents of a file.
+-You can use the fs library to as a black box, the goal is to understand async tasks.
+\ No newline at end of file
+diff --git a/week-2/01-async-js/easy/a.txt b/week-2/01-async-js/easy/a.txt
+new file mode 100644
+index 0000000..b4fd80a
+--- /dev/null
++++ b/week-2/01-async-js/easy/a.txt
+@@ -0,0 +1 @@
++yoyoyo
+\ No newline at end of file
+diff --git a/week-2/01-async-js/hard (promises)/1-promisify-setTimeout.js b/week-2/01-async-js/hard (promises)/1-promisify-setTimeout.js
+index 32a99c8..958cf8d 100644
+--- a/week-2/01-async-js/hard (promises)/1-promisify-setTimeout.js	
++++ b/week-2/01-async-js/hard (promises)/1-promisify-setTimeout.js	
+@@ -2,7 +2,24 @@
+     Write a function that returns a promise that resolves after n seconds have passed, where n is passed as an argument to the function.
+ */
+ 
+-function wait(n) {
++function wait2(n) {
++    return new Promise(function(resolve) {
++        setTimeout(() => {
++            resolve("Resolved");
++        }, n);
++    })
+ }
+ 
++function toDo(data){
++    console.log(data);
++}
++
++async function wait(n){
++    let value = await wait2(10000);
++    console.log(value);
++}
++
++
++wait();
++
+ module.exports = wait;
+diff --git a/week-2/01-async-js/hard (promises)/2-sleep-completely.js b/week-2/01-async-js/hard (promises)/2-sleep-completely.js
+index a171170..f4a9e80 100644
+--- a/week-2/01-async-js/hard (promises)/2-sleep-completely.js	
++++ b/week-2/01-async-js/hard (promises)/2-sleep-completely.js	
+@@ -5,6 +5,13 @@
+  */
+ 
+ function sleep(milliseconds) {
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve();
++        }, milliseconds);
++    })
+ }
+ 
++// sleep(2000)
++
+ module.exports = sleep;
+diff --git a/week-2/01-async-js/hard (promises)/3-promise-all.js b/week-2/01-async-js/hard (promises)/3-promise-all.js
+index a57838a..883774e 100644
+--- a/week-2/01-async-js/hard (promises)/3-promise-all.js	
++++ b/week-2/01-async-js/hard (promises)/3-promise-all.js	
+@@ -5,19 +5,34 @@
+  */
+ 
+ function wait1(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+ function wait2(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+ function wait3(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+-function calculateTime(t1, t2, t3) {
+-
++async function calculateTime(t1, t2, t3) {
++    let values = await Promise.all([wait1(t1), wait2(t2), wait3(t3)]);
++    console.log(values)
+ }
+ 
++// calculateTime(1,2,3);
++
+ module.exports = calculateTime;
+diff --git a/week-2/01-async-js/hard (promises)/4-promise-chain.js b/week-2/01-async-js/hard (promises)/4-promise-chain.js
+index 6044e24..9f76358 100644
+--- a/week-2/01-async-js/hard (promises)/4-promise-chain.js	
++++ b/week-2/01-async-js/hard (promises)/4-promise-chain.js	
+@@ -6,19 +6,41 @@
+  */
+ 
+ function wait1(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+ function wait2(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+ function wait3(t) {
+-
++    return new Promise(function(resolve){
++        setTimeout(() => {
++            resolve(t);
++        }, t*1000);
++    })
+ }
+ 
+-function calculateTime(t1, t2, t3) {
++async function calculateTime(t1, t2, t3) {
++
++    let value1 = await wait1(t1);
++    console.log(value1)
++    let value2 = await wait2(t2);
++    console.log(value2)
++    let value3 = await wait3(t3);
++    console.log(value3)
+ 
+ }
+ 
++
++// calculateTime(1,2,3)
++
+ module.exports = calculateTime;
+diff --git a/week-2/01-async-js/medium/1-file-cleaner.js b/week-2/01-async-js/medium/1-file-cleaner.js
+new file mode 100644
+index 0000000..ef59bf8
+--- /dev/null
++++ b/week-2/01-async-js/medium/1-file-cleaner.js
+@@ -0,0 +1,58 @@
++// ## File cleaner
++// Read a file, remove all the extra spaces and write it back to the same file.
++
++// For example, if the file input was
++// ```
++// hello     world    my    name   is       raman
++// ```
++
++// After the program runs, the output should be
++
++// ```
++// hello world my name is raman
++// ```
++
++const fs = require("fs");
++const path = require("path");
++
++function readMyFile(){
++    return new Promise(function(resolve){
++        fs.readFile(path.resolve(__dirname, "a.txt"), "utf-8", function(err, data){
++            resolve(data)
++        })
++    })
++}
++
++function writeMyFile(data){
++    return new Promise(function(resolve){
++        fs.writeFile(path.resolve(__dirname, "a.txt"), data, function(err){
++            resolve(err);
++        });
++    });
++}
++
++function cleanData(data){
++    let spaceCount = 0;
++    data = data.split("");
++    data = data.filter(item => {
++        if(item == ' ' && spaceCount == 0){
++            spaceCount =1;
++            return true;
++        }
++        else if(item != " ") {
++            spaceCount = 0;
++            return true;
++        }else if(spaceCount == 1 && item == " " ){
++            return false;
++        }
++        console.log(data)
++    })
++    data = data.join("");
++    return data;
++}
++
++function cleanMyFileData(){
++    readMyFile().then(cleanData).then(writeMyFile);
++}
++
++cleanMyFileData();
+\ No newline at end of file
+diff --git a/week-2/01-async-js/medium/1-file-cleaner.md b/week-2/01-async-js/medium/1-file-cleaner.md
+deleted file mode 100644
+index 2be6e45..0000000
+--- a/week-2/01-async-js/medium/1-file-cleaner.md
++++ /dev/null
+@@ -1,13 +0,0 @@
+-## File cleaner
+-Read a file, remove all the extra spaces and write it back to the same file.
+-
+-For example, if the file input was
+-```
+-hello     world    my    name   is       raman
+-```
+-
+-After the program runs, the output should be
+-
+-```
+-hello world my name is raman
+-```
+\ No newline at end of file
+diff --git a/week-2/01-async-js/medium/2-clock.js b/week-2/01-async-js/medium/2-clock.js
+new file mode 100644
+index 0000000..b6c2aa4
+--- /dev/null
++++ b/week-2/01-async-js/medium/2-clock.js
+@@ -0,0 +1,37 @@
++// Using `1-counter.md` or `2-counter.md` from the easy section, can you create a
++// clock that shows you the current machine time?
++
++// Can you make it so that it updates every second, and shows time in the following formats - 
++
++//  - HH:MM::SS (Eg. 13:45:23)
++
++//  - HH:MM::SS AM/PM (Eg 01:45:23 PM)
++
++
++
++function showMyClock(){
++    const now =  new Date();
++    let minute = now.getMinutes();
++    let second = now.getSeconds();
++    let hour = now.getHours();
++    setInterval(() => {
++        console.log(hour,":",minute,":", second);
++        if(second == 60){
++            second = 0;
++            if(minute == 60){
++                minute = 0;
++                if(hour == 24){
++                    hour = 0;
++                }else{
++                    hour++;
++                }
++            }else{
++                minute++;
++            }
++        }else{
++            second++;
++        }
++    },1000)
++}
++
++showMyClock();
+\ No newline at end of file
+diff --git a/week-2/01-async-js/medium/2-clock.md b/week-2/01-async-js/medium/2-clock.md
+deleted file mode 100644
+index 4a034c6..0000000
+--- a/week-2/01-async-js/medium/2-clock.md
++++ /dev/null
+@@ -1,8 +0,0 @@
+-Using `1-counter.md` or `2-counter.md` from the easy section, can you create a
+-clock that shows you the current machine time?
+-
+-Can you make it so that it updates every second, and shows time in the following formats - 
+-
+- - HH:MM::SS (Eg. 13:45:23)
+-
+- - HH:MM::SS AM/PM (Eg 01:45:23 PM)
+diff --git a/week-2/01-async-js/medium/a.txt b/week-2/01-async-js/medium/a.txt
+new file mode 100644
+index 0000000..f671a6d
+--- /dev/null
++++ b/week-2/01-async-js/medium/a.txt
+@@ -0,0 +1 @@
++hello world my name is raman
+\ No newline at end of file
+-- 
+2.25.1
+
