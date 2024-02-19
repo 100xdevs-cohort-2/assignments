@@ -67,7 +67,6 @@ function App() {
   );
 
   const renderAllAddedTodos = useCallback(() => {
-    console.log(todoState);
     document.getElementById("todos").innerHTML = "";
     for (const todo of todoState) {
       addTodoToDom(todo);
