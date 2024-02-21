@@ -14,7 +14,20 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+
+  const categories = {}; // Hash table for storing categories and totals
+  
+  for (const transaction of transactions) {
+    const category = transaction.category;
+    if (categories.hasOwnProperty(category)) {
+      categories[category].totalSpent += transaction.price;
+    } else {
+      categories[category] = { category, totalSpent: transaction.price };
+    }
+  }
+  
+  return Object.values(categories);
+
 }
 
 module.exports = calculateTotalSpentByCategory;
