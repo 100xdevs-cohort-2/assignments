@@ -4,6 +4,14 @@
 */
 
 function isPalindrome(str) {
+  let res;
+  let str_caseinsenstive=str.toLowerCase().replace(/\W/g,'');
+  let str_len=str_caseinsenstive.length;
+  for(let i=0;i<str_caseinsenstive.length/2 ;i++)
+  {
+    if(str_caseinsenstive[i]!=str_caseinsenstive[str_len-i-1])
+      return false;
+  }
   return true;
 }
 

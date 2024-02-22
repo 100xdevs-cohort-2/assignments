@@ -6,19 +6,34 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,t*1000);
+    });   
 }
 
 function wait2(t) {
-
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,t*1000);
+    });
 }
 
 function wait3(t) {
-
+    return new Promise((resolve,reject)=>{
+        setTimeout(resolve,t*1000);
+    });
 }
 
 function calculateTime(t1, t2, t3) {
-
+    const start = new Date().getTime();
+    let timee;
+    return wait1(t1) // here we are returing the promise .......see the video of Akshy saini again
+    .then(()=> {return wait2(t2)})
+    .then(()=> {return wait3(t3)})
+    .then(()=>{
+        const end = new Date().getTime();
+        timee = end-start;
+        return timee; // this is inner arrow fun return
+    });
 }
 
 module.exports = calculateTime;

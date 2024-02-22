@@ -12,10 +12,24 @@ export const Assignment3 = () => {
     ]);
 
     // Your code starts here
-    const totalValue = 0;
+    const totalValue = useMemo(()=>{
+        let sum =0;
+        for(let i=0;i<items.length ;i++)
+        {
+            sum = sum+items[i].value;
+        }
+        return sum;
+    },[items]);
+
+    function addItemHandler(){
+        setItems([...items,{
+            name: 'New item', value: 30
+        }])
+    }
     // Your code ends here
     return (
         <div>
+            <button onClick={addItemHandler}>Add item</button>
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>{item.name} - Price: ${item.value}</li>
