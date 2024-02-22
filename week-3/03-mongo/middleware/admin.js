@@ -7,9 +7,8 @@ async function adminMiddleware(req, res, next) {
 	const { username, password } = req.headers;
 
 	const adminData = await Admin.findOne({ username });
-	console.log(adminData);
 
-	if (adminData.username === username && adminData.password === password) {
+	if (adminData) {
 		console.log(`admin got authenticated`);
 		next();
 	} else {

@@ -5,7 +5,6 @@ const { Admin, Course } = require("../db/index");
 
 // Admin Routes
 
-let globalId = 0;
 router.post("/signup", (req, res) => {
 	// Implement admin signup logic
 
@@ -36,10 +35,11 @@ router.post("/courses", adminMiddleware, (req, res) => {
 	const { title, description, price, imageLink } = req.body;
 
 	Course.create({ title, description, price, imageLink })
-		.then(() => {
+		.then((user) => {
 			res.status(200).json({
 				message: "message: 'Course created successfully",
-				courseId: globalId++,
+				courseId: user._id,
+				//id is randomly and automatically assigned by the mongodb database itself.
 			});
 		})
 		.catch((e) => {
@@ -51,8 +51,20 @@ router.post("/courses", adminMiddleware, (req, res) => {
 
 // { "title": "course title", "description": "course description", "price": "100", "imageLink":" https://linktoimage.com" }
 
-router.get("/courses", adminMiddleware, (req, res) => {
+router.get("/courses", adminMiddleware, async (req, res) => {
 	// Implement fetching all courses logic
+
+	const courses = await Course.find({});
+
+	if (courses) {
+		res.status(200).json({
+			output: courses,
+		});
+	} else {
+		res.status(404).json({
+			msg: "unable to find resources",
+		});
+	}
 });
 
 module.exports = router;
