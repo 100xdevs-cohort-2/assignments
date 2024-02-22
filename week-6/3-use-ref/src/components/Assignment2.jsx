@@ -6,11 +6,11 @@ import { useRef } from "react";
 export function Assignment2() {
   const [renderCount, setRenderCount] = useState(0);
   let renderTimes = useRef(0);
-
+  
   const handleReRender = () => {
     setRenderCount(renderCount + 1);
   };
-  renderTimes.current = renderTimes.current + 1;
+  renderTimes.current++
 
   return (
     <div>
