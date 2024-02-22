@@ -98,10 +98,10 @@ export const login = async (req: Request, res: Response) => {
     );
 
     res.cookie("token", jwtToken, {
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      maxAge: 1000 * 60 * 60 * 24,
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     return res.status(200).send(existingUser);
@@ -120,7 +120,7 @@ export const logout = async (res: Response) => {
 };
 
 export const searchBulk = async (req: Request, res: Response) => {
-  const searchTerm = req.query.user as string;
+  const searchTerm = (req.query.user as string) || "";
   try {
     const users = await User.find({
       $or: [
@@ -128,7 +128,14 @@ export const searchBulk = async (req: Request, res: Response) => {
         { lastName: { $regex: new RegExp(searchTerm, "i") } },
       ],
     });
-    return res.status(200).send(users);
+    return res.status(200).send({
+      users: users.map((user) => ({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        _id: user._id,
+      })),
+    });
   } catch (error) {
     return res.status(500).send({ message: "Error Searching Users!" });
   }
