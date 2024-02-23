@@ -63,8 +63,16 @@ imageLink:imageLink
 }
 });
 
-router.get('/course', adminMiddleware, (req, res) => {
+router.get('/course', adminMiddleware, async(req, res) => {
     // Implement fetching all courses logic
+    const getCourse=await Course.find({})
+        res.json({
+courses:getCourse
+        })
+   
+
+
+
 });
 
 module.exports = router;
