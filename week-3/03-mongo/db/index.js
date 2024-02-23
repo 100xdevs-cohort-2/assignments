@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     username:String,
     password:String,
     purchasedCourses:[{
-        type:mongoose.Schema.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,  //imp
         ref:"Course"
     }]
 });
