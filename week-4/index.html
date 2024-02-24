@@ -1,78 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 1rem;
+      }
 
-<style>
-  body{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 1rem;
-  }
+      #title,
+      #description {
+        width: 20%;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+        outline: none;
+      }
+    </style>
 
-  #title,#description{
-    width: 20%;
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    outline: none;
-  }
-</style>
+    <script>
+      let globalId = 1;
+      let todoState = [];
+      let oldTodoState = [];
 
-<head>
-  <script>
-    let globalId = 1;
-    let todoState = [];
-    let oldTodoState = [];
+      function addTodo() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        todoState.push({
+          title: title,
+          description: description,
+          id: globalId++,
+        });
+        // console.log(todoState);
+        updateState(todoState);
+      }
 
-    function addTodoToDom() {
-      
-    }
+      function addTodoToDom(todo) {
+        const todosContainer = document.getElementById("todos");
+        const todoEl = document.createElement("div");
+        todoEl.id = `todo-${todo.id}`;
 
-    function removeTodoFromDom(todo) {
-      
-    }
+        const titleEl = document.createElement("h2");
+        titleEl.innerHTML = todo.title;
 
-    function updateTodoInDom(oldTodo, newTodo) {
-        
-    }
+        const descEl = document.createElement("p");
+        descEl.innerHTML = todo.description;
 
-    function updateState(newTodos) {
-      // calculate the diff b/w newTodos and oldTodos.
-      // More specifically, find out what todos are - 
-      // 1. added
-      // 2. deleted
-      // 3. updated
-      const added = [];
-      const deleted = [];
-      const updated = [];
-      // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
-      oldTodoState = newTodos;
-    }
+        const buttonEl = document.createElement("button");
+        buttonEl.innerHTML = "Mark as done";
 
-    function addTodo() {
-      const title = document.getElementById("title").value;
-      const description = document.getElementById("description").value;
-      todoState.push({
-        title: title,
-        description: description,
-        id: globalId++,
-      })
-      updateState(todoState);
-    }
-  </script>
-</head>
+        buttonEl.addEventListener("click", () => {
+          if (buttonEl.innerHTML === "Mark as done") {
+            buttonEl.innerHTML = "Done";
+          }
+        });
 
-<body>
-  <input type="text" id="title" placeholder="Todo title" autofocus></input> <br /><br />
-  <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
-  <button onclick="addTodo()">Add Todo</button>
-  <br /> <br />
+        todoEl.appendChild(titleEl);
+        todoEl.appendChild(descEl);
+        todoEl.appendChild(buttonEl);
+        todosContainer.appendChild(todoEl);
+      }
 
-  <div id="todos">
+      function removeTodoFromDom(todoId) {
+        const todoEl = document.getElementById(`todo-${todoId}`);
+        if (todoEl) {
+          todoEl.remove();
+        }
+      }
 
-  </div>
-</body>
+      function updateTodoInDom(oldTodo, newTodo) {
+        const todoEl = document.getElementById(`todo-${oldTodo.id}`);
+        if (todoEl) {
+          todoEl.querySelector("h2").innerHTML = newTodo.title;
+          todoEl.querySelector("p").innerHTML = newTodo.description;
+        }
+      }
 
+      function updateState(newTodos) {
+        // calculate the diff b/w newTodos and oldTodos.
+        // More specifically, find out what todos are -
+        // 1. added
+        // 2. deleted
+        // 3. updated
+        const added = newTodos.filter(
+          (newTodo) =>
+            !oldTodoState.some((oldTodo) => oldTodo.id === newTodo.id)
+        );
+
+        const deleted = oldTodoState.filter(
+          (oldTodo) => !newTodos.some((newTodo) => newTodo.id === oldTodo.id)
+        );
+
+        const updated = newTodos.filter((newTodo) => {
+          const correspondingOldTodo = oldTodoState.find(
+            (oldTodo) => oldTodo.id === newTodo.id
+          );
+          return (
+            correspondingOldTodo &&
+            (correspondingOldTodo.title !== newTodo.title ||
+              correspondingOldTodo.description !== newTodo.description)
+          );
+        });
+        // calculate these 3 arrays
+        // call addTodo, removeTodo, updateTodo functions on each of the
+        // elements
+        // addTodoToDom(todoState);
+
+        added.forEach(addTodoToDom);
+        deleted.forEach((todo) => removeTodoFromDom(todo.id));
+        updated.forEach((newTodo) =>
+          updateTodoInDom(
+            oldTodoState.find((oldTodo) => oldTodo.id === newTodo.id),
+            newTodo
+          )
+        );
+
+        oldTodoState = newTodos;
+      }
+    </script>
+  </head>
+
+  <body>
+    <input type="text" id="title" placeholder="Todo title" autofocus />
+    <br /><br />
+    <input type="text" id="description" placeholder="Todo description" />
+    <br /><br />
+    <button onclick="addTodo()">Add Todo</button>
+    <br />
+    <br />
+
+    <div id="todos"></div>
+  </body>
 </html>
