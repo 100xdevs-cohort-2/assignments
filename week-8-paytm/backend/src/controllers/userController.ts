@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 import { z } from "zod";
 import { Account } from "../models/Account";
+import { AuthRequest } from "../middlewares/verifyToken";
 
 const signupSchema = z.object({
   firstName: z.string(),
@@ -124,7 +125,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (res: Response) => {
+export const logout = async (req: Request, res: Response) => {
   try {
     res.clearCookie("token");
     return res.status(200).send({ message: "logged out successfully!" });
@@ -133,7 +134,7 @@ export const logout = async (res: Response) => {
   }
 };
 
-export const searchBulk = async (req: Request, res: Response) => {
+export const searchBulk = async (req: AuthRequest, res: Response) => {
   const searchTerm = (req.query.user as string) || "";
   try {
     const users = await User.find({
@@ -141,6 +142,7 @@ export const searchBulk = async (req: Request, res: Response) => {
         { firstName: { $regex: new RegExp(searchTerm, "i") } },
         { lastName: { $regex: new RegExp(searchTerm, "i") } },
       ],
+      _id: { $ne: req._id },
     });
     return res.status(200).send({
       users: users.map((user) => ({

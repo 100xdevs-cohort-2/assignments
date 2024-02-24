@@ -6,10 +6,12 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <>
+      <Toaster position="bottom-right" />
       <Header />
       <Suspense fallback={<>Loading...</>}>
         <Routes>

@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface appSliceInitialState {
   isLoggedIn: boolean;
-  currentUser: { username?: string; balance?: number };
+  currentUser?: { username?: string; balance?: number };
 }
 
 const initialState: appSliceInitialState = {
