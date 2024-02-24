@@ -6,10 +6,7 @@ const router = Router();
 // Admin Routes
 router.post('/signup', async (req, res) => {
     // Implement admin signup logic
-       res.json({
-        msg:"hi there"
-
-       })     //get the username
+          //get the username
     const username= req.body.username;
     const password= req.body.password;
     
