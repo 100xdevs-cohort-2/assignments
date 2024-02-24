@@ -2,7 +2,7 @@ const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const router = Router();
 const {Admin}=require("../db")
-const secret=require("../index")
+const {JWT_SECRET}=require("../config")
 const jwt=require("jsonwebtoken")
 // Admin Routes
 router.post('/signup', async(req, res) => {
@@ -40,12 +40,12 @@ router.post('/signin', async (req, res) => {
 
     try {
         const adminSignIn = await Admin.findOne({ username, password });
+console.log(adminSignIn)
+        // if (!adminSignIn) {
+        //     return res.status(401).json({ message: 'Invalid username or password' });
+        // }
 
-        if (!adminSignIn) {
-            return res.status(401).json({ message: 'Invalid username or password' });
-        }
-
-        const token = jwt.sign({ username }, secret);
+        const token = jwt.sign({ username }, JWT_SECRET);
         res.json({ token });
     } catch (error) {
         console.error(error);
