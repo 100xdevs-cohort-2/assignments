@@ -31,25 +31,6 @@ const postZod = z.object({
 })
 
 
-interface UserInterface {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-}
-
-interface PostInterface {
-  title: string;
-  body: string;
-  userId: number;
-}
-
-// async function createUser(User: UserInterface): Promise<UserInterface>{
-// }
-
-
-
-// async function getUsers(): Promise<UserInterface[]> {
 async function getUsers() {
   const allUsers  = await prisma.user.findMany()
 
