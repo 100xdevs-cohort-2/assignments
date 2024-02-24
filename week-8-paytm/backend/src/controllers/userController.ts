@@ -54,10 +54,10 @@ export const signup = async (req: Request, res: Response) => {
     );
 
     res.cookie("token", jwtToken, {
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+      maxAge: 1000 * 60 * 60 * 24,
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
     });
 
     return res.status(201).send({
