@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 import { z } from "zod";
+import { Account } from "../models/Account";
 
 const signupSchema = z.object({
   firstName: z.string(),
@@ -17,7 +18,7 @@ const loginSchema = z.object({
 
 export const signup = async (req: Request, res: Response) => {
   const { firstName, lastName, email, password } = req.body;
-  if (!email || !password || !firstName || !lastName) {
+  if (!email || !password || !firstName) {
     return res.status(400).send({ message: "All fields are required!" });
   }
   try {
@@ -36,6 +37,9 @@ export const signup = async (req: Request, res: Response) => {
       password: hashedPassword,
       firstName: firstName,
       lastName: lastName,
+    });
+    const account = await Account.create({
+      userId: user._id,
     });
 
     const jwtToken = jwt.sign(
@@ -56,7 +60,10 @@ export const signup = async (req: Request, res: Response) => {
       sameSite: "lax",
     });
 
-    return res.status(201).send(user);
+    return res.status(201).send({
+      username: `${user.firstName} ${user.lastName}`,
+      balance: account.balance,
+    });
   } catch (error) {
     return res.status(500).send({ message: "Error signing up!", error: error });
   }
@@ -75,6 +82,10 @@ export const login = async (req: Request, res: Response) => {
     const existingUser = await User.findOne({ email: email });
     if (!existingUser) {
       return res.status(400).send({ message: "User not found" });
+    }
+    const account = await Account.findOne({ userId: existingUser._id });
+    if (!account) {
+      return res.status(404).send({ message: "Account not found" });
     }
 
     const passwordMatched = await bcrypt.compare(
@@ -104,7 +115,10 @@ export const login = async (req: Request, res: Response) => {
       sameSite: "none",
     });
 
-    return res.status(200).send(existingUser);
+    return res.status(200).send({
+      username: `${existingUser.firstName} ${existingUser.lastName}`,
+      balance: account.balance,
+    });
   } catch (error) {
     return res.status(500).send({ message: "Error log in!", error: error });
   }
