@@ -9,8 +9,25 @@ import { client } from "..";
  *  id: number
  * }
  */
+
+interface Todo {
+    id: number;
+    title: string;
+    description: string;
+    done: boolean;
+}
 export async function createTodo(userId: number, title: string, description: string) {
-    
+    try{
+        const query = "INSERT INTO todos (user_id, title, description) VALUES ($1, $2, $3) RETURNING *";
+  const values = [userId, title, description];
+  const result = await client.query(query, values);
+  return result.rows[0];
+    } catch(err){
+        console.log("Couldn't insert todo:", err)
+    }
+    //  finally{
+    //     await client.end();
+    // }
 }
 /*
  * mark done as true for this specific todo.
@@ -23,7 +40,19 @@ export async function createTodo(userId: number, title: string, description: str
  * }
  */
 export async function updateTodo(todoId: number) {
-
+    try{
+        // await client.connect()
+        const updateQuery = "UPDATE todos SET done = true WHERE id = $1 RETURNING id, title, description, done";
+        const values = [todoId]
+        const res = await client.query(updateQuery,values);
+        console.log('Todo inserted successfully:', res); 
+        return res.rows[0]
+    } catch(err){
+        console.log("Couldn't update todo:", err)
+    } 
+    // finally{
+    //     await client.end();
+    // }
 }
 
 /*
@@ -37,5 +66,17 @@ export async function updateTodo(todoId: number) {
  * }]
  */
 export async function getTodos(userId: number) {
-
+    try{
+        // await client.connect();
+        const getQuery =  "SELECT * FROM todos WHERE user_id = $1"
+        const values = [userId];
+        const res = await client.query(getQuery,values);
+        console.log('Todo inserted successfully:', res); 
+        return res.rows;
+    } catch(err){
+        console.log("Couldn't insert todo:", err)
+    } 
+    // finally{
+    //     await client.end();
+    // }
 }
