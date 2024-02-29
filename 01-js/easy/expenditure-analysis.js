@@ -24,19 +24,10 @@ function calculateTotalSpentByCategory(transactions) {
       newArr[category] = price;
     }
   });
-  let entriesObj = Object.entries(newArr);
-  let entriesArr = entriesObj.map((entry) => {
-    let category = entry[0];
-    let totalSpent = entry[1];
-
-    return {
-      category,
-      totalSpent,
-    };
-  });
-  // console.log(entriesArr);
-
-  return entriesArr;
+  return Object.entries(newArr).map(([category, totalSpent]) => ({
+    category,
+    totalSpent,
+  }));
 }
 
 module.exports = calculateTotalSpentByCategory;
