@@ -22,9 +22,9 @@ const schema = z.object({
 // const passSchema = z.string().min(6);
 
 function signJwt(username, password) {
-    let user = {username : username, password : password};
+    let user = {username, password};
     if(schema.safeParse(user).success){
-        const token = jwt.sign(user,jwtPassword);
+        const token = jwt.sign({username},jwtPassword);
         return token;
     }else{
         return null;
@@ -60,6 +60,14 @@ function verifyJwt(token) {
 function decodeJwt(token) {
     return jwt.decode(token) ? true : false;
 }
+
+//testing
+
+// console.log(signJwt("pranav@jsjs.com","ueuu22"));
+
+// console.log(decodeJwt("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYW5hdkBqc2pzLmNvbSIsImlhdCI6MTcwOTIwMTU0M30.p189iv-te5h-62UXWR8UqbJxZTbll2L65SnDliBImGE"));
+
+// console.log(verifyJwt('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InByYW5hdkBqc2pzLmNvbSIsImlhdCI6MTcwOTIwMTU0M30.p189iv-te5h-62UXWR8UqbJxZTbll2L65SniBImGE',jwtPassword));
 
 module.exports = {
   signJwt,

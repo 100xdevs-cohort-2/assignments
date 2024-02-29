@@ -3,7 +3,7 @@ const adminMiddleware = require("../middleware/admin");
 const { Admin, Course } = require("../db");
 const router = Router();
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require('../index');
+const {JWT_SECRET} = require('../config');
 
 // Admin Routes
 router.post("/signup", async (req, res) => {
@@ -31,7 +31,6 @@ router.post("/signup", async (req, res) => {
 router.post("/signin", (req, res) => {
   // Implement admin signup logic
   const username = req.body.username;
-  const password = req.body.password;
   const find = Admin.findOne({
     username,
   });
