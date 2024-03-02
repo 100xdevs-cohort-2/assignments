@@ -5,7 +5,14 @@
 */
 
 function isAnagram(str1, str2) {
-
-}
+  if(str1.length !== str2.length)
+  {
+    return false;
+  }
+    const arr1 = str1.split('').sort().join('');
+    const arr2 = str2.split('').sort().join('');
+    return arr1 === arr2;
+  }
+const str = isAnagram("spar", "rasp");
 
 module.exports = isAnagram;
