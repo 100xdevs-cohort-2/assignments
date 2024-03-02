@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
 const jwt = require("jsonwebtoken");
-const { User } = require("../db/index");
+const { User, Course } = require("../db/index");
 // User Routes
 router.post('/signup', async (req, res) => {
     // Implement user signup logic
@@ -39,16 +39,25 @@ router.post('/signin', async (req, res) => {
     });
 });
 
-router.get('/courses', (req, res) => {
+router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
+    const courses = await Course.findAll();
+    res.json({
+        message: courses,
+    });
 });
 
 router.post('/courses/:courseId', userMiddleware, (req, res) => {
     // Implement course purchase logic
+    res.json({
+        message: 'Course purchased successfully'
+    })
 });
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware,async (req, res) => {
     // Implement fetching purchased courses logic
+    const { courses } = await Course.find({});
+    res.json(courses); 
 });
 
 module.exports = router
