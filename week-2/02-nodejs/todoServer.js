@@ -39,11 +39,93 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+
   const express = require('express');
   const bodyParser = require('body-parser');
   
   const app = express();
-  
+  let todolist = [{
+    id: 1,
+    title: "Buy groceries", 
+    completed: false, 
+    description: "I should buy groceries"
+  }];
+
   app.use(bodyParser.json());
+
+
+  app.get('/todos',(req,res)=>{
+    res.send(todolist);
+  })
+
+  app.get('/todos/:id',(req,res)=>{
+    let id = req.params.id;
+    if(isIdPresent(id)){
+      let list = todolist.filter(obj =>{
+        return obj.id == id;
+      })
+      res.send(list);
+    }else{
+      res.status(404).send("Id not found");
+    }
+    
+  })
+
+  app.post('/todos',(req,res)=>{
+    let obj = req.body;
+    todolist.push(obj);
+    res.send("Added successfully");
+  })
+
+  app.put('/todos/:id',(req,res)=>{
+    let id = req.params.id; 
+    if(isIdPresent(id)){
+      let newobj = req.body;
+      todolist = todolist.map(obj => {
+          if(obj.id == id){ 
+              return newobj;
+          } else {
+              return obj; 
+          }
+      });
+  
+      res.send("Changes made successfully");
+    }else{
+      res.status(404).send("Id not found");
+    }
+   
+})
+
+app.delete('/todos/:id',(req,res)=>{
+  let id = req.params.id; 
+  if(isIdPresent(id)){
+  todolist = todolist.filter(obj => {
+      return obj.id != id 
+  });
+
+  res.send("Deleted Successfully");
+  }else{
+    res.status(404).send("Id not found");
+  }
+  
+})
+
+
+  app.all('*', (req, res) => {
+    res.status(404).send('Route not found');
+});
+
+function isIdPresent(id){
+  for(let i = 0;i<todolist.length;i++){
+    let obj = todolist[i];
+    if(obj.id == id){
+      return true;
+      break;
+    }
+  }
+  return false;
+}
+
+app.listen(80);
   
   module.exports = app;
