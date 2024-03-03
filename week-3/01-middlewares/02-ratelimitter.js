@@ -16,6 +16,18 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+app.use((req, res, next) => {
+  const user = req.headers['user-id'];
+  if(!user) {
+    return res.status(404).send('user not found')
+  }
+  numberOfRequestsForUser[user] = (numberOfRequestsForUser[user]) + 1;
+  if (numberOfRequestsForUser[user] > 5) {
+    res.status(404).send("Too many requests")
+  }
+  next();
+})
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
