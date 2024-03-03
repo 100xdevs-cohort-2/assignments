@@ -91,6 +91,7 @@ npx prisma migrate dev --name  <name for you migration>
    
 Start Coding!!!
 
+<br>
 
 ## Directory Structure
 
@@ -98,7 +99,6 @@ Start Coding!!!
 
 - Clone the repo and write your code inside `survey-poll-app`
 
-**Ignore tests and Readme which are already present in `survey-poll-app` **
 
 ```
 survey-poll-app/
@@ -120,6 +120,7 @@ survey-poll-app/
 |-- package.json
 |-- .env
 ```
+<br><br>
 
 ## Prisma Schema for your Reference
 
@@ -129,6 +130,14 @@ Just try to follow this basic structure for creating a survey
 
 ![img](./basic-survey.png)
 
+
+<br>
+
+<b>Click here to view schema<b>
+
+<details>
+
+<summary><b>Please try to make your own schema. Use this only if you are unable to make your own one<b></summary>
 
 ```
 datasource db {
@@ -163,11 +172,7 @@ model Option {
 }
 
 ```
-
-
-## Testing
-
-To run the tests, use the `npm test` command.
+</details>
 
 
 
