@@ -5,9 +5,14 @@ import { useState } from "react";
 
 export function Assignment1() {
     const [input, setInput] = useState(0);
+
     // Your solution starts here
-    const expensiveValue = 0; 
-    // Your solution ends here
+    let expensiveValue = 1;
+    for (let i =1; i<=input; i++){
+        expensiveValue = expensiveValue*i;
+    }
+
+// Your solution ends here
 
     return (
         <div>
