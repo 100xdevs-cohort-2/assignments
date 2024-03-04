@@ -1,0 +1,27 @@
+.main{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        color: black;
+        border-radius: 20px;
+        width: 80vh;
+        padding: 1rem;
+}
+
+.interest{
+        font: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+}
+
+.socials{
+        display: flex;
+        gap: 1rem;
+}
+.socials .linked {
+        color: white;
+        border: blue;
+}
