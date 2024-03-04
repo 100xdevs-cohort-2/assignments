@@ -39,11 +39,67 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const port = 3000;
+const app = express();
+
+app.use(bodyParser.json());
+
+let id = 1;
+const todos = [
+  {
+    id: id++,
+    title: "this is  a test TODO",
+    description: "this is a test description"
+  }
+];
+
+app.get('/todos', (req, res) => {
+  res.status(200).send(todos);
+});
+
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  const filetredTodo = todos.filter(todo => todo.id === Number(id));
+  console.log(filetredTodo);
+  res.status(200).send(filetredTodo);
+});
+
+app.post('/todos', (req, res) => {
+  const todo = {
+    id: id++,
+    title: req.body.title,
+    description: req.body.description
+  }
+  todos.push(todo);
+  console.log(todos)
+  res.status(200).send(todo);
+});
+
+app.put('/todos/:id', (req, res) => {
+  const id = req.params.id;
+  const indexOfItemToBeUpdated = todos.findIndex((todo) => todo.id === parseInt(id));
+  console.log(indexOfItemToBeUpdated);
+  if (indexOfItemToBeUpdated === -1) res.status(404).send("ID does not exsists");
+  todos[indexOfItemToBeUpdated].title = req.body.title;
+  todos[indexOfItemToBeUpdated].description = req.body.description;
+  res.status(200).send(todos);
+});
+
+app.delete('/todos/:id', (request, response) => {
+    const id = request.params.id;
+    const indexToBeDeleted = todos.findIndex(todo => todo.id === Number(id));
+    if (indexToBeDeleted === -1) response.status(404).send("ID does not exsists");
+    todos.splice(indexToBeDeleted,1);
+    response.status(200).send(todos);
+});
+
+app.use((req, res, next)=> {
+  res.status(404).send();
+})
+
+
+app.listen(port);
+
+module.exports = app;
