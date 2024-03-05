@@ -34,7 +34,7 @@ function calculateTime(t1, t2, t3) {
         // console.log("All promises resolved.");
         const newTime = new Date().getTime();
         let timeTaken = newTime - currentTIme;
-        console.log(timeTaken);
+        // console.log(timeTaken);
         return timeTaken;
     });
 }

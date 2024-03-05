@@ -32,19 +32,19 @@ function wait3(t) {
 function sequentialCall(t1, t2, t3){
     const currentTIme = new Date().getTime();
     return wait1(t1).then(() => {
-        console.log("wait 1 done.");
+        // console.log("wait 1 done.");
         return wait2(t2);
     })
     .then(() => {
-        console.log("Wait 2 done.");
+        // console.log("Wait 2 done.");
         return wait3(t3);
     })
     .then(() => {
-        console.log("Wait 3 done.");
-        console.log("All funcitons called.");
+        // console.log("Wait 3 done.");
+        // console.log("All funcitons called.");
         const newTime = new Date().getTime();
         let timeTaken = newTime - currentTIme;
-        console.log(timeTaken);
+        // console.log(timeTaken);
         return timeTaken;
     })
 }
