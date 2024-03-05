@@ -1,0 +1,25 @@
+{
+  "name": "survey-poll-app",
+  "version": "1.0.0",
+  "description": "A basic survey/poll app built with Node.js and Prisma",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest"
+  },
+  "keywords": ["survey", "poll", "nodejs", "prisma"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "@prisma/client": "^2.30.0",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "jest": "^27.2.0",
+    "nodemon": "^2.0.12",
+    "@prisma/cli": "^2.30.0",
+    "supertest": "^6.1.3"
+  }
+}
