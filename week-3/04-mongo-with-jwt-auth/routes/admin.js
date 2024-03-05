@@ -44,8 +44,9 @@ console.log(adminSignIn)
         // if (!adminSignIn) {
         //     return res.status(401).json({ message: 'Invalid username or password' });
         // }
-
-        const token = jwt.sign({ username }, JWT_SECRET);
+        console.log("secret",JWT_SECRET)
+        const token = jwt.sign({ username: adminSignIn.username }, JWT_SECRET);
+        
         res.json({ token });
     } catch (error) {
         console.error(error);
@@ -53,8 +54,29 @@ console.log(adminSignIn)
     }
 });
 
-router.post('/courses', adminMiddleware, (req, res) => {
+router.post('/courses', adminMiddleware, async (req, res) => {
     // Implement course creation logic
+    
+    try{
+    const title=req.body.title
+    const description=req.body.description
+    const price=req.body.price
+   const  imageLink=req.body.imageLink
+    const adminCourse=await Admin.create({
+        title,
+        description,
+        price,
+        imageLink
+    })
+    res.json({
+        msg:"course created successfully",
+        courseId:adminCourse._id
+    })
+}
+catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+}
 });
 
 router.get('/courses', adminMiddleware, (req, res) => {

@@ -1,3 +1,4 @@
 module.exports={
-    JWT_SECRET:"neha"
+    JWT_SECRET:"neha",
+
 }
