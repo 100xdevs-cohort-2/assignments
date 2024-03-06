@@ -43,79 +43,56 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-// Parse JSON bodies
 app.use(bodyParser.json());
 const port = 3000;
 
 let todoList = [];
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// });
-
 app.get('/todos', (req, res) => {  
-    res.status(200).send(todoList);
+    res.status(200).json(todoList);
 });
 
 app.get('/todos/:id', (req, res) => {
-    const todoId = req.params.id;
-    let todo = todoList.find(item => item.id == todoId);
+    let todo = todoList.find(item => item.id == req.params.id);
     if (todo){
-        res.status(200).send(todo);
+        res.status(200).json(todo);
     }
     else{
-        res.status(404).send({"Error": "Requested Item not found."});
+        res.status(404).json({"Error": "Requested Item not found."});
     }
 });
 
 app.post('/todos', (req, res) => {
-    console.log(req.body);
-    let todoNew = req.body;
-    todoNew.id = Math.random().toString(36).substring(2);
-    // const thisTodoId = req.body.id;
-    todoList.push(todoNew);
-    // let thisTodo = todoList.find(item => item.id == thisTodoId);
-    res.status(201).send(todoNew);
-
-    // const newTodo = {
-    //     id: Math.floor(Math.random() * 1000000), // unique random id
-    //     title: req.body.title,
-    //     description: req.body.description
-    //   };
-    //   todoList.push(newTodo);
-    //   res.status(201).send(newTodo);
+    let newTodo = req.body;
+    newTodo.id = Math.floor(Math.random() * 1000000);
+    todoList.push(newTodo);
+    res.status(201).json(newTodo);
 });
 
 app.put('/todos/:id', (req, res) => {
-    const todoId = req.params.id;
-    let index = todoList.findIndex(item => item.id == todoId);
+    let index = todoList.findIndex(item => item.id == parseInt(req.params.id));
     if (index != -1){
         todoList[index] = {...todoList[index], ...req.body}
-        res.status(200).send(todoList);
+        res.status(200).json(todoList);
     }
     else{
-        res.status(404).send({"Error": "Requested Item not found."});
+        res.status(404).json({"Error": "Requested Item not found."});
     }
 });
 
 app.delete('/todos/:id', (req, res) => {
-    const todoId = req.params.id;
-    let index = todoList.findIndex(item => item.id == todoId);
+    let index = todoList.findIndex(item => item.id == parseInt(req.params.id));
     if (index != -1){
         todoList.splice(index,1);
-        res.status(200).send(todoList);
+        res.status(200).json(todoList);
     }
     else{
-        res.status(404).send({"Error": "Requested Item not found."});
+        res.status(404).json({"Error": "Requested Item not found."});
     }
 });
 
 app.use((req, res, next) => {
     res.status(404).send();
 });
-
-// app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`)
-// });
 
 module.exports = app;
