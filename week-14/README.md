@@ -33,7 +33,7 @@ Follow these steps to complete the assignment:
 5. Create the Static Route and display a static paragraph highlighting the benefits of static rendering in Next.js.
 6. Implement the Interactive Route with a count button that increments the count when clicked, demonstrating client-side interactivity.
 7. Create a custom backend API endpoint (`app/api/data/route.ts`) that returns a JSON object containing a message and a timestamp.
-8. Create the SSR Route (`app/ssr-route/page.tsx`) and fetch data from the custom backend API endpoint. Display the fetched message and timestamp on the page, showcasing server-side rendering.
+8. Create the SSR Route (`app/ssr-page/page.tsx`) and fetch data from the custom backend API endpoint. Display the fetched message and timestamp on the page, showcasing server-side rendering.
 9. Ensure proper routing and navigation between the routes using the `Link` component.
 10. Style your application using Tailwind CSS to achieve an appealing and user-friendly interface.
 
