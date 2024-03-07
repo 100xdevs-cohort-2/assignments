@@ -6,7 +6,21 @@
 */
 
 function countVowels(str) {
-    // Your code here
+
+  str = str.replace(/[^\w\s]/gi, '').replace(/\s/g, '').toLowerCase();
+
+  let vowelCount = 0;
+
+  for(let i = 0; i<str.length; i++){
+    if(str[i] == 'a' || str[i] == 'e' || str[i] == 'i' || str[i] == 'o' || str[i] == 'u') vowelCount += 1;
+  }
+
+  return vowelCount;
+  
 }
+
+// console.log(countVowels('Hello, world!'))
+// console.log(countVowels('Coding is fun!!!'))
+// console.log(countVowels('Keep smiling, boo.'))
 
 module.exports = countVowels;
