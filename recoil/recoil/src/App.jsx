@@ -42,7 +42,7 @@ function Buttons(){
 
     <button onClick={()=>{
       setCount(count=>count-1)
-    }}>Increase</button>
+    }}>Increasedddd</button>
   </div>
 }
 export default App
