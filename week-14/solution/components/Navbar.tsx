@@ -8,6 +8,7 @@ const Navbar = () => {
       <Link className="border-2 border-gray-400 px-4 py-2 rounded-xl" href="/">Home</Link>
       <Link className="border-2 border-gray-400 px-4 py-2 rounded-xl" href="static-page">Server Page</Link>
       <Link className="border-2 border-gray-400 px-4 py-2 rounded-xl" href="interactive-page">Client Page</Link>
+      <Link className="border-2 border-gray-400 px-4 py-2 rounded-xl" href="ssr-page">SSR Route</Link>
     </div>
   )
 }
