@@ -16,9 +16,9 @@ By completing this assignment, you will gain hands-on experience and understandi
 
 3. **Layout Component**: Discover how to create a layout component in Next.js 14 using `layout.tsx`, which wraps around the content of each route and allows for a consistent layout across the application.
 
-4. **Static Rendering**: Explore how Next.js performs static rendering with the static route (`static/page.tsx`), where the content is generated at build time and served as pre-rendered HTML for better performance and SEO.
+4. **Static Rendering**: Explore how Next.js performs static rendering with the static route (`static-page/page.tsx`), where the content is generated at build time and served as pre-rendered HTML for better performance and SEO.
 
-5. **Client-Side Rendering with "use client"**: Learn about client-side rendering using the `"use client"` directive in the interactive route (`interactive/page.tsx`), which enables interactivity and state management using React hooks like `useState`.
+5. **Client-Side Rendering with "use client"**: Learn about client-side rendering using the `"use client"` directive in the interactive route (`interactive-page/page.tsx`), which enables interactivity and state management using React hooks like `useState`.
    
 
 ## Assignment Requirements
