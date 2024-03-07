@@ -7,16 +7,11 @@ import React, { useState, useCallback } from "react";
 
 export function Assignment2() {
   const [inputText, setInputText] = useState("");
-
+  function showAlert() {
+    alert(inputText);
+  }
   // Your code starts here
-  useCallback =
-    (() => {
-      function showAlert() {
-        alert(inputText);
-      }
-      showAlert();
-    },
-    [inputText]);
+  useCallback = showAlert()[inputText];
 
   return (
     <div>
