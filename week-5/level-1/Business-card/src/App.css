@@ -1,0 +1,35 @@
+/* src/App.css */
+.app {
+  text-align: center;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  width: 300px;
+  display: inline-block;
+}
+
+.social-media button {
+  margin: 5px;
+  padding: 5px 10px;
+}
+
+.interests {
+  margin-top: 10px;
+}
+
+.add-card-page {
+  margin-top: 20px;
+}
+
+.add-card-page form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-card-page label {
+  margin: 5px;
+}
