@@ -1,13 +1,40 @@
 const express = require('express');
+const winston = require('winston');
 var fs = require('fs');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 const port = 3000;
 
+// Configure Winston logger
+const logger = winston.createLogger({
+    level: 'info', // Set the minimum log level
+    format: winston.format.json(), // Choose the log format
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }), // Log errors to error.log
+        new winston.transports.File({ filename: 'combined.log' }) // Log all messages to combined.log
+    ]
+});
+
+// Add console transport for logging to console during development
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+    }));
+}
+
+
+// Determine the environment
+if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'development'; // Default to development environment if NODE_ENV is not set
+}
+
+// Log the environment
+logger.info('Running in', process.env.NODE_ENV, 'environment');
+
 function updateTodoFile(item){
     fs.writeFile("todos.json", JSON.stringify(item), function(err, result) {
-    if(err) console.log('error', err);
+    if(err) logger.error('error', err);
     });
 }
 
@@ -19,8 +46,8 @@ function getDataFromFile(){
                     reject(err);
                 }
                 else{
-                    // console.log("This is the OG Data: "+data);
-                    // console.log("This is from getData: "+JSON.parse(data));
+                    logger.info("This is the OG Data: "+data);
+                    logger.info("This is from getData: "+JSON.parse(data));
                     resolve(JSON.parse(data));
                 }
             });
@@ -42,7 +69,7 @@ function getDataFromFile(){
 
 app.get('/todos', async (req, res) => {
     let todoList = await getDataFromFile();
-    // console.log("From getTodos: "+todoList);
+    logger.info("From getTodos: "+todoList);
     res.status(200).json(todoList);
 });
 
@@ -97,7 +124,7 @@ app.use((req, res, next) => {
 });
 
 // app.listen(port, (() => {
-//     console.log(`app listening on port ${port}`);
+//     logger.info(`app listening on port ${port}`);
 // }))
 
-module.exports = app;
+module.exports = app, logger;
