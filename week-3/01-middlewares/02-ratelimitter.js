@@ -1,5 +1,4 @@
-const request = require('supertest');
-const assert = require('assert');
+
 const express = require('express');
 const app = express();
 // You have been given an express server which has a few endpoints.
@@ -15,6 +14,25 @@ let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+
+app.use(function(req,res,next){
+  const userId=req.headers["user-id"]//consider only that req which send with user-id; 
+  
+  if(numberOfRequestsForUser[userId]){//if it is aleady define i.e numberOfRequestsForUser[userId])>1 then
+    numberOfRequestsForUser[userId]++;//increment the number of request
+   
+    if(numberOfRequestsForUser[userId]>5){//if numberOfRequestsForUser[userId])>5 block
+      res.status(404).send("max limit Reached");
+    }else{
+      next();//else i.e numberOfRequestsForUser[userId])<5 move to nexr
+    }
+
+  }else{
+    numberOfRequestsForUser[userId]=1;//if it  is the 1sttime define numberOfRequestsForUser[userId] with 1 
+    next();
+  }
+  
+})
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

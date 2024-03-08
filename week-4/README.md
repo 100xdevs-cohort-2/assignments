@@ -17,3 +17,14 @@ The goal is the following -
         id: 1
     }]
 ```
+Done with Assignment----
+Basic look--
+![Alt text](<Screenshot 2024-01-07 184810.png>)
+<br>
+
+After adding 2 Todos
+![Alt text](<Screenshot 2024-01-07 184922.png>)
+
+<br>
+After removing----
+![Alt text](image.png)
