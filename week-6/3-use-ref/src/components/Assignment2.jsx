@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 // Create a component that tracks and displays the 
 //number of times it has been rendered. 
@@ -22,4 +22,4 @@ export function Assignment2() {
             <button onClick={handleReRender}>Force Re-render</button>
         </div>
     );
-};
+}
