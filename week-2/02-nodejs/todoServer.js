@@ -46,4 +46,68 @@
   
   app.use(bodyParser.json());
   
-  module.exports = app;
+let todos = [];
+
+app.get('/todos', (req, res) => {
+  res.status(200).json(todos);
+});
+
+app.get('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id);
+  const todo = todos.find(item => item.id === todoId);
+  if (todo) {
+    res.status(200).json(todo);
+  }else{
+    res.status(404).json({error : "Not Found"});
+  }
+});
+
+app.post("/todos", (req, res) => {
+  const { title, description } = req.body;
+
+  if (!title || !description) {
+    return res
+      .status(400)
+      .json({ error: "Both title and description are required." });
+  }
+
+  const newTodo = {
+    id: Math.ceil(Math.random() * 500),
+    title,
+    description,
+  };
+
+  todos.push(newTodo);
+
+  res.status(201).json(newTodo);
+});
+
+app.put('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id);
+  const todoIndex = todos.findIndex(item => item.id === todoId);
+    if(todoIndex === -1){
+      res.status(404).send();
+    }else{
+      todos[todoIndex].title = req.body.title;
+      todos[todoIndex].description = req.body.description;
+      res.json(todos[todoIndex]);
+    }
+});
+
+app.delete('/todos/:id', (req, res) => {
+  const todoId = parseInt(req.params.id);
+  const todoIndex = todos.findIndex(item => item.id === todoId);
+  if(todoIndex === -1){
+    res.status(404).send();
+  }else{
+    todos.splice(todoIndex, 1);
+    res.status(200).json({msg : "deleted"});
+  }
+})
+
+app.use((req, res, next) => {
+  res.status(404).send();
+});
+
+// app.listen(3000);
+module.exports = app;
