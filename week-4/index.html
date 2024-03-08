@@ -7,19 +7,42 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function markAsDone (id) {
+      const parent = document.getElementById(id);
+      parent.children[2].innerHTML = "Done";
     }
 
+    function addTodoToDom(todo) {
+    const parent = document.getElementById("todos");
+    const child = document.createElement("div");
+    child.setAttribute("id", todo.id);
+    const firstGrandChild = document.createElement("div");
+    firstGrandChild.innerHTML = todo.title;
+    const secondGrandChild = document.createElement("div");
+    secondGrandChild.innerHTML = todo.description;
+    const thirdGrandChild = document.createElement("button");
+    thirdGrandChild.innerHTML = "Mark as done";
+    thirdGrandChild.setAttribute("onclick", `markAsDone(${todo.id})`);
+    child.appendChild(firstGrandChild);
+    child.appendChild(secondGrandChild);
+    child.appendChild(thirdGrandChild);
+    parent.appendChild(child);
+  }
+
     function removeTodoFromDom(todo) {
-      
+      const todoToRemove = document.getElementById(todo.id)
+      todoToRemove.parentNode.removeChild(todoToRemove)
+      return
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const oldTodoToUpdate = document.getElementById(oldTodo.id)
+      oldTodoToUpdate.children[0].innerHTML = newTodo.title;
+      oldTodoToUpdate.children[1].innerHTML = newTodo.description;
+      oldTodoToUpdate.children[2].innerHTML = newTodo.completed ? 'Done' : 'Mark as done';
     }
 
-    function updateState(newTodos) {
+    function updateState(newTodoState) {
       // calculate the diff b/w newTodos and oldTodos.
       // More specifically, find out what todos are - 
       // 1. added
@@ -28,6 +51,46 @@
       const added = [];
       const deleted = [];
       const updated = [];
+
+      /* 1. if a todo is not found in oldTodoState, it means its newly added
+         2. if a todo is found in both oldTodoState and newTodoState that means it was updated
+         3. if a todo is only found in oldTodoState that means its deleted from newTodoState
+      */
+     
+      let todoFound
+      newTodoState.forEach(newTodo => {
+        todoFound = oldTodoState.find(oldTodo => oldTodo.id === newTodo.id)
+
+        if(todoFound !== undefined) {
+          added.push(todo)  // Point no 1.
+        } else {
+          updated.push(todo) // Point no 2.
+        }     
+
+      });
+
+      oldTodoState.forEach(oldTodo => {
+        const todoNotInNewState = newTodoState.find(newTodo => {
+          return newTodo.id !== oldTodo.id
+        })
+
+        if(todoNotInNewState) {
+          deleted.push(oldTodo)
+        }
+      })
+
+      added.forEach(todo => {
+        addTodoToDom(todo)
+      })
+
+      updated.forEach(todo => {
+        updateTodoInDom(todo)
+      })
+      
+      deleted.forEach(todo => {
+        removeTodoFromDom(todo)
+      })
+
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
@@ -54,7 +117,6 @@
   <br /> <br />
 
   <div id="todos">
-
   </div>
 </body>
 

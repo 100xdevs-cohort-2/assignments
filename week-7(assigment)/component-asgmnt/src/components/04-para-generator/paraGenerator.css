@@ -1,0 +1,45 @@
+/* * {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.container {
+  margin-top: 20%;
+}
+
+#para-length {
+  width: 400px;
+  height: 40px;
+  padding: 15px 15px;
+  margin: 0 20px;
+  display: inline-block;
+  box-sizing: border-box;
+  border: 1px solid gray;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button {
+  height: 40px;
+  padding: 0 10px;
+  background: black;
+  color: white;
+  border-radius: 15px;
+}
+
+p {
+  text-align: start;
+  max-width: 480px;
+  margin-top: 50px;
+} */

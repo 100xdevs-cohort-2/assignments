@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+h2,
+p {
+  margin: 0;
+}
+
+hr {
+  opacity: 50%;
+}
+
+.card-container {
+  border: 1px solid black;
+  max-width: 350px;
+  text-align: center;
+}
+
+.profile-background {
+  height: 150px;
+  background: lightblue;
+}
+
+.profile-photo {
+  max-width: 100px;
+  border-radius: 50%;
+  margin: -60px 0 auto;
+}
+
+.profile-name-age {
+  margin: 1.5rem 0 0.8rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.profile-name,
+.profile-age {
+  font-size: 1.3rem;
+}
+
+.profile-age {
+  opacity: 50%;
+}
+
+.profile-location {
+  margin: 0.8rem 0 1.5rem 0;
+  opacity: 50%;
+}
+
+.social-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.stats-text {
+  opacity: 50%;
+  margin: 0.5rem;
+  font-size: 0.9rem;
+}
