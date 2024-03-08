@@ -22,4 +22,4 @@ export function Assignment1() {
             <button onClick={handleButtonClick}>Focus Input</button>
         </div>
     );
-};
+}
