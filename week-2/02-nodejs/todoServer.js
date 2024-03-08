@@ -39,11 +39,133 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
+/*
+  -to provide solution for problem we an use the file hnadling in the javasrcipt by using the filestream library in js.
+  fs library.
+*/
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs');
+  const { escape } = require('querystring');
   const app = express();
-  
+
+
   app.use(bodyParser.json());
+
+  //define the findIndex function which will return the unique id of the todo list and the particular
+  // todo list don't exit then return the .
+  function findIndex(arr,id)
+  {
+    for(let i=0;i<arr.length;i++)
+    {
+      if(id==arr[i].id)
+      {
+        return i;
+      }
+    }
+    return --i;
+  }
+
+  //defind the removeAtindex function which help in delete method to delete the part todo item.
+  function removeAtIndex(arr, index) {
+    let newArray = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i !== index) newArray.push(arr[i]);
+    }
+    return newArray;
+  }
+  //defining the 1 get funtion which route on the path /todos.
+  app.get("/todos",function(req,res){
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+      if(err) throw err;
+      else{
+        res.json(JSON.parse(data));
+      }
+    });
+  });
+  //defining the get which route on the 
+  app.get("/todos:id",(req,res)=>{
+    fs.readFile("todos.json","utf-8",(err,data)=>{
+      if(err) throw err;
+      else{
+        const todolist=JSON.parse(data);
+        const index = findIndex(todolist,parseInt(req.params.id));
+        if(index=-1)
+        {
+          res.status(404).send();
+        }
+        else{
+          res.json(JSON.parse(toodolist[i]));
+        }
+      }
+    });
+  });
+
+  //defind the put method for the serve which will route over the todos:id by id
+  app.put("todos:id",(req,res)=>{
+    fs.readFile("files.json","utf-8",(err,data)=>{
+      if(err) throw err;
+      else{
+        let todolist = JSON.parse(data);
+        let ind = findIndex(todolist,req.params.id);
+        if(ind==-1)
+        {
+          req.status(404).send();
+        }
+        else{
+          todolist[ind].id =  req.params.id;
+          todolist[ind].title = req.body.title;
+          todolist[ind].description = req.body.discription;
+          fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+            if (err) throw err;
+            res.status(200).json(updatedTodo);
+          });
+        }
+        
+      }
+    });
+  });
+    //defining the post method which route to the todos;
+    app.post("/todos",(req,res)=>{
+      fs.readFile("todos.json","utf-8",(err,data)=>{
+        if(err) throw err;
+        else{
+          const newTodo = {
+            id: Math.floor(Math.random() * 1000000), // unique random id
+            title: req.body.title,
+            description: req.body.description
+          };
+          fs.readFile("todos.json", "utf8", (err, data) => {
+            if (err) throw err;
+            const todos = JSON.parse(data);
+            todos.push(newTodo);
+            fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+              if (err) throw err;
+              res.status(201).json(newTodo);
+            });
+          });
+        }
+      });
+    });
+    //defing the delete function.
+    app.delete('/todos/:id', function(req, res) {
+
+      fs.readFile("todos.json", "utf8", (err, data) => {
+        if (err) throw err;
+        let todos = JSON.parse(data);
+        removeAtIndex(todos,req.params.id);
+        fs.writeFile("todos.json", JSON.stringify(todos), (err) => {
+          if (err) throw err;
+          res.status(200).json(updatedTodo);
+        });
+      });
+    });
   
+    // for all other routes, return 404
+    app.use((req, res, next) => {
+      res.status(404).send();
+    });
+    let port=3000;
+    app.listen(port);
+    console.log(`${port}`);
   module.exports = app;
