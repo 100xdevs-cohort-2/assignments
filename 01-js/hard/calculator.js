@@ -15,7 +15,53 @@
 
   Once you've implemented the logic, test your code by running
 */
+const math = require('mathjs')
+class Calculator {
+    constructor() {
+        this.result = 0;
+    }
 
-class Calculator {}
+    add(number) {
+        this.result += number;
+    }
 
+    subtract(number) {
+        this.result -= number;
+    }
+
+    multiply(number) {
+        this.result *= number;
+    }
+
+    divide(number) {
+        if (number === 0) {
+            throw new Error("Cannot divide by zero");
+        }
+
+        this.result /= number;
+    }
+
+    clear() {
+        this.result = 0;
+    }
+
+    getResult() {
+        return this.result;
+    }
+
+    calculate(expression) {
+        const cleanedExpression = expression.replace(/[^a-zA-Z0-9+\-*/.()]/g,'');
+        const validExpressionRegex = /^[0-9+\-*/.()\s]+$/;
+
+        if (!validExpressionRegex.test(cleanedExpression)) {
+            throw new Error("The expression contains invalid characters");
+        }
+
+        const result = math.evaluate(cleanedExpression);
+        if (!Number.isFinite(result) || Number.isNaN(result)) {
+            throw new Error("The expression is invalid or the result is not a number");
+        }
+        this.result = result;
+    }
+}
 module.exports = Calculator;
