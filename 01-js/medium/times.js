@@ -9,5 +9,18 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let dateObj1 = new Date();
+    let startTime = dateObj1.getSeconds();
+    let sumToN = calculateSum(n);
+    let dateObj2 = new Date();
+    let endTime = dateObj2.getSeconds();
+    return (endTime - startTime)/1000;
+}
+
+function calculateSum(n) {
+    let sum = 0;
+    for (let i = 1; i <= n; i++) {
+        sum += i;
+    }
+    return sum;
 }
