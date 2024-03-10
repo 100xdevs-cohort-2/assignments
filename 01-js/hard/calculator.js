@@ -16,6 +16,144 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {
+    if (!isNaN(num)) {
+      this.result += num;
+    } else {
+      throw new Error('Invalid input');
+    }
+  }
+
+  subtract(num) {
+    if (!isNaN(num)) {
+      this.result -= num;
+    } else {
+      throw new Error('Invalid input');
+    }
+  }
+
+  multiply(num) {
+    if (!isNaN(num)) {
+      this.result *= num;
+    } else {
+      throw new Error('Invalid input');
+    }
+  }
+
+  divide(num) {
+    if (!isNaN(num)) {
+      if (num !== 0) {
+        this.result /= num;
+      } else {
+        throw new Error('Division by zero error');
+      }
+    } else {
+      throw new Error('Invalid input');
+    }
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    const tokens = expression
+      .replace(/\s+/g, '')
+      .match(/(\d+(\.\d+)?|\+|\-|\*|\/|\(|\))/g);
+  
+    if (!tokens || tokens.length === 0) {
+      throw new Error('Invalid input');
+    }
+  
+    const precedence = {
+      '+': 1,
+      '-': 1,
+      '*': 2,
+      '/': 2,
+    };
+  
+    const evaluate = (operators, operands) => {
+      const operator = operators.pop();
+      const rightOperand = operands.pop();
+      const leftOperand = operands.pop();
+    
+      let result;
+      switch (operator) {
+        case '+':
+          result = leftOperand + rightOperand;
+          break;
+        case '-':
+          result = leftOperand - rightOperand;
+          break;
+        case '*':
+          result = leftOperand * rightOperand;
+          break;
+        case '/':
+          if (rightOperand === 0) {
+            throw new Error('Division by zero error');
+          }
+          result = leftOperand / rightOperand;
+          break;
+        default:
+          throw new Error('Invalid operator');
+      }
+      
+      operands.push(result); // Push the calculated result back to the operands array
+    };
+    
+  
+    const operators = [];
+    const operands = [];
+  
+    for (let i = 0; i < tokens.length; i++) {
+      const token = tokens[i];
+  
+      if (!isNaN(token)) {
+        operands.push(parseFloat(token));
+      } else if (token === '(') {
+        operators.push(token);
+      } else if (token === ')') {
+        while (operators.length > 0 && operators[operators.length - 1] !== '(') {
+          evaluate(operators, operands);
+        }
+        if (operators.length === 0) {
+          throw new Error('Invalid expression');
+        }
+        operators.pop();
+      } else {
+        while (
+          operators.length > 0 &&
+          precedence[operators[operators.length - 1]] >= precedence[token]
+        ) {
+          evaluate(operators, operands);
+        }
+        operators.push(token);
+      }
+    }
+  
+    while (operators.length > 0) {
+      if (operators[operators.length - 1] === '(') {
+        throw new Error('Invalid expression');
+      }
+      evaluate(operators, operands);
+    }
+  
+    if (operands.length !== 1 || operators.length !== 0) {
+      throw new Error('Invalid expression');
+    }
+  
+    this.result = operands[0];
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
