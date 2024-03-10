@@ -38,12 +38,66 @@
     - For any other route not defined in the server return 404
 
   Testing the server - run `npm run test-todoServer` command in terminal
- */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+*/
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+	res.json(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+	// let todoID = req.params.id;
+	const found = todos.find((t) => t.id === parseInt(req.params.id));
+	if (!found) {
+		res.status(404).send();
+	}
+	res.json(found);
+});
+
+app.post("/todos", (req, res) => {
+	// const todoTitle = req.body.title;
+	// const todoDescription = req.body.description;
+	const newTodo = {
+		id: Math.floor(Math.random() * 1000000),
+		title: req.body.title,
+		description: req.body.description,
+	};
+	todos.push(newTodo);
+	res.status(201).json(newTodo);
+});
+
+app.put("/todos/:id", (req, res) => {
+	// const todoID = req.params.id;
+	const todoIndex = todos.findIndex((t) => t.id === parseInt(req.params.id));
+	if (todoIndex === -1) {
+		res.status(404).send();
+	} else {
+		todos[todoIndex].title = req.body.title;
+		todos[todoIndex].description = req.body.description;
+		res.json(todos[todoIndex]);
+	}
+});
+
+app.delete("/todos/:id", (req, res) => {
+	// const todoID = req.params.id;
+	const todoIndex = todos.findIndex((t) => t.id === parseInt(req.params.id));
+	if (todoIndex === -1) {
+		res.status(404).send();
+	} else {
+		todos.splice(todoIndex, 1);
+		res.status(200).send();
+	}
+});
+
+app.use((req, res, next) => {
+	res.status(404).send();
+});
+
+module.exports = app;
