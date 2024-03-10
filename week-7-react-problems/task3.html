@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom React Renderer</title>
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+    <script>
+        
+        const reactElement = {
+            type: 'a',
+            props: {
+                href: 'https://google.com',
+                target: '_blank',
+                children: 'Click me to visit google!',
+            },
+        };
+
+       
+        function generateHtmlFromReactElement(reactElement) {
+            const { type, props } = reactElement;
+            const children = Array.isArray(props.children) ? props.children.join('') : props.children;
+            return `<${type} ${Object.entries(props).map(([key, value]) => `${key}="${value}"`).join(' ')}>${children}</${type}>`;
+        }
+
+        
+        function customRender(reactElement, targetPath) {
+            const htmlString = generateHtmlFromReactElement(reactElement);
+            const targetElement = document.querySelector(targetPath);
+            if (targetElement) {
+                targetElement.innerHTML = htmlString;
+            } else {
+                console.error(`Target path "${targetPath}" not found.`);
+            }
+        }
+
+        
+        customRender(reactElement, '#app');
+    </script>
+
+</body>
+
+</html>
