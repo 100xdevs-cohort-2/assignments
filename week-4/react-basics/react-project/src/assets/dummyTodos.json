@@ -1,0 +1,6 @@
+[
+  {"title": "Cohort", "description": "Complete the assignments", "id": 1, "completed": false},
+  {"title": "Gym", "description": "Go to Gym", "id": 2, "completed": false},
+  {"title": "Drink", "description": "Drink Water", "id": 3, "completed": false},
+  {"title": "Eat", "description": "Eat 3 meals a day", "id": 4, "completed": false}
+]

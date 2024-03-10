@@ -6,19 +6,33 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve) => {
+        setTimeout(resolve, t*1000);
+    })
 }
 
 function wait2(t) {
-
+    return new Promise((resolve) => {
+        setTimeout(resolve, t*1000);
+    })
 }
 
 function wait3(t) {
-
+    return new Promise((resolve) => {
+        setTimeout(resolve, t*1000);
+    })
 }
 
 function calculateTime(t1, t2, t3) {
-
+    const startDate = new Date();
+    return new Promise((resolve) => {
+        wait1(t1).then(() => wait2(t2)).then(() => wait3(t3)).then(() => {
+            const endDate = new Date();
+            const miliTakenEnd = endDate.getMinutes()*60*1000 + endDate.getSeconds() *1000 + endDate.getMilliseconds();
+            const miliTakenStart = startDate.getMinutes()*60*1000 + startDate.getSeconds()*1000 + startDate.getMilliseconds();
+            resolve(miliTakenEnd - miliTakenStart);
+        })
+    })
 }
 
 module.exports = calculateTime;

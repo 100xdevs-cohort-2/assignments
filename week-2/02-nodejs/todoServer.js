@@ -39,11 +39,109 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require('fs').promises;
+const {v4: uuidv4}= require('uuid');
+const path = require('path')
+
+const app = express();
+
+app.use(express.json());
+
+async function readTodoFile() {
+    try {
+        const data = await fs.readFile('./todos.json','utf-8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Error reading todos.json:', error.message);
+        return {};
+    }
+}
+
+async function writeTodoFile(todoData) {
+    try {
+         fs.writeFile('./todos.json', JSON.stringify(todoData));
+    } catch (error) {
+        console.error('Error writing todoData.json:', error.message);
+    }
+}
+
+app.get('/todos', async(req, res) => {
+    let todos = await readTodoFile();  
+    res.status(200).json(todos);
+})
+
+app.get('/todos/:id', async(req, res) =>{
+    let {id} = req.params;
+    let todos = await readTodoFile();
+    let todo;
+    todos.forEach((e) =>{
+        if(e.id === id){
+            todo = e; 
+        }
+    })
+    if(todo)
+        res.status(200).json(todo);
+    else 
+        res.sendStatus(404);
+})
+
+app.post('/todos', async (req, res) => {
+    let todo = req.body;
+    let todos = await readTodoFile();
+
+    todo.id = uuidv4();
+    todos.push(todo);
+
+    await writeTodoFile(todos);
+
+    res.status(201).json({
+        id: todo.id
+    })
+})
+
+app.put('/todos/:id', async (req, res) => {
+    let {id} = req.params;
+    let newTodo = req.body;
+    let todos = await readTodoFile();
+    let isPresent = false;
+    for(let i = 0; i < todos.length; i++){
+        if(todos[i].id === id){
+            todos[i].title = newTodo.title;
+            todos[i].description = newTodo.description;
+            todos[i].completed = newTodo.completed;
+            isPresent = true;
+        }
+    }
+    if(isPresent){
+        await writeTodoFile(todos);
+        res.sendStatus(200);
+    }
+    else
+        res.sendStatus(404);
+})
+
+app.delete('/todos/:id', async(req, res) => {
+    let {id} = req.params;
+    let todos = await readTodoFile();
+    let index = -1;
+    for(let i = 0; i < todos.length; i++){
+        if(todos[i].id === id){
+            index = i;
+        }
+    }
+    if(index === -1) {
+        res.sendStatus(404);
+    }
+    else{
+        todos.splice(index, 1);
+        await writeTodoFile(todos);
+        res.sendStatus(200);
+    }
+})
+
+app.get('*', (req, res) => {
+    res.sendStatus(404);
+})
+
+module.exports = app;
