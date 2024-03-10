@@ -8,9 +8,9 @@ export function Assignment2() {
     const [inputText, setInputText] = useState('');
 
     // Your code starts here
-    function showAlert() {
-
-    }
+    const showAlert = useCallback(() => {
+        if(inputText !== "") alert(inputText)
+    }, [inputText])
     // Your code ends here
 
     return (
@@ -26,7 +26,8 @@ export function Assignment2() {
     );
 };
 
-function Alert({showAlert}) {
+const Alert = ({showAlert}) => {
+    console.log("first")
     return <button onClick={showAlert}>Show Alert</button>
 }
 

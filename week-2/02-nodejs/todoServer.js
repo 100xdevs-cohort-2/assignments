@@ -40,10 +40,120 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
   const express = require('express');
+  const {v4: uuidv4} = require("uuid")
+  const fs = require("fs");
+  const path = require("path");
   const bodyParser = require('body-parser');
   
   const app = express();
   
   app.use(bodyParser.json());
-  
+
+  app.get("/todos", (req, res) => {
+    fs.readFile(path.join(__dirname, "todos.json"), "utf-8", (err, data) => {
+      if(err) return console.error(err);
+      res.status(200).send(data);
+
+    })
+    
+  });
+
+  app.get("/todos/:id", (req, res) => {
+    const { id } = req.params;
+    
+
+    fs.readFile(path.join(__dirname, "todos.json"), "utf-8", (err, data) => {
+      if(err) return console.error(err);
+
+      let parseData = JSON.parse(data);
+      const singleTodo = parseData.filter((todo) => todo.id === id);
+      if(singleTodo.length === 0){
+        return res.status(404).send();
+      }
+
+      res.status(200).send(JSON.stringify(singleTodo[0]));
+
+    })
+
+  });
+
+  app.post("/todos", (req, res) => {
+    const id = uuidv4();
+    req.body.id = id;
+
+    fs.readFile(path.join(__dirname, "todos.json"), "utf-8", (err, data) => {
+      if(err) return console.error(err);
+
+      let parseData = JSON.parse(data);
+      parseData.push(req.body);
+
+      fs.writeFile(path.join(__dirname, "todos.json"), JSON.stringify(parseData), (err) => {
+        if(err) return console.error(err);
+        res.status(201).send(req.body);
+      })
+    })
+  });
+
+  app.put("/todos/:id", (req, res) => {
+    const { id } = req.params;
+    req.body.id = id;
+
+    fs.readFile(path.join(__dirname, "todos.json"), "utf-8", (err, data) => {
+      if(err){
+        return console.error(err);
+      } 
+
+      const parseData = JSON.parse(data);
+      let findTodo = parseData.filter((data) => data.id === id);
+
+      if(findTodo.length === 0){
+        return res.status(404).send();
+      }
+      
+      let index = parseData.indexOf(findTodo[0]);
+
+      if(index === -1){
+        return res.status(404).send();
+      }
+
+      parseData[index] = req.body;
+
+      fs.writeFile(path.join(__dirname, "todos.json"),  JSON.stringify(parseData), (err) => {
+        if(err) console.error(err);
+        res.status(200).send();
+      });
+
+
+    })
+
+  });
+
+  app.delete("/todos/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    fs.readFile(path.join(__dirname, "todos.json"), "utf-8", (err, data) => {
+      if(err) return console.error(err);
+
+      let parseData = JSON.parse(data);
+      let findTodo = parseData.filter((data) => data.id === id);
+
+      if(findTodo.length === 0){
+        return res.status(404).send();
+      }
+
+      parseData = parseData.filter((data) => data.id !== id);
+
+      fs.writeFile(path.join(__dirname, "todos.json"),  JSON.stringify(parseData), (err) => {
+        if(err) console.error(err);
+        res.status(200).send();
+      });
+
+    })
+  });
+
+  app.all("*", (req, res) => {
+    res.status(404).send();
+  })
+
   module.exports = app;
