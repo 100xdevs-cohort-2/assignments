@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "test-fileServer": "./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
-    "test-todoServer": "./node_modules/jest/bin/jest.js ./tests/todoServer.test.js"
+    "test": "npx jest",
+    "test-fileServer": "jest ./tests/fileServer.test.js",
+    "test-todoServer": "jest ./tests/todoServer.test.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,10 @@
     "supertest": "^6.3.3"
   },
   "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "tests/node_modules"
+    ],
     "testTimeout": 10000
   },
   "dependencies": {
