@@ -7,10 +7,10 @@ function App() {
   return (
     <>
       <Assignment1 />
-      {/* <Assignment2 /> */}
-      {/* <Assignment3 /> */}
+      <Assignment3 />``
+      <Assignment2 />
     </>
   )
 }
 
-export default App
+export default App;

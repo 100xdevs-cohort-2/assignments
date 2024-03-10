@@ -1,0 +1,3 @@
+Hey       this        is    Abhay     Mishra   .
+This     file      only    i   am using     to makewhite spaces    to complete
+the asssignment      the   filecleaner.js need     to     remove    all the  spaces in this       file.
