@@ -1,8 +1,8 @@
 {
   "name": "02-nodejs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "In this series of assignments, you are going to create native HTTP servers in Node.js which will handle different kinds of application logics.",
+  "main": "fileServer.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-fileServer": "./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
@@ -20,6 +20,10 @@
   },
   "dependencies": {
     "express": "^4.18.2",
+    "nodemon": "^3.0.2",
     "uuid": "^9.0.0"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
