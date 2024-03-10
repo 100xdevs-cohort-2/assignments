@@ -5,6 +5,15 @@
  */
 
 function sleep(milliseconds) {
+  //   let sum = 0;
+  //   for (let i; i < 9999; i++) {
+  //     sum++;
+  //   }
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      resolve();
+    }, milliseconds);
+  });
 }
 
 module.exports = sleep;
