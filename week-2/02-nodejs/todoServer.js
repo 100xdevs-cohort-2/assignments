@@ -39,11 +39,92 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const fs = require('fs').promises
+const bodyParser = require('body-parser');     
+const app = express();
+const port = process.env.PORT || 3000
+
+app.use(bodyParser.json());
+
+let todos = []
+
+const getTodos = async () => {
+    try {
+        const data = await fs.readFile('./todos.json', 'utf8')
+        todos = JSON.parse(data)
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+
+getTodos()
+
+const updateTodos = async () => {
+    await fs.writeFile('./todos.json', JSON.stringify(todos))
+    getTodos()
+}
+
+app.get('/todos', (req, res) => {
+   try {
+        res.send(todos)
+   } catch (err) {
+        res.status(404).send(err)
+   }
+})
+
+app.get('/todos/:id', (req, res) => {
+    const todoID = req.params.id
+    try {
+        const todoByID = todos.find(todo => todo.id === todoID)
+        if (todoByID) {
+            res.send(todoByID)
+        } else {
+            res.status(404).send("No todo found with the ID")
+        }
+    } catch (err) {
+        res.status(404).send(err)
+    }
+})
+
+app.post('/todos', (req, res) => {
+    try {
+        todos.push(req.body)
+        updateTodos()
+        res.status(201).send({ id: req.body.id })
+    } catch (err) {
+        res.status(500).send(err)  
+    }
+})
+
+app.put('/todos/:id', (req, res) => {
+    try {
+        const todoByID = todos.find(todo => todo.id == req.params.id)
+        if(todoByID) {
+            const updatedTodos = todos.map(todo => (todo.id === todoByID.id ? todoByID : todo))
+            console.log("Before updating", updatedTodos)
+            todos = updatedTodos
+            updateTodos()
+            console.log("after updating", todos)
+            res.send({})
+        } else {
+            res.status(404).send("Todo with the ID not found")
+        }
+    } catch (err) {
+        res.status(500).send(err)  
+    }
+})
+
+app.delete('/todos', (req, res) => {
+    
+})
+
+app.all('*', (req, res) => {
+    res.status(404).send("Route not found")    
+})
+
+app.listen(port, () => {
+    console.log(`listening on ${port}`)
+})
+
+module.exports = app;

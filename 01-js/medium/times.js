@@ -9,5 +9,27 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    const startingTime = new Date()
+    let sum = 0
+
+    for (let i = 1; i <= n; i++) {
+       sum += i 
+    }
+
+    console.log(sum)
+
+    console.log(`${parseFloat((new Date() - startingTime) / 1000)}s`)
 }
+
+
+calculateTime(10000000000)
+calculateTime(1000000000)
+calculateTime(100000000)
+calculateTime(10000000)
+calculateTime(1000000)
+calculateTime(100000)
+calculateTime(10000)
+calculateTime(1000)
+calculateTime(100)
+calculateTime(10)
+calculateTime(1)
