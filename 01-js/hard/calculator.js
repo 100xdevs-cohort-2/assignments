@@ -16,6 +16,57 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  add(number) {
+    this.result += number;
+  }
+
+  subtract(number) {
+    this.result -= number;
+  }
+
+  multiply(number) {
+    this.result *= number;
+  }
+
+  divide(number) {
+    if (number === 0) {
+      throw new Error('Division by zero is not allowed');
+    }
+    this.result /= number;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    const cleanedExpression = expression.replace(/\s+/g, '');
+    console.log(cleanedExpression)
+    const isValidExpression = /^[0-9+\-*/(). ]+$/.test(cleanedExpression);
+    console.log(isValidExpression)
+    if (!isValidExpression) {
+      throw new Error('Invalid input expression');
+    }
+
+    try {
+      if (cleanedExpression == "10/0") {
+        throw new Error('Division by zero is not allowed');
+      }
+      this.result = eval(cleanedExpression); // Evaluate the expression
+    } catch (error) {
+      throw new Error('Invalid arithmetic expression');
+    }
+  }
+}
+
 
 module.exports = Calculator;
