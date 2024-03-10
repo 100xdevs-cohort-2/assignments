@@ -9,5 +9,20 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let sum=0;
+    let start=Date.now();
+    for(let i=0;i<=n;i++)
+    {
+        sum+=i;
+    }
+    let end=Date.now()-start;
+    console.log("time taken to run a for loop from 1 to " +n +  " is "+end + " milliseconds");
 }
+
+calculateTime(100);
+calculateTime(1000);
+calculateTime(10000);
+calculateTime(100000);
+calculateTime(1000000);
+calculateTime(10000000);
+calculateTime(100000000);
