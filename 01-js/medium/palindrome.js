@@ -4,7 +4,23 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  var arr = [...str];
+  arr = arr.reverse();
+  var reversedString = arr.join("");
+  var reversedString = reversedString
+    .replace(/[.,\/#!$%\^&\*'";:{}=\-_`~()?]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+  var str = str
+    .replace(/[.,\/#!$%\^&\*'";:{}=\-_`~()?]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, "");
+
+  if (str == reversedString) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 module.exports = isPalindrome;
