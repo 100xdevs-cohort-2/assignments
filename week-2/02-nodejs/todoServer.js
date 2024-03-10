@@ -39,11 +39,72 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
+
+const todos = []
+//function to auto generate id
+function getId() {
+  return Math.floor(Math.random() * 1000);
+}
+// get all todos
+app.get('/todos', (req, res) => {
+  res.status(200).json(todos)
+})
+
+//get todo by id
+app.get('/todos/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const todoIndex = todos.findIndex((item) => {
+    return item.id === id;
+  })
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found')
+  }
+  res.status(200).json(todos[todoIndex])
+})
+
+// add todo in list
+app.post('/todos', (req, res) => {
+  const id = getId()
+  todos.push({
+    id: id,
+    title: req.body.title,
+    completed: false,
+    description: req.body.description
+  })
+  res.status(201).json({ id })
+})
+
+//update old value
+app.put('/todos/:id', (req, res) => {
+  const id = req.params.id
+  const todoIndex = todos.findIndex((item) => {
+    return item.id == id
+  })
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found')
+  }
+  todos[todoIndex].title = req.body.title
+  todos[todoIndex].description = req.body.description
+  todos[todoIndex].completed = true
+  res.status(200).json(todos[todoIndex])
+})
+
+// delete todo from list by id
+app.delete('/todos/:id', (req, res) => {
+  const id = req.params.id
+  const todoIndex = todos.findIndex((item) => {
+    return item.id == id
+  })
+  if (todoIndex == -1) {
+    res.status(404).send('Not Found')
+  }
+  todos.splice(todoIndex, 1)
+  res.send('OK')
+})
+
+
+module.exports = app;

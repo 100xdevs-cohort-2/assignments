@@ -1,0 +1,11 @@
+.app {
+  border: 2px solid #333;
+  margin: 20px;
+  padding: 20px;
+  height: 400px;
+  width: 400px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+
+}
