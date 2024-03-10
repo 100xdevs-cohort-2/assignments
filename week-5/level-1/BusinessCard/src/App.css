@@ -1,0 +1,63 @@
+.hero-div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 20%;
+  border: 2px black solid;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 1cm auto;
+  gap: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.child {
+  flex: 1, 1, 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.list li::before {
+  margin-top: 8px;
+  text-decoration: none;
+  content: "\2022";
+
+  display: inline-block;
+}
+
+
+.section{
+
+    display: flex;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    gap: 20px;
+    align-items: center;
+}
+.btn{
+
+    max-width: 1000px;
+    color: white;
+    width: 130px;
+    height: 40px;
+    font-size: 14px;
+    border: none;
+    background-color: purple;
+    border-radius: 10px;
+   
+
+    
+}
+
+
+a{
+    text-decoration: none;
+    color: white;
+}

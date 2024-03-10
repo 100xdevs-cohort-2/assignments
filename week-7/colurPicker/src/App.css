@@ -1,0 +1,16 @@
+
+
+.tasker{
+
+  display: flex;
+  gap: 10px;
+  background-color: aliceblue;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 10px;
+  box-shadow: 0em;
+  position: fixed;
+  bottom: 20px;
+  
+
+}
