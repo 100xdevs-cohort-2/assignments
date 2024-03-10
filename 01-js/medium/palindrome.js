@@ -4,6 +4,19 @@
 */
 
 function isPalindrome(str) {
+  let start = 0,
+    end = str.length - 1;
+
+  const punctuationMark = ["?", ".", "!", ",", " "];
+
+  str = str.toLowerCase();
+
+  while (start < end) {
+    while (punctuationMark.includes(str[end])) end--;
+    while (punctuationMark.includes(str[start])) start++;
+    if (str[start++] !== str[end--]) return false;
+  }
+
   return true;
 }
 
