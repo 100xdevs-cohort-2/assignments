@@ -1,0 +1,1 @@
+this is the data to be written in data.txt

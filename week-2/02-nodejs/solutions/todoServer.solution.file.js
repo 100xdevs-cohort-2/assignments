@@ -5,6 +5,7 @@ const fs = require("fs");
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.json());
 
 function findIndex(arr, id) {
   for (let i = 0; i < arr.length; i++) {
@@ -103,4 +104,4 @@ app.use((req, res, next) => {
   res.status(404).send();
 });
 
-module.exports = app;
+app.listen(3000);

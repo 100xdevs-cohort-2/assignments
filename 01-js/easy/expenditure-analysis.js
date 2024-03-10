@@ -14,7 +14,27 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const result = [];
+
+  for (let i = 0; i < transactions.length; i++) {
+    // Check if the category is already in the result array
+    const existingCategoryIndex = result.findIndex(
+      (item) => item.category === transactions[i].category
+    );
+
+    if (existingCategoryIndex !== -1) {
+      // If category exists, add the price to the totalSpent
+      result[existingCategoryIndex].totalSpent += transactions[i].price;
+    } else {
+      // If category doesn't exist, add a new entry to the result array
+      result.push({
+        category: transactions[i].category,
+        totalSpent: transactions[i].price,
+      });
+    }
+  }
+
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;
