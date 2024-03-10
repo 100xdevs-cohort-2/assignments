@@ -41,9 +41,129 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
+  const fs = require('fs').promises
   const app = express();
-  
   app.use(bodyParser.json());
+
+
+  app.get('/todos', async (req,res) => {
+    const jsonFile = await fs.readFile('todos.json')
+    const data = JSON.parse(jsonFile)
+    res.status(200).send(data)
+  })
+
+  app.get('/todos/:id', async( req,res) => {
+    try{
+    const jsonFile = await fs.readFile('todos.json')
+    const todos = JSON.parse(jsonFile)
+    const particularTodo = todos.filter ( todo => req.params.id == todo.id );
+    res.status(200).send(particularTodo)
+    }
+    catch (err){
+      console.log("Error Occured")
+      res.status(500).send("Error ocured in getting particular todo")
+
+    }
+  })
+
+
+  
+
+  app.post('/todos',async (req,res) => {
+    try {
+    const jsonFile  = await fs.readFile('todos.json');
+    const todos = await JSON.parse(jsonFile);
+    
+    const {title, description} = req.body
+    
+    const newTodo = {
+      id: todos.length + 1 ,
+      title : title,
+      description: description
+    }
+
+    todos.push(newTodo)
+
+    await fs.writeFile('todos.json', JSON.stringify(todos))
+    res.status(201).json({id : newTodo.id })
+  }
+
+  catch(err) {
+    console.log("Error Occured in Post", err);
+    res.status(500).send("Internal Server Error")
+  }
+    
+  } )
+
+  app.put('/todos/:id', async( req,res ) =>{
+
+    try{
+    
+      const { id, title,description, completed} = req.body
+
+      const jsonFile = await fs.readFile('todos.json');
+
+      let todos = JSON.parse(jsonFile)
+
+
+      const updatedTodo = {
+        id:req.params.id,
+        title: title,
+        description : description,
+        completed : completed
+      }
+
+      todos[req.params.id - 1] = updatedTodo;
+
+      await fs.writeFile('todos.json', JSON.stringify(todos));
+
+      res.status(200).json(updatedTodo)
+    }
+    catch(err){
+      if(err){
+        console.log("Error occured in the put option", err)
+        res.status(500).send("Internal Server Error")
+      }
+
+    }
+
+
+  })
+
+  app.delete('/todos/:id',async (req,res) => {
+    try{ 
+      const jsonFile  = await fs.readFile('todos.json');
+      const todos = JSON.parse(jsonFile);
+
+      const todoToDelete = todos.find(todo => todo.id === parseInt(req.params.id));
+      
+      if(!todoToDelete ){
+        res.status(404).send("Id Not found")
+      }
+      
+      else{
+        const filteredTodo = todos.filter( todo => req.params.id != todo.id )
+
+        await fs.writeFile('todos.json', JSON.stringify(filteredTodo))
+
+        res.status(200).json("Deleted")
+      }
+    }
+    catch(err){
+      if(err){
+        console.log("Error in Deleting",err)
+        res.status(404).send("Route Not Found")
+      }
+    }
+
+  })
+  
+  
+  app.use((req, res, next) => {
+    res.status(404).send();
+  }); 
+
+
+  app.listen(3000)
   
   module.exports = app;
