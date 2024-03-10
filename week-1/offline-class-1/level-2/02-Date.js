@@ -26,3 +26,30 @@ function dateMethods() {
 
 // Example Usage for Date Methods
 dateMethods();
+
+
+
+// function claculatSum (){
+//   let a=0;
+//   for(let i=0;i<1000000000;i++){
+//     a= a+i;
+//   }
+//   return a;
+// }
+
+// const beforeDate = new Date();
+// const beforTimeInMs= beforeDate.getTime();
+// claculatSum();
+
+
+// const afterDate = new Date();
+// const afterTimeInMs = afterDate.getTime();
+
+// console.log(afterTimeInMs - beforTimeInMs)
+
+
+
+function currentTimePrint(){
+  console.log(new Date().getTime());
+}
+setInterval(currentTimePrint, 1000);
