@@ -10,10 +10,18 @@ export const Assignment3 = () => {
         { name: 'Tomato', value: 30 },
         // Add more items as needed
     ]);
+    const [totalValue,settotalValue]=useState(0);
 
     // Your code starts here
-    const totalValue = 0;
     // Your code ends here
+    const calculateTotal=(items)=>{
+        let sum=0;
+        for(let i=0;i<items.length;i++){
+            sum+=items[i].value;
+        }
+        return sum;
+    }
+    const calculate=useMemo(()=>settotalValue(calculateTotal(items)),[items]);
     return (
         <div>
             <ul>
