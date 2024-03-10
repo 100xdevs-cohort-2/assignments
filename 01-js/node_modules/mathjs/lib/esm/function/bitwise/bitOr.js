@@ -1,0 +1,66 @@
+import { bitOrBigNumber } from '../../utils/bignumber/bitwise.js';
+import { factory } from '../../utils/factory.js';
+import { createMatAlgo10xSids } from '../../type/matrix/utils/matAlgo10xSids.js';
+import { createMatAlgo04xSidSid } from '../../type/matrix/utils/matAlgo04xSidSid.js';
+import { createMatAlgo01xDSid } from '../../type/matrix/utils/matAlgo01xDSid.js';
+import { createMatrixAlgorithmSuite } from '../../type/matrix/utils/matrixAlgorithmSuite.js';
+import { bitOrNumber } from '../../plain/number/index.js';
+var name = 'bitOr';
+var dependencies = ['typed', 'matrix', 'equalScalar', 'DenseMatrix', 'concat'];
+export var createBitOr = /* #__PURE__ */factory(name, dependencies, _ref => {
+  var {
+    typed,
+    matrix,
+    equalScalar,
+    DenseMatrix,
+    concat
+  } = _ref;
+  var matAlgo01xDSid = createMatAlgo01xDSid({
+    typed
+  });
+  var matAlgo04xSidSid = createMatAlgo04xSidSid({
+    typed,
+    equalScalar
+  });
+  var matAlgo10xSids = createMatAlgo10xSids({
+    typed,
+    DenseMatrix
+  });
+  var matrixAlgorithmSuite = createMatrixAlgorithmSuite({
+    typed,
+    matrix,
+    concat
+  });
+
+  /**
+   * Bitwise OR two values, `x | y`.
+   * For matrices, the function is evaluated element wise.
+   * For units, the function is evaluated on the lowest print base.
+   *
+   * Syntax:
+   *
+   *    math.bitOr(x, y)
+   *
+   * Examples:
+   *
+   *    math.bitOr(1, 2)               // returns number 3
+   *
+   *    math.bitOr([1, 2, 3], 4)       // returns Array [5, 6, 7]
+   *
+   * See also:
+   *
+   *    bitAnd, bitNot, bitXor, leftShift, rightArithShift, rightLogShift
+   *
+   * @param  {number | BigNumber | Array | Matrix} x First value to or
+   * @param  {number | BigNumber | Array | Matrix} y Second value to or
+   * @return {number | BigNumber | Array | Matrix} OR of `x` and `y`
+   */
+  return typed(name, {
+    'number, number': bitOrNumber,
+    'BigNumber, BigNumber': bitOrBigNumber
+  }, matrixAlgorithmSuite({
+    SS: matAlgo04xSidSid,
+    DS: matAlgo01xDSid,
+    Ss: matAlgo10xSids
+  }));
+});

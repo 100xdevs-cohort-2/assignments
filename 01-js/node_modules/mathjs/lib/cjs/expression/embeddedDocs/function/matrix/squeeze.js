@@ -1,0 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.squeezeDocs = void 0;
+var squeezeDocs = exports.squeezeDocs = {
+  name: 'squeeze',
+  category: 'Matrix',
+  syntax: ['squeeze(x)'],
+  description: 'Remove inner and outer singleton dimensions from a matrix.',
+  examples: ['a = zeros(3,2,1)', 'size(squeeze(a))', 'b = zeros(1,1,3)', 'size(squeeze(b))'],
+  seealso: ['concat', 'det', 'diag', 'identity', 'inv', 'ones', 'range', 'size', 'subset', 'trace', 'transpose', 'zeros']
+};
