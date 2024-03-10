@@ -14,7 +14,27 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let categories = {};
+
+  for (let i = 0; i < transactions.length; i++) {
+
+    let category = transactions[i].category;
+    let price = transactions[i].price;
+
+    if (categories[category]) {
+      categories[category] += price;
+    } else {
+      categories[category] = price;
+    }
+  }
+
+  let result = Object.keys(categories).map((category) => {
+    return { 
+      category: category,
+      totalSpent: categories[category] };
+  });
+
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;
