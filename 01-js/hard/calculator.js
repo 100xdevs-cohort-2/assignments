@@ -11,11 +11,44 @@
       example input: `10 +   2 *    (   6 - (4 + 1) / 2) + 7`
       Points to Note: 
         1. the input can have multiple continuous spaces, you're supposed to avoid them and parse the expression correctly
-        2. the input can have invalid non-numerical characters like `5 + abc`, you're supposed to throw error for such inputs
+        2. the input can have invalid non-numerical characters like `5 + abc` and also invalid parenthesis, you're supposed to throw error for such inputs
 
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
-
-module.exports = Calculator;
+class Calculator {
+    constructor() {
+      this.result = 0;
+    }
+    add(number) {
+      this.result += number;
+    }
+    subtract(number) {
+      this.result -= number;
+    }
+    multiply(number) {
+      this.result *= number;
+    }
+    divide(number) {
+      if (number === 0) {
+        throw new Error();
+      }
+      this.result /= number;
+    }
+    clear() {
+      this.result = 0;
+    }
+    getResult() {
+      return this.result;
+    }
+    calculate(string) {
+      let validString = string.replace(/\s/g, "");
+      if (!/^[0-9+*/().\-]+$/.test(validString) || /\/0/.test(validString)) {
+        throw new Error();
+      }
+      const calculatedResult = eval(validString);
+      this.result = calculatedResult;
+    }
+  }
+  
+  module.exports = Calculator;

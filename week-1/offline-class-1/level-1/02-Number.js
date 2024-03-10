@@ -4,7 +4,7 @@ function explainParseInt(value) {
   console.log("After parseInt:", result);
 }
 
-// Example Usage for parseInt
+// Example Usage for parseInt// extracts integer values from the beginningof the string
 explainParseInt("42");
 explainParseInt("42px");
 explainParseInt("3.14");
