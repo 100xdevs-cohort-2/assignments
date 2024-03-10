@@ -5,6 +5,13 @@
  */
 
 function sleep(milliseconds) {
+  const p = new Promise((resolve, reject) => {
+    //logic to implement hard wait
+  });
+  return p;
 }
 
+// console.log("Hello");
+// sleep(5000);
+// console.log("World");
 module.exports = sleep;
