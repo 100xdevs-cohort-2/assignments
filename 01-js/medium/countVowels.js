@@ -6,7 +6,9 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  let vowels = new Set(['a','e','i','o','u','A','E','I','O','U']); 
+
+  return Array.from(str).reduce((vowelCount, char) => vowels.has(char) ? vowelCount + 1 : vowelCount, 0);
 }
 
 module.exports = countVowels;
