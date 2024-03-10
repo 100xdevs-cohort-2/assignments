@@ -14,7 +14,37 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const spending_object = {};
+
+  transactions.forEach(transaction => {
+    const { category, price } = transaction;
+
+    if (!spending_object[category]) {
+      spending_object[category] = price;
+    } else {
+    
+      spending_object[category] += price;
+    }
+  });
+
+  const resultArray = Object.keys(spending_object).map(category => ({
+    category: category,
+    totalSpent: spending_object[category]
+  }));
+
+  return resultArray;
 }
+
+
+// const transactions = [
+//   { itemName: 'Item1', category: 'Groceries', price: 50, timestamp: Date.now() },
+//   { itemName: 'Item2', category: 'Electronics', price: 200, timestamp: Date.now() },
+//   { itemName: 'Item3', category: 'Groceries', price: 30, timestamp: Date.now() },
+ 
+// ];
+
+// const result = calculateTotalSpentByCategory(transactions);
+// console.log(result);
+
 
 module.exports = calculateTotalSpentByCategory;
