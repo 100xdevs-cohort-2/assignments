@@ -16,6 +16,42 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor () {
+    this.result = 0;
+  }
+  add(a){
+    this.result += a
+  }
+  subtract(a){
+    this.result -= a
+  }
+  multiply(a){
+    this.result *= a
+  }
+  divide(a){
+    if(a==0){
+      throw new Error('you know right ?');
+    }
+    this.result /= a
+  }
+  clear(){
+    this.result = 0
+  }
+  getResult(){
+    return this.result;
+  }
+  calculate (a) {
+    this.result = 0;
+    // if (!/^[0-9\s+\-*/().]+$/.test(str) ) {
+    //   throw new Error("Invalid input: Contains non-numeric or invalid characters");
+    // } it does not work. Don't worry. I was trying to see if I could somehow throw error on alphabets. Dumb CHat GPT was recommending this
+    let ans = eval(a)
+    if ( isNaN(ans) || !isFinite(ans)){
+      throw new Error('your string is not worthy of this')
+    }
+    return this.result = ans;
+  }
+}
 
 module.exports = Calculator;

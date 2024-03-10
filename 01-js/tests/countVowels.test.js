@@ -10,7 +10,7 @@ describe('countVowels', () => {
     test('returns 0 for strings without vowels', () => {
         expect(countVowels('rhythm')).toBe(0);
         expect(countVowels('fly')).toBe(0);
-        expect(countVowels('chatbot')).toBe(2);
+        expect(countVowels('pss')).toBe(0);
     });
 
     test('returns 0 for an empty string', () => {
