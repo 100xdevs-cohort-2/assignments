@@ -6,6 +6,14 @@
 
 function isAnagram(str1, str2) {
 
+
+const Str1 = str1.replace(/\s/g, '').toLowerCase();
+const Str2 = str2.replace(/\s/g, '').toLowerCase();
+
+const sortedStr1 = Str1.split('').sort().join('');
+const sortedStr2 = Str2.split('').sort().join('');
+
+return sortedStr1 === sortedStr2;
 }
 
 module.exports = isAnagram;
