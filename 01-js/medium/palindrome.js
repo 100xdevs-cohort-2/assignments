@@ -4,7 +4,19 @@
 */
 
 function isPalindrome(str) {
-  return true;
-}
+  str = str.replace(/[^a-z0-9]/gi, "");
+  let i = 0;
+  let j = str.length - 1;
+  while(i <= j){
+    if(str[i].toLowerCase() != str[j].toLowerCase()){
+      //console.log(str[i] + " ," + str[j])
+      return false;
+    }
+    else{
+      i++;
+      j--; 
+    }
+  }
+  return true;}
 
 module.exports = isPalindrome;
