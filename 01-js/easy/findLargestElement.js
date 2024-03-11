@@ -5,8 +5,15 @@
   - Output: 9
 */
 
-function findLargestElement(numbers) {
-    
-}
+const findLargestElement = numbers => {
+    return numbers.reduce((largest, num) => Math.max(largest, num), numbers[0]);
+
+
+    // for (let num of numbers) {
+    //     largest = Math.max(largest, num);
+    // }
+
+    // return largest;
+};
 
 module.exports = findLargestElement;

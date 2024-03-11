@@ -1,0 +1,23 @@
+{
+  "name": "cohort-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-1": "jest ./01-js/tests/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geekyorion/cohort-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geekyorion/cohort-2/issues"
+  },
+  "homepage": "https://github.com/geekyorion/cohort-2#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
