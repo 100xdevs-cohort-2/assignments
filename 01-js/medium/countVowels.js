@@ -6,7 +6,12 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  const lowerCaseStr =  str.toLowerCase();
+  const vowelCount = (lowerCaseStr.match(/[aeiou]/g) || []).length;
+
+  return vowelCount;
 }
 
 module.exports = countVowels;
+
+// test the function: npx jest ./tests/countVowels.test.js
