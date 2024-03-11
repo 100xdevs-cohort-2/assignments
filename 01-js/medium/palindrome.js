@@ -4,7 +4,14 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  let otherStr = "";
+  for(let i=0;i<str.length;++i){
+    if(str[i].match(/[a-zA-Z]/))
+      otherStr+=str[i];
+  }
+  otherStr = otherStr.toLowerCase();
+  const pal = (otherStr === otherStr.split('').reverse().join(''));
+  return pal;
 }
-
+console.log(isPalindrome("A man a plan a canal Panama"));
 module.exports = isPalindrome;
