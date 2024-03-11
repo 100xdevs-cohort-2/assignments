@@ -6,7 +6,16 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // logic: just use a loop to iterate through the string make
+  // a list of the vowels, check if each letter of the string matches
+  // the vowels list, if it does inrease count by 1.
+  let res = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (["a", "e", "i", "o", "u"].indexOf(str[i].toLowerCase()) !== -1) {
+      res += 1;
+    }
+  }
+  return res;
 }
 
 module.exports = countVowels;

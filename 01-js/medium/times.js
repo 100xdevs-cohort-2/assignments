@@ -9,5 +9,21 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    // logic: start the timer, at the start of the function
+    // then print the time right at the end of function call 
+    // line and then print out.
+    let sum = 0;
+    for (let i = 0; i <= n; i++){
+        sum += i;
+    }
+    return sum;
 }
+
+// time start
+var start = performance.now();
+// function call 
+console.log(calculateTime(10));
+// time stop
+var end = performance.now();
+// print time taken
+console.log(`Time taken is ${end - start} milliseconds`);
