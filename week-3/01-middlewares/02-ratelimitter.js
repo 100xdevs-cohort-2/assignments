@@ -12,10 +12,33 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+const globalMiddleware = (req, res, next) => {
+  const userId = req.header('user-id');
+  if (!userId) {
+      return res.status(400).json({ error: 'User ID is missing in the header' });
+  }
+
+  // Initialize request count for the user if not exists
+  if (!numberOfRequestsForUser[userId]) {
+      numberOfRequestsForUser[userId] = 0;
+  }
+
+  // Increment request count for the user
+  numberOfRequestsForUser[userId]++;
+
+  // Check if request count exceeds the limit
+  if (numberOfRequestsForUser[userId] > 5) {
+      return res.status(404).json({ error: 'Rate limit exceeded for this user' });
+  }
+
+  // Call next middleware
+  next();
+};
 setInterval(() => {
     numberOfRequestsForUser = {};
-}, 1000)
 
+}, 1000)
+app.use(globalMiddleware);
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
