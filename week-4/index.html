@@ -4,20 +4,53 @@
 <head>
   <script>
     let globalId = 1;
-    let todoState = [];
+    let newtodoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function markAsDone(todoId) {
+      const parent = document.getElementById(todoId);
+      parent.children[3].innerHTML = "Done!"
+    }
+
+    function createChild(title, description, id) {
+      const child = document.createElement("div");
+      child.setAttribute("id", id);
+
+      const firstGrandParent = document.createElement("div");
+      firstGrandParent.innerHTML = title;
+
+      const secondGrandParent = document.createElement("div");
+      secondGrandParent.innerHTML = description;
+
+      const thirdGrandParent = document.createElement("button");
+      thirdGrandParent.innerHTML = "Mark as done";
+      thirdGrandParent.setAttribute("onclick", `markAsDone(${id})`);
+
+      const fourthGrandChild = document.createElement("div");
+      fourthGrandChild.innerHTML = id;
+
+      child.appendChild(fourthGrandChild);
+      child.appendChild(firstGrandParent);
+      child.appendChild(secondGrandParent);
+      child.appendChild(thirdGrandParent);
+      return child;
+    }
+
+    function addTodoToDom(todo) {
+      const parent = document.getElementById("todos");
+      parent.appendChild(createChild(todo.title, todo.description, todo.id));
     }
 
     function removeTodoFromDom(todo) {
-      
+      const element = document.getElementById(todo.id)
+      if (element) {
+        element.remove()
+      }
     }
 
-    function updateTodoInDom(oldTodo, newTodo) {
-        
-    }
+    // function updateTodoInDom(oldTodo, newTodo) {
+
+    // }
 
     function updateState(newTodos) {
       // calculate the diff b/w newTodos and oldTodos.
@@ -25,25 +58,88 @@
       // 1. added
       // 2. deleted
       // 3. updated
-      const added = [];
-      const deleted = [];
-      const updated = [];
+
       // calculate these 3 arrays
-      // call addTodo, removeTodo, updateTodo functions on each of the
-      // elements
-      oldTodoState = newTodos;
+      // call addTodo, removeTodo, updateTodo functions on each of the elements
+
+
+      // let added = newTodos.filter((todo) => !oldTodoState.some((todoIndex) => todoIndex.id === todo.id))
+      let added = [];
+
+      for (let i = 0; i < newTodos.length; i++) {
+        let todo = newTodos[i];
+        let isTodoPresentInOldState = false;
+
+        for (let j = 0; j < oldTodoState.length; j++) {
+          let todoIndex = oldTodoState[j];
+
+          if (todoIndex.id === todo.id) {
+            isTodoPresentInOldState = true;
+            break;
+          }
+        }
+
+        if (!isTodoPresentInOldState) {
+          added.push(todo);
+        }
+      }
+
+      // let deleted = oldTodoState.filter((todo) => !newTodos.some((todoIndex) => todoIndex.id === todo.id))
+      let deleted = [];
+
+      for (let i = 0; i < oldTodoState.length; i++) {
+        let todo = oldTodoState[i];
+        let isTodoPresentInOldState = false;
+
+        for (let j = 0; j < newTodos.length; j++) {
+          let todoIndex = newTodos[j];
+
+          if (todoIndex.id === todo.id) {
+            isTodoPresentInOldState = true;
+            break;
+          }
+        }
+
+        if (!isTodoPresentInOldState) {
+          deleted.push(todo);
+        }
+      }
+
+      for (const item of added) {
+        addTodoToDom(item)
+      }
+
+      for (const item of deleted) {
+        removeTodoFromDom(item)
+      }
+
+      // console.log(newTodos);
+      // console.log(oldTodoState);
+      oldTodoState = newtodoState;
     }
 
-    function addTodo() {
-      const title = document.getElementById("title").value;
-      const description = document.getElementById("description").value;
-      todoState.push({
-        title: title,
-        description: description,
-        id: globalId++,
-      })
-      updateState(todoState);
-    }
+    // function addTodo() {
+    //   const title = document.getElementById("title").value;
+    //   const description = document.getElementById("description").value;
+    //   newtodoState.push({
+    //     title: title,
+    //     description: description,
+    //     id: globalId++,
+    //   })
+    //   console.log(newtodoState);
+    //   updateState(newtodoState);
+    // }
+
+    window.setInterval(async () => {
+      const res = await fetch("https://sum-server.100xdevs.com/todos");
+      const state = await res.json();
+      newtodoState = state.todos;
+      console.log(newtodoState);
+      updateState(newtodoState);
+
+    }, 9000)
+
+
   </script>
 </head>
 
