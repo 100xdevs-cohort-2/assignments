@@ -11,17 +11,36 @@ export const Assignment3 = () => {
         // Add more items as needed
     ]);
 
+    const[itemValue, setItemvalue] = useState('');
+    const [priceValue, setPriceValue] = useState(0);
+
+    function itemsHandler() {
+        setItems([...items, {
+            name: itemValue,
+            value: parseInt(priceValue),
+        }])
+    }
+
     // Your code starts here
-    const totalValue = 0;
+    const totalValue = useMemo(() => {
+        let totalValue = 0;
+        for(let i=0; i<items.length; i++){
+            totalValue += items[i].value;
+        }
+        return totalValue;
+    }, [items]);
     // Your code ends here
     return (
         <div>
+            <input type='text' placeholder='name' onChange={(e) => {setItemvalue(e.target.value)}}/> <br/>
+            <input type='text' placeholder='value' onChange={(e) => {setPriceValue(e.target.value)}} /> <br/>
+            <button onClick={itemsHandler}>Add to Items</button>
             <ul>
                 {items.map((item, index) => (
                     <li key={index}>{item.name} - Price: ${item.value}</li>
                 ))}
             </ul>
-            <p>Total Value: {totalValue}</p>
+            <p>Total Value: ${totalValue}</p>
         </div>
     );
 };
