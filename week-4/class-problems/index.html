@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    async function calculateInterest() {
+      const principal = document.getElementById("principal").value;
+      const rate = document.getElementById("rate").value;
+      const time = document.getElementById("time").value;
+
+      // Internal Logic
+      //   const interest = (principal * rate * time) / 100;
+      //   const total = parseInt(principal) + parseInt(interest);
+      //   const element = document.getElementById("finalInterest");
+      //   element.innerHTML = `Interest: ${interest} <br /> Total: ${total}`;
+
+      // External Logic
+      const response = await fetch(
+        `https://sum-server.100xdevs.com/interest?principal=${principal}&rate=${rate}&time=${time}`
+      );
+      const data = await response.json();
+      const element = document.getElementById("finalInterest");
+      element.innerHTML = `<b>Interest: ${data.interest} <br /> Total: ${data.total}<b>`;
+    }
+  </script>
+  <body>
+    <input type="text" id="principal" placeholder="principal" />
+    <br />
+    <br />
+    <input type="text" id="rate" placeholder="rate" />
+    <br />
+    <br />
+    <input type="text" id="time" placeholder="time" />
+    <br />
+    <br />
+    <button onclick="calculateInterest()">Calc Interest</button>
+    <div id="finalInterest"></div>
+  </body>
+</html>

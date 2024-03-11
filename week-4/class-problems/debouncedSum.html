@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    //Debounced Sum
+    let timeout;
+    function debouncedPopulateDiv() {
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        populateDiv();
+      }, 100);
+    }
+
+    function populateDiv() {
+      const element = document.getElementById("finalSum");
+      const firstNumber = document.getElementById("first").value;
+      const secondNumber = document.getElementById("second").value;
+
+      // use external logic
+      fetch(
+        `https://sum-server.100xdevs.com/sum?a=${firstNumber}&b=${secondNumber}`
+      )
+        .then((response) => response.text())
+        .then((data) => {
+          element.innerHTML = data;
+        });
+    }
+  </script>
+  <body>
+    <input
+      type="text"
+      oninput="debouncedPopulateDiv()"
+      id="first"
+      placeholder="first number"
+    />
+    <br />
+    <br />
+    <input
+      type="text"
+      oninput="debouncedPopulateDiv()"
+      id="second"
+      placeholder="second number"
+    />
+    <br />
+    <br />
+    <div id="finalSum"></div>
+  </body>
+</html>
