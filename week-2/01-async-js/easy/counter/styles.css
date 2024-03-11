@@ -1,0 +1,20 @@
+body {
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+p {
+  font-size: 36px;
+  margin-top: 20px;
+}
