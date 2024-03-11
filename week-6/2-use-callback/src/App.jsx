@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './App.css'
 import { Assignment1 } from './components/Assignment1'
 import { Assignment2 } from './components/Assignment2'
