@@ -41,105 +41,140 @@
   Testing the server - run `npm run test-todoServer` command in terminal
  */
 
-let todos = [];
+
 
 
 
 //Server Side
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require("fs");
 
 const app = express();
 app.use(bodyParser.json());
 
+// //functionality
+function dataRetrieval() {
+    const todo = (fs.readFileSync("todos.json", "utf8"));
+    let todos = JSON.parse(todo);
+    return todos;
+}
+function update(todos) {
+    fs.writeFileSync("todos.json", JSON.stringify(todos));
+}
+
+
 //GET
 app.get("/todos", function (req, res) {
-  res.status(200).send(todos);
+    let todos = dataRetrieval();
+    res.status(200).send(todos);
 })
 app.get("/todos/:id", function (req, res) {
-  let id = req.params.id;
-  let response = false;
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].id == id) {
-      res.status(200).json(todos[i]);
-      response = true;
+    let todos = dataRetrieval();
+    let id = req.params.id;
+    let response = false;
+    for (let i = 0; i < todos.length; i++) {
+        if (todos[i].id == id) {
+            res.status(200).json(todos[i]);
+            response = true;
+        }
     }
-  }
-  if (response == false) {
-    res.status(404).send("File not found");
-  }
+    if (response == false) {
+        res.status(404).send("File not found");
+    }
 })
 
-//Post
+
+// Post
 app.post("/todos", function (req, res) {
-  let body = req.body;
-  let title = body.title;
-  let completed = body.completed;
-  let description = body.description;
+    let todos = dataRetrieval();
+    let body = req.body;
+    let title = body.title;
+    let completed = body.completed;
+    let description = body.description;
 
-  let id = todos.length + 1;
-  todos.push({
-    id: id,
-    title: title,
-    completed: completed,
-    description: description
-  })
+    let id = todos.length + 1;
+    // todos.push({
+    //     id: id,
+    //     title: title,
+    //     completed: completed,
+    //     description: description
+    // })
+    const newData = [{
+        id: id,
+        title: title,
+        completed: completed,
+        description: description
+    }];
 
-  res.status(201).json({
-    id: id
-  })
+    let updatedData = todos.concat(newData);
+    update(updatedData);
+    res.status(201).json({
+        id: id
+    })
 
 })
 
-//PUT
+// //PUT
 app.put("/todos/:id", function (req, res) {
-  let id = req.params.id;
-  let body = req.body;
-  let title = body.title;
-  let completed = body.completed;
+    let todos = dataRetrieval();
+    let id = req.params.id;
+    let body = req.body;
+    let title = body.title;
+    let completed = body.completed;
 
-  let comple = false;
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].id == id) {
-      todos[i].title = title;
-      todos[i].completed = completed;
-      comple = true;
-      res.status(200).send("OK");
+    let comple = false;
+    for (let i = 0; i < todos.length; i++) {
+        if (todos[i].id == id) {
+            todos[i].title = title;
+            todos[i].completed = completed;
+            comple = true;
+            res.status(200).send("OK");
+        }
     }
-  }
-  if (comple == false) {
-    res.status(404).send("Not Found");
-  }
+    update(todos);
+    if (comple == false) {
+        res.status(404).send("Not Found");
+    }
 })
 
-//Delete
+// //Delete
 app.delete("/todos/:id", function (req, res) {
-  const id = req.params.id;
-  let complete = false;
-  let newTodos = [];
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].id == id) {
-      complete = true;
+    let todos = dataRetrieval();
+    const id = req.params.id;
+    let complete = false;
+    let newTodos = [];
+    let objId = 1;
+    for (let i = 0; i < todos.length; i++) {
+        if (todos[i].id == id) {
+            complete = true;
+        }
+        else {
+            newTodos.push({
+                id: objId,
+                title: todos[i].title,
+                completed: todos[i].completed,
+                description: todos[i].description
+            });
+            objId++;
+        }
     }
-    else {
-      newTodos.push(todos[i]);
+    todos = newTodos;
+    update(todos);
+    if (complete == false) {
+        res.status(404).send("Not Found");
+    } else {
+        res.status(200).send("OKAY");
     }
-  }
-  todos = newTodos;
-  if (complete == false) {
-    res.status(404).send("Not Found");
-  } else {
-    res.status(200).send("OKAY");
-  }
 
 })
 
 app.use("*", function (req, res) {
-  res.status(404).send("Route not found")
+    res.status(404).send("Route not found")
 })
 
-// const port = 3000;
-// app.listen(port, function () {
-//   console.log(`Server is running on port ${port}`);
-// })
+const port = 3000;
+app.listen(port, function () {
+    console.log(`Server is running on port ${port}`);
+})
 module.exports = app;
