@@ -1,6 +1,7 @@
-const jwt = require('jsonwebtoken');
-const jwtPassword = 'secret';
-
+const jwt = require("jsonwebtoken");
+// Importing the Zod library for input validation.
+const zod = require("zod");
+const jwtPassword = "secret";
 
 /**
  * Generates a JWT for a given username and password.
@@ -13,8 +14,23 @@ const jwtPassword = 'secret';
  *                        Returns null if the username is not a valid email or
  *                        the password does not meet the length requirement.
  */
+
+// For email validation, use Zod library.
+// Create a schema for email.
+const schema = zod.string().email();
+
 function signJwt(username, password) {
-    // Your code here
+  // Create a token containing the username and password and return it to the user.
+  let token = jwt.sign({ username: username }, password);
+  // Parse it to compare with schema defined earlier and store the value in response.
+  // If the schema type and the data type of the username match, it will return success as true else false.
+  const email = schema.safeParse(username);
+  // If the password length is less than 6 or the username is not a valid email, return null else return the token.
+  if (password.length < 6 || !email.success) {
+    return null;
+  } else {
+    return token;
+  }
 }
 
 /**
@@ -26,7 +42,15 @@ function signJwt(username, password) {
  *                    using the secret key.
  */
 function verifyJwt(token) {
-    // Your code here
+  try {
+    // Use .verify() function which takes the token and the password to verify the username with password.
+    // If successful, return true.
+    const verifiedData = jwt.verify(token, jwtPassword);
+    return true;
+  } catch (err) {
+    // If verification fails, return false stating invalid token.
+    return false;
+  }
 }
 
 /**
@@ -37,9 +61,15 @@ function verifyJwt(token) {
  *                         Returns false if the token is not a valid JWT format.
  */
 function decodeJwt(token) {
-    // Your code here
+  // Use .decode() function which takes the token and returns the decoded payload JSON object containg some data along with username.
+  // It does not do any verification operation on the token.
+  const decodedData = jwt.decode(token);
+  if (decodedData) {
+    return true;
+  } else {
+    return false;
+  }
 }
-
 
 module.exports = {
   signJwt,

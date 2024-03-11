@@ -39,11 +39,86 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
+  const express = require("express");
+  const bodyParser = require("body-parser");
   
   const app = express();
   
   app.use(bodyParser.json());
   
+let todos=[];
+
+app.get("/todos",(req,res)=>{
+  res.json(todos);
+});
+
+app.get("/todos/:id",(req,res)=>{
+  const todo = todos.find((reqtodo)=>{
+    reqtodo.id === parseInt(req.params.id)
+    return reqtodo;
+  });
+  if(!todo){
+    res.status(404).json({message: "Todo doesnt exist ",});
+  }
+
+  
+    res.json(todo);
+  
+});
+
+app.post("/todos",(req,res)=>{
+  const newtodo = {
+    id :  Math.floor(Math.random() * 1000000),
+    title : req.body.title,
+    description : req.body.description
+
+  };
+  todos.push(newtodo);
+  res.status(201).json(newtodo);
+});
+
+app.put("/todos/:id", (req, res) => {
+  // Find the index of the todo in the array by findIndex() function with given id.
+  const todoIndex = todos.findIndex(
+    (reqTodo) => reqTodo.id === parseInt(req.params.id)
+  );
+  // If todo doesen't exists.
+  if (todoIndex === -1) {
+    // Give response with 404 status code stating the error.
+    res.status(404).json({
+      message: "Todo doesen't exists!",
+    });
+  } else {
+    // If the todo exists, update its title/description and send as response to update.
+    todos[todoIndex].title = req.body.title;
+    todos[todoIndex].description = req.body.description;
+    res.json(todos[todoIndex]);
+  }
+});
+
+// DELETE request that deletes a todo item by ID.
+app.delete("/todos/:id", (req, res) => {
+  // Find the index of the todo in the array by findIndex() function with given id.
+  const todoIndex = todos.findIndex(
+    (reqTodo) => reqTodo.id === parseInt(req.params.id)
+  );
+  // If todo doesen't exists.
+  if (todoIndex === -1) {
+    // Give response with 404 status code stating the error.
+    res.status(404).json({
+      message: "Todo doesen't exists!",
+    });
+  } else {
+    // If the todo exists, remove it from the array using splice() function and send as response to update.
+    todos.splice(todoIndex, 1);
+    res.status(200).send();
+  }
+});
+
+// For other routes apart from above four, return 404.
+app.use((req, res, next) => {
+  res.status(404).send("Route not found!");
+});
+
+
   module.exports = app;
