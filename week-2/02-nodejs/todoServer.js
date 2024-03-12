@@ -39,11 +39,85 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+// 1
+app.get("/todos", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    res.json(JSON.parse(data));
+  });
+});
+
+// 2
+app.get("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    const todos = JSON.parse(data);
+    for (let i = 0; i < todos.length; i++) {
+      if (todos[i].id == req.params.id) {
+        return res.status(200).json(todos[i]);
+      }
+    }
+    return res.status(404).send("Todo is not found!");
+  });
+});
+
+// 3
+app.post("/todos", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    let todos = JSON.parse(data);
+    let id = parseInt(Math.random() * 100);
+    req.body.id = id;
+    todos.push(req.body);
+    todos = JSON.stringify(todos, null, 4);
+    fs.writeFile("./todos.json", todos, (err) => err);
+    return res.status(201).json({ id: id });
+  });
+});
+
+// 4
+app.put("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    let todos = JSON.parse(data);
+    for (let i = 0; i < todos.length; i++) {
+      if (todos[i].id == req.params.id) {
+        todos[i] = { ...todos[i], ...req.body };
+        todos = JSON.stringify(todos);
+        fs.writeFile("./todos.json", todos, (err) => err);
+        return res.status(200).send("OK Updated!");
+      }
+    }
+    return res
+      .status(404)
+      .send(`Todo with id = ${req.params.id} does not exists!`);
+  });
+});
+
+// 5
+app.delete("/todos/:id", (req, res) => {
+  fs.readFile("./todos.json", "utf-8", (err, data) => {
+    let todos = JSON.parse(data);
+    let isPresent = false;
+    todos = todos.filter((todo) => {
+      if (todo.id == req.params.id) {
+        isPresent = true;
+        return false;
+      }
+      return true;
+    });
+    todos = JSON.stringify(todos);
+    fs.writeFile("./todos.json", todos, (err) => err);
+    if (isPresent) {
+      return res.status(200).send("Todo item found and deleted");
+    } else {
+      return res.status(404).send("Todo item is not found");
+    }
+  });
+});
+
+module.exports = app;

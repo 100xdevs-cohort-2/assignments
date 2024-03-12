@@ -14,7 +14,17 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let expenditure = transactions.reduce((expenditure, transactions) => {
+    let { category, price } = transactions;
+    if (!expenditure[category]) expenditure[category] = 0;
+    expenditure[category] += price;
+    return expenditure;
+  }, {});
+
+  return Object.entries(expenditure).map(([category, price]) => ({
+    category,
+    totalSpent: price,
+  }));
 }
 
 module.exports = calculateTotalSpentByCategory;
