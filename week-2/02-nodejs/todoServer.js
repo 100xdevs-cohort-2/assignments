@@ -39,11 +39,72 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
+const express = require('express');
+
+const app = express();
+app.use(express.json());
   
-  const app = express();
+let data = [{
+  title : "title of todo",
+  completed: false,
+  description: "decription of todo"
+}]
+
+app.get('/todos', (req, res)=>{
+  res.status(200).json({todos: data})
+})
+
+app.get('/todos/:id', (req, res)=>{
+  const id = req.params.id
+  if(id> data.length){
+    res.status(404).json({
+      msg: "Invalid  todo number!!"
+    })
+  } else{
+    res.status(500).json({data: data[id-1]})
+  }
+})
+
+app.post('/todos', (req, res)=>{
+  const title = req.body.title
+  const description = req.body.description
+  const pushData = {
+    title: title,
+    description: description,
+    completed: false
+  }
+  data.push(pushData)
+  res.status(201).json({
+    msg: `pushed data ${pushData}`
+  })
+})
+
+app.put('/todos/:id', (req, res)=>{
+  const id = req.params.id
+  if(id> data.length){
+    res.status(404).json({
+      msg: "Invalid  todo number!!"
+    })
+  } else{
+    data[id-1].completed = true
+    res.status(500).json({
+      data: data[id-1],
+    msg:"completed!"})
+  }
+})
+
+app.delete('/todos/:id', (req, res)=>{
+  const id = req.params.id
+  if(id> data.length){
+    res.status(404).json({
+      msg: "Invalid  todo number!!"
+    })
+  } else{
+    data.splice(id-1, id-1)
+    res.json({
+      msg:"Deleted"
+    })
+  }
+})
   
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+module.exports = app;
