@@ -1,1 +1,1 @@
-text file
+from a.txt copyright added 

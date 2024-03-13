@@ -17,5 +17,18 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get('/files',(req,res) => {
+  res.json({
+    
+  })
+})
+
+app.get('/files/:filename', (req,res) => {
+  fs.readFile('./files/a.txt','utf-8',(data) => {
+    res.json({ 
+      data
+    })
+  })
+})
 
 module.exports = app;
