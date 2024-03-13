@@ -46,7 +46,9 @@
   });
   
   app.get('/todos/:id', (req, res) => {
+    console.log(req.params.id +  typeof(req.params.id))
     const todo = todos.find(t => t.id === parseInt(req.params.id));
+    console.log(todo);
     if (!todo) {
       res.status(404).send();
     } else {
@@ -90,4 +92,6 @@
     res.status(404).send();
   });
   
+app.listen(3000)
+
   module.exports = app;
