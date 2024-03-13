@@ -5,6 +5,20 @@
  */
 
 function sleep(milliseconds) {
+	let a = 0;
+	return new Promise((resolve) => {
+		for(let i = 0;i < milliseconds;i++){
+			a += i;
+		};
+		resolve("resolved data");
+	})
 }
+
+async function main(){
+	let value = await sleep(1000000000000);
+	console.log(value);
+}
+
+main();
 
 module.exports = sleep;

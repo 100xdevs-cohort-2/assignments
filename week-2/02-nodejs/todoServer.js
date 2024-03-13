@@ -41,9 +41,75 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
   const app = express();
-  
+  app.use(bodyParser.json());
+
+//   const schema = z.object({
+//     username : z.string().email(),
+//     password : z.string().min(6),
+// });
+
+  // const schema = z.array([
+  //   z.object({
+  //     name : z.string(),
+  //     description : z.string(),
+  //     completed : z.boolean()
+  //   })
+  // ])
+
+  const todos = []
   app.use(bodyParser.json());
   
+  app.get('/todos',(req,res) => {
+    res.json({
+      todos
+    })
+  });
+
+  app.get('/todos/:id',(req,res) => {
+    const todo = todos.find(t => t.id === parseInt(req.params.id));
+    if(todo){
+      res.json(todo);
+    }else {
+      res.status(404).send("User Not Found")
+    }
+  })
+
+  app.post('/todos',(req,res) => {
+    const newTodo = {
+      id : Math.floor(Math.random()*10000),
+      title : req.body.title,
+      description : req.body.description,
+    }
+    let found = todos.find(t => t === newTodo);
+    if(!found){
+      todos.push(newTodo);
+      res.status(201).json(newTodo);
+    }else{
+      res.status(411).send("todo aldready exists");
+    }
+  })
+
+  app.put('/todos/:id',(req,res) => {
+    const index = todos.findIndex(t => t.id === req.params.id);
+    if(index === -1){
+      res.status(404).send("User not found");
+    }else {
+      todos[index].title = req.body.title;
+      todos[index].description = req.body.description;
+      res.json(todos[index]);
+    }
+  });
+
+  app.delete('/todos/:id',(req,res) => {
+    const id = req.params.id;
+    let index = todos.findIndex(t => t.id === id);
+    if(!index === -1){
+      todos.splice(index,1);
+      res.json(todos);  
+    }else {
+      res.status(404).send();
+    }
+  })
+
   module.exports = app;
