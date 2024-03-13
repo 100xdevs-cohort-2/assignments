@@ -17,5 +17,33 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
+app.get("/files", function(req,res){
+  fs.readdir(path.join(__dirname,"/files/"), (err,files)=>{
+    if(err){
+      return res.status(500).json({error:"failed to retieeve files"})
+    }
+    res.json(files)
+  })
+})
+
+app.get('/file/:filename',(req,res)=>{
+
+  //in this rout we have to read the content of the file so first we are definig the filepath as this is sended by user in params and then we are going to use it in readfile because we want to read content of file and this is the method of fs lib
+  const filepath=path.join(__dirname,"./files/",req.params.filename);
+
+  fs.readFile(filepath,"utf-8",(err,data)=>{
+    if(err){
+      return res.status(404).send('file not found');
+    }
+    res.send(data);
+  })
+})
+
+
+//for all the other routes
+app.all('*',(req,res)=>{
+  res.status(404).send('Route not found')
+})
+
 
 module.exports = app;

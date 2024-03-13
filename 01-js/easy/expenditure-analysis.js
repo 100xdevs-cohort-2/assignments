@@ -14,7 +14,32 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let spendEstimates={}
+
+  for(var i=0;i<transactions.length;i++){
+    var t=transactions[i];
+    if(spendEstimates[t.category]){
+      spendEstimates[t.category]=spendEstimates[t.category]+t.price;
+    }else{
+      spendEstimates[t.category]=t.price;
+    }
+  }
+/////////////////////////////////given an object now convert it into an array and print the shit out of it///
+  var keys=Object.keys(spendEstimates)//array format m show krdega ye keys //array as an input
+  console.log(spendEstimates);
+
+    let answer=[];
+    for(var i=0;i<keys.length;i++){
+      var category=keys[i];//ye category ko denote krta (different iteration m)hai jo upr se ayi hai 
+      var obj={
+        category: category,
+        totalSpent:spendEstimates[category]
+      }
+      answer.push(obj);
+    }
+    return answer;
+  
 }
+
 
 module.exports = calculateTotalSpentByCategory;
