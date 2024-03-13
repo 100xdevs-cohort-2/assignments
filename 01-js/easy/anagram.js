@@ -5,7 +5,21 @@
 */
 
 function isAnagram(str1, str2) {
+  if (str1.length != str2.length) {
+    return false;
+  }
 
+  let ucStr1 = str1.toUpperCase();
+  let ucStr2 = str2.toUpperCase();
+
+  for (let i = 0; i < ucStr1.length; i++) {
+    if (ucStr2.match(ucStr1[i])) {
+      continue;
+    } else {
+      return false;
+    }
+  }
+  return true;
 }
 
 module.exports = isAnagram;

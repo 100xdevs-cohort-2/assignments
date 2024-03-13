@@ -39,11 +39,94 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+function getIdDataIndex(data, id) {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].id == id) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+app.get("/todos", (req, res) => {
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) res.status(404);
+    res.status(200).json(JSON.parse(data));
+  });
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) res.status(404).send();
+    const dataArray = JSON.parse(data);
+    let filteredDataIndex = getIdDataIndex(dataArray, id);
+    if (filteredDataIndex == -1) {
+      res.status(404).send();
+    } else {
+      res.status(200).json(dataArray[filteredDataIndex]);
+    }
+  });
+});
+
+app.post("/todos", (req, res) => {
+  const newTodo = {
+    id: Math.floor(Math.random() * 1000),
+    title: req.body.title,
+    description: req.body.description,
+  };
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err;
+    const dataArray = JSON.parse(data);
+    dataArray.push(newTodo);
+    fs.writeFile("todos.json", JSON.stringify(dataArray), (err) => {
+      if (err) throw err;
+      res.status(201).json(newTodo);
+    });
+  });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err;
+    const dataArray = JSON.parse(data);
+    let filteredDataIndex = getIdDataIndex(dataArray, id);
+    if (filteredDataIndex == -1) res.status(404).send("NOT FOUND");
+    (dataArray[filteredDataIndex].title = req.body.title),
+      (dataArray[filteredDataIndex].description = req.body.description),
+      fs.writeFile("todos.json", JSON.stringify(dataArray), (err) => {
+        if (err) throw err;
+        res.status(200).send("updated");
+      });
+  });
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  fs.readFile("todos.json", "utf-8", (err, data) => {
+    if (err) throw err;
+    const dataArray = JSON.parse(data);
+    let newArray = dataArray.filter((item) => {
+      return item.id != id;
+    });
+    fs.writeFile("todos.json", JSON.stringify(newArray), (err) => {
+      if (err) throw err;
+      res.status(200).send("updated");
+    });
+  });
+});
+
+// app.listen(3001, () => {
+//   console.log("listening 3001");
+// });
+
+module.exports = app;
