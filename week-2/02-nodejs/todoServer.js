@@ -39,11 +39,111 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const path = require("path");
+
+const app = express();
+const port = 3001;
+const dataFilePath = path.join(__dirname, "todos.json");
+let todoData = loadTodoData();
+
+// This line enables Express to parse incoming JSON data from request bodies.
+app.use(bodyParser.json());
+
+// Function to generate a unique ID for a new todo item
+function generateUniqueId() {
+  const ids = todoData.map((item) => item.id);
+  let newId = 1;
+
+  while (ids.includes(newId)) {
+    newId++;
+  }
+
+  return newId;
+}
+
+// Function to load todo data from file
+function loadTodoData() {
+  try {
+    const data = fs.readFileSync(dataFilePath, "utf8");
+    return JSON.parse(data);
+  } catch (error) {
+    return [];
+  }
+}
+
+// Function to save todo data to file
+function saveTodoData(data) {
+  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), "utf8");
+}
+
+// Endpoint to retrieve all todo items
+app.get("/todos", (req, res) => {
+  res.status(200).json(todoData);
+});
+
+// Endpoint to retrieve a specific todo item by ID
+app.get("/todos/:id", (req, res) => {
+  const todoId = parseInt(req.params.id, 10);
+  const todoItem = todoData.find((item) => item.id === todoId);
+
+  if (todoItem) {
+    res.status(200).json(todoItem);
+  } else {
+    res.status(404).send("Not Found");
+  }
+});
+
+// Endpoint to create a new todo item
+app.post("/todos", (req, res) => {
+  const newTodo = req.body;
+  newTodo.id = generateUniqueId();
+  todoData.push(newTodo);
+
+  saveTodoData(todoData);
+
+  res.status(201).json({ id: newTodo.id });
+});
+
+// Endpoint to update an existing todo item by ID
+app.put("/todos/:id", (req, res) => {
+  const todoId = parseInt(req.params.id, 10);
+  const updatedTodo = req.body;
+  const index = todoData.findIndex((item) => item.id === todoId);
+
+  if (index !== -1) {
+    todoData[index] = { ...todoData[index], ...updatedTodo };
+    saveTodoData(todoData);
+    res.status(200).send("OK");
+  } else {
+    res.status(404).send("Not Found");
+  }
+});
+
+// Endpoint to delete a todo item by ID
+app.delete("/todos/:id", (req, res) => {
+  const todoId = parseInt(req.params.id, 10);
+  const index = todoData.findIndex((item) => item.id === todoId);
+
+  if (index !== -1) {
+    todoData.splice(index, 1);
+    saveTodoData(todoData);
+    res.status(200).send("OK");
+  } else {
+    res.status(404).send("Not Found");
+  }
+});
+
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).send("Not Found");
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+module.exports = app;
