@@ -6,7 +6,11 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  const vowels = new Set("aeiou");
+  return str
+    .toLowerCase()
+    .split("")
+    .filter((char) => vowels.has(char)).length;
 }
 
 module.exports = countVowels;
