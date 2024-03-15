@@ -4,7 +4,23 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase(); 
+
+  var n = 0;
+  var m = str.length - 1; 
+  while (n < m) {
+
+    var temp = str[n];
+    var strArray = str.split('' ); 
+    strArray[n] = strArray[m];
+    strArray[m] = temp;
+    str = strArray.join(''); 
+    n++;
+    m--;
+  }
+
+  return str === str.toLowerCase(); 
 }
+
 
 module.exports = isPalindrome;

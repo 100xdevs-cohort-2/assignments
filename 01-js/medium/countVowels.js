@@ -6,7 +6,13 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  var str1 = str.toLowerCase();
+  var count = 0;
+  for(var i=0;i<str.length;i++){
+    if('aeiou'.includes(str1[i])){
+      count++;
+    }
+  }return count;
 }
 
 module.exports = countVowels;

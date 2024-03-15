@@ -41,9 +41,77 @@
  */
   const express = require('express');
   const bodyParser = require('body-parser');
-  
   const app = express();
   
   app.use(bodyParser.json());
-  
+
+  const todos = []
+
+  //1.GET /todos - Retrieve all todo items
+  app.get('/todos',(req,res) => {
+    res.json(todos);
+  })
+
+  //  2.GET /todos/:id - Retrieve a specific todo item by ID
+  app.get('/todos/:id',(req,res) => {
+    const id = parseInt(req.params.id);
+
+    const idFind = todos.find((i) => i.id === id);
+    if(!idFind){
+      res.status(404)
+    }else{
+        res.json(idFind);
+    }
+  });
+
+  //3. POST /todos - Create a new todo item
+  app.post('/todos',(req,res) => {
+      const newTododo = {
+        id : Math.floor(Math.random()* 10000),
+        title : req.body.title,
+        description : req.body.description
+      }
+      todos.push(newTododo);
+      res.status(201).json(newTododo);
+  });
+
+  //.4) PUT /todos/:id - Update an existing todo item by ID
+  app.put('/todos/:id', (req,res) => {
+    const id = parseInt(req.params.id);
+    const idFind = todos.find((i) => i.id === id );
+
+    const title = req.body.title;
+    const completed = req.body.completed;
+
+    if(!idFind){
+        res.status(404)
+    }else{
+        todos[id] = {
+          title : title,
+          completed : completed
+        }
+        res.json(todos[idFind]);
+    }
+  });
+
+//  5. DELETE /todos/:id - Delete a todo item by ID
+
+app.delete('/todos/:id', (req,res)=>{
+  const id = parseInt(req.params.id);
+  const idFind = todos.find((i) => i.id === id)
+
+  if(!idFind){
+    res.status(404)
+  }else{
+    todos.splice(idFind,1)
+    res.status(200).send()
+  }
+});
+
+app.all("*", (req,res) => {
+  res.status(404).send("Invalid Route")
+})
+
+
+  app.listen(3000);
   module.exports = app;
