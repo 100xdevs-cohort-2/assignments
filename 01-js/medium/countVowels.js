@@ -7,6 +7,19 @@
 
 function countVowels(str) {
     // Your code here
+    let k=0;
+  
+  str = str.replace(/\s/g, '').toLowerCase();
+  
+  console.log(str);
+
+  for(let i=0; i<str.length; i++){
+    if(str.charCodeAt(i)== 97 ||str.charCodeAt(i)== 117 || str.charCodeAt(i)== 111 || str.charCodeAt(i)== 105 || str.charCodeAt(i)== 101){
+      k++;
+    }
+  }
+
+  return k;
 }
 
 module.exports = countVowels;

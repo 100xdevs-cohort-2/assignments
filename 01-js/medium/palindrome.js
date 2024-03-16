@@ -4,6 +4,28 @@
 */
 
 function isPalindrome(str) {
+  
+  str= str.replace(/[! , ? .]/g,'').toLowerCase();
+  
+  for(let i=0; i<str.length; i++){
+    if(str.length ==0 )
+    {
+      return false;
+    }
+    if(str.length%2!=0)
+    {
+      if(str[i]!=str[str.length-i-1])
+      {
+        return false;
+      }
+    } 
+    else{
+      if(str[i]!=str[str.length-i-1])
+      {
+        return false;
+      }
+    }
+  }
   return true;
 }
 
