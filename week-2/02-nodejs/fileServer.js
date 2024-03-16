@@ -17,9 +17,6 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-
-
-
 app.get('/files', function (req, res) {
   fs.readdir(path.join(__dirname, './files/'), (err, files) => {
       if (err) {
