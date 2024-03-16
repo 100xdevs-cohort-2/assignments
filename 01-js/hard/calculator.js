@@ -16,6 +16,53 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
 
+  constructor(){
+    this.result=0;
+  }
+  add(a){
+    this.result+=a;
+  }
+  subtract(b){
+    this.result-=b;
+  }
+  multiply(b){
+    this.result*=b;
+  }
+  divide(b){
+    if(b!=0)
+    this.result/=b;
+  else {
+    throw new Error();
+  }
+  }
+  clear(){
+    this.result=0;
+  }
+  getResult(){
+    return this.result;
+  }
+  calculate(exp){
+    exp = exp.split("").filter((ele)=>{
+      if("0123456789+-*/(). ".includes(ele)){
+        return true;
+      }
+      else{
+        throw new Error("Error");
+      }
+    }).join("");
+    const r=eval(exp);
+    if(Number.isFinite(r)){
+      this.result=r;
+      return this.result;
+    }
+    else 
+      throw new Error();
+    //console.log(r);
+  }
+  
+}
+// calc = new Calculator();
+// calc.calculate('(   15 + 3) /   6   ');
 module.exports = Calculator;
