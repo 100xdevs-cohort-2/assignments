@@ -1,6 +1,28 @@
-function userMiddleware(req, res, next) {
-    // Implement user auth logic
-    // You need to check the headers and validate the user from the user DB. Check readme for the exact headers to be expected
+const jwt = require("jsonwebtoken");
+const { User } = require("../db/index");
+
+async function userMiddleware(req, res, next) {
+  try {
+    const { authorization } = req.headers;
+    const authArr = authorization.split(" ");
+    const decoded = jwt.verify(authArr[1], process.env.JWT_PASSWORD);
+
+    if (decoded && decoded.username) {
+      const user = await User.findOne({ username: decoded.username });
+      if (user) {
+        req.user = user;
+        return next();
+      } else {
+        throw new Error("Unauthorized");
+      }
+    } else {
+      throw new Error("Unauthorized");
+    }
+  } catch (error) {
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
+  }
 }
 
 module.exports = userMiddleware;

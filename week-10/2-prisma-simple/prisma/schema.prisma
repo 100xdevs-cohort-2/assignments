@@ -7,12 +7,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://postgres:mysecretpassword@localhost/postgres"
+  url      = "postgres://postgres:password@localhost/postgres"
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
+  id       Int    @id @default(autoincrement())
+  username String @unique
   password String
   name     String
 }
