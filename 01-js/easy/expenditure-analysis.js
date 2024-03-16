@@ -14,7 +14,32 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  const categoryTotal = {};
+
+// Now let's iterate through each transaction
+for (let i = 0; i < transactions.length; i++) {
+    const transaction = transactions[i];
+    const category = transaction.category;
+    const price = transaction.price;
+
+    // Check if the category already exists in categoryTotal
+    if (categoryTotal[category]) {
+        // If the category exists, add the price to its total spending
+        categoryTotal[category] += price;
+    } else {
+        // If the category doesn't exist, initialize it with the price
+        categoryTotal[category] = price;
+    }
+}
+    const result = [];
+
+    // Iterate through the categories in categoryTotal and create objects with category and totalSpent
+    for (let category in categoryTotal) {
+        result.push({ category: category, totalSpent: categoryTotal[category] });
+    }
+
+    return result;
+  
 }
 
 module.exports = calculateTotalSpentByCategory;
