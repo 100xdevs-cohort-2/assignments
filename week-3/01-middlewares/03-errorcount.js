@@ -23,4 +23,15 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+// Creating a global catch middleware for error handling
+// Any time an exception rises in an any route, the middleware will get called and increment the errorCount Variable
+// Send the Response to the user with Status Code of 404.
+
+app.use(function(err,req,res,next) {
+  errorCount++;
+  res.status(404).json({
+    msg: "An exception Occured!",
+  })
+})
+
 module.exports = app;
