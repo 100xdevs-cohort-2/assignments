@@ -5,7 +5,20 @@
 */
 
 function isAnagram(str1, str2) {
+  var charArray1 = str1.toLowerCase().split("");
+  var charArray2 = str2.toLowerCase().split("");
 
+  if (charArray1.length !== charArray2.length) {
+    return false;
+  }
+
+  var matchWord = charArray1.sort().join("");
+  var matchWords = charArray2.sort().join("");
+
+  return matchWord === matchWords;
 }
+
+const result = isAnagram("home", "oemh");
+console.log(result);
 
 module.exports = isAnagram;

@@ -1,0 +1,35 @@
+.card {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 3rem 1rem;
+  width: 500px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  background-color: #1877f2;
+  color: #ffffff;
+  margin-right: 1rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+h3 {
+  margin-bottom: 1rem;
+}
+
+.btns{
+    margin-top: 1.5rem;
+}
