@@ -9,5 +9,18 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let start=new Date().getTime();
+    let first=1;
+    let last=n;
+    let sum=0;
+    for(let i=first;i<=last;i++){
+        sum+=i;
+    }
+    let end = new Date().getTime();
+    const computationTime = (end - start)/1000 + ' seconds to calculate sum of numbers from 1 to ' + n + ' which is ' + sum;
+    return computationTime;
+    
 }
+
+console.log(calculateTime(1000));
+
