@@ -39,11 +39,93 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+ 
+
+const app = express();
+app.use(express.json());
+app.use(bodyParser.json());
+function generateTodoId() {
+  return "id" + Math.floor(100 + Math.random() * 900);
+}
+const allTodos = [
+  {
+    id: 123,
+    title: "Workout1",
+    description: "Go to gym at 6am ",
+  },
+  {
+    id: 122,
+    title: "Workout2",
+    description: "Go to gym at 6am ",
+  },
+  {
+    id: 121,
+    title: "Meal",
+    description: "Eat a healthy diet",
+  },
+];
+
+// Retrieve all the items in todo
+app.get("/todos", function (req, res) {
+  res.json({ allTodos });
+});
+app.get("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  let found = false;
+  for (let i = 0; i < allTodos.length; i++) {
+    if (allTodos[i].id === id) {
+      found = true;
+      res.json({
+        title: allTodos[i].title,
+        description: allTodos[i].description,
+      });
+    }
+  }
+  if (!found) {
+    res.status(404).json({
+      msg: "Id not found",
+    });
+  }
+});
+
+app.post("/todos",function(req,res){
+  const newTodo = {
+    id: generateTodoId(),   
+    title: req.body.title,
+    description: req.body.description
+  };
+  console.log(newTodo);
+  allTodos.push(newTodo);
+  res.status(201).json(newTodo);
+})
+
+app.put('/todos/:id', function(req, res){
+  const todoIndex = allTodos.findIndex(t => t.id === parseInt(req.params.id));
+  if(!todoIndex){
+    res.status(404).json({
+      msg:"invalid todo id "
+    })
+  }else{
+    allTodos[todoIndex].title=req.body.title,
+    allTodos[todoIndex].description=req.body.description
+    res.json(allTodos[todoIndex]);
+  }
+})
+app.delete("/todos/:id",function(req,res){
+  const todoIndex=allTodos.findIndex(t=>t.id===parseInt(req.params.id));
+  if(todoIndex==-1){
+    res.status(400).send("Id cannot be negative!")
+  }else{
+    allTodos.splice(todoIndex,1);
+    res.status(200).json({
+      "msg":"Deleted Successfully"
+    })
+  }
+
+})
+
+ 
+app.listen(4000);
+module.exports = app;
