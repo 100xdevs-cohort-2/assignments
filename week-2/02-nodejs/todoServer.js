@@ -39,11 +39,135 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const port = 3000;
+const app = express();
+
+app.use(bodyParser.json());
+
+const todo = [];
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    msg: "Server is up and running"
+  });
+});
+
+app.post('/todos', (req, res) => {
+  try {
+    const { title, description } = req.body;
+
+    if (!title || !description) {
+      return res.status(400).json({
+        success: false,
+        msg: "Both title and description are required"
+      });
+    }
+
+    const id = Math.floor(Math.random() * 100) + 1;
+
+    const newTodo = {
+      id,
+      title,
+      description,
+    };
+
+    todo.push(newTodo);
+
+    res.status(201).json({
+      id
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({
+      success: false,
+      msg: "Server error"
+    });
+  }
+});
+
+app.get('/todos', (req, res) => {
+  try {
+    if (todo.length === 0) {
+      return res.status(404).json({
+        msg: "Todo list is empty",
+      });
+    }
+
+    res.status(200).json(todo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error"
+    });
+  }
+});
+
+app.delete('/todos/:id', (req, res) => {
+  const { id } = req.params;
+  try {
+    const todoItem = todo.find(item => item.id === id);
+    if(todoItem === -1){
+      return res.status(404).json({
+        success: false,
+        msg: "Todo item not found",
+      })
+    }
+    const removed = todo.splice(todoItem,1);
+
+    fs.writeFileSync('todos.json',JSON.stringify(todo,null,2));
+
+    res.status(200).json({
+      todo: removed[0],
+      success: true,
+      msg: "Todo item removed sucess",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: "Error",
+    });
+  }
+});
+
+app.put('/todos/:id', (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const todoItem = todo.find(item => item.id == id);
+
+    if (!todoItem) {
+      return res.status(404).json({
+        success: false,
+        msg: "Todo item not found"
+      });
+    }
+
+    todoItem.completed = !todoItem.completed;
+
+    // Assuming you want to save the updated todo list to a file
+    fs.writeFileSync('todos.json', JSON.stringify(todo, null, 2));
+
+    res.status(200).json({
+      todo: todoItem,
+      success: true,
+      msg: "Todo item updated successfully"
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: "Server error"
+    });
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+module.exports = app;

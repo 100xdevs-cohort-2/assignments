@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.profile{
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: x-large;
+  gap: 1rem;
+}
+.cover-color {
+  background: rgb(3, 255, 255);
+  width: 50%;
+  height: 50vh;
+  border-radius: 10px;
+  position: relative;
+}
+.profile-image{
+  position: absolute;
+  bottom: 37vh;
+}
+.profile-image img {
+  width: 20vh;
+  height: 20vh;
+  border-radius: 100%;
+  z-index: 1;
+}
+
+.profile .name{
+  display: flex;
+  font-size: 3rem;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.profile span{
+  font-size: smaller;
+  color: gray;
+  font-weight: 200;
+}
+.profile .place{
+  font-size: 2rem;
+  color: gray;
+  font-weight: 4000;
+}
+.border-socials{
+  height: 10px;
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 1rem;
+  border-top: 1px black solid;
+}
+
+.socials{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem;
+  gap: .1rem;
+  justify-content: space-around;
+}
+
+.socials p{
+  letter-spacing: 1vh;
+}

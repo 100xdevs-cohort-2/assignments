@@ -3,20 +3,40 @@
 
 <head>
   <script>
+
     let globalId = 1;
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const div = document.getElementById("todos");
+      const toddosDiv = document.createElement("div");
+      toddosDiv.innerHTML = `
+      <div>
+        <h1>${todo.title}</h1>
+        <p>${todo.description}</p>
+      </div>
+      `
+      div.appendChild(toddosDiv);
     }
 
-    function removeTodoFromDom(todo) {
-      
+    function removeTodoFromDom(id) {
+      const div = document.getElementById("todos");
+      const todoDiv = document.getElementById(`todo-${id}`);
+      div.removeChild(todoDiv);
+      const newTodos = todoState.filter(todo => todo.id !== id);
+      updateState(newTodos);
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+        const div = document.getElementById("todos");
+        const todoDiv = document.getElementById(`todo-${oldTodo.id}`);
+        todoDiv.innerHTML =`
+        <div>
+          <h3>${newTodo.title}</h3>
+          <p>${newTodo.description}</p>
+          <button onclick="removeTodoFromDom(${newTodo.id})">Remove</button>
+        </div>`
     }
 
     function updateState(newTodos) {
@@ -25,9 +45,17 @@
       // 1. added
       // 2. deleted
       // 3. updated
-      const added = [];
-      const deleted = [];
-      const updated = [];
+      //oldTodoState.some(...): The ! operator negates the result of the some method. So, !oldTodoState.some(...) returns true if there is no element in oldTodoState with the same id as todo, indicating that todo is a newly added element.
+      const added = newTodos.filter(todo => !oldTodoState.some(oldTodo => oldTodo.id === todo.id));
+      const deleted = oldTodoState.filter(oldTodo => !newTodos.some(todo => todo.id === oldTodo.id));
+      const updated = newTodos.filter(todo => oldTodoState.some(oldTodo => oldTodo.id === todo.id && JSON.stringify(oldTodo) !== JSON.stringify(todo)));
+
+      added.forEach(todo => addTodoToDom(todo));
+      console.log(added);
+      deleted.forEach(todo => removeTodoFromDom(todo.id));
+      updated.forEach(todo => updateTodoInDom(oldTodoState.find(oldTodo => oldTodo.id === todo.id),todo));
+
+      oldTodoState = newTodos;
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
@@ -42,6 +70,7 @@
         description: description,
         id: globalId++,
       })
+      addTodoToDom(todoState[todoState.length - 1]);
       updateState(todoState);
     }
   </script>
