@@ -12,10 +12,42 @@
     - For any other route not defined in the server return 404
     Testing the server - run `npm run test-fileServer` command in terminal
  */
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const bodyParser = require("body-parser");
 const app = express();
+app.use(bodyParser.json());
 
+async function getFileData(filename) {
+	const pathFile = path.join(__dirname, `files/${filename}`);
+	try {
+		return fs.promises.readFile(pathFile, "utf8").then((err, data) => {
+			if (err) return { err: true, data: "File not found" };
+			return { err: false, data };
+		});
+	} catch (error) {
+		return { err: true, data: "File not found" };
+	}
+}
+app.get("/files", async (req, res) => {
+	await fs.readdir(path.join(__dirname, "files"), (err, files) => {
+		if (err) return res.status(500).send("File not found");
+		return res.send(files);
+	});
+});
 
+app.get("/file/:filename", (req, res) => {
+	const filepath = path.join(__dirname, "./files/", req.params.filename);
+
+	fs.readFile(filepath, "utf8", (err, data) => {
+		if (err) {
+			return res.status(404).send("File not found");
+		}
+		res.send(data);
+	});
+});
+app.use((req, res, next) => {
+	res.status(404).send("Route not found");
+});
 module.exports = app;
