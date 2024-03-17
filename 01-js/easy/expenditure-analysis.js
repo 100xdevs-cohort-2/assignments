@@ -11,6 +11,8 @@
 		itemName: 'Pizza',
 	}
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
+
+  -  -  Once you've implemented the logic, test your code by running : npx jest tests/expenditure-analysis.test.js
 */
 
 function calculateTotalSpentByCategory(transactions) {
