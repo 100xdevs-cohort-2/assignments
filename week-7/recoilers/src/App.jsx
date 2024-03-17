@@ -1,14 +1,15 @@
 //import Assignment1 from "./components/Assignment1";
 import "./index.css";
 import { RecoilRoot } from "recoil";
-import Assignment5 from "./components/Assignment5";
+//import Assignment5 from "./components/Assignment5";
+import { EnterMobile, OTP } from "./components/Assignment6/EnterMobile";
 
 function App() {
   return (
     <>
       <RecoilRoot>
-        {/* <Assignment4 /> */}
-        <Assignment5 />
+        <EnterMobile/>
+        <OTP/>
       </RecoilRoot>
     </>
   );
