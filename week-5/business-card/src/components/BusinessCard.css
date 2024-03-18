@@ -1,0 +1,57 @@
+.mainContainer {
+    border: 2px solid #ddd;
+    margin: 35px;
+    padding: 30px;
+    height: fit-content;
+    width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.name{
+    font-size: 30px;
+    font-weight: bold;
+    
+}
+
+.description{
+    font-size: 22px;
+}
+
+.interests{
+    list-style: none;
+    font-size: 22px;
+    font-weight: bold;
+    /* border: 2px solid black; */
+    margin: 0;
+    padding: 0;
+}
+
+.interestsHeading{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.interestItems{
+    font-size: 18px;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+.socialMediaContainer{
+    font-size: 20px;
+    /* border: 2px solid black; */
+    width: fit-content;
+    display: flex;
+}
+
+.socialMediaButton{
+    color: white;
+    background-color: rgb(0, 98, 255);
+    /* border: 2px solid black; */
+    margin: 20px;
+    margin-left: 0;
+    /* margin-top : 20px; */
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+}

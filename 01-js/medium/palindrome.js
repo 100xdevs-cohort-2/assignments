@@ -4,7 +4,23 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase();
+  const arr= str.split('');
+  let s = [];
+  arr.forEach(element => {
+    if(element.charCodeAt(0) >= 97 && element.charCodeAt(0) <= 122){
+      s.push(element);
+    }
+  });
+  // console.log(s);
+  str = s.reverse().join('');
+  // console.log(s);
+  s = s.reverse().join('')
+  // s = s.join('')
+  // console.log(s);
+  // console.log(str);
+  return str==s;
 }
-
+// let a = isPalindrome('hello');
+// console.log(a);
 module.exports = isPalindrome;

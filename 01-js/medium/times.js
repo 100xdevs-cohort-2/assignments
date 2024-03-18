@@ -9,5 +9,16 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
+    let ans = 0;
+    const startTime = new Date();
+    console.log(startTime)
+    for(let i = 1;i<n;i++){
+        ans = ans + i;
+    }
+    const endTime = new Date();
+    console.log(endTime);
+    console.log(`${(endTime.getTime() - startTime.getTime()) * 0.001} second`);
     return 0.01;
 }
+
+calculateTime(1e9);
