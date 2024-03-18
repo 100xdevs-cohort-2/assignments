@@ -31,14 +31,16 @@ function getSlice(str, start, end) {
   console.log("Original String:", str);
   console.log("After slice:", str.slice(start, end));
 }
-getSlice("Hello World", 0, 5);
+getSlice("Hello World", 0, 5); 
+// Starting from 0 but until 5 but not include 5th index.
 
 // substring
 function getSubstring(str, start, end) {
   console.log("Original String:", str);
   console.log("After substring:", str.substring(start, end));
 }
-getSubstring("Hello World", 0, 5);
+getSubstring("Hello World", 2, 5);
+// in substr(2, 5) we get 5 characters from 2th index (i.e. "llo w"), but in slice(2, 5) we will 2, 3, and 4th index (i.e. "llo").
 
 // replace
 function replaceString(str, target, replacement) {
@@ -60,6 +62,8 @@ function trimString(str) {
   console.log("After trim:", str.trim());
 }
 trimString(" Hello World ");
+// It basically removes all the spaces from teh start and the end of the string
+// for eg. "        Mehul Lodha       " , result for this string after trim() would be "Mehul Lodha".
 
 // toUpperCase
 function toUpper(str) {

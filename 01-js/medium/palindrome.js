@@ -4,7 +4,25 @@
 */
 
 function isPalindrome(str) {
+  let strArr = str.toLowerCase().split('');
+  let i = 0, j = strArr.length - 1;
+
+  while (i <= j) {
+    if (!isAlphaNumeric(strArr[i])) i++;
+    else if (!isAlphaNumeric(strArr[j])) j--;
+    else if (strArr[i] !== strArr[j]) {
+      return false;
+    } else {
+      i++;
+      j--;
+    }
+  }
+
   return true;
+}
+
+function isAlphaNumeric(str) {
+  return (str >= 'a' && str <= 'z');
 }
 
 module.exports = isPalindrome;
