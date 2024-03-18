@@ -4,21 +4,24 @@ const db = require("../db/index");
 const router = Router();
 const userModel = db.User;
 const courseModel = db.Course;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // User Routes
 router.post('/signin', (req, res) => {
     // Implement admin signup logic
 });
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement user signup logic
     /*
     POST /users/signup Description: Creates a new user account. Input: { username: 'user', password: 'pass' } Output: { message: 'User created successfully' }
     */
     try{
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = new userModel({
             username:  req.body.username,
-            password: req.body.password
+            password: hashedPassword
         });
         user.save();
         res.status(200).json({ message: 'User created successfully' });

@@ -1,5 +1,6 @@
 const db = require("../db/index");
 const adminModel = db.Admin;
+const bcrypt = require("bcrypt");
 // Middleware for handling auth
 async function adminMiddleware(req, res, next) {
     // Implement admin auth logic
@@ -7,8 +8,10 @@ async function adminMiddleware(req, res, next) {
     try{
         const username = req.headers.username;
         const password = req.headers.password;
-        const user = await adminModel.findOne({username, password});
-        if (user){
+        // Check if password is correct
+        const user = await adminModel.findOne({username});
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (isPasswordCorrect){
             console.log("Admin verifed.");
             next();
         }

@@ -4,17 +4,20 @@ const db = require("../db/index");
 const router = Router();
 const adminModel = db.Admin;
 const courseModel = db.Course;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Admin Routes
 router.post('/signin', (req, res) => {
     // Implement admin signup logic
 });
 
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     try{
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const admin = new adminModel({
             username:  req.body.username,
-            password: req.body.password
+            password: hashedPassword
         });
         admin.save();
         res.status(200).json({msg: "Admin registered "});
