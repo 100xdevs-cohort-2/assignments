@@ -17,13 +17,13 @@ describe('GET /user', function() {
             request(app)
                   .get('/user')
                   .then();
-          }
-          request(app)
-              .get('/requestCount')
-              .then(response => {
-                expect(response.body.requestCount).toBe(12);
-                done();
-              })
-      });
+    }
+    request(app)
+      .get('/requestCount')
+      .then(response => {
+        expect(response.body.requestCount).toBe(12);
+        done();
+      })
+  });
 });
 
