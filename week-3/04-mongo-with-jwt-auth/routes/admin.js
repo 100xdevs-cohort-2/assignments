@@ -8,8 +8,27 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 // Admin Routes
-router.post('/signin', (req, res) => {
+router.post('/signin', async (req, res) => {
     // Implement admin signup logic
+    try{
+        username = req.body.username;
+        password = req.body.password;
+        const user = await adminModel.findOne({username});
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        if (isPasswordCorrect){
+            console.log("Admin signIn verifed.");
+            const mysecretkey = "HAKB";
+            const payload = {
+                username: req.body.username,
+                password: req.body.password,
+            };
+            const token = jwt.sign(payload, mysecretkey, { expiresIn: '5d' });
+            res.status(200).json({token: token});
+        }
+    }
+    catch(err){
+        res.status(500).json({error: err});
+    }
 });
 
 router.post('/signup', async (req, res) => {
@@ -20,7 +39,15 @@ router.post('/signup', async (req, res) => {
             password: hashedPassword
         });
         admin.save();
-        res.status(200).json({msg: "Admin registered "});
+
+        const mysecretkey = "HAKB";
+        const payload = {
+            fullName: req.body.username,
+            password: hashedPassword,
+          };
+        const token = jwt.sign(payload, mysecretkey, { expiresIn: '5d' });
+
+        res.status(200).json({msg: "Admin registered ", token: token});
     }
     catch(err){
         res.status(500).json({error: err});
