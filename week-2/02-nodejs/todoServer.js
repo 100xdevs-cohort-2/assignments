@@ -45,5 +45,107 @@
   const app = express();
   
   app.use(bodyParser.json());
+
+  const todos = [];
   
+  // Get all todos
+  app.get('/todos',(req,res)=>
+  {
+    res.json(todos); 
+  })
+  // Get specific todo
+  app.get('/todos/:id',(req,res)=>
+  {
+       let f=0; 
+      const enteredID = req.params['id']; 
+      for(const item of todos)
+      {
+        if(String(item.id)===enteredID)
+        {
+            f=1; 
+            res.json(item); 
+        }
+      }
+      if(f===0)
+      res.status(404).send("Not found"); 
+  })
+  // create a todo 
+  let id=1; 
+  app.post("/todos",(req,res)=>
+  {
+      req.body.id = id; 
+      id++; 
+      todos.push(req.body); 
+      res.status(201).json(req.body); 
+  })
+
+  //update todo
+  app.put("/todos/:id",(req,res)=>
+  {
+    let f=0; 
+      const enteredID = req.params['id']; 
+      todos.forEach((item,ind)=>
+      {
+          if(enteredID===String(item.id))
+          {
+            f=1; 
+            for(const obItem of Object.keys(req.body))
+            {
+                todos[ind][obItem]=req.body[obItem]; 
+            }
+            res.sendStatus(200); 
+          }
+      }); 
+      if(!f)
+      res.status(404).send("Not found"); 
+  })
+
+  // Delete todo
+  app.delete("/todos/:id",(req,res)=>
+  {
+    let f=0; 
+    const enteredID = req.params['id']; 
+    todos.forEach((item,ind)=>
+      {
+          if(enteredID===String(item.id))
+          {
+            f=1; 
+            todos.splice(ind,1); 
+            res.sendStatus(200); 
+          }
+      }); 
+      if(f===0)
+      res.status(404).send("Not found"); 
+    
+  })
+
+  app.all('*',(req,res)=>
+  {
+      res.status(404); 
+  })
+  // app.listen(3000); 
   module.exports = app;
+
+
+
+
+// test objs 
+
+// {
+//   "title" : "Buy vigies",
+//   "completed" : false,
+//   "description" : "I need to buy veg"
+// }
+
+
+// {
+//   "title" : "Buy pants",
+//   "completed" : false,
+//   "description" : "I need to buy "
+// }
+
+// {
+//   "title" : "Buy flowers",
+//   "completed" : false,
+//   "description" : "I need to buy "
+// }
