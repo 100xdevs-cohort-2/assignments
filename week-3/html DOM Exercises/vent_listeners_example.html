@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Event Listeners and Event Capturing</title>
+<style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background-color: lightblue;
+        text-align: center;
+        line-height: 100px;
+        margin: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div id="myBox" class="box">Click Me!</div>
+
+<script>
+    // Event listener using addEventListener
+    const myBox = document.getElementById('myBox');
+    myBox.addEventListener('click', function() {
+        alert('Clicked!');
+    });
+
+    // Attaching multiple event listeners to the same element
+    myBox.addEventListener('mouseover', function() {
+        this.style.backgroundColor = 'lightgreen';
+    });
+
+    myBox.addEventListener('mouseout', function() {
+        this.style.backgroundColor = 'lightblue';
+    });
+
+    // Event capturing (bubbling vs capturing)
+    document.addEventListener('click', function() {
+        console.log('Document clicked (bubbling)');
+    });
+
+    document.addEventListener('click', function() {
+        console.log('Document clicked (capturing)', true);
+    }, true);
+</script>
+
+</body>
+</html>

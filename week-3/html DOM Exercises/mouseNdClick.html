@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mouse and Input Events</title>
+</head>
+<body>
+
+<!-- onmouseover -->
+<div onmouseover="mouseOverFunction()" style="width: 200px; height: 100px; background-color: lightblue; text-align: center; line-height: 100px;">
+    Hover over me
+</div>
+
+<!-- onmousedown -->
+<button onmousedown="mouseDownFunction()">Click and hold me</button>
+
+<!-- oninput -->
+<input type="text" oninput="inputFunction()" placeholder="Type here">
+
+<script>
+    // onmouseover function
+    function mouseOverFunction() {
+        alert("You hovered over the div!");
+    }
+
+    // onmousedown function
+    function mouseDownFunction() {
+        alert("You clicked and held the button!");
+    }
+
+    // oninput function
+    function inputFunction() {
+        const inputValue = event.target.value;
+        console.log("Input value changed to: " + inputValue);
+    }
+</script>
+
+</body>
+</html>

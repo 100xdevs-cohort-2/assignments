@@ -9,4 +9,5 @@ class Animal {
   }
 }
 
-
+let cat =  new Animal("Cat", 4);
+console.log(cat.describe());

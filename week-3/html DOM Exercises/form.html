@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form id="LoginForm" action="">
+            First Name: <input type="text" name="fname" value="Donald"><br>
+            Last Name: <input type="text" name="lname" value="Duck"><br>
+            <input
+             type="submit" value="Submit">
+        </form>
+
+        <p>Click the "Try it" button to display the number of elements in the form</p>
+
+        <button onclick="myFunction()">try It</button>
+
+        <p id="displaySpace"></p>
+
+        <script>
+            function myFunction(){
+                var x = document.getElementById("LoginForm").elements.length;
+                var y = document.getElementById("LoginForm").elements[0].value;
+                document.getElementById("displaySpace").innerHTML ="Found "+x+" elements in the form."+" The first name entered is "+y+".";
+
+                const para = document.createElement("p");
+                para.innerText = "This is a paragraph created by DOM.";
+                document.body.appendChild(para);
+            }
+        </script>
+    </body>
+</html>

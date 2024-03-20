@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2>Javascript HTML DOM</h2>
+        <p>Finding HTML Elements using querySelector</p>
+        <div> Div One</div>
+        <p class="intro">Paragraph One.</p>
+        <div> Div Two</div>
+        <p class="subheading">Paragraph Two</p>
+        <div>Yet another div</div>
+        <div id="myDiv" style="border: 1px solid black; padding: 8px;">
+            <h2 class="example">A heading</h2>
+            <p class="example">A paragraph</p>
+            <p class="example">A paragraph</p>
+        </div>
+        <pi id="demo"></p>
+
+        <script>
+            var paragraphs = document.querySelectorAll('p.intro');
+            paragraphs.forEach(paragraph => paragraph.style.backgroundColor = "red");
+            // can pass multiple selectors as well
+            const matches = document.querySelectorAll('p.intro, p.subheading');
+            const element = document.getElementById("myDiv");
+            const list = element.querySelectorAll('.example');
+            document.getElementById('demo').innerHTML = list.length;
+        </script>
+    </body>
+</html>

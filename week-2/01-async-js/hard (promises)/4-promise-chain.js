@@ -6,19 +6,53 @@
  */
 
 function wait1(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        },t*1000);
+    });
 }
 
 function wait2(t) {
-
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        },t*1000);
+    });
 }
 
 function wait3(t) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        },t*1000);
+    });
+}
 
+function sequentialCall(t1, t2, t3){
+    const currentTIme = new Date().getTime();
+    return wait1(t1).then(() => {
+        // console.log("wait 1 done.");
+        return wait2(t2);
+    })
+    .then(() => {
+        // console.log("Wait 2 done.");
+        return wait3(t3);
+    })
+    .then(() => {
+        // console.log("Wait 3 done.");
+        // console.log("All funcitons called.");
+        const newTime = new Date().getTime();
+        let timeTaken = newTime - currentTIme;
+        // console.log(timeTaken);
+        return timeTaken;
+    })
 }
 
 function calculateTime(t1, t2, t3) {
-
+    return sequentialCall(t1, t2, t3);
 }
+
+// console.log(calculateTime(5, 2, 3));
 
 module.exports = calculateTime;

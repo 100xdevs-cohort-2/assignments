@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Load and Unload Events</title>
+</head>
+<body>
+
+<!-- onload -->
+<div id="loadDiv" style="width: 200px; height: 100px; background-color: lightblue; text-align: center; line-height: 100px;">
+    Loading...
+</div>
+
+<!-- onunload -->
+<button onclick="navigateAway()">Navigate Away</button>
+
+<script>
+    // onload event
+    window.onload = function() {
+        const loadDiv = document.getElementById('loadDiv');
+        loadDiv.innerHTML = "Page loaded!";
+        loadDiv.style.backgroundColor = "lightgreen";
+    };
+
+    // onunload event
+    function navigateAway() {
+        window.onbeforeunload = function() {
+            return "Are you sure you want to leave this page?";
+        };
+        window.location.href = "https://www.example.com"; // Redirect to another page
+    }
+</script>
+
+</body>
+</html>

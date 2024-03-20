@@ -11,10 +11,36 @@ const app = express();
 // You have been given a numberOfRequestsForUser object to start off with which
 // clears every one second
 
+
 let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+
+function requestLimiter(req, res, next){
+  // let userActivity = `${req.headers.user-id}:${count}`;
+  let user = req.headers['user-id'];
+  if(!(user in numberOfRequestsForUser)){
+    numberOfRequestsForUser[user] = 0;
+    console.log(`Logging user ${user} for the first time.`);
+    next();
+  }
+  else{
+    let count = numberOfRequestsForUser[user];
+    count = count + 1;
+    numberOfRequestsForUser[user] = count;
+    console.log(`Logging user ${user} for the ${count} time.`);
+    if(count >= 5){
+      console.log(`Max attempts reached for user: ${user}.`);
+      res.status(404).json({msg: "Maximum limit reached, try after some time."});
+    }else{
+      next();
+    }
+  }
+
+}
+
+app.use(requestLimiter);
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
