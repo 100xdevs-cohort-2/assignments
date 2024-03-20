@@ -4,10 +4,12 @@ const {JWT_SECRET} = require("../config");
 
 function adminMiddleware(req, res, next) {
     const token = req.headers.authorization;
+
+
     const words = token.split(" ");
-    const jwt = words[1];
+    const jwtToken = words[1];
     try {
-        const decodedValue = jwt.verify(jwt, JWT_SECRET);
+        const decodedValue = jwt.verify(jwtToken, JWT_SECRET);
         if (decodedValue.username) {
             next();
         } else {
@@ -24,3 +26,6 @@ function adminMiddleware(req, res, next) {
 }
 
 module.exports = adminMiddleware;
+
+
+
