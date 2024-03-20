@@ -1,0 +1,67 @@
+<html>
+    <style>
+        .democlass{
+            color: red;
+        }
+    </style>
+    <body>
+
+        <div id="div1">
+            <p id="pOne">Child of Div 1.</p>
+            <p id="ptoReplace">ewnfiunefiuenfiuergfniue</p>
+            <p id="pTwo">whfnewifjnwief</p>
+        </div>
+
+        <h1 id="MyH1">The Element Object</h1>
+        <p id="demo">Click on addClass to add a class attribute to the h1 element.</p>
+        <p id="gibbirish">ewnfiunefiuenfiuergfniue</p>
+        <p id="showChildNodes"></p>
+        <button onclick="myFunction()">addClass</button>
+        <p id="demo">blah blah blah</p>
+        <div>
+            <div class="list">
+                <h2 class="title">Title</h2>
+                <ul class="items">
+                    <li class="item">Item 1</li>
+                    <li class="item">Item 2</li>
+                    <li class="item">Item 3</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 onclick="this.innerHTML= 'OOOps!!'">Click on this TEXT</h2>
+        
+
+        <script>
+            function myFunction(){
+                document.getElementById("MyH1").setAttribute("class","democlass");
+                // Code to remove gibbirish element.
+                const gibElement = document.getElementById("gibbirish");
+                gibElement.remove();
+                // code to remove child element.
+                const parent = document.getElementById("div1");
+                const child = document.getElementById("pOne");
+                parent.removeChild(child);
+                // Code to replace an element.
+                const element = document.getElementById("div1");
+                const newNode = document.createTextNode("This is a replaced p element.")
+                element.replaceChild(newNode, element.childNodes[2]);
+                // code to print the child nodes of body.
+                const nodelist = document.body.childNodes;
+                let text = "";
+                for( let i=0; i <nodelist.length ; i++ ){
+                    text += nodelist[i].nodeName+"<br>";
+                }
+                document.getElementById("showChildNodes").innerHTML = text;
+                // code to change the property of parent Node.
+                const ul = document.querySelector(".items");
+                console.log(ul);
+                ul.parentNode.style.color = "blue";
+            }
+            const para = document.createElement("p");
+            para.innerHTML = "This is a paragraph."
+            document.getElementById("MyH1").appendChild(para);
+        </script>
+        
+    </body>
+</html>
