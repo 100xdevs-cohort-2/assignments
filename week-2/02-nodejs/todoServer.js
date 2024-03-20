@@ -39,11 +39,221 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+let todoList = [];
+
+let sequentialIdCounter = todoList.length + 1;
+
+function generateSequentialId() {
+  return sequentialIdCounter++;
+}
+
+app.get("/todos", function (req, res) {
+  if (todoList.length === 0) {
+    return res.status(404).send("Not Found");
+  } else {
+    return res.status(200).send(todoList);
+  }
+});
+app.get("/todos/:id", function (req, res) {
+  const id = req.params.id;
+  const todoMatchingRequestId = todoList.filter((item) => item.id == id);
+  if (todoMatchingRequestId.length !== 0) {
+    return res.status(200).json(todoMatchingRequestId[0]);
+  } else {
+    return res.status(404).send("Not Found");
+  }
+});
+app.post("/todos", function (req, res) {
+  const todoBody = req.body;
+  let newId = generateSequentialId();
+  todoBody.id = newId;
+  todoList.push(todoBody);
+  return res.status(201).send({ id: newId });
+});
+app.put("/todos/:id", function (req, res) {
+  const id = req.params.id;
+  const todoMatchingRequestIdIndex = todoList.findIndex(
+    (item) => item.id == id
+  );
+  todoList[todoMatchingRequestIdIndex] = {
+    ...todoList[todoMatchingRequestIdIndex],
+    ...req.body,
+  };
+  if (todoMatchingRequestIdIndex === -1) {
+    return res.status(404).send("Not Found");
+  } else {
+    return res.status(200).send("OK");
+  }
+});
+app.delete("/todos/:id", function (req, res) {
+  const id = parseInt(req.params.id);
+  const todoMatchingRequestId = todoList.filter((item) => item.id === id);
+  console.log(todoMatchingRequestId);
+  if (todoMatchingRequestId.length > 0) {
+    todoList = todoList.filter((item) => item.id !== id);
+    sequentialIdCounter =
+      todoList.length > 0 ? todoList[todoList.length - 1].id : 0;
+    return res.status(200).send("OK");
+  } else {
+    return res.status(404).send("Not Found");
+  }
+});
+
+app.all("*", function (req, res) {
+  return res.status(404).send("Not Found");
+});
+app.listen(3001);
+
+module.exports = app;
+
+//todoServer solution with file read-write
+
+// const express = require("express");
+// const fs = require("fs");
+// const path = require("path");
+// const bodyParser = require("body-parser");
+
+// const app = express();
+
+// app.use(bodyParser.json());
+
+// const todosPath = "./todos.json";
+
+// function generateSequentialId(todoList) {
+//   let existingIds = new Set(todoList.map((todo) => todo.id));
+
+//   let sequentialIdCounter = 1;
+//   while (existingIds.has(sequentialIdCounter)) {
+//     sequentialIdCounter++;
+//   }
+
+//   return sequentialIdCounter;
+// }
+
+// app.get("/todos", function (req, res) {
+//   fs.readFile(path.join(__dirname, todosPath), "utf-8", function (err, data) {
+//     if (err) {
+//       res.status(404).send("Not Found");
+//     } else {
+//       let todoList = JSON.parse(data);
+//       if (todoList.length === 0) {
+//         return res.status(404).send("Not Found");
+//       } else {
+//         return res.status(200).json(todoList);
+//       }
+//     }
+//   });
+// });
+// app.get("/todos/:id", function (req, res) {
+//   const id = req.params.id;
+//   fs.readFile(path.join(__dirname, todosPath), "utf-8", function (err, data) {
+//     if (err) {
+//       res.status(404).send("Not Found");
+//     } else {
+//       let todoList = JSON.parse(data);
+//       if (data.length === 0) {
+//         return res.status(404).send("Not Found");
+//       } else {
+//         const todoMatchingRequestId = todoList.filter((item) => item.id == id);
+//         if (todoMatchingRequestId.length !== 0) {
+//           return res.status(200).json(todoMatchingRequestId[0]);
+//         } else {
+//           return res.status(404).send("Not Found");
+//         }
+//       }
+//     }
+//   });
+// });
+// app.post("/todos", function (req, res) {
+//   const todoBody = req.body;
+//   fs.readFile(path.join(__dirname, todosPath), function (err, data) {
+//     if (err) {
+//       return res.status(404).send("Not Found");
+//     } else {
+//       let todoList = JSON.parse(data);
+//       let newId = generateSequentialId(todoList);
+//       todoBody.id = newId;
+//       todoList.push(todoBody);
+//       let updatedTodoList = JSON.stringify(todoList, null, 2);
+//       fs.writeFile(path.join(__dirname, todosPath), updatedTodoList, (err) => {
+//         if (err) {
+//           return res.status(500).send("Internal Server Error");
+//         }
+//       });
+//       return res.status(201).send({ id: newId });
+//     }
+//   });
+// });
+// app.put("/todos/:id", function (req, res) {
+//   const id = req.params.id;
+//   fs.readFile(path.join(__dirname, todosPath), function (err, data) {
+//     if (err) {
+//       return res.status(404).send("Not Found");
+//     } else {
+//       let todoList = JSON.parse(data);
+//       const todoMatchingRequestIdIndex = todoList.findIndex(
+//         (item) => item.id == id
+//       );
+//       if (todoMatchingRequestIdIndex === -1) {
+//         return res.status(404).send("Not Found");
+//       } else {
+//         todoList[todoMatchingRequestIdIndex] = {
+//           ...todoList[todoMatchingRequestIdIndex],
+//           ...req.body,
+//         };
+//         let updatedTodoList = JSON.stringify(todoList, null, 2);
+//         fs.writeFile(
+//           path.join(__dirname, todosPath),
+//           updatedTodoList,
+//           (err) => {
+//             if (err) {
+//               return res.status(500).send("Internal Server Error");
+//             }
+//           }
+//         );
+//         return res.status(200).send("OK");
+//       }
+//     }
+//   });
+// });
+// app.delete("/todos/:id", function (req, res) {
+//   const id = parseInt(req.params.id);
+//   fs.readFile(path.join(__dirname, todosPath), function (err, data) {
+//     if (err) {
+//       return res.status(404).send("Not Found");
+//     } else {
+//       let todoList = JSON.parse(data);
+//       const todoMatchingRequestId = todoList.filter((item) => item.id === id);
+//       if (todoMatchingRequestId.length > 0) {
+//         todoList = todoList.filter((item) => item.id !== id);
+//         let updatedTodoList = JSON.stringify(todoList, null, 2);
+//         fs.writeFile(
+//           path.join(__dirname, todosPath),
+//           updatedTodoList,
+//           (err) => {
+//             if (err) {
+//               return res.status(500).send("Internal Server Error");
+//             }
+//           }
+//         );
+//         return res.status(200).send("OK");
+//       } else {
+//         return res.status(404).send("Not Found");
+//       }
+//     }
+//   });
+// });
+
+// app.all("*", function (req, res) {
+//   return res.status(404).send("Not Found");
+// });
+// app.listen(3001);
+
+// module.exports = app;

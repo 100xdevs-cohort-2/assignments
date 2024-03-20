@@ -16,6 +16,39 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = null;
+  }
+  add(n) {
+    this.result += n;
+  }
+  subtract(n) {
+    this.result -= n;
+  }
+  multiply(n) {
+    this.result *= n;
+  }
+  divide(n) {
+    if (n === 0) throw new Error("Division by zero is not allowed!");
+    this.result /= n;
+  }
+  clear() {
+    this.result = 0;
+  }
+  calculate(str) {
+    try {
+      const res = (this.result = eval(str));
+      if (res === Infinity) throw new Error("Division by zero is not allowed!");
+      return res;
+    } catch {
+      throw new Error("Invalid arithmetic expression!");
+    }
+  }
+  getResult() {
+    console.log(this.result);
+    return this.result;
+  }
+}
 
 module.exports = Calculator;
