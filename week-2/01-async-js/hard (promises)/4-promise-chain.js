@@ -6,18 +6,40 @@
  */
 
 function wait1(t) {
-
+    return new Promise(function (resolve, reject) {
+        setTimeout(() => {
+            resolve();
+        }, t * 1000)
+    })
 }
 
 function wait2(t) {
-
+    return new Promise(function (resolve, reject) {
+        setTimeout(() => {
+            resolve();
+        }, t * 1000)
+    })
 }
 
 function wait3(t) {
-
+    return new Promise(function (resolve, reject) {
+        setTimeout(() => {
+            resolve();
+        }, t * 1000)
+    })
 }
 
 function calculateTime(t1, t2, t3) {
+    const now = new Date();
+    return wait1(t1)
+    .then(() => wait2(t2))
+    .then(() => wait2(t3))
+    .then(() => {
+        return new Date() - now;
+    })
+    .catch((err) => {
+        return new Error(err)
+    })
 
 }
 
