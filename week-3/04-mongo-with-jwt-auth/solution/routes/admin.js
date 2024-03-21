@@ -28,7 +28,7 @@ router.post('/signin', async (req, res) => {
     const password = req.body.password;
     console.log(JWT_SECRET);
 
-    const user = await User.find({
+    const user = await User.findOne({
         username,
         password
     })
