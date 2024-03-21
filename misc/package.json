@@ -1,0 +1,15 @@
+{
+  "name": "01-async",
+  "version": "1.0.0",
+  "description": "This folder contains promise implementation",
+  "main": "index.js",
+  "scripts": {
+    "promiseTest": "npx jest MyPromise.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
