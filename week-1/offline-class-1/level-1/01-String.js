@@ -6,71 +6,67 @@
 // Run each function to see the output, play and learn by doing.
 
 // Length
-function getLength(str) {
-  console.log("Original String:", str);
-  console.log("Length:", str.length);
+function getlength(str) {
+  console.log("orginial str :", str);
+  console.log("string length: ", str.length);
 }
-getLength("Hello World");
+getlength("hello");
 
-// indexOf
-function findIndexOf(str, target) {
-  console.log("Original String:", str);
-  console.log("Index:", str.indexOf(target));
+function indexof(str1, target) {
+  console.log("Orginial str:", str1);
+  console.log("index", str1.indexOf(target));
 }
-findIndexOf("Hello World", "World");
+indexof("Helloworld", "world");
 
-// lastIndexOf
-function findLastIndexOf(str, target) {
-  console.log("Original String:", str);
-  console.log("Index:", str.lastIndexOf(target));
+function lastindexof(string1, target) {
+  console.log("orginial str:", string1);
+  console.log("last index", string1.lastIndexOf(target));
 }
-findLastIndexOf("Hello World World", "World");
+lastindexof("helloworld", "world");
 
-// slice
-function getSlice(str, start, end) {
-  console.log("Original String:", str);
-  console.log("After slice:", str.slice(start, end));
+function getslice(string, start, end) {
+  console.log("orginal string:", string);
+  console.log("sliced string:", string.slice(start, end));
 }
-getSlice("Hello World", 0, 5);
+getslice("hello Word", 1, 5);
+function getsubstring(string, start, end) {
+  console.log("Orginal string:", string);
+  console.log("substring :", string.substring(start, end));
+}
+getsubstring("helloworld", 1, 5);
 
-// substring
-function getSubstring(str, start, end) {
-  console.log("Original String:", str);
-  console.log("After substring:", str.substring(start, end));
+function getreplace(string, target, replace) {
+  console.log("orginial string",string)
+  console.log("Replaced string ",string.replace(target, replace));
 }
-getSubstring("Hello World", 0, 5);
-
-// replace
-function replaceString(str, target, replacement) {
-  console.log("Original String:", str);
-  console.log("After replace:", str.replace(target, replacement));
-}
-replaceString("Hello World", "World", "JavaScript");
+getreplace("helloworld ","world","program's");
 
 // split
-function splitString(str, separator) {
-  console.log("Original String:", str);
-  console.log("After split:", str.split(separator));
-}
-splitString("Hello World", " ");
 
-// trim
-function trimString(str) {
-  console.log("Original String:", str);
-  console.log("After trim:", str.trim());
+function getsplit(string,separator)
+{
+  console.log("orginal string ",string);
+  console.log("split string",string.split(separator));
 }
-trimString(" Hello World ");
+getsplit("gokil p"," ");
 
-// toUpperCase
-function toUpper(str) {
-  console.log("Original String:", str);
-  console.log("After toUpperCase:", str.toUpperCase());
+function gettrim(string)
+{
+  console.log("orginal string",string);
+  console.log("after trim",string.trim());
 }
-toUpper("Hello World");
+gettrim("     helloworld      ");
 
-// toLowerCase
-function toLower(str) {
-  console.log("Original String:", str);
-  console.log("After toLowerCase:", str.toLowerCase());
+function gettoupper(string)
+{
+  console.log("orginal string",string);
+  console.log("After upper",string.toUpperCase());
 }
-toLower("Hello World");
+gettoupper("helloworld");
+
+function getLowercase(string)
+{
+  console.log("orginal string",string);
+console.log("AfterLowercase",string.toLowerCase());
+}
+getLowercase("HELLOWORLD");
