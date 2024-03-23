@@ -16,6 +16,66 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  isValidNumber(num) {
+    return typeof num === "number";
+  }
+
+  throwError() {
+    throw new Error("Invalid number");
+  }
+  add(num) {
+    if (this.isValidNumber(num)) {
+      this.result += num;
+    } else {
+      this.throwError();
+    }
+  }
+  subtract(num) {
+    if (this.isValidNumber(num)) {
+      this.result -= num;
+    } else {
+      this.throwError();
+    }
+  }
+  multiply(num) {
+    if (this.isValidNumber(num)) {
+      this.result *= num;
+    } else {
+      this.throwError();
+    }
+  }
+  divide(num) {
+    if (this.isValidNumber(num) && num !==0) {
+      this.result /= num;
+    } else {
+      this.throwError();
+    }
+  }
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+  calculate(expression) {
+
+    // This is to handle invalid expressions.
+    this.result = eval(expression.replace(/\s+/g, " "));
+
+    // Check if the result is Infinity. If so, throw an Error.
+    if (this.result === Infinity) {
+      throw new Error("Infinity");
+    }
+    return this.result;
+  }
+}
+
+// const calc = new Calculator();
+// console.log(calc.calculate(`10 +   2 *    (   6 - (4 + 1) / 2) + 7`));
 
 module.exports = Calculator;

@@ -16,6 +16,31 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+app.use(function(req, res, next) {
+  const userId = req.header('user-id');
+
+  numberOfRequestsForUser[userId] = numberOfRequestsForUser[userId] || 0;
+    
+  // if(numberOfRequestsForUser[userId]) {
+  //       numberOfRequestsForUser[userId]++;
+  //     if (numberOfRequestsForUser[userId] >= 5) {
+  //         return res.status(404).send();
+  //     } else {
+  //         next();
+  //     }
+  // } else {
+  //     numberOfRequestsForUser[userId] = 1;
+  //     next();
+  // }
+
+  if (numberOfRequestsForUser[userId] >= 5) {
+    return res.status(404).send();
+  }
+  numberOfRequestsForUser[userId]++;
+
+  next();
+})
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });

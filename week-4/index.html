@@ -7,16 +7,28 @@
     let todoState = [];
     let oldTodoState = [];
 
-    function addTodoToDom() {
-      
+    function addTodoToDom(todo) {
+      const todoList = document.getElementById("todos");
+      const childTodo = document.createElement("div");
+      childTodo.setAttribute("data-id", todo.id); // Set data-id attribute
+      childTodo.innerHTML = `<h1>${todo.title}</h1>
+      <p>${todo.description}</p>`;
+      todoList.appendChild(childTodo);
     }
 
     function removeTodoFromDom(todo) {
-      
+      const todoElement = document.querySelector(`[data-id="${todo.id}"]`); // Find todo element by data-id
+      if (todoElement) {
+        todoElement.remove(); // Remove todo element
+      }
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
-        
+      const todoElement = document.querySelector(`[data-id="${oldTodo.id}"]`); // Find todo element by data-id
+      if (todoElement) {
+        todoElement.innerHTML = `<h1>${newTodo.title}</h1>
+        <p>${newTodo.description}</p>`;
+      }
     }
 
     function updateState(newTodos) {
@@ -31,7 +43,36 @@
       // calculate these 3 arrays
       // call addTodo, removeTodo, updateTodo functions on each of the
       // elements
-      oldTodoState = newTodos;
+      for (const newTodo of newTodos) {
+        const oldTodo = oldTodoState.find((todo) => {
+          return todo.id === newTodo.id;
+        });
+        if (!oldTodo) {
+          added.push(newTodo);
+        } else if (JSON.stringify(oldTodo) != JSON.stringify(newTodo)) {
+          updated.push({ oldTodo, newTodo });
+        }
+      }
+      for (const oldTodo of oldTodoState) {
+        if (!newTodos.some((todo) => {
+            return todo.id === oldTodo.id;
+          })) {
+          deleted.push(oldTodo);
+        }
+      }
+      for (const todo of added) {
+        addTodoToDom(todo);
+      }
+      for (const todo of deleted) {
+        removeTodoFromDom(todo);
+      }
+      for (const {
+          oldTodo,
+          newTodo
+        } of updated) {
+        updateTodoInDom(oldTodo, newTodo);
+      }
+      oldTodoState = newTodos.slice(); // Update oldTodoState to the new state
     }
 
     function addTodo() {
@@ -41,17 +82,16 @@
         title: title,
         description: description,
         id: globalId++,
-      })
+      });
       updateState(todoState);
     }
   </script>
 </head>
 
 <body>
-  <input type="text" id="title" placeholder="Todo title"></input> <br /><br />
-  <input type="text" id="description" placeholder="Todo description"></input> <br /><br />
-  <button onclick="addTodo()">Add todo</button>
-  <br /> <br />
+  <input type="text" id="title" placeholder="Todo title"><br><br>
+  <input type="text" id="description" placeholder="Todo description"><br><br>
+  <button onclick="addTodo()">Add todo</button><br><br>
 
   <div id="todos">
 
