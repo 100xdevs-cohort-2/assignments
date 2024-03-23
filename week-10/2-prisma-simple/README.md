@@ -7,7 +7,7 @@ Same as the last assignment, but you need to use `prisma` as the ORM.
 3. Run the following commands to migrate your database - 
 ```js
     npx prisma migrate dev
-    npx prisma generate
+    npx prisma generate  
 ```
 
 ## Assignment
