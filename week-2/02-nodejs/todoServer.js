@@ -39,11 +39,63 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todoIds = 2;
+
+let todos = [
+  {
+    id: 1,
+    title: "assignment",
+    completed: false,
+    description: "finish assignment",
+  },
+];
+
+function findTodo(id) {
+  let todoItem = [];
+  todos.forEach((todo) => {
+    if (todo["id"] == id) {
+      todoItem.push(todo);
+    }
+  });
+  return todoItem;
+}
+
+app.get("/todos", (req, res) => {
+  res.send(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  // if ID exists return it
+  let todo = findTodo(req.params.id);
+  if (todo.length > 0) {
+    res.send(todo[0]);
+  } else {
+    res.status(404).send(`Todo ID ${req.params.id} not found`);
+  }
+});
+
+app.post("/todos", (req, res) => {
+  reqTodoItem = req.body.newTodoItem = {
+    id: todoIds++,
+    title: reqTodoItem.title,
+    completed: reqTodoItem.completed,
+    description: reqTodoItem.description,
+  };
+  todos.push(newTodoItem);
+  res.status(201).json({ id: newTodoItem.id });
+});
+
+app.listen(3000);
+
+app.all("*", (req, res) => {
+  res.status(404).send("Route not found");
+});
+
+module.exports = app;
