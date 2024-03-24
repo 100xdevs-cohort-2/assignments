@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
  * Write a function that halts the JS thread (make it busy wait) for a given number of milliseconds.
  * During this time the thread should not be able to do anything else.
@@ -24,3 +25,16 @@ async function main(){
 main();
 
 module.exports = sleep;
+||||||| empty tree
+=======
+/*
+ * Write a function that halts the JS thread (make it busy wait) for a given number of milliseconds.
+ * During this time the thread should not be able to do anything else.
+ * the function should return a promise just like before
+ */
+
+function sleep(milliseconds) {
+}
+
+module.exports = sleep;
+>>>>>>> a3fa79c5a8030e58d055c1b728d3df963fe878fd

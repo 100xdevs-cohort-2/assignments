@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
     Write a function that returns a promise that resolves after n seconds have passed, where n is passed as an argument to the function.
 */
@@ -27,3 +28,14 @@ async function main(){
 main();
 
 module.exports = wait;
+||||||| empty tree
+=======
+/*
+    Write a function that returns a promise that resolves after n seconds have passed, where n is passed as an argument to the function.
+*/
+
+function wait(n) {
+}
+
+module.exports = wait;
+>>>>>>> a3fa79c5a8030e58d055c1b728d3df963fe878fd

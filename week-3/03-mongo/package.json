@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "03-mongo",
   "version": "1.0.0",
@@ -17,3 +18,26 @@
     "ts-node": "^10.9.2"
   }
 }
+||||||| empty tree
+=======
+{
+  "name": "03-mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
+    "express": "^4.18.2",
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.3",
+    "supertest": "^6.3.3",
+    "ts-node": "^10.9.2"
+  }
+}
+>>>>>>> a3fa79c5a8030e58d055c1b728d3df963fe878fd
