@@ -5,19 +5,35 @@
  */
 
 function wait1(t) {
-
+    const startTime = Date.now();
+    return new Promise(resolve =>{
+        setTimeout(() => resolve(Date.now()-startTime),t*1000);
+    });
 }
 
 function wait2(t) {
-
+    const startTime = Date.now();
+    return new Promise(resolve =>{
+        setTimeout(() => resolve(Date.now()-startTime),t*1000);
+    });
 }
 
 function wait3(t) {
-
+    const startTime = Date.now();
+    return new Promise(resolve =>{
+        setTimeout(() => resolve(Date.now()-startTime),t*1000);
+    });
 }
 
 function calculateTime(t1, t2, t3) {
-
+    return Promise.all([wait1(t1),wait2(t2),wait3(t3)])
+    .then(values =>{
+        return (values.reduce((maxVal, value)=>{
+            return Math.max(maxVal, value);
+        },values[0]));
+    });
 }
+
+// console.log("calculate:",calculateTime(1,2,3));
 
 module.exports = calculateTime;
