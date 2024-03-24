@@ -9,5 +9,20 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+  let count = 0;
+  const startDate = new Date();
+
+  while (n > 0) {
+    count++;
+    n--;
+  }
+
+  const endDate = new Date();
+
+  const timeInMilliSec = endDate - startDate;
+  const timeInSec = timeInMilliSec / 1000;
+  console.log(timeInSec);
+  //   return 0.01;
 }
+
+calculateTime(1000000);

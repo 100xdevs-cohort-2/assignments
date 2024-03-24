@@ -4,7 +4,16 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  const string = str
+    .split(" ")
+    .join("")
+    .toLowerCase()
+    .replace(/[^\w]|_/g, ""); //replace punctuations
+  const strRev = string.split("").reverse().join("");
+
+  return string === strRev;
 }
+
+console.log(isPalindrome("Able, was I ere I saw Elba!"));
 
 module.exports = isPalindrome;
