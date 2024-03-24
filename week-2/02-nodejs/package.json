@@ -1,0 +1,29 @@
+{
+  "name": "02-nodejs",
+  "version": "1.0.0",
+  "description": "In this series of assignments, you are going to create native HTTP servers in Node.js which will handle different kinds of application logics.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-fileServer": "./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
+    "test-todoServer": "./node_modules/jest/bin/jest.js ./tests/todoServer.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testTimeout": 10000
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.3",
+    "uuid": "^9.0.0"
+  },
+  "directories": {
+    "test": "tests"
+  }
+}
