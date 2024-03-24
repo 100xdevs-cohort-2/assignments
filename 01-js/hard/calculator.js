@@ -16,6 +16,23 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+ getResult() {
+   return this.result;
+ }
+  
+  calculate(expression) {
+    const sanitizedExpression = expression.replace(/[^0-9+\-*/().]/g, '');
+
+    try {
+      this.result = eval(sanitizedExpression);
+    } catch (error) {
+      throw new Error('Invalid expression');
+    }
+  }
+}
 
 module.exports = Calculator;
