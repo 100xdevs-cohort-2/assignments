@@ -5,6 +5,7 @@ function App() {
   const [color, setColor] = useState('white')
 
   useEffect(()=>{
+    
     document.body.style.backgroundColor = color
   }, [color])
 

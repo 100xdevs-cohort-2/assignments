@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom React</title>
+</head>
+<body id="root" onload="renderHTML('root')">
+    
+</body>
+<script>
+    const elementData = {
+        props: {
+            link: 'https://www.linkedin.in/in/vishnubv944',
+            displayText: 'Click here to visit Vishnu\'s LinkedIn Page'
+        }   
+    }
+    function reactToHTML(){
+        return `<a href=${elementData.props.link}>${elementData.props.displayText}</a>`
+    }
+    function renderHTML(id){
+        htmlCode = reactToHTML()
+        document.getElementById(id).innerHTML = htmlCode
+    }
+</script>
+</html>
