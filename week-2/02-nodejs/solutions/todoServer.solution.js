@@ -77,7 +77,7 @@
   
   app.delete('/todos/:id', (req, res) => {
     const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
-    if (todoIndex === -1) {
+    if (!todoIndex) {
       res.status(404).send();
     } else {
       todos.splice(todoIndex, 1);
