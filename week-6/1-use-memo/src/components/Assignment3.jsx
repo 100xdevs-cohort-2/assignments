@@ -12,7 +12,17 @@ export const Assignment3 = () => {
     ]);
 
     // Your code starts here
-    const totalValue = 0;
+    let sum = 0;
+    const totalValue = useMemo(() => {
+        // acc:- accumulator is the running sum and set initially to 0, currentValue is the current value from array
+        return items.map(item => parseInt(item.value)).reduce((acc, currentValue) => acc + currentValue, 0);
+
+        // above code is same as:
+        // for (let i = 0; i < items.length; i++) 
+        //     sum += parseInt(items[i].value);
+        // return sum;
+    }, [items]);
+
     // Your code ends here
     return (
         <div>
