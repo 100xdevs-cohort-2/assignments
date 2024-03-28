@@ -16,18 +16,32 @@ for (let i = 0; i < TOTAL_LINES; i++) {
     ALL_WORDS.push(sentence);
 }
 
+
+
 export function Assignment2() {
-    const [sentences, setSentences] = useState(ALL_WORDS);
-    const [filter, setFilter] = useState("");
+	const [sentences, setSentences] = React.useState(ALL_WORDS);
+	const [filter, setFilter] = React.useState("");
 
-    const filteredSentences = sentences.filter(x => x.includes(filter))
+	const filteredSentences = React.useMemo(() => {
+		const filteredSentcs = sentences.filter((sentence) =>
+			sentence.includes(filter)
+		);
+		return filteredSentcs;
+	}, [filter, sentences]);
 
-    return <div>
-        <input type="text" onChange={(e) => {
-            setFilter(e.target.value)
-        }}></input>
-        {filteredSentences.map(word => <div>
-            {word}    
-        </div>)}
-    </div>
+	return (
+		<div>
+			<span style={{ color: "white" }}>Filter</span>
+			<input
+				type="text"
+				onChange={(e) => {
+					setFilter(e.target.value);
+				}}
+			></input>
+			<br />
+			{filteredSentences.map((word) => (
+				<div key={Math.random() * 45456456456}>{word}</div>
+			))}
+		</div>
+	);
 }
