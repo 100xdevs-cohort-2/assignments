@@ -1,1 +1,4 @@
 node_modules
+package.json
+package-lock.json
+week-3/01-middlewares/coverage/
