@@ -18,7 +18,11 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+app.use((err,req,res,next)=>{
+  res.status(404).send("Error")
+  errorCount+=1
 
+})
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
