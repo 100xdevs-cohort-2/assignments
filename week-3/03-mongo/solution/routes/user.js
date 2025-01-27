@@ -2,65 +2,84 @@ const { Router } = require("express");
 const router = Router();
 const userMiddleware = require("../middleware/user");
 const { User, Course } = require("../db");
-const { default: mongoose } = require("mongoose");
 
 // User Routes
-router.post('/signup', (req, res) => {
+router.post('/signup', async (req, res) => {
     // Implement user signup logic
     const username = req.body.username;
     const password = req.body.password;
-    User.create({
-        username, 
-        password
-    })
-    res.json({
-        message: "User created successfully"
-    })
+    
+    const newuser = await User.create(
+        {
+            username,
+            password 
+        });
+    
+    res.status(200).send("User Created Successfully!");
 });
 
 router.get('/courses', async (req, res) => {
     // Implement listing all courses logic
-     // Implement fetching all courses logic
-     const response = await Course.find({});
-
-     res.json({
-         courses: response
-     })
+    const courses = await Course.find({});
+    res.status(200).json(
+        {
+            course : courses
+        }
+    )
 });
 
-router.post('/courses/:courseId', userMiddleware, async(req, res) => {
+router.post('/courses/:courseId', userMiddleware, async (req, res) => {
     // Implement course purchase logic
+    
     const courseId = req.params.courseId;
     const username = req.headers.username;
 
-    await User.updateOne({
-        username: username
-    }, {
-        "$push": {
-            purchasedCourses: courseId
+    const user = await User.findOne(
+        {
+            username : username,
+            purchasedcourses :{ $in : [courseId]},
+        });
+        if(user)
+        {
+            return res.status(400).json(
+                {
+                    message : "Course has already been bought !"
+                });
         }
-    })
-    res.json({
-        message: "Purchase complete!"
-    })
-});
 
-router.get('/purchasedCourses', userMiddleware, async (req, res) => {
+    await User.updateOne(
+        {
+            username : username
+        },
+        {
+            $push: {
+                purchasedcourses : courseId
+            }
+        }) 
+        return res.json(
+            {
+                message : "Purchase Complete!"
+            });
+        
+
+ })
+
+router.get('/purchasedCourses', userMiddleware, async(req, res) => {
     // Implement fetching purchased courses logic
-    const user = await User.findOne({
-        username: req.headers.username
-    });
-
-    console.log(user.purchasedCourses);
-    const courses = await Course.find({
-        _id: {
-            "$in": user.purchasedCourses
-        }
-    });
-
-    res.json({
-        courses: courses
-    })
+    const user = await User.findOne(
+        {
+            username : req.headers.username
+        });
+        console.log(user.purchasedcourses);
+        const courses = await Course.find(
+            {
+                _id :{
+                    "$in" : user.purchasedcourses
+                }});
+                res.json(
+                    {
+                        courses : courses
+                    })
 });
 
 module.exports = router
