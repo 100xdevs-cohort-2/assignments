@@ -1,2 +1,2 @@
 
-export const DB_URL = "postgres://postgres:mysecretpassword@localhost/postgres";
+export const DB_URL = "postgres://postgres:mypassword@localhost/postgres";

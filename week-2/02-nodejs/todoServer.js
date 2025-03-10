@@ -39,11 +39,62 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+
+app.use(bodyParser.json());
+// so now here we have to get the all end points of it 
+const todos = []; // so this is the empty array of the todos 
+
+app.get("/todos", (req, res) => {
+  res.status(200).json(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const todo = todos.find(t => t.id === parseInt(req.params.id));
+    if (!todo) {
+      res.status(404).send("todo not found");
+    } else {
+      res.json(todo);
+    }
+});
+// post request with creating the id 
+app.post("/todos" , (req , res) => {
+  let newTodo = {
+    id: Math.floor(Math.random() * 10000),
+    title : req.body.title,
+    description : req.body.description,
+    completed : req.body.completed
+  }
+  todos.push(newTodo);
+  res.status(201).json(newTodo)
+});
+// update the exiting todo by id 
+app.put("/todos/:id" , (req , res) => {
+  const findIndex = todos.findIndex(t => t.id === parseInt(req.params.id))
+  // so if find index is -1 then return 404 
+  if(findIndex === -1){
+    res.status(404).send("todo not found")
+  }else{
+    // so now here we have to updat the todo 
+    todos[findIndex].completed = req.body.completed
+    todos[findIndex].title = req.body.title
+    res.status(200).json(todos[findIndex])
+  }
+});
+app.delete("/todos/:id" , (req , res) => {
+  const findIndex = todos.findIndex(t => t.id == parseInt(req.params.id));
+  if(findIndex === -1){
+    res.status(404).send("todo not found");
+  }else{
+    todos.splice(findIndex , 1)
+    res.status(200).send();
+  }
+});
+// for all other routes, return 404
+app.use((req, res) => {
+  res.status(404).send("Route not found");
+});
+module.exports = app;

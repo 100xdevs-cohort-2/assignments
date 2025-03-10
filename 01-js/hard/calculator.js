@@ -16,6 +16,80 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class calculator {
+  constructor() {
+    this.result = 0; // intilazied the result with zero 
+  }
+  add(number) {
+    if (typeof number !== 'number' || isNaN(number)) {
+      throw new Error('Invalid number');
+    }
+    this.result += number;
+  }
+  subtract(number) {
+    if (typeof number !== 'number' || isNaN(number)) {
+      throw new Error('Invalid number');
+    }
+    this.result -= number;
+  }
+  multiply(number) {
+    if (typeof number !== 'number' || isNaN(number)) {
+      throw new Error('Invalid number');
+    }
+    this.result *= number;
+  }
+  divide(number) {
+    if (typeof number !== 'number' || isNaN(number)) {
+      throw new Error('Invalid number');
+    }
+    if (number === 0) {
+      throw new Error('Cannot divide by Zero');
+    }
+    this.result /= number;
+  }
 
-module.exports = Calculator;
+  // so now for clearing it 
+  clear() {
+    this.result = 0;
+  }
+  getResult() {
+    return this.result;
+  }
+
+  calculate(expression) {
+    // so now first remove the all space between all 
+    expression = expression.replace(/\s+/g, '')
+    // so now here check for any number like abc 
+    if (!/^[0-9+\-*/().]+$/.test(expression)) {
+      throw new Error('Invalid characters in expression');
+    }
+    // so now checking whether paranthesis is blanced or not 
+    if(!this.isBlanced(expression)){
+      throw new Error('Unbalanced parentheses in expression');
+    }
+    // so now for evaluting here 
+    try{
+      const evaluted = Function('"use strict"; return (' + expression + ')')(); // so this will evaluete the value 
+      if(!isFinite(evaluted)){
+        throw new Error('Cannot divide by zero')
+      }
+      // so now updating the value in the result 
+      this.result = evaluted;
+    }catch(e){
+      throw new Error('Error evaluting expression')
+    }
+  }
+  isBlanced(expression){
+    let blance = 0;
+    for(let char of expression){
+      if(char === '(') blance++;
+      if(char === ')') blance--;
+      if(blance < 0) return false;
+    }
+    // so now return 
+    return blance === 0;
+  }
+}
+
+module.exports = calculator;
+
