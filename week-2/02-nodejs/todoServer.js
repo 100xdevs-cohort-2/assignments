@@ -39,11 +39,117 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+
+const fs = require("fs").promises;
+const { error } = require("console");
+const { title } = require("process");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let getTodos = async () => {
+  try {
+    let data = await fs.readFile("todos.json", "utf-8");
+    return JSON.parse(data);
+  } catch (err) {
+    throw new Error("No todos task found");
+  }
+};
+
+// Call function properly
+// getTodos()
+//     .then(console.log)
+//     .catch(console.error);
+
+app.get("/todos", async (req, res) => {
+  //  fs.readFile('todos.json',"utf-8",(err,data)=>{
+  //   if(err){
+  //     return res.status(404).json({msg:"no todos task found"})
+  //   }
+  //   res.send(data);
+  // });
+  try {
+    let todos = await getTodos();
+    res.status(200).send(todos);
+  } catch (err) {
+    res.status(404).json({ msg: "No todos task found" });
+  }
+});
+
+app.get("/todos/:id", async (req, res) => {
+  let uniqueID = parseInt(req.params.id);
+  try {
+    let todos = await getTodos();
+    let todo = todos.find((t) => t.id === uniqueID);
+    res.status(200).send(todo);
+  } catch (err) {
+    res.status(404).json({ msg: "No todos task found" });
+  }
+});
+
+app.post("/todos", async (req, res) => {
+  let todo = {
+    id: Math.floor(Math.random() * 10000),
+    title: req.body.title,
+    description: req.body.des,
+    completed: false,
+  };
+
+  try {
+    let todos = await getTodos();
+    if (todos.push(todo)) {
+      await fs.writeFile("todos.json", JSON.stringify(todos));
+      res.status(201).json({ msg: "todo is Added" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ Error: "No todos task found" });
+  }
+});
+
+app.put("/todos/:id", async (req, res) => {
+  const TaskId = parseInt(req.params.id);
+  try {
+    let todos = await getTodos();
+
+    let todo = todos.find((t) => t.id === TaskId);
+
+    if (todo) {
+      todo.completed = true;
+      await fs.writeFile("todos.json", JSON.stringify(todos));
+      res.status(200).json({ msg: "todo item was found and updated" });
+    } else {
+      res.status(404).json({ Error: "Todo Item not Found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ Error: "Todo Item not Found" });
+  }
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  const TaskId = parseInt(req.params.id);
+  try {
+    let todos = await getTodos();
+
+    let todo = todos.findIndex((t) => t.id === TaskId);
+
+    if (todo !== -1) {
+      todos.splice(todo, 1);
+      await fs.writeFile("todos.json", JSON.stringify(todos));
+      res.status(200).json({ msg: "todo item was found and Deleted" });
+    } else {
+      res.status(404).json({ Error: "Todo Item not Found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ Error: "Todo Item not Found" });
+  }
+});
+
+app.listen(3000);
+
+module.exports = app;

@@ -19,7 +19,7 @@
     "testTimeout": 10000
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "uuid": "^9.0.0"
   }
 }
