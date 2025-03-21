@@ -16,6 +16,138 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  result;
+
+  constructor() {
+    this.result = 0;
+  }
+
+  add(num) {    
+    this.result += num;
+  }
+
+  sub(num) {
+    this.result -= num;
+  }
+
+  multiply(num) {
+    this.result *= num;
+  }
+
+  divide(num) {
+    this.result /= num;
+  }
+
+  clear() {
+    this.result = 0;
+  }
+
+  getResult() {
+    return this.result;
+  }
+
+  calculate(exp) {
+    const tokens = exp.split(" ");
+    const stack = [];
+    const precedence = {
+      "+": 1,
+      "-": 1,
+      "*": 2,
+      "/": 2,
+    };
+
+    for (const token of tokens) {
+      if (!isNaN(token)) {
+        stack.push(Number(token));
+      } else if (token in precedence) {
+        while (
+          stack.length > 0 &&
+          precedence[stack[stack.length - 1]] >= precedence[token]
+        ) {
+          const op = stack.pop();
+          const b = stack.pop();
+          const a = stack.pop();
+          switch (op) {
+            case "+":
+              stack.push(a + b);
+              break;
+            case "-":
+              stack.push(a - b);
+              break;
+            case "*":
+              stack.push(a * b);
+              break;
+            case "/":
+              stack.push(a / b);
+              break;
+          }
+        }
+        stack.push(token);
+      } else if (token === "(") {
+        stack.push(token);
+      } else if (token === ")") {
+        while (stack.length > 0 && stack[stack.length - 1] !== "(") {
+          const op = stack.pop();
+          const b = stack.pop();
+          const a = stack.pop();
+          switch (op) {
+            case "+":
+              stack.push(a + b);
+              break;
+            case "-":
+              stack.push(a - b);
+              break;
+            case "*":
+              stack.push(a * b);
+              break;
+            case "/":
+              stack.push(a / b);
+              break;
+          }
+        }
+        stack.pop();
+      } else {
+        throw new Error("Invalid character: " + token);
+      }
+    }
+    while (stack.length > 0) {
+      const op = stack.pop();
+      const b = stack.pop();
+      const a = stack.pop();
+      switch (op) {
+        case "+":
+          stack.push(a + b);
+          break;
+        case "-":
+          stack.push(a - b);
+          break;
+        case "*":
+          stack.push(a * b);
+          break;
+        case "/":
+          stack.push(a / b);
+          break;
+      }
+    }
+    return stack[0];
+  }
+  
+}
+
+
+const calc = new Calculator();
+calc.add(10);
+console.log(calc.getResult());
+calc.sub(2);
+console.log(calc.getResult());
+calc.multiply(6);
+console.log(calc.getResult());
+calc.divide(2);
+console.log(calc.getResult());
+calc.clear();
+console.log(calc.getResult());
+
+
 
 module.exports = Calculator;
