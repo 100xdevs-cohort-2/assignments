@@ -39,11 +39,66 @@
 
   Testing the server - run `npm run test-todoServer` command in terminal
  */
-  const express = require('express');
-  const bodyParser = require('body-parser');
-  
-  const app = express();
-  
-  app.use(bodyParser.json());
-  
-  module.exports = app;
+const express = require("express");
+const bodyParser = require("body-parser");
+const { v4: uuidv4 } = require("uuid");
+
+const app = express();
+
+app.use(bodyParser.json());
+
+let todos = [];
+
+app.get("/todos", (req, res) => {
+  res.status(200).send(todos);
+});
+
+app.get("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const todo = todos.find((todo) => todo.id === id);
+  if (todo) res.status(200).send(todo);
+  else res.status(404).send("todo with the following id is not present");
+});
+
+app.post("/todos", (req, res) => {
+  const newTodoItem = { id: uuidv4(), ...req.body };
+  todos.push(newTodoItem);
+  res.status(201).send({ id: newTodoItem.id });
+});
+
+app.put("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  let found = false;
+  const updatedTodoItem = req.body;
+  todos = todos.map((todo) => {
+    if (todo.id !== id) return todo;
+    found = true;
+    return {
+      ...updatedTodoItem,
+      id: id,
+    };
+  });
+  if (!found) {
+    res.status(404).send(`todo item with id ${id} is not found`);
+    return;
+  }
+  res.send("Succesfully updated the item with id" + id);
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = req.params.id;
+  const isPresent = todos.some((todo) => todo.id === id);
+  if (!isPresent) {
+    res.status(404).send(`Sorry...The item with id ${id} is not found`);
+    return;
+  }
+  todos = todos.filter((todo) => todo.id !== id);
+  console.log("control reached here");
+  res.send(`Successfully deleted item with id ${id}`);
+});
+
+// app.listen(3001, () => {
+//   console.log(` app listening on port 3001`);
+// });
+
+module.exports = app;

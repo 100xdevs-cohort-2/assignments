@@ -8,5 +8,18 @@
   },
   "keywords": [],
   "author": "",
+  "scripts": {
+    "anagram" : "npx jest ./tests/anagram.test.js",
+    "expenditure-analysis" : "npx jest ./tests/expenditure-analysis.test.js",
+    "findLargestElement" : "npx jest ./tests/findLargestElement.test.js",
+    "times" : "npx jest ./tests/times.test.js",
+    "palindrome" : "npx jest ./tests/palindrome.test.js",
+    "countVowels" : "npx jest ./tests/countVowels.test.js",
+    "todo-list" : "npx jest ./tests/todo-list.test.js",
+    "all": "npx jest ./tests/"
+  },
+  "dependencies": {
+    "jest": "^29.7.0"
+  },
   "license": "ISC"
 }

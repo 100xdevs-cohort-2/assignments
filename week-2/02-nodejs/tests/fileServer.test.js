@@ -2,6 +2,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 const server = require('../fileServer');
+const PORT = 3001;
 
 describe('API Endpoints', () => {
   let globalServer;
@@ -10,7 +11,7 @@ describe('API Endpoints', () => {
     if (globalServer) {
         globalServer.close();
     }
-    globalServer = server.listen(3000);
+    globalServer = server.listen(PORT);
     done()
   });
 
@@ -108,7 +109,7 @@ function sendRequest(options, requestBody) {
       {
         ...options,
         host: 'localhost',
-        port: 3000,
+        port: PORT,
       },
       (res) => {
         let body = '';
