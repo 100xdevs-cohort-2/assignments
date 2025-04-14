@@ -12,7 +12,8 @@ export const Assignment3 = () => {
     ]);
 
     // Your code starts here
-    const totalValue = 0;
+    let totalValue = 0;
+    items.map(x => totalValue += x.value);
     // Your code ends here
     return (
         <div>
