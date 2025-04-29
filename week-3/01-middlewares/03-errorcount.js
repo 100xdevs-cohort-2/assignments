@@ -5,6 +5,14 @@ const express = require('express');
 const app = express();
 let errorCount = 0;
 
+// function errorCounter(){
+//   if(Error){
+//     errorCount = errorCount+1
+//   }
+// }
+
+// app.use(errorCounter)
+
 // You have been given an express server which has a few endpoints.
 // Your task is to
 // 1. Ensure that if there is ever an exception, the end user sees a status code of 404
@@ -22,5 +30,10 @@ app.post('/user', function(req, res) {
 app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
+
+app.use((err,req,res,next)=>{
+  errorCount = errorCount +1;
+  res.status(404).json({msg: "we fucked up"})
+})
 
 module.exports = app;

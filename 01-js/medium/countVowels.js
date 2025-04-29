@@ -6,7 +6,20 @@
 */
 
 function countVowels(str) {
-    // Your code here
+  // to count vowels 
+  let noofvows =0;
+  // converting string into array for iteration and making it lowercase for case-sensitivity
+   let arrified = str.toLowerCase().split("");
+   // iterating over array 
+   for(let i=0; i<arrified.length; i++){
+    // checking if the string contains aeiou
+    if(arrified[i]== "a" || arrified[i]=="e" ||arrified[i] =="i" ||arrified[i]== "o" || arrified[i]=="u"){
+      // then add 1 to noofvows which was initiated with 0
+      noofvows= noofvows + 1;
+    }
+   }
+   // returning the no of vowels 
+   return noofvows;
 }
 
 module.exports = countVowels;

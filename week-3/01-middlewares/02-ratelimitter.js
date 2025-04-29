@@ -12,9 +12,32 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
+
+
+
+function rateLimitter(req,res,next){
+  let userid = req.headers["user-id"]
+  if(numberOfRequestsForUser.userid){
+    numberOfRequestsForUser.userid += 1
+    }
+    else {
+      numberOfRequestsForUser.userid =1
+      next()
+    }
+    if(numberOfRequestsForUser.userid>5){
+      res.status(404).json({msg: "limit exceeded"})
+    }else{
+      next()
+    }
+}
+
+app.use(rateLimitter)
+
+
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });

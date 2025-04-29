@@ -4,7 +4,21 @@
  * the function should return a promise just like before
  */
 
+console.log("before halting");
 function sleep(milliseconds) {
+  let startTime = Date.now();
+  while (Date.now() - startTime < milliseconds) {}
+  return new Promise((resolve, reject) => {
+    resolve();
+  });
 }
+
+async function relieved() {
+  await sleep(10000);
+  console.log("äfter halting");
+}
+
+relieved()
+
 
 module.exports = sleep;

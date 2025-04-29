@@ -15,7 +15,40 @@
 
   Once you've implemented the logic, test your code by running
 */
+const math = require("mathjs")
 
-class Calculator {}
+class Calculator {
+  constructor (){
+    this.result =0;
+  }
+  add(n){
+    this.result = this.result + n
+  }
+  subtract (n){
+    this.result = this.result - n
+  }
+  multiply (n){
+    this.result = this.result * n
+  }
+  divide(n){
+    if (n == 0){
+      throw new Error("its undefined")
+    } else {
+      this.result = this.result / parseFloat(n)
+    }
+  }
+  clear (){
+    this.result = 0
+  }
+  getResult (){
+    return this.result
+  }
+  calculate (str){
+    this.result= math.evaluate(str)
+    if (this.result== Infinity){
+      throw new Error("invalid expression")
+    }
+  }
+}
 
 module.exports = Calculator;
