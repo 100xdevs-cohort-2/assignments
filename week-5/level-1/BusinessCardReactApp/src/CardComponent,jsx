@@ -1,0 +1,41 @@
+// Card Component:
+
+// Name
+// Desc
+// Social Media
+// Interests
+
+import React from 'react';
+import './Card.css';
+
+const Card = ({person}) =>{
+    const {name, desc, socialMedia, interests} = person;
+    return(
+        <div className = "card">
+            <div className = "card-header">
+                <h2>{name}</h2>
+            </div>
+            <div classname = "card-body">
+                <p>{desc}</p>
+                <div classname = "social-links">
+                    {socialMedia.linkedin && (
+                        <a href = {socialMedia.linkedin} target = "_blank" rel = "noopener noreferrer">LinkedIn</a>
+                    )}
+                    {socialMedia.twitter && (
+                        <a href = {socialMedia.twitter} target = "_blank" rel = "noopener noreferrer">Twitter</a>
+                    )}
+                </div>
+                <div classname = "interests-section">
+                    <h3>Interests</h3>
+                    <div classname = "interests-tags">
+                        {interests.map((interest, index) => (
+                            <div key = {index} className = "interest-tag">{interest}</div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Card;

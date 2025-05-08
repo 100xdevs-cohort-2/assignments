@@ -5,6 +5,25 @@
  */
 
 function sleep(milliseconds) {
+
+    return new Promise((resolve) =>{
+        // setTimeout(resolve, milliseconds);
+        // console.log('After resolve');
+
+        const start = Date.now();
+        while(Date.now() - start < milliseconds){
+            continue;
+        }
+        resolve();
+    })
+} 
+
+async function main(n){
+    console.log('Before Sleep');
+    await sleep(n);
+    console.log(`After Sleep for ${n} milliseconds`);
+
 }
 
+main(2000);
 module.exports = sleep;

@@ -13,8 +13,31 @@ const app = express();
 
 let numberOfRequestsForUser = {};
 setInterval(() => {
-    numberOfRequestsForUser = {};
+  numberOfRequestsForUser = {};
 }, 1000)
+
+app.use(express.json());
+
+function rateLimiter(req, res, next){
+  const userID = req.headers['user-id'];
+  // if(!userID){
+  //   return res.status(400).json({err: 'Missing user-id header'}); 
+  // }
+  if(!numberOfRequestsForUser[userID]){
+    numberOfRequestsForUser[userID] = 1;
+  }
+  else{
+    numberOfRequestsForUser[userID]++;
+  }
+  if(numberOfRequestsForUser[userID] > 5){
+    return res.status(404)
+    .set('Retry-After', '1')
+    .json({err: 'Too Many Requests'});
+  }
+  next();
+}
+
+app.use(rateLimiter);
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
@@ -23,5 +46,9 @@ app.get('/user', function(req, res) {
 app.post('/user', function(req, res) {
   res.status(200).json({ msg: 'created dummy user' });
 });
+
+app.listen(3002, () =>{
+  console.log('server is running on port 3000');
+})
 
 module.exports = app;
