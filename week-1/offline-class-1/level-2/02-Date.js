@@ -13,7 +13,7 @@ function dateMethods() {
   // Setting components of the date
   currentDate.setFullYear(2022);
   console.log("After setFullYear:", currentDate);
- 
+  
   currentDate.setMonth(5); // Setting month to June (zero-indexed)
   console.log("After setMonth:", currentDate);
 
