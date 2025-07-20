@@ -16,6 +16,24 @@ setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
 
+app.use(function(req, res, next) {
+  const userID = req.headers["user-id"];
+    numberOfRequestsForUser[userID] += 1;
+
+    if(numberOfRequestsForUser[userID] > 5) {
+      res.status(404).send("Blocked")
+      return
+    }
+  if(numberOfRequestsForUser[userID]) {
+
+  } else {
+    // means this will be the 1st request for the user
+    numberOfRequestsForUser[userID] = 1;
+  }
+
+  next();
+})
+
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });

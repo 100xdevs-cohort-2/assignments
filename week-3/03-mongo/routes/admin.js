@@ -16,3 +16,7 @@ router.get('/courses', adminMiddleware, (req, res) => {
 });
 
 module.exports = router;
+
+// Router in express helps to maintain different routes for different functionality such that the application logic looks cleaner. Sought of making smaller express app using Router within the main app and then integrating with the whole application 
+
+// at the end we export the mini express application and then use it inside the bigger application

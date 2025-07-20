@@ -23,4 +23,21 @@ app.get('/errorCount', function(req, res) {
   res.status(200).json({ errorCount });
 });
 
+// when handling the error globally for the application we main a middleware function called gloabal catches
+app.use(function(err, req, res, next) {
+  if(err){
+    res.status(404).send("Something up with the server");
+    errorCount++;
+    return
+  }
+
+  next();
+})
+
+app.use(function(req, res, next) {
+  res.status(404).json({
+    msg: "Route not found"
+  })
+})
+
 module.exports = app;

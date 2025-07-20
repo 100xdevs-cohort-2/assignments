@@ -14,8 +14,92 @@
  */
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
+const path = require('path'); // this is default nodeJS path module that we need to when joining the different path 
 const app = express();
 
+// route-handlers
+app.get("/files", async function(req, res) {
+  console.log(__dirname);
+  const filePath = path.join(__dirname, "files");
+
+  try {
+    const data = await promisedReadingDir(filePath);
+    // data will be an array of all the files and directly present inside the folder (files)
+    const result = await Promise.all(data.map(file => isOnlyFile(filePath, file)))
+
+    let finalData = result.filter(file => file.isFile === true).map(file => file.fileName);
+
+    res.status(200).json(finalData)
+  } catch (err) {
+    res.status(500).json({
+      message: err
+    })
+  }
+})
+
+// defining route-handler with route params the user will send the request on this route with a variable file 
+app.get("/file/:fileName", async function(req, res) {
+  const fileName = req.params.fileName;
+  const finalPath = path.join(__dirname, "files", fileName);
+
+  try {
+    const finalData = await promiseReadFile(finalPath);
+
+    res.status(200).send(finalData)
+
+  } catch (error) {
+    res.status(404).send("File not found")
+  }
+})
+
+app.use(function(req, res) {
+  res.status(404).send("Route not found")
+})
+
+function promiseReadFile(finalPath) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile(finalPath, "utf-8", function(err, data) {
+      if(err) {
+        reject(err);
+        return
+      }
+
+      resolve(data);
+    })
+  })
+}
+
+
+function promisedReadingDir(path) {
+  return new Promise(function(resolve, reject) {
+    // this is an asynchronous task => does not be held on the main thread
+    fs.readdir(path, function(err, data) {
+      if(err) {
+        reject(err);
+        return
+      } 
+
+      resolve(data);
+    })
+  })
+}
+
+function isOnlyFile(filePath, file) {
+  console.log(filePath);
+  const finalPath = path.join(filePath, file);
+  return new Promise(function(resolve, reject) {
+    fs.stat(finalPath, function(err, stat) {
+      if(err) {
+        reject(err);
+        return
+      }
+
+      resolve({
+        filename: file,
+        isFile: stat.isFile()
+      })
+    })
+  })
+}
 
 module.exports = app;

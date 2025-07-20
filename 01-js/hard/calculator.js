@@ -16,6 +16,44 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+
+  calculate(arithmeticString) {
+    const newStringArray = arithmeticString.split(" "); // all the spaces will be removed from the string will now contain numbers mathematical operations and invalid letters ( throw error in case of these)
+    // "10 +   2 *    (   6 - (4 + 1) / 2) + 7" -> "10+2*(6-(4+1)/2)+7" -> "10+2*("
+    let str = '';
+    newStringArray.forEach(element => {
+      str += element;
+    })
+  }
+
+  add(value) {
+    this.result += value;
+  }
+
+  subtract(value) {
+    this.result -= value;
+  }
+
+  multiply(value) {
+    this.result *= value
+  }
+
+  divide(value) {
+    this.result /= value
+  }
+
+  clear() {
+    this.result = 0
+  }
+
+  getResult() {
+    return this.result
+  }
+
+}
 
 module.exports = Calculator;

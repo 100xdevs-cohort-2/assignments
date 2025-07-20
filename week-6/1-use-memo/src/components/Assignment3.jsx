@@ -11,8 +11,14 @@ export const Assignment3 = () => {
         // Add more items as needed
     ]);
 
+    // "useMemo" should be used when there is "value" which involves expensive function call to calculate it ( good if we does not calculate after every re-render ) + that value depends on other state_variables, good pratice is used to use "useMemo"
+
     // Your code starts here
-    const totalValue = 0;
+    const totalValue = useMemo(function() {
+        let finalPrice = 0;
+        items.forEach(item => finalPrice+=item.value);
+        return finalPrice;
+    }, [items]); // when the reference of the array changes than this task should be re-calculated
     // Your code ends here
     return (
         <div>

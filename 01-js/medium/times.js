@@ -8,6 +8,21 @@ Hint - use Date class exposed in JS
 There is no automated test for this one, this is more for you to understand time goes up as computation goes up
 */
 
+
+const beforeCallingFn = new Date().getTime(); // returns number of milliseconds from 1 Jan 1970 00:00:00
 function calculateTime(n) {
-    return 0.01;
+    let answer = 0;
+
+    for(let index = 0 ; index <= n ; index++) {
+        answer += index
+    }
+
+    return answer;
 }
+
+calculateTime(1000000);
+
+const afterCallingFn = new Date().getTime();
+
+const totalSeconds = (afterCallingFn - beforeCallingFn) / 1000;
+console.log(totalSeconds);

@@ -1,5 +1,25 @@
 const jwt = require('jsonwebtoken');
+const z = require("zod"); // this will be used for user-input validation like username(email) and password (should be atleat 6 letters)
 const jwtPassword = 'secret';
+
+function userInputValidtor(username, password) {
+    const usernameSchema = z.string().email();
+    const passwordSchema = z.string().length(6);
+
+    let result = usernameSchema.safeParse(username);
+
+    if(!result.success) {
+        return false;
+    }
+
+    result = passwordSchema.safeParse(password);
+
+    if(!result.success) {
+        return false;
+    }
+
+    return true;
+}
 
 
 /**
@@ -15,6 +35,19 @@ const jwtPassword = 'secret';
  */
 function signJwt(username, password) {
     // Your code here
+    const validation = userInputValidtor(username, password);
+
+    if(!validation) {
+        return null;
+    }
+
+    // making the jwt token with the secret 
+    const token = jwt.sign(JSON.stringify({
+        username,
+        password
+    }), jwtPassword);
+
+    return token
 }
 
 /**
@@ -27,6 +60,21 @@ function signJwt(username, password) {
  */
 function verifyJwt(token) {
     // Your code here
+    const tokenSchema = z.string().regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/);
+
+    const result = tokenSchema.safeParse(token);
+
+    if(!result.success) {
+        return false;
+    }
+
+    try {
+        // this throws error if the token in invalid => wrapping that in the try catch
+        const jsonData =jwt.verify(token, jwtPassword); 
+        return true;
+    } catch(err) {
+        return false;
+    }
 }
 
 /**
@@ -38,6 +86,20 @@ function verifyJwt(token) {
  */
 function decodeJwt(token) {
     // Your code here
+    // jwt token has a valid format which can be tested using regex
+    const tokenSchema = z.string().regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/); // this represent the jwt format
+
+    const result = tokenSchema.safeParse(token);
+
+    if(!result.success) {
+        return false;
+    }
+
+    // without verifying we are getting the JSON data from the stirng
+    const decode = jwt.decode(token); // token will be valid jwt format
+
+    // according to the above it should return decode, but according to test it should be boolean value
+    return true;
 }
 
 

@@ -8,9 +8,18 @@ export function Assignment2() {
     const [inputText, setInputText] = useState('');
 
     // Your code starts here
-    function showAlert() {
+    // The problem statement is that these functions should only be re-created once when the component re-renders 
 
-    }
+
+    const showAlert = useCallback(function () {
+        // this function needs to be re-created when the input changes so that the input that binds with this function get also updated when inputText changes => using useCallback with dependency_array
+        alert(inputText)
+    }, [inputText]);
+
+    const updateSetInputText = useCallback(function(event) {
+        // this is created once, will not be re-created now (does not matter how many times component get re-render)
+        setInputText(event.target.value);
+    }, []);
     // Your code ends here
 
     return (
@@ -18,7 +27,7 @@ export function Assignment2() {
             <input
                 type="text"
                 value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
+                onChange={updateSetInputText}
                 placeholder="Enter some text"
             />
             <Alert showAlert={showAlert} />

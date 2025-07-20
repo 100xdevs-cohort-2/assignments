@@ -6,13 +6,16 @@ It needs to support two types of users -
 1. Admins
 2. Users
 
-Admins are allowed to sign up, create courses.
+Admins are allowed to sign up, create courses. (add courses)
 Users are allowed to sign up, view courses, purchase courses.
 This in the real world would translate to an app like udemy.
 
 This one doesn't use authentication the right way. We will learn how to do that in the next assignment. 
 For this one, in every authenticated requests, you need to send the username and password in the headers (and not the jwt).
-This is the reason why this assignment doesn't have a sign in route.
+This is the reason why this assignment doesn't have a sign in route. (The existance of the signin route in real world application is provide the token / cookie so that the other request send by the user contains the token (no need to pass the username and password) for accesing the logic present inside the route-handler if the token is valid)
+
+signup -> adding user / client to the database
+// signin -> checking the user exist in the database and then sending her / him the token / cookie
 
 You need to use mongodb to store all the data persistently.
 
