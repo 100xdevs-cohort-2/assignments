@@ -1,0 +1,27 @@
+🎯 What you should learn (the 20% that gives 80% value)
+Here are the most commonly used regex components:
+
+Symbol	Meaning	                            Example
+\d	    Digit (0–9)	                        \d+ → matches "123", "42"
+\s	    Whitespace (space, tab, newline)	\s+ → matches one or more spaces
+\w	    Word character (a-z, A-Z, 0-9, _)	\w+ → matches "abc123"
+.	    Any character except newline	    a.c → matches "abc", "a-c"
++	    One or more	                        \d+ → 1 or more digits
+*	    Zero or more	                    \d* → 0 or more digits
+?	    Optional	                        colou?r → matches "color" or "colour"
+[]	    Character set	                    [aeiou] → matches a vowel
+[^]	    Negated set	                        [^0-9] → not a digit
+()	    Grouping	                        (abc)+ → "abcabc"
+`	    `	                                OR
+
+expression.replace(/\s+/g, '')
+✅ This removes all whitespaces:
+\s+ matches one or more spaces
+g = global flag (match all, not just first)
+
+if (/[^-()\d/*+.]/.test(cleanedExpression))
+✅ This throws an error if any character is NOT:
+digits: \d
+parentheses: ()
+arithmetic operators: + - * / .
+This ensures you only allow characters needed for valid math expressions.

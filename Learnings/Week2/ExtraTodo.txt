@@ -1,0 +1,6 @@
+1. Create a Todo app that let's users store todos on the server
+2. Try to create a HTTP Server from Scratch in Create
+3. Create a HTTP Server in rust using activx-web
+4. Create a http server in golang using the gurrila framework
+5. Spring Boot Java Server    
+6. Implement a Map Function on our own that takes two inputs a Function and an array and return some value.

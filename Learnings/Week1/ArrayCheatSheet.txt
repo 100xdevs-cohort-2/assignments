@@ -1,0 +1,6 @@
+📖 Summary Cheatsheet
+Category	    Methods
+Iterate	        forEach, map, filter, reduce, some, every, find, findIndex
+Add/Remove	    push, pop, shift, unshift, splice, slice
+Search	        includes, indexOf, lastIndexOf
+Transform	    concat, join, sort, reverse, flat, fill
