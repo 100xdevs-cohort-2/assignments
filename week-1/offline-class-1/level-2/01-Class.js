@@ -5,8 +5,10 @@ class Animal {
     this.legCount = legCount
   }
   describe() {
-    return `${this.name} has ${this.legCount} legs`
+    console.log(`${this.name} has ${this.legCount} legs`)
+    return 0;
   }
 }
 
-
+let animal = new Animal("dog",4);
+animal.describe();

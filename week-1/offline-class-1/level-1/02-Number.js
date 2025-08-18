@@ -9,6 +9,8 @@ explainParseInt("42");
 explainParseInt("42px");
 explainParseInt("3.14");
 
+console.log("The first thing is done")
+
 function explainParseFloat(value) {
   console.log("Original Value:", value);
   let result = parseFloat(value);
