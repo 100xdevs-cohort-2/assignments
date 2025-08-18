@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test-fileServer": "./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
-    "test-todoServer": "./node_modules/jest/bin/jest.js ./tests/todoServer.test.js"
+    "test-fileServer": "cross-env ./node_modules/jest/bin/jest.js ./tests/fileServer.test.js",
+    "test-todoServer": "cross-env ./node_modules/jest/bin/jest.js ./tests/todoServer.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^29.5.0",
     "supertest": "^6.3.3"
   },
@@ -19,6 +20,7 @@
     "testTimeout": 10000
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
     "express": "^4.18.2",
     "uuid": "^9.0.0"
   }
