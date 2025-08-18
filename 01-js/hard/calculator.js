@@ -16,6 +16,65 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+    constructor() {
+    // Initialize the result variable
+    this.result = 0;
+  }
+
+  // Method to add a number to the result
+  add(number) {
+    this.result += number;
+  }
+
+  // Method to subtract a number from the result
+  subtract(number) {
+    this.result -= number;
+  }
+
+  // Method to multiply the result by a number
+  multiply(number) {
+    this.result *= number;
+  }
+
+  // Method to divide the result by a number
+  divide(number) {
+    if (number === 0) {
+      throw new Error("Division by zero is not allowed.");
+    }
+    this.result /= number;
+  }
+
+  // Method to clear the result
+  clear() {
+    this.result = 0;
+  }
+
+  // Method to get the current result
+  getResult() {
+    return this.result;
+  }
+
+  // Method to calculate the result from a string expression
+  calculate(expression) {
+    // Remove continuous spaces and trim the expression
+    const cleanedExpression = expression.replace(/\s+/g, " ").trim();
+
+    // Validate input for non-numerical characters, allowing decimals
+    if (!/^[\d\s\+\-\*\/\(\).]+$/.test(cleanedExpression)) {
+      throw new Error("Invalid characters in the expression.");
+    }
+
+    // Use eval to calculate the result from the expression
+    try {
+      this.result = eval(cleanedExpression);
+      if (cleanedExpression.includes('/ 0')) {
+        throw new Error("Cannot divide by zero.");
+      }
+    } catch (error) {
+      throw new Error("Invalid expression.");
+    }
+  }
+}
 
 module.exports = Calculator;
