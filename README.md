@@ -1,0 +1,12 @@
+# ASSIGNMENT PROGRESS:
+- [x] JS Foundations
+- [x] week 1
+- [x] week 2
+- [x] week 3
+- [x] week 4
+- [x] week 5
+- [x] week 6
+- [x] week 10
+- [ ] week 11
+- [ ] week 12
+- [ ] week 14

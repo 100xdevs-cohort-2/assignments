@@ -11,9 +11,16 @@ export const Assignment3 = () => {
         // Add more items as needed
     ]);
 
-    // Your code starts here
-    const totalValue = 0;
-    // Your code ends here
+
+    const totalValue = useMemo(() => {
+        let amount = 0;
+        items.forEach((item) => {
+            amount += item.value;
+        });
+
+        return amount;
+    }, [items]);
+
     return (
         <div>
             <ul>

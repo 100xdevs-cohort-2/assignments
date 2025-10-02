@@ -1,0 +1,61 @@
+.app-container {
+  font-family: Arial, sans-serif;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.input-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.card {
+  border: 1px solid grey;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fafafa;
+}
+
+.card h1 {
+  margin-bottom: 10px;
+}
+
+.card .bio {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.card ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.social-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.button {
+  font-size: 15px;
+  border-radius: 4px;
+  background-color: #0096fe;
+  padding: 8px 12px;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #007cd6;
+}

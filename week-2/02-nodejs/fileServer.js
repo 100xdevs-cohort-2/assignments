@@ -11,11 +11,36 @@
      Example: GET http://localhost:3000/file/example.txt
     - For any other route not defined in the server return 404
     Testing the server - run `npm run test-fileServer` command in terminal
- */
+*/
+
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+
 const app = express();
 
+app.get('/files', (req, res) => {
+  const directoryPath = path.resolve(__dirname, './files');
+
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) res.status(500).json({ message: "Error reading directory" });
+    else res.status(200).json(files);
+  });
+});
+
+app.get('/file/:filename', (req, res) => {
+  const filePath = path.join(__dirname, './files', req.params.filename);
+
+  fs.readFile(filePath, 'utf-8', (err, data) => {
+    if (err) res.status(404).send('File not found');
+    else res.status(200).send(data);
+  });
+});
+
+app.use((req, res) => {
+  res.status(404).send("Route not found");
+});
+
+// app.listen(3000);
 
 module.exports = app;

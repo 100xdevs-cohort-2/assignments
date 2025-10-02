@@ -13,8 +13,29 @@
   Output - [{ category: 'Food', totalSpent: 10 }] // Can have multiple categories, only one example is mentioned here
 */
 
+function updateCategory(res, category, price) {
+  for(let i=0; i<res.length; i++) {
+    if(res[i].category === category) {
+      res[i].totalSpent += price;
+      return res;
+    }
+  }
+
+  return [...res, {category: category, totalSpent: price}];
+}
+
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  let result = [];
+
+  for(let i=0; i<transactions.length; i++){
+    const transaction = transactions[i];
+    const category = transaction.category;
+    const price = transaction.price;
+
+    result = updateCategory(result, category, price);
+  }
+
+  return result;
 }
 
 module.exports = calculateTotalSpentByCategory;
