@@ -6,7 +6,8 @@ describe('GET /user', function() {
   it('One request responds with 1', function(done) {
     request(app)
       .get('/requestCount')
-      .then(response => {
+      .then(
+        response => {
         expect(response.body.requestCount).toBe(1);
         done();
       })

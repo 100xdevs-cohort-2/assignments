@@ -43,7 +43,60 @@
   const bodyParser = require('body-parser');
   
   const app = express();
-  
+
   app.use(bodyParser.json());
+
+  let todos_list ={}
+
+  app.get('/todos', (req,res)=>{
+    let result = Object.values(todos_list);
+    return res.status(200).json(result) ; 
+  })
+
+  app.get('/todos/:id', (req,res)=>{
+    let index = req.params['id']
+
+    if (todos_list[index.toString()]) {
+      let item = todos_list[index.toString()] ;
+      item["id"] = index.toString();
+      res.status(200).send(item) ; 
+    }
+    else res.status(404).send("No todo found with this id");
+  })
+ 
+  app.post('/todos',(req,res)=>{
+    let new_todo = req.body;
+    let index = 1 + Object.entries(todos_list).length ;
+    todos_list[index.toString()] = new_todo ; 
+    res.status(201).json({ message : `New todo is created with id  : ${index}` , id : index.toString()});
+  })
+
+  app.put('/todos/:id',(req,res)=>{
+      let id= req.params["id"] ; 
+      if (todos_list[id.toString()]){
+        todos_list[id.toString()] = req.body
+        res.status(200).send("object updated successfully");
+      }
+      else res.status(404).send("No todo found with this id");
+  })
+
+  app.delete('/todos/:id',(req,res)=>{
+    let id= req.params["id"] ; 
+    if (todos_list[id]){
+      delete todos_list[id] ; 
+      res.status(200).send("object deleted successfully");
+    }
+    else{
+      res.status(404).send("No todo found with this id");
+    }
+  })
+
+  app.get('*', (req, res) => {
+    res.status(404).send("item may not exist");
+  });
+
+  app.listen(3005, (err, data)=>{
+    console.log("server started successfully at PORT 3000");
+  })
   
   module.exports = app;
