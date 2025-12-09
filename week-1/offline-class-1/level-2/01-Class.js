@@ -1,4 +1,3 @@
-
 class Animal {
   constructor(name, legCount) {
     this.name = name

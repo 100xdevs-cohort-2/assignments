@@ -1,4 +1,4 @@
-// String handbook
+  // String handbook
 
 // String: length, indexOf(), lastIndexOf(), slice(), substring(), replace(),
 // split(), trim(), toUpperCase(), toLowerCase(), etc.
