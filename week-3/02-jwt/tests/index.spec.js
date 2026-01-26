@@ -27,7 +27,7 @@ describe('signJwt', () => {
 
 describe('decodeJwt', () => {
 	test('decodes a jwt with diff password correctly', () => {
-		const token = jwt.sign({ username: 'kirat@gmail.com', password: '123456' }, "randomPassword");
+		const token = jwt.sign({ username: 'kirat@gmail.com', password: '124456' }, "randomPassword");
 		const decoded = decodeJwt(token);
 		expect(decoded).toBe(true);
 	});
@@ -47,7 +47,7 @@ describe('decodeJwt', () => {
 
 describe('verifyJwt', () => {
 	test('cant decode a jwt with diff password correctly', () => {
-		const token = jwt.sign({ username: 'kirat@gmail.com', password: '123456' }, "randomPassword");
+		const token = jwt.sign({ username: 'kirat@gmail.com', password: '123356' }, "randomPassword");
 		const decoded = verifyJwt(token);
 		expect(decoded).toBe(false);
 	});
