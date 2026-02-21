@@ -8,9 +8,9 @@ export function Assignment2() {
     const [inputText, setInputText] = useState('');
 
     // Your code starts here
-    function showAlert() {
-
-    }
+    const showAlert=useCallback(()=>{
+        window.alert("Text Entered");
+    },[inputText]);
     // Your code ends here
 
     return (

@@ -1,7 +1,7 @@
 {
   "name": "02-nodejs",
   "version": "1.0.0",
-  "description": "",
+  "description": "In this series of assignments, you are going to create native HTTP servers in Node.js which will handle different kinds of application logics.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,7 +19,10 @@
     "testTimeout": 10000
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.22.1",
     "uuid": "^9.0.0"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
