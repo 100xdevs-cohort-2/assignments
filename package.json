@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "supertest": "^7.1.4"
+  },
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "jest": "^30.1.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.18.0",
+    "nodemon": "^3.1.10",
+    "zod": "^4.1.5"
+  }
+}

@@ -12,7 +12,11 @@
     }
 
     function removeTodoFromDom(todo) {
-      
+      const elementToRemove = document.getElementById(todo.id)
+      if (elementToRemove)
+      {
+        elementToRemove.remove()
+      }
     }
 
     function updateTodoInDom(oldTodo, newTodo) {
